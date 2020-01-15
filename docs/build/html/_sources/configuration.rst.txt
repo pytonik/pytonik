@@ -7,7 +7,7 @@ CGI enable environment.  The Configuration step support both local and cloud ser
 Local Server
 ------------
 
-Look into configuring``WAMP``,``XAMPP``,``LAMP``and``MAMP``,
+Look into configuring ``WAMP``, ``XAMPP``,``LAMP``and ``MAMP``,
 if you are not using any of the listed local servers don’t worry, this process supports Apache,
 both older and newer version, Although you might notice little difference between versions.
 
@@ -24,8 +24,8 @@ or find ``AllowOverride None`` change to ``AllowOverride All``.
 
 Find ``DirectoryIndex index.html`` add index.py ``DirectoryIndex index.html index.py``.
 
-Find and uncomment '#' if only is comment with  ``#LoadModule rewrite_module modules/mod_rewrite.so``
- and  ``#LoadModule alias_module modules/mod_alias.so``.
+Find and uncomment ``#`` if only is comment with  ``#LoadModule rewrite_module modules/mod_rewrite.so``
+and  ``#LoadModule alias_module modules/mod_alias.so``.
 
 When all the changes are made, save ``httpd.conf`` file, Restart Apache for changes to take effect.
 

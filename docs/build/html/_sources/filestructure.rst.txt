@@ -3,7 +3,7 @@ File Structure
 
 ``Pytonik`` is a web framework that supports model view controller MVC, web development are made easier and
 faster using the file structure below, it gives full access to ``controller``, ``model``, ``languages``, ``public``,  ``views`` , ``environment``.
-Create folder in your web directory as follows:-  Terminal command: `` pytonik-start `` or  'Link to download on github <https://github.com/pytonik/Folder-Structure>'
+Create folder in your web directory as follows:-  Type in ``pytonik-start`` on Terminal/command or you 'Link to download on github <https://github.com/pytonik/Folder-Structure>'
 
 
 .. code-block:: python
@@ -23,7 +23,6 @@ Create folder in your web directory as follows:-  Terminal command: `` pytonik-s
         |─ views
             |─ 404.html
             |─ homepage.html
-        |- index.py
         |- .env
         |- .htaccess
 
