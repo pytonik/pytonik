@@ -1,0 +1,259 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>File Structure &mdash; pytonik 1.9.6 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Environment File" href="env.html" />
+    <link rel="prev" title="Dependency" href="dependency.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pytonik
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installations.html">Installations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dependency.html">Dependency</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">File Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="env.html">Environment File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="temp.html">Template Engine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="smtp.html">SMTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="request.html">Request</a></li>
+<li class="toctree-l1"><a class="reference internal" href="session.html">Session</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file.html">File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="func.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="schema.html">Schema</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advance.html">Advance</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pytonik</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>File Structure</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/filestructure.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="file-structure">
+<h1>File Structure<a class="headerlink" href="#file-structure" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">Pytonik</span></code> is a web framework that supports model view controller MVC, web development are made easier and
+faster using the file structure below, it gives full access to <code class="docutils literal notranslate"><span class="pre">controller</span></code>, <code class="docutils literal notranslate"><span class="pre">model</span></code>, <code class="docutils literal notranslate"><span class="pre">languages</span></code>, <code class="docutils literal notranslate"><span class="pre">public</span></code>,  <code class="docutils literal notranslate"><span class="pre">views</span></code> , <code class="docutils literal notranslate"><span class="pre">environment</span></code>.
+Create folder in your web directory as follows:-  Type in <code class="docutils literal notranslate"><span class="pre">pytonik-start</span></code> on Terminal/command or you ‘Link to download on github &lt;<a class="reference external" href="https://github.com/pytonik/Folder-Structure">https://github.com/pytonik/Folder-Structure</a>&gt;’</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>|─MyPytonikApp                            (application folder)
+    |─ controller
+        |─ IndexController.py
+    |─ lang
+        |─ en.py
+    |─ model
+        |─ Mymodel.py
+    |─ public
+        |─ Index.py
+        |─ assets
+        |─ uploads
+        |- .htaccess
+    |─ views
+        |─ 404.html
+        |─ homepage.html
+    |- .env
+    |- .htaccess
+</pre></div>
+</div>
+<p><strong>Htacess:</strong></p>
+<p>It’s a configuration file that support pytonik application to run on Apache Server,
+this file is configured to set index and redirects application Uniform Resource Locator(URL) to public folder.</p>
+<p><strong>Controller:</strong></p>
+<p>It handles direct regulation of activities within the application, all component,
+functions and interfacing depends on it.</p>
+<p><strong>Lang:</strong></p>
+<p>It handles internationalization translation of word or sentence within the application
+and structured it conventionally.</p>
+<p><strong>Model:</strong></p>
+<p>It handles structuring each piece of function in the application, components and can be used by the controller or
+called directly in view files</p>
+<p><strong>Public:</strong></p>
+<p>It handles asset files such as CSS, JS, images, uploads and access are set to audience</p>
+<p><strong>Views:</strong></p>
+<p>The result display sent from controller where the end user can see.</p>
+<p><strong>Note:-</strong> app.log file will be automatically created once pytonik is identified by the application project,
+the file keeps track of errors and other useful information for bugs fixings.</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="env.html" class="btn btn-neutral float-right" title="Environment File" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="dependency.html" class="btn btn-neutral float-left" title="Dependency" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, pytonik 
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

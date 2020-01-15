@@ -1,0 +1,36 @@
+
+pytonik - web framework ``MVC``
+===============================
+
+This document refers to version |release|
+
+Pytonik
+=======
+
+Pytonik is a python framework built to enhance web development fast and easy, also help web developers
+to build more apps with less codes. it uses expressive architectural pattern,
+structured on model view controller MVC  and bundles of component to reuse while deploying the framework.
+
+Contents:
+
+.. toctree::
+   :maxdepth: 2
+
+   getting-started
+   installations
+   configuration
+   dependency
+   filestructure
+   env
+   temp
+   smtp
+   request
+   session
+   file
+   func
+   schema
+   advance
+
+
+
+
