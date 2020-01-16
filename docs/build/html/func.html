@@ -86,7 +86,6 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installations.html">Installations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dependency.html">Dependency</a></li>
 <li class="toctree-l1"><a class="reference internal" href="filestructure.html">File Structure</a></li>
@@ -97,8 +96,10 @@
 <li class="toctree-l1"><a class="reference internal" href="session.html">Session</a></li>
 <li class="toctree-l1"><a class="reference internal" href="file.html">File</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#agent">Agent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ip-address">Ip Address</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#iteration">Iteration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#curl">CURL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#curl">Curl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#now">Now</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#extend-include">Extend / Include</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#validations">Validations</a></li>
@@ -173,9 +174,106 @@
             
   <div class="section" id="functions">
 <h1>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h1>
+<p><strong>Pytonik</strong> Provides bundles of in-bulit functions that support <code class="docutils literal notranslate"><span class="pre">`mvc`</span></code> app development,
+Each of the functions are useful and will break all limit and doubt as you get to know how to use them.
+These modules are created to make app building more easier and faster.
+Expect more functions in new released versions.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Some functions will be re-consider as standalone module and be made as dependencies in the future.
+Making pytonik framework more flexible and lite.</p>
+</div>
+<div class="section" id="agent">
+<h2>Agent<a class="headerlink" href="#agent" title="Permalink to this headline">¶</a></h2>
+<p>Agent Module, get users or visitors web browser and operating system information such as name and version</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Agent module is a dependency, and it might no longer be maintain under the pytonik repository,
+if you find this module useful and you want to keep using its features in your project.</p>
+<blockquote>
+<div><p>We recommend installation of <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pytonik_agent</span></code>.</p>
+</div></blockquote>
+</div>
+<p><strong>Import Module</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytonik.Functions.agent</span> <span class="kn">import</span> <span class="n">os</span><span class="p">,</span> <span class="n">browser</span>
+</pre></div>
+</div>
+<p><strong>OS Callable</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span> <span class="o">=</span> <span class="n">os</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>get operating system name</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">name</span>
+</pre></div>
+</div>
+<p>get device</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">device</span>
+</pre></div>
+</div>
+<p><strong>Browser Callable</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">browser</span> <span class="o">=</span> <span class="n">browser</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>get browser name</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">browser</span><span class="o">.</span><span class="n">name</span>
+</pre></div>
+</div>
+<p>how get browser version</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">browser</span><span class="o">.</span><span class="n">version</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ip-address">
+<h2>Ip Address<a class="headerlink" href="#ip-address" title="Permalink to this headline">¶</a></h2>
+<p><strong>Ip</strong> Module checks visitors/audiences, <code class="docutils literal notranslate"><span class="pre">proxy</span></code>, <code class="docutils literal notranslate"><span class="pre">sock</span></code>,  <code class="docutils literal notranslate"><span class="pre">VPN</span></code>, and <code class="docutils literal notranslate"><span class="pre">IPs</span></code> address.</p>
+<p>it returns a response such as :- <code class="docutils literal notranslate"><span class="pre">hostname</span></code>, <code class="docutils literal notranslate"><span class="pre">country</span></code>, <code class="docutils literal notranslate"><span class="pre">city</span></code>, <code class="docutils literal notranslate"><span class="pre">region</span></code>, <code class="docutils literal notranslate"><span class="pre">loc</span></code>, <code class="docutils literal notranslate"><span class="pre">org</span></code></p>
+<p><strong>Import Module</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytonik.Functions.ip</span> <span class="kn">import</span> <span class="n">ip</span>
+</pre></div>
+</div>
+<p><strong>Callable</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ip</span> <span class="o">=</span> <span class="n">ip</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>how to get HTTP IP ADDRESS</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ip</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">ip</span>
+</pre></div>
+</div>
+<p>how to get VPN IP ADDRESS</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ip</span><span class="o">.</span><span class="n">vpn</span><span class="p">()</span><span class="o">.</span><span class="n">ip</span>
+</pre></div>
+</div>
+<p>how to check if visitor is using VPN</p>
+<p>To know if visitor is using a <code class="docutils literal notranslate"><span class="pre">vpn</span></code>, we’ll need to use <code class="docutils literal notranslate"><span class="pre">vpn</span></code> method  with  <code class="docutils literal notranslate"><span class="pre">is_vpn</span></code> attribute which will return bool <code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ip</span><span class="o">.</span><span class="n">vpn</span><span class="p">()</span><span class="o">.</span><span class="n">is_vpn</span>
+</pre></div>
+</div>
+<p>how to get IP ADDRESS and PROPERTIES</p>
+<p>we’ll be getting our app visitors <code class="docutils literal notranslate"><span class="pre">ip</span></code>, <code class="docutils literal notranslate"><span class="pre">hostname</span></code>, city, <code class="docutils literal notranslate"><span class="pre">country</span></code> <code class="docutils literal notranslate"><span class="pre">loc</span></code> and <code class="docutils literal notranslate"><span class="pre">org</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">visitors</span> <span class="o">=</span> <span class="n">ip</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+<span class="n">visitors</span><span class="o">.</span><span class="n">ip</span>
+<span class="n">visitors</span><span class="o">.</span><span class="n">hostname</span>
+<span class="n">visitors</span><span class="o">.</span><span class="n">city</span>
+<span class="n">visitors</span><span class="o">.</span><span class="n">region</span>
+<span class="n">visitors</span><span class="o">.</span><span class="n">country</span>
+<span class="n">visitors</span><span class="o">.</span><span class="n">loc</span>
+<span class="n">visitors</span><span class="o">.</span><span class="n">org</span>
+</pre></div>
+</div>
+<p><strong>default check IP ADDRESS</strong></p>
+<p>Cases whereby there is an <code class="docutils literal notranslate"><span class="pre">ip</span></code> and we want to get the <code class="docutils literal notranslate"><span class="pre">ip</span></code> information we will use <code class="docutils literal notranslate"><span class="pre">property</span></code> method</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ip</span><span class="o">.</span><span class="n">property</span><span class="p">(</span><span class="s1">&#39;41.190.30.100&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">hostname</span>
+<span class="n">ip</span><span class="o">.</span><span class="n">property</span><span class="p">(</span><span class="s1">&#39;41.190.30.100&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">city</span>
+<span class="n">ip</span><span class="o">.</span><span class="n">property</span><span class="p">(</span><span class="s1">&#39;41.190.30.100&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">region</span>
+<span class="n">ip</span><span class="o">.</span><span class="n">property</span><span class="p">(</span><span class="s1">&#39;41.190.30.100&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">country</span>
+<span class="n">ip</span><span class="o">.</span><span class="n">property</span><span class="p">(</span><span class="s1">&#39;41.190.30.100&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span>
+<span class="n">ip</span><span class="o">.</span><span class="n">property</span><span class="p">(</span><span class="s1">&#39;41.190.30.100&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">org</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="iteration">
 <h2>Iteration<a class="headerlink" href="#iteration" title="Permalink to this headline">¶</a></h2>
-<p>Pytonik iteration module handles iteration, enumerate dictionary and Json.</p>
+<p>Pytonik iteration module handles <code class="docutils literal notranslate"><span class="pre">iteration</span></code>, enumerate dictionary and <code class="docutils literal notranslate"><span class="pre">Json</span></code>.</p>
 <p><strong>Import Module</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytonik.Functions.iteration</span> <span class="kn">import</span> <span class="n">iteration</span>
 </pre></div>
@@ -246,8 +344,8 @@
 </div></blockquote>
 </div>
 <div class="section" id="curl">
-<h2>CURL<a class="headerlink" href="#curl" title="Permalink to this headline">¶</a></h2>
-<p>Pytonik curl is an in-built module support sending or initiating actions within or outside pytonik framework.
+<h2>Curl<a class="headerlink" href="#curl" title="Permalink to this headline">¶</a></h2>
+<p>Pytonik <code class="docutils literal notranslate"><span class="pre">curl</span></code> is an in-built module support sending or initiating actions within or outside pytonik framework.
 It enables access to API’s and return respond back to the application, in form of JSON, HTML, RAW data etc.
 In this case the use of curl module is to POST, GET,  HEAD, PUT information in internal or from external API’s URL
 using attributes like <code class="docutils literal notranslate"><span class="pre">status</span></code>, <code class="docutils literal notranslate"><span class="pre">reason</span></code>,  and <code class="docutils literal notranslate"><span class="pre">result</span></code>.  Whereby <code class="docutils literal notranslate"><span class="pre">status</span></code> handles response codes

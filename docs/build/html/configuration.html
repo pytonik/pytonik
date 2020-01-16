@@ -206,8 +206,8 @@ Restart server <code class="docutils literal notranslate"><span class="pre">sudo
 <p>Install apache <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">apache2</span></code></p>
 <p>open the httpd.conf file``sudo nano /etc/httpd/conf/httpd.conf``
 or <code class="docutils literal notranslate"><span class="pre">gksu</span> <span class="pre">gedit</span> <span class="pre">/etc/httpd/conf/httpd.conf</span></code> now set for editing.</p>
-<p>Find <code class="docutils literal notranslate"><span class="pre">AddHandler</span> <span class="pre">cgi-script</span> <span class="pre">.cgi``add</span> <span class="pre">.py</span>&#160; <span class="pre">``AddHandler</span> <span class="pre">cgi-script</span> <span class="pre">.cgi</span> <span class="pre">.py</span></code>.</p>
-<p>Find``DirectoryIndex index.html``add index.py <code class="docutils literal notranslate"><span class="pre">DirectoryIndex</span> <span class="pre">index.html</span> <span class="pre">index.py</span></code></p>
+<p>Find <code class="docutils literal notranslate"><span class="pre">AddHandler</span> <span class="pre">cgi-script</span> <span class="pre">.cgi</span></code> add .py  <code class="docutils literal notranslate"><span class="pre">AddHandler</span> <span class="pre">cgi-script</span> <span class="pre">.cgi</span> <span class="pre">.py</span></code>.</p>
+<p>Find``DirectoryIndex index.html`` add index.py <code class="docutils literal notranslate"><span class="pre">DirectoryIndex</span> <span class="pre">index.html</span> <span class="pre">index.py</span></code></p>
 <p>When all the changes are made, save httpd.conf file, changes takes effect.</p>
 <p>Server is set and ready to run python CGI application which means you can deploy pytonik on it.
 Restart server <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">systemctl</span> <span class="pre">restart</span> <span class="pre">httpd</span></code> and done.</p>

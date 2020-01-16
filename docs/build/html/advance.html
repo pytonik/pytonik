@@ -85,7 +85,6 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installations.html">Installations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dependency.html">Dependency</a></li>
 <li class="toctree-l1"><a class="reference internal" href="filestructure.html">File Structure</a></li>
@@ -168,18 +167,19 @@
             
   <div class="section" id="advance">
 <h1>Advance<a class="headerlink" href="#advance" title="Permalink to this headline">¶</a></h1>
-<p>We have lot of features to look into if we really want to achieve more using pytonik, I will choose to be a web
-developer and I want to be very good web development, but before I can become more better,
-I need to know how to go about using all the modules provided by pytonik.
-Knowing how to used will not still make me better. I think I need to improved and break my limit but now
-how can I break my limit. The best way out is to know how to create my own custom  model and controller and
-how to play around them. Great, I believe I can now start developing scalable web application.</p>
+<p>We have lot of features to look into if we really want to achieve more using <strong>pytonik</strong>, I will choose to be a web
+developer and I want to be very good in web development, but before I can become more better,
+I need to know how to go about using all the modules provided by <strong>pytonik</strong>.
+Knowing how to used will not make me better but limited. I think I need to improved and break my limit but now
+how can I break my limit. The best way to do so, is to know how to create my own custom  <code class="docutils literal notranslate"><span class="pre">model</span></code> and <code class="docutils literal notranslate"><span class="pre">controller</span></code>.
+Great, I believe I can now start developing scalable web application.</p>
 <div class="section" id="model">
 <h2>Model<a class="headerlink" href="#model" title="Permalink to this headline">¶</a></h2>
-<p>Model is breaking application into parts, in which each part as it model and can as well relate to another part.
-Let say we have a model that is called <code class="docutils literal notranslate"><span class="pre">Users</span></code>, and  <code class="docutils literal notranslate"><span class="pre">Result</span></code>, these tables are closely related, one each model
-cannot do without each other. We will like to talk more about how to work with model but making a real
-live example will explain better.  Model are created and saved into <code class="docutils literal notranslate"><span class="pre">model</span></code> folder. We will inherit Model module</p>
+<p>Model, is breaking application into parts, in which each part as it model and can as well relate to another part.
+Let say we have a model that is called <code class="docutils literal notranslate"><span class="pre">Users</span></code>, and  <code class="docutils literal notranslate"><span class="pre">Result</span></code>, these models are closely related, each model
+cannot do without other. We will like to talk more about how to work with model but making a real
+live example will explain better.  Model are created and saved into <code class="docutils literal notranslate"><span class="pre">model</span></code> folder. We will need to import Model and
+inherit Model properties into our newly created model. below example will explained better.</p>
 <p><strong>Example:</strong> Users.py</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytonik.Model</span> <span class="kn">import</span> <span class="n">Model</span>
 
@@ -221,7 +221,7 @@ live example will explain better.  Model are created and saved into <code class=
         <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
                 <span class="k">return</span> <span class="s2">&quot;all result&quot;</span>
 
-        <span class="k">def</span> <span class="nf">deletbyuser</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">userid</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">deletebyuser</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">userid</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">userid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="s2">&quot;&quot;</span> <span class="ow">and</span> <span class="nb">id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
                         <span class="k">return</span> <span class="s2">&quot;delete user result that as id&quot;</span>
                 <span class="k">else</span><span class="p">:</span>
@@ -234,12 +234,12 @@ live example will explain better.  Model are created and saved into <code class=
                         <span class="k">return</span> <span class="s2">&quot;delete  all result&quot;</span>
 </pre></div>
 </div>
-<p>I will like to know more because at this stage I found this interesting, now that I have learnt how to create model,
-feel I am still missing out, because I need to learn how to implement database query. Pytonik has hand build methods
-that will handle all database features. In our case we will use Schema database attribute build to support only pytonik
-developer. Since we are using Model Module we should be comfortable using database properties without calling or
-importing another module. if you have not learn more about pytonik Database Schema but I will rather call it eloquence,
-I prefer you should to read more about how to used it because you will so much need it in the future if not now.</p>
+<p>I will like to know more, at this stage I found the example very interesting, now that I have learnt how to create model,
+feel I am still missing out, because I need to learn how to implement database query. <code class="docutils literal notranslate"><span class="pre">Pytonik</span></code> has an hand build <strong>schema</strong>
+that will handle all database features. In our case we will use <strong>Schema</strong> <code class="docutils literal notranslate"><span class="pre">method</span></code> and <code class="docutils literal notranslate"><span class="pre">attribute</span></code>, this module was design to enhance database structuring.
+Since we are using Model Module we should be comfortable using database properties without <code class="docutils literal notranslate"><span class="pre">calling</span></code> or
+<code class="docutils literal notranslate"><span class="pre">importing</span></code> another module. if you have not learn more about <strong>pytonik</strong> <code class="docutils literal notranslate"><span class="pre">Schema</span></code>,
+I prefer you should to read more about how to use it because you will need it in the future if not now.</p>
 <p><strong>Example 1.1:</strong> Result.py</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytonik.Model</span> <span class="kn">import</span> <span class="n">Model</span>
 
@@ -281,14 +281,14 @@ I prefer you should to read more about how to used it because you will so much n
 </div>
 <div class="section" id="controller">
 <h2>Controller<a class="headerlink" href="#controller" title="Permalink to this headline">¶</a></h2>
-<p>Controller is the heart of the application, it is the most important part of application and can function without
-the help of model, but the model cannot function without controller. It handle the result and send action in and out
-of the application. Controller controls and send data to the browser using the help of view method.
-All controller files are stored in``controller``folder and are saved in sentence case example <code class="docutils literal notranslate"><span class="pre">UsersController.py</span></code>.
+<p><strong>Controller</strong>  is the heart of the application, it is the most important part of application and can function without
+the help of model, but the <code class="docutils literal notranslate"><span class="pre">model</span></code> cannot function without <code class="docutils literal notranslate"><span class="pre">controller</span></code>. The controller handles the result and send action in and out
+of the application. Controller controls and send data to the browser using the help of  <code class="docutils literal notranslate"><span class="pre">view</span></code>  which is a method in <code class="docutils literal notranslate"><span class="pre">App</span></code> module.
+All controller files are stored in <code class="docutils literal notranslate"><span class="pre">controller</span></code> folder and are saved/stored in Capitalized form example <code class="docutils literal notranslate"><span class="pre">UsersController.py</span></code>.
 if file is saved <code class="docutils literal notranslate"><span class="pre">userscontroller.py</span></code> or <code class="docutils literal notranslate"><span class="pre">Userscontroller.py</span></code> are not accepted and will definitely lead to exception.</p>
 <p><strong>Example:</strong> UsersController.py</p>
-<p>This illustrate how to create controller and implement views module, which is one of the property of App module,
-as you can see we are sending data <code class="docutils literal notranslate"><span class="pre">user.html</span></code> which is stored in our <code class="docutils literal notranslate"><span class="pre">views</span></code> folder in our application directory</p>
+<p>The illustration shows how to create controller and implement <code class="docutils literal notranslate"><span class="pre">views</span></code> module, which is one of the property of <code class="docutils literal notranslate"><span class="pre">App</span></code> module,
+as you can see we are sending data <code class="docutils literal notranslate"><span class="pre">user.html</span></code> which is stored in our <code class="docutils literal notranslate"><span class="pre">views</span></code> folder in our <strong>project directory</strong>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytonik.App</span> <span class="kn">import</span> <span class="n">App</span>
 
 <span class="n">mvc</span> <span class="o">=</span> <span class="n">App</span><span class="p">()</span>
@@ -318,6 +318,50 @@ as you can see we are sending data <code class="docutils literal notranslate"><s
 <span class="o">&lt;/</span><span class="n">body</span><span class="o">&gt;</span>
 
 <span class="o">&lt;/</span><span class="n">html</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p><strong>How to load ``model`` in ``controller``</strong></p>
+<p><strong>Example 1.0:</strong> load model <code class="docutils literal notranslate"><span class="pre">Users.py</span></code> into controller <code class="docutils literal notranslate"><span class="pre">UsersController.py</span></code></p>
+<p>once <code class="docutils literal notranslate"><span class="pre">Users</span></code> model load into <code class="docutils literal notranslate"><span class="pre">UsersController</span></code> it gives Controller access to all the methods and attribute in Users model.
+we can call each of the method defined in <code class="docutils literal notranslate"><span class="pre">Users</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytonik.App</span> <span class="kn">import</span> <span class="n">App</span>
+<span class="kn">from</span> <span class="nn">pytonik.Model</span> <span class="kn">import</span> <span class="n">Model</span>
+
+<span class="n">mvc</span> <span class="o">=</span> <span class="n">App</span><span class="p">()</span>
+<span class="n">users</span> <span class="o">=</span> <span class="n">Model</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="s1">&#39;Users&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+<span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s2">&quot;pytonik MVC&quot;</span><span class="p">,</span>
+<span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s2">&quot;List Pytonik Users”</span>
+
+<span class="p">}</span>
+<span class="n">mvc</span><span class="o">.</span><span class="n">views</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>if we keep importing module each time we want to make use of them,
+then we will write a huge lines of codes which is not what we want.
+pytonik has a module called <code class="docutils literal notranslate"><span class="pre">Web</span></code>,
+it gives access to bunch of modules, so we will not have to be importing module into our controller.
+below example will explain.</p>
+</div>
+<p><strong>Example 1.1:</strong> load model <code class="docutils literal notranslate"><span class="pre">Users.py</span></code> into controller <code class="docutils literal notranslate"><span class="pre">UsersController.py</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytonik</span> <span class="kn">import</span> <span class="n">Web</span>
+
+<span class="n">mvc</span> <span class="o">=</span> <span class="n">Web</span><span class="o">.</span><span class="n">App</span><span class="p">()</span>
+<span class="n">users</span> <span class="o">=</span> <span class="n">Web</span><span class="o">.</span><span class="n">Load</span><span class="p">(</span><span class="s1">&#39;Users&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+<span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="s2">&quot;pytonik MVC&quot;</span><span class="p">,</span>
+<span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s2">&quot;List Pytonik Users”</span>
+
+<span class="p">}</span>
+<span class="n">mvc</span><span class="o">.</span><span class="n">views</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

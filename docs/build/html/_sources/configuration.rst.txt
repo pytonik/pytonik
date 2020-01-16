@@ -64,9 +64,9 @@ Install apache ``sudo apt-get install apache2``
 open the httpd.conf file``sudo nano /etc/httpd/conf/httpd.conf``
 or ``gksu gedit /etc/httpd/conf/httpd.conf`` now set for editing.
 
-Find ``AddHandler cgi-script .cgi``add .py  ``AddHandler cgi-script .cgi .py``.
+Find ``AddHandler cgi-script .cgi`` add .py  ``AddHandler cgi-script .cgi .py``.
 
-Find``DirectoryIndex index.html``add index.py ``DirectoryIndex index.html index.py``
+Find``DirectoryIndex index.html`` add index.py ``DirectoryIndex index.html index.py``
 
 When all the changes are made, save httpd.conf file, changes takes effect.
 

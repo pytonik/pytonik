@@ -17,7 +17,6 @@ Contents:
    :maxdepth: 2
 
    getting-started
-   installations
    configuration
    dependency
    filestructure

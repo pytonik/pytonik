@@ -1,11 +1,155 @@
 Functions
 =========
 
+**Pytonik** Provides bundles of in-bulit functions that support ```mvc``` app development,
+Each of the functions are useful and will break all limit and doubt as you get to know how to use them.
+These modules are created to make app building more easier and faster.
+Expect more functions in new released versions.
+
+
+.. note::
+
+    Some functions will be re-consider as standalone module and be made as dependencies in the future.
+    Making pytonik framework more flexible and lite.
+
+
+
+Agent
+-----
+
+Agent Module, get users or visitors web browser and operating system information such as name and version
+
+.. note::
+
+    Agent module is a dependency, and it might no longer be maintain under the pytonik repository,
+    if you find this module useful and you want to keep using its features in your project.
+     We recommend installation of ``pip install pytonik_agent``.
+
+
+**Import Module**
+
+.. code-block:: python
+
+    from pytonik.Functions.agent import os, browser
+
+
+
+**OS Callable**
+
+.. code-block:: python
+
+    os = os()
+
+get operating system name
+
+.. code-block:: python
+
+    os.name
+
+
+get device
+
+.. code-block:: python
+
+    os.device
+
+
+**Browser Callable**
+
+.. code-block:: python
+
+    browser = browser()
+
+get browser name
+
+.. code-block:: python
+
+    browser.name
+
+how get browser version
+
+.. code-block:: python
+
+    browser.version
+
+
+
+Ip Address
+----------
+
+**Ip** Module checks visitors/audiences, ``proxy``, ``sock``,  ``VPN``, and ``IPs`` address.
+
+it returns a response such as :- ``hostname``, ``country``, ``city``, ``region``, ``loc``, ``org``
+
+
+**Import Module**
+
+.. code-block:: python
+
+    from pytonik.Functions.ip import ip
+
+**Callable**
+
+.. code-block:: python
+
+    ip = ip()
+
+how to get HTTP IP ADDRESS
+
+.. code-block:: python
+
+    ip.get().ip
+
+how to get VPN IP ADDRESS
+
+.. code-block:: python
+
+    ip.vpn().ip
+
+how to check if visitor is using VPN
+
+To know if visitor is using a ``vpn``, we'll need to use ``vpn`` method  with  ``is_vpn`` attribute which will return bool ``True`` or ``False``
+
+.. code-block:: python
+
+    ip.vpn().is_vpn
+
+
+how to get IP ADDRESS and PROPERTIES
+
+we'll be getting our app visitors ``ip``, ``hostname``, city, ``country`` ``loc`` and ``org``
+
+
+.. code-block:: python
+
+    visitors = ip.get()
+    visitors.ip
+    visitors.hostname
+    visitors.city
+    visitors.region
+    visitors.country
+    visitors.loc
+    visitors.org
+
+
+**default check IP ADDRESS**
+
+Cases whereby there is an ``ip`` and we want to get the ``ip`` information we will use ``property`` method
+
+.. code-block:: python
+
+    ip.property('41.190.30.100').hostname
+    ip.property('41.190.30.100').city
+    ip.property('41.190.30.100').region
+    ip.property('41.190.30.100').country
+    ip.property('41.190.30.100').loc
+    ip.property('41.190.30.100').org
+
 
 
 Iteration
 ---------
-Pytonik iteration module handles iteration, enumerate dictionary and Json.
+Pytonik iteration module handles ``iteration``, enumerate dictionary and ``Json``.
 
 **Import Module**
 
@@ -65,10 +209,10 @@ Pytonik iteration module handles iteration, enumerate dictionary and Json.
 
 
 
-CURL
+Curl
 ----
 
-Pytonik curl is an in-built module support sending or initiating actions within or outside pytonik framework.
+Pytonik ``curl`` is an in-built module support sending or initiating actions within or outside pytonik framework.
 It enables access to API’s and return respond back to the application, in form of JSON, HTML, RAW data etc.
 In this case the use of curl module is to POST, GET,  HEAD, PUT information in internal or from external API’s URL
 using attributes like ``status``, ``reason``,  and ``result``.  Whereby ``status`` handles response codes
