@@ -11,7 +11,7 @@
   <img width="150" height="150" src="https://avatars3.githubusercontent.com/u/57829979?s=460&v=4">
 </p>
 
-Pytonik is a MVC(Model View Controller) framework built to enhance web development, it’s quick to set up. With Pytonik, you build more apps with less code. It runs on multiple operating systems including WINDOWS, MACOS, and LINUX.
+Pytonik is a MVC(Model View Controller) framework built to enhance web development, it’s quick to set up and with it you build more apps with less code. It runs on multiple operating systems including WINDOWS, MACOS, and LINUX.
 
 [![Made with python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://pypi.python.org/pypi/pytonik)
 
@@ -121,6 +121,7 @@ Inside the **.env** file, enter the following code block;
 }
 
 ```
+Replace the server configurations in this example with yours.
 
 Create a folder with name **public** in the root of your application (if you haven't already), and inside the folder, create a file with name **index.py**.
 
