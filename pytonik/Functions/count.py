@@ -15,7 +15,7 @@ class count:
         return None
 
     def __init__(self, *args,  **kwargs):
-        print(args,  kwargs)
+
         return None
 
 

@@ -187,7 +187,9 @@ It can be used to perform most database operations in your application and works
 </pre></div>
 </div>
 <p><strong>Tables</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">TABLES</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">TABLES</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="n">TABLES</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
         <span class="s2">&quot;CREATE TABLE `users` (&quot;</span>
         <span class="s2">&quot;  `users_id` int(11) NOT NULL AUTO_INCREMENT,&quot;</span>
         <span class="s2">&quot;  `birth_date` date NOT NULL,&quot;</span>
@@ -199,7 +201,7 @@ It can be used to perform most database operations in your application and works
         <span class="s2">&quot;  PRIMARY KEY (`emp_no`)&quot;</span>
         <span class="s2">&quot;) ENGINE=InnoDB&quot;</span><span class="p">)</span>
 
-    <span class="n">TABLES</span><span class="p">[</span><span class="s1">&#39;banks&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+<span class="n">TABLES</span><span class="p">[</span><span class="s1">&#39;banks&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
         <span class="s2">&quot;CREATE TABLE `banks` (&quot;</span>
         <span class="s2">&quot;  `banks_id` int(11) NOT NULL AUTO_INCREMENT,&quot;</span>
         <span class="s2">&quot;  `users_id` int(11) NOT NULL,&quot;</span>
@@ -208,7 +210,7 @@ It can be used to perform most database operations in your application and works
         <span class="s2">&quot;  PRIMARY KEY (`banks_id`)&quot;</span>
         <span class="s2">&quot;) ENGINE=InnoDB&quot;</span><span class="p">)</span>
 
-    <span class="n">TABLES</span><span class="p">[</span><span class="s1">&#39;transactions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+<span class="n">TABLES</span><span class="p">[</span><span class="s1">&#39;transactions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
         <span class="s2">&quot;CREATE TABLE `transactions` (&quot;</span>
         <span class="s2">&quot;  `transaction_id` int(11) NOT NULL,&quot;</span>
         <span class="s2">&quot;  `users_id` int(11) NOT NULL,&quot;</span>
@@ -228,7 +230,7 @@ It can be used to perform most database operations in your application and works
 </div>
 <div class="section" id="drop">
 <h2>drop<a class="headerlink" href="#drop" title="Permalink to this headline">¶</a></h2>
-<p>If you wish to <code class="docutils literal notranslate"><span class="pre">drop</span></code> the entire table, which will delete the table, you may use the <code class="docutils literal notranslate"><span class="pre">drop</span></code> method:</p>
+<p>If you wish to <code class="docutils literal notranslate"><span class="pre">drop</span></code> the entire table, you may use the <code class="docutils literal notranslate"><span class="pre">drop</span></code> method:</p>
 <p><strong>Drop All</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">DB</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s1">&#39;users&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">()</span>
 </pre></div>
@@ -268,7 +270,7 @@ Each <code class="docutils literal notranslate"><span class="pre">dictionary</sp
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>When using PostgreSQL the insertGetId method expects the auto-incrementing column to be named id. If you would like to retrieve the ID from a different “sequence”,
+<p>When using PostgreSQL the insertGetId method expects the auto-incrementing column to be named id. If you would like to retrieve the ID from a different <code class="docutils literal notranslate"><span class="pre">sequence</span></code>,
 you may pass the column name as the second parameter to the insertGetId method.</p>
 </div>
 </div>
@@ -304,19 +306,19 @@ You may constrain delete statements by adding where clauses before calling the d
 </div>
 <p>The query schema also provides a variety of aggregate methods such as <code class="docutils literal notranslate"><span class="pre">counts</span></code>, <code class="docutils literal notranslate"><span class="pre">max</span></code>, <code class="docutils literal notranslate"><span class="pre">min</span></code>, <code class="docutils literal notranslate"><span class="pre">avg</span></code>,
 and <code class="docutils literal notranslate"><span class="pre">sum</span></code>. You may call any of these methods after constructing your query:</p>
-<p>** MAX() **</p>
+<p><strong>MAX()</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">DB</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s1">&#39;transactions&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="s1">&#39;amount&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>** MIN() **</p>
+<p><strong>MIN()</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">DB</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s1">&#39;transactions&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="s1">&#39;amount&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>** AVG **</p>
+<p><strong>AVG</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">DB</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s1">&#39;transactions&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">avg</span><span class="p">(</span><span class="s1">&#39;amount&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>** COUNT() **</p>
+<p><strong>COUNT()</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">DB</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s1">&#39;transactions&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">counts</span><span class="p">()</span><span class="o">.</span><span class="n">select</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">result</span>
 </pre></div>
 </div>
@@ -324,7 +326,65 @@ and <code class="docutils literal notranslate"><span class="pre">sum</span></cod
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">DB</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s1">&#39;transactions&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="s1">&#39;amount&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 </pre></div>
 </div>
+<p><strong>Determining If Records Exist</strong></p>
+<p>Instead of using the count method to determine if any records exist that match your query’s constraints,
+you may use the exists and <code class="docutils literal notranslate"><span class="pre">notExist</span></code> methods:</p>
+<p>Example: <strong>Exist</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">DB</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s1">&#39;orders&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s1">&#39;finalized&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Example: <strong>notExist</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">DB</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s1">&#39;orders&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">where</span><span class="p">(</span><span class="s1">&#39;finalized&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">notExist</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Retrieving A Single Row / Column From A Table</strong></p>
+<p>If you just need to retrieve a single row from the database table, you may use the first method.
+This method will return a single dictionary object <code class="docutils literal notranslate"><span class="pre">{}</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span> <span class="o">=</span> <span class="n">DB</span><span class="p">::</span><span class="n">table</span><span class="p">(</span><span class="s1">&#39;users&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">where</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">first</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">user</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p><strong>Retrieving A List Of Column Values</strong></p>
+<p>If you would like to retrieve a Collection containing the values of a single column, you may use the pluck method.
+In this example, we’ll retrieve a Collection of role titles:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">titles</span> <span class="o">=</span> <span class="n">DB</span><span class="p">::</span><span class="n">table</span><span class="p">(</span><span class="s1">&#39;roles&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">pluck</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">);</span>
+
+<span class="k">for</span>  <span class="n">title</span> <span class="ow">in</span> <span class="n">titles</span><span class="p">:</span>
+     <span class="k">print</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You may also specify a custom key column for the returned Collection:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">roles</span> <span class="o">=</span> <span class="n">DB</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s1">&#39;roles&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">pluck</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">);</span>
+
+<span class="k">for</span> <span class="n">title</span> <span class="ow">in</span> <span class="n">roles</span><span class="p">:</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="n">title</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>If you need to work with thousands of database records, consider using the <code class="docutils literal notranslate"><span class="pre">chunk</span></code> method.
+This method retrieves a small chunk of the results at a time and feeds each chunk into a Closure for processing.
+This method is very useful for writing Artisan commands that process thousands of records.
+For example, let’s work with the entire users table in chunks of 100 records at a time:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">DB</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s1">&#39;users&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">orderBy</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">chunk</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you are updating database records while chunking results, your chunk results could change in unexpected ways. So,
+when updating records while chunking, it is always best to use the chunkById method instead.
+This method will automatically paginate the results based on the record’s primary key:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">users</span> <span class="o">=</span> <span class="n">DB</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s1">&#39;users&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s1">&#39;status &#39;</span><span class="p">,</span> <span class="s1">&#39;PENDING&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">orderBy</span><span class="p">(</span><span class="s1">&#39;users_id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">chunk</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span>
+<span class="n">DB</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s1">&#39;countries&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s1">&#39;users_id&#39;</span><span class="p">,</span> <span class="s1">&#39;{users_id}&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">updates</span><span class="p">([</span><span class="nb">dict</span><span class="p">(</span><span class="n">vote</span><span class="o">=</span><span class="s1">&#39;200&#39;</span><span class="p">,</span> <span class="n">create_at</span><span class="o">=</span><span class="s1">&#39;20/01/2020&#39;</span><span class="p">)])</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When updating or deleting records inside the chunk callback, any changes to the primary key or foreign keys could affect the chunk query.
+This could potentially result in records not being included in the chunked results.</p>
+</div>
 <p><strong>Select Value</strong></p>
+<p>If you don’t even need an entire row, you may extract a single value from a record using the <code class="docutils literal notranslate"><span class="pre">value</span></code> method.
+This method will return the value of the column directly</p>
 <p>Example 1.0:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">DB</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s1">&#39;users&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;users_username&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 </pre></div>
@@ -470,6 +530,17 @@ The <code class="docutils literal notranslate"><span class="pre">orWhere</span><
 <p>The <code class="docutils literal notranslate"><span class="pre">whereNotNull</span></code> method verifies that the column’s value is not <code class="docutils literal notranslate"><span class="pre">NULL</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">DB</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s1">&#39;users&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">whereNotNull</span><span class="p">(</span><span class="s1">&#39;updated_at&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
 </pre></div>
+</div>
+<p>The query schema also provides a quick way to <code class="docutils literal notranslate"><span class="pre">union</span></code> two queries together.
+For example, you may create an initial query and use the <code class="docutils literal notranslate"><span class="pre">union</span></code> method to <code class="docutils literal notranslate"><span class="pre">union</span></code> it with a second query:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">first</span> <span class="o">=</span> <span class="n">DB</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">()</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+
+<span class="n">users</span> <span class="o">=</span> <span class="n">DB</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s1">&#39;countries&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">orderBy</span><span class="p">(</span><span class="s1">&#39;country_id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">()</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">first</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">unionAll</span></code> method is also available and has the same method signature as <code class="docutils literal notranslate"><span class="pre">union</span></code>.</p>
 </div>
 </div>
 <div class="section" id="join">

@@ -83,7 +83,7 @@ class pyPgSQL:
 
  
     def lastId(self):
-        return self.con.lastrowid
+        return self.con.fetchone()[0]
 
     def fetch(self):
         result = self.con.fetchall()

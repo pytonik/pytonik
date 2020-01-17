@@ -40,6 +40,8 @@ class Schema(App):
             return Table(table)
 
     def raw(self, string):
-
         return string
+
+    def query(self, raw):
+        return self.DB().query(raw)
 

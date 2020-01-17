@@ -94,6 +94,7 @@ I prefer you should to read more about how to use it because you will need it in
 
 .. code-block:: python
 
+
     from pytonik.Model import Model
 
     class Result(Model):
@@ -166,7 +167,7 @@ as you can see we are sending data ``user.html`` which is stored in our ``views`
 
 **Example:** user.html
 
-Here we can see that we are  can display variable in``user.html`` sent from ``UsersController.py``
+Here we can see that we are  can display variable in ``user.html`` sent from ``UsersController.py``
 
 .. code-block:: python
 
@@ -222,7 +223,8 @@ we can call each of the method defined in ``Users``
     below example will explain.
 
 
-**Example 1.1:** load model ``Users.py`` into controller ``UsersController.py``
+**Example 1.1:** load model ``Users.py`` into controller ``UsersController.py`` .
+``load`` is a method in ``Model`` module
 
 .. code-block:: python
 

@@ -13,6 +13,60 @@ Expect more functions in new released versions.
     Making pytonik framework more flexible and lite.
 
 
+Count
+-----
+
+Count Module coverts integer of float count to human readable format with the help of ``digit`` and ``bytes`` method.
+
+
+**Import Module**
+
+.. code-block:: python
+
+    from pytonik.Functions.count import count
+
+
+**Callable**
+
+.. code-block:: python
+
+    count = count()
+
+
+**digit** returns count of T as trillion, M as Million, K as Thousand.
+
+.. code-block:: python
+
+
+    count.digit(432) #this will return 432
+
+    count.digit(4324) #this will return 4.3k
+
+    count.digit(43242) #this will return 43.2k
+
+    count.digit(432427) #this will return 432.4k
+
+    count.digit(4324276) #this will return 4.3M
+
+
+
+**bytes** returns bytes size of B as Bytes, KB as Kilobyte, MB as Megabyte, GB as Gigabyte and TB as Terabyte
+
+
+.. code-block:: python
+
+
+    count.bytes(444) #this will return B
+
+    count.bytes(1024) #this will return 1K
+
+    count.bytes(1048576) #this will return 1.00MB
+
+    count.bytes(4324273243) #this will return 4.03GB
+
+    count.bytes(432434327323243) #this will return 393.30 TB
+
+
 
 Agent
 -----
@@ -23,7 +77,7 @@ Agent Module, get users or visitors web browser and operating system information
 
     Agent module is a dependency, and it might no longer be maintain under the pytonik repository,
     if you find this module useful and you want to keep using its features in your project.
-     We recommend installation of ``pip install pytonik_agent``.
+    We recommend installation of ``pip install pytonik_agent``.
 
 
 **Import Module**
@@ -214,7 +268,7 @@ Curl
 
 Pytonik ``curl`` is an in-built module support sending or initiating actions within or outside pytonik framework.
 It enables access to API’s and return respond back to the application, in form of JSON, HTML, RAW data etc.
-In this case the use of curl module is to POST, GET,  HEAD, PUT information in internal or from external API’s URL
+In this case the use of curl module is to ``POST``, ``GET``,  ``HEAD``, ``PUT`` information in internal or from external API’s URL
 using attributes like ``status``, ``reason``,  and ``result``.  Whereby ``status`` handles response codes
 example **200**, **404**, **500**, etc. which the ```reason``` of this status could be OK, Not Found, Internal server Error, etc.
 Get excepted information from ``result``
@@ -249,7 +303,7 @@ Get excepted information from ``result``
     PORT #accept url port 8080
 
 
-GET retrieves information from api’s server
+**GET** retrieves information from api’s server and returns response ``status`` , ``reason``, and  ``result``
 
 .. code-block:: python
 
@@ -262,7 +316,7 @@ GET retrieves information from api’s server
 
 
 
-HEAD check api’s and returns response  ``status`` and ``reason``
+**HEAD** check api’s and returns response  ``status`` and ``reason``
 
 .. code-block:: python
 
@@ -276,7 +330,7 @@ HEAD check api’s and returns response  ``status`` and ``reason``
 
 
 
-POST:-  sent data/information to api using parameters or arguments
+**POST**  sent data/information to api using parameters or arguments
 and returns response ``status`` , ``reason``, and  ``result``
 
 .. code-block:: python
@@ -454,6 +508,7 @@ this might result in page not found or error path.
 
 
 **Example:** Include
+
 .. code-block:: python
 
         {% call include 'home.inc.header'  %}
@@ -543,7 +598,7 @@ Method ``count``  return total count of a string
 
 Method ``email`` validates only alphabet and character ``.`` , ``_`` , ``-`` and ``@``, returns bool
 ``True`` or ``False`` render support to email address
-``my_email@gmail.com``, ``email@gmail.com`` , ``my.email@gmail.com``,  `` my_email@gmail.com``
+``my_email@gmail.com``, ``email@gmail.com`` , ``my.email@gmail.com``,  ``my_email@gmail.com``
 
 **Example**
 

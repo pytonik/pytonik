@@ -11,6 +11,7 @@
 # Each method represent query builder attribute
 
 
+
 from pytonik import App, Version, Log
 
 app = App.App()
@@ -35,7 +36,6 @@ class Table:
         self.table_drop = ""
         self.table_delete = ""
         self.table_value = ""
-        self.table_pluck = ""
         self.table_groupby = ""
         self.table_orderby = ""
         self.table_offset = ""
@@ -53,6 +53,11 @@ class Table:
         self.table_avg = ""
         self.error = ""
         self.table_On = ""
+        self.table_skip = ""
+        self.table_take = ""
+        self.table_having = ""
+        self.table_whereisnull = []
+        self.table_wherenotnull = []
         self.table_orOn = []
 
         return None
@@ -60,7 +65,7 @@ class Table:
     def drop(self):
         self.table_drop = "DROP TABLE {exists} {table}".format(table=self.table, exists='IF ' + str(
             self.table_exist) if self.table_exist is not "" else "")
-        t_result = self.query(self.table_drop)
+        t_result = self.DB.query(self.table_drop)
         self.error = t_result.Exception
         return self
 
@@ -101,11 +106,11 @@ class Table:
             _or = ""
 
         value = value if value is not "" else ""
-        self.table_select = "SELECT {value}{distinct}{values}{pluck}{max}{min}{count}{avg} FROM {table}{exists}{notexist}{outerjoin}{join}{leftjoin}{rightjoin}{where}{whereBetween}{whereNotBetween}{wherenotin}{orwhere}{groupBy}{orderBy}{limit}".format(
+
+        self.table_select = "SELECT {value}{distinct}{values}{max}{min}{count}{avg} FROM {table}{exists}{notexist}{outerjoin}{join}{leftjoin}{rightjoin}{where}{whereisnull}{wherenotnull}{whereBetween}{whereNotBetween}{wherenotin}{orwhere}{groupBy}{having}{orderBy}{limit}{take}".format(
             distinct=self.table_distinct,
             value=','.join(value) if self.table_count is "" else '',
-            values=values if self.table_count is "" else '',
-            pluck=self.table_pluck if self.table_pluck is not "" else '',
+            values=values if self.table_count is "" is "" else '',
             max=self.table_max,
             min=self.table_min,
             count=self.table_count if len(self.table_outerjoin) < 1 else '',
@@ -119,15 +124,28 @@ class Table:
             join=" ".join(self.table_join),
             leftjoin=" ".join(self.table_leftjoin),
             rightjoin=" ".join(self.table_rightjoin),
+            whereisnull=str(" WHERE") + str(''.join(self.table_whereisnull)) if len(self.table_whereisnull) > 0 else '',
+            wherenotnull=str(" WHERE") + str(''.join(self.table_wherenotnull)) if len(
+                self.table_wherenotnull) > 0 else '',
             where=str(" WHERE") + str(_and.join(self.table_where)) if len(self.table_where) > 0 else '',
             wherenotin=str(_where) + str(_and) + str(self.table_wherenotin) if len(
                 self.table_wherenotin) > 0 is not "" else '',
             orwhere=str(_or) + str(_or.join(self.table_orwhere)),
             groupBy=self.table_groupby,
             orderBy=self.table_orderby,
-            limit=self.table_limit
+            limit=self.table_limit,
+            take=self.table_take,
+            having=self.table_having
         )
 
+        return self
+
+    def union(self, string):
+        self.table_select = "{} UNION {}".format(string, self.table_select)
+        return self
+
+    def unionall(self, string):
+        self.table_select = "{} UNION ALL {}".format(string, self.table_select)
         return self
 
     def max(self, column):
@@ -176,7 +194,7 @@ class Table:
 
         return self
 
-    def orOn(self):
+    def orOn(self, variable):
         if len(variable) > 2:
             variables = variable[0]
             sign = variable[1]
@@ -190,7 +208,7 @@ class Table:
         self.table_orOn.append(table_orOn)
         return self
 
-    def on(self):
+    def on(self, variable):
 
         if len(variable) > 2:
 
@@ -295,20 +313,40 @@ class Table:
         return self
 
     def whereNull(self, string):
-        self.table_whereisnull = " WHERE {string} IS NULL".format(string=string)
+
+        self.table_whereisnull = " {string} IS NULL".format(string=string)
+        return self
+
+    def whereNotNull(self, string):
+        self.table_wherenotnull = "  {string} IS NOT NULL".format(string=string)
         return self
 
     def delete(self):
         self.table_delete = "DELETE FROM {table} {where}".format(table=self.table, where=self.table_where)
-        t_result = self.query(self.table_delete)
+        t_result = self.DB.query(self.table_delete)
         return t_result.save() if t_result.Exception == "" else t_result.Exception
 
     def groupBy(self, *values):
         self.table_groupby = " GROUP BY {values}".format(values=' , '.join(values))
         return self
 
-    def orderBy(self, value, sort):
+    def having(self, *values):
+        self.table_having = " HAVING {values}".format(values=' , '.join(values))
+        return self
+
+    def havingRaw(self, values):
+        havingRaw = " HAVING {values}".format(values=' , '.join(values))
+        return havingRaw
+
+    def orHavingRaw(self, values):
+        orHavingRaw = " HAVING {values}".format(values=' OR '.join(values))
+
+        return orHavingRaw
+
+    def orderBy(self, value, sort=""):
+
         self.table_orderby = " ORDER BY {value} {sort}".format(value=value, sort=sort)
+
         return self
 
     def offset(self, offset=""):
@@ -318,6 +356,16 @@ class Table:
     def limit(self, limits):
 
         self.table_limit = " LIMIT {offset} {limit}".format(offset=self.table_offset, limit=limits)
+        return self
+
+    def skip(self, offset=""):
+        self.table_skip = str(offset) + ',' if offset is not "" else 0
+
+        return self
+
+    def take(self, limits):
+
+        self.table_take = " LIMIT {offset} {limit}".format(offset=self.table_offset, limit=limits)
         return self
 
     def value(self, *values):
@@ -352,12 +400,12 @@ class Table:
     def outerJoin(self, *variable):
 
         if len(variable) > 3:
-            table = variable[0]
+            table = str(variable[0])
             variables = variable[1]
             sign = variable[2]
             string = variable[3]
         elif len(variable) == 3:
-            table = variable[0]
+            table = str(variable[0])
             variables = variable[1]
             sign = '='
             string = variable[2]
@@ -368,11 +416,13 @@ class Table:
             sign = ""
             string = ""
 
-        table_outerjoin = " LEFT OUTER JOIN  {table} ON {variable} {sign} {string}".format(table=str(table),
+
+        table_outerjoin = " LEFT OUTER JOIN  {table} ON {variable} {sign} {string}".format(table=table,
                                                                                            variable=variables,
                                                                                            sign=sign, string=string)
         self.table_outerjoin.append(table_outerjoin)
         return self
+
 
     def fromTable(self, *table):
 
@@ -399,7 +449,7 @@ class Table:
             string = ""
 
         table_leftjoin = " LEFT JOIN {table} ON {variable} {sign} {string}".format(table=str(self.prefix) + str(table),
-                                                                                   variable=variable, sign=sign,
+                                                                                   variable=variables, sign=sign,
                                                                                    string=string)
 
         self.table_leftjoin.append(table_leftjoin)
@@ -425,38 +475,142 @@ class Table:
             string = ""
 
         table_rightjoin = " RIGHT JOIN {table} ON {variable} {sign} {string}".format(
-            table=str(self.prefix) + str(table), variable=variable, sign=sign, string=string)
+            table=str(self.prefix) + str(table), variable=variables, sign=sign, string=string)
         self.table_rightjoin.append(table_rightjoin)
         return self
 
-    def pluck(self, *column):
-        self.table_pluck = ",{column}".format(column=' AS '.join(column))
-        return self
+    def pluck(self, column, key=""):
 
-        def find(self, num=0):
-            self.table_find = "SELECT * FROM {table} ".format(table=str(self.prefix) + str(self.table))
-            t_result = self.DB.query(self.table_find)
-            r = ""
-            if t_result.Exception == "":
-                get = self.get()
-                if get.rowCount > 0:
-                    rg = get.result
-                    for l in rg:
-                        rf = {}
-                        if Version.PYVERSION_MA <= 2:
-                            lt = l.iteritems()
-                        else:
-                            lt = l.items()
-                        for k, v in lt:
-                            lk = l[k]
-                            if lk == num:
-                                r = l
-                else:
-                    r = ""
+        self.table_select = "SELECT {column} FROM {table} ".format(table=str(self.table),
+                                                                   column="*" if len(column) < 1 else ' {}.{}'.format(
+                                                                       str(self.table), column))
+        self.get()
+        kl = []
+        if key is "":
+            for v in self.result:
+                for ks, vs in v.items():
+                    ls = vs
+                kl.append(ls)
+        else:
+            for v in self.result:
+                kd = {}
+                for ks, vs in v.items():
+                    l = {key: vs}
+                    kd.update({key: vs})
+
+                kl.append(kd)
+
+        return kl
+
+    def chunk(self, number, funcquery=""):
+
+        if self.table_value is not "":
+            values = self.table_value
+
+        else:
+            values = '*'
+
+        if self.table_where is not "":
+            _and = " AND "
+
+            _where = ""
+        else:
+            _and = ""
+            _where = " WHERE "
+
+        if len(self.table_orwhere) > 0:
+            _or = " OR " if _where is not "WHERE" else ''
+
+        else:
+            _or = ""
+
+        self.table_select = "SELECT {distinct}{values}{max}{min}{count}{avg} FROM {table}{exists}{notexist}{outerjoin}{join}{leftjoin}{rightjoin}{where}{whereisnull}{wherenotnull}{whereBetween}{whereNotBetween}{wherenotin}{orwhere}{groupBy}{having}{orderBy}{limit}{take}".format(
+            distinct=self.table_distinct,
+
+            values=values if self.table_count is "" is "" else '',
+            max=self.table_max,
+            min=self.table_min,
+            count=self.table_count if len(self.table_outerjoin) < 1 else '',
+            avg=self.table_avg,
+            table=self.table,
+            exists=self.table_exist,
+            whereBetween=str(" WHERE") + self.table_whereBetween if len(self.table_whereBetween) > 0 else '',
+            whereNotBetween=str(" WHERE") + self.table_whereNotBetween if len(self.table_whereNotBetween) > 0 else '',
+            notexist=self.table_notexist,
+            outerjoin=" ".join(self.table_outerjoin),
+            join=" ".join(self.table_join),
+            leftjoin=" ".join(self.table_leftjoin),
+            rightjoin=" ".join(self.table_rightjoin),
+            whereisnull=str(" WHERE") + str(''.join(self.table_whereisnull)) if len(self.table_whereisnull) > 0 else '',
+            wherenotnull=str(" WHERE") + str(''.join(self.table_wherenotnull)) if len(
+                self.table_wherenotnull) > 0 else '',
+            where=str(" WHERE") + str(_and.join(self.table_where)) if len(self.table_where) > 0 else '',
+            wherenotin=str(_where) + str(_and) + str(self.table_wherenotin) if len(
+                self.table_wherenotin) > 0 is not "" else '',
+            orwhere=str(_or) + str(_or.join(self.table_orwhere)),
+            groupBy=self.table_groupby,
+            orderBy=self.table_orderby,
+            limit=self.table_limit,
+            take=self.table_take,
+            having=self.table_having)
+
+        self.get()
+        num = int(number)
+
+        kl = []
+        if funcquery is "":
+
+            for v in self.result:
+                num -= 1
+                kd = {}
+                for ks, vs in v.items():
+                    if num > 0:
+                        kd.update({ks: vs})
+                ++num
+                kl.append(kd)
+
+            return kl
+        else:
+            result = ""
+            for v in self.result:
+                kd = {}
+                for ks, vs in v.items():
+
+                    if num > 0:
+                        lf = '{}'.format(ks)
+                        if '{' + lf + '}' in funcquery:
+                            table_update = str(funcquery).replace('{' + lf + '}', str(vs))
+
+                            t_result = self.DB.query(table_update)
+
+                            result = t_result.save() if t_result.Exception == "" else t_result.Exception
+            return result
+
+    def find(self, num=0):
+        self.table_find = "SELECT * FROM {table} ".format(table=str(self.table))
+        t_result = self.DB.query(self.table_find)
+        r = ""
+        if t_result.Exception == "":
+            get = self.get()
+            if get.rowCount > 0:
+                rg = get.result
+                for l in rg:
+                    rf = {}
+                    if Version.PYVERSION_MA <= 2:
+                        lt = l.iteritems()
+                    else:
+                        lt = l.items()
+                    for k, v in lt:
+                        lk = l[k]
+                        if lk == num:
+                            r = l
             else:
-                r = t_result.Exception
+                r = ""
+        else:
+            r = t_result.Exception
 
-            return r
+        return r
+
 
     def update(self, data=[]):
         if (type(data) == list):
@@ -476,7 +630,7 @@ class Table:
                 lcolumn = ' , '.join(column)
 
                 table_update = "UPDATE {table} SET {column} {where}".format(
-                        table=str(self.prefix) + str(self.table), column=lcolumn, where=self.table_where)
+                        table=str(self.table), column=lcolumn, where=self.table_where)
                 t_result = self.DB.query(table_update)
                 return t_result.save() if t_result.Exception == "" else t_result.Exception
             else:
@@ -509,7 +663,7 @@ class Table:
                 kvariables = ' ,'.join(ksys)
 
                 table_insert = "INSERT INTO  {table}  ({column}) VALUES ({kvariables}) ".format(
-                        table=str(self.prefix) + str(self.table), column=lcolumn, kvariables=kvariables)
+                        table=str(self.table), column=lcolumn, kvariables=kvariables)
 
                 if len(value) == 1:
                     t_result = self.DB.query(table_insert, val[0])
@@ -520,6 +674,45 @@ class Table:
                 return "Empty Data"
         else:
             return "Only Accepts type list"
+
+
+    def insertGetId(self, data=[]):
+        if (type(data) == list):
+            if len(data) > 0:
+                ksys = []
+                value = []
+                val = []
+                column = []
+
+                for l in data:
+                    value.append(l)
+                    if Version.PYVERSION_MA <= 2:
+                        lt = l.iteritems()
+                    else:
+                        lt = l.items()
+                    for k, v in lt:
+
+                        if k not in column:
+                            column.append(k)
+                            ksys.append('?')
+                    val.append(tuple(l.values()))
+
+                lcolumn = ' , '.join(column)
+                kvariables = ' ,'.join(ksys)
+
+                table_insert = "INSERT INTO  {table}  ({column}) VALUES ({kvariables}) ".format(
+                        table=str(self.table), column=lcolumn, kvariables=kvariables)
+
+                if len(value) == 1:
+                    t_result = self.DB.query(table_insert, val[0])
+                else:
+                    t_result = self.DB.querymultiple(table_insert, val)
+                return t_result.lastId() if t_result.Exception == "" else t_result.Exception
+            else:
+                return "Empty Data"
+        else:
+            return "Only Accepts type list"
+
 
     def create(self):
         if type(self.tabledict) == dict:
@@ -533,16 +726,25 @@ class Table:
     def raw(self, rawstring):
         return rawstring
 
-    def query(self, raw):
-        return self.DB.query(raw)
-
     def clear(self):
         if Version.PYVERSION_MA <= 2 and Version <= 7:
             self.table_where[:]
+            self.table_orwhere[:]
+            self.table_whereisnull[:]
+            self.table_wherenotnull[:]
+            self.table_join[:]
+            self.table_leftjoin[:]
+            self.table_rightjoin[:]
+            self.table_outerjoin[:]
         elif Version.PYVERSION_MA == 3 and Version.PYVERSION_MI <= 3:
             self.table_where[:]
-            self.table_where[:]
             self.table_orwhere[:]
+            self.table_whereisnull[:]
+            self.table_wherenotnull[:]
+            self.table_join[:]
+            self.table_leftjoin[:]
+            self.table_rightjoin[:]
+            self.table_outerjoin[:]
         elif Version.PYVERSION_MA == 3 and Version.PYVERSION_MI >= 4:
             self.table_where.clear()
             self.table_orwhere.clear()
@@ -550,6 +752,8 @@ class Table:
             self.table_leftjoin.clear()
             self.table_rightjoin.clear()
             self.table_outerjoin.clear()
+            self.table_whereisnull.clear()
+            self.table_wherenotnull.clear()
 
         self.table_select = ""
         self.table_whereBetween = ""
@@ -562,7 +766,6 @@ class Table:
         self.table_drop = ""
         self.table_delete = ""
         self.table_value = ""
-        self.table_pluck = ""
         self.table_groupby = ""
         self.table_orderby = ""
         self.table_offset = ""
@@ -576,9 +779,15 @@ class Table:
         self.table_avg = ""
         self.error = ""
         self.table_On = ""
+        self.table_skip = ""
+        self.table_take = ""
+        self.table_having = ""
+
+    def first(self):
+        self.get()
+        return self.result[0]
 
     def get(self):
-
         t_result = self.DB.query(self.table_select)
 
         self.error = t_result.Exception
@@ -587,3 +796,6 @@ class Table:
         self.clear()
 
         return self
+
+    def set(self):
+        return self.table_select

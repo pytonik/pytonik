@@ -29,6 +29,8 @@ It can be used to perform most database operations in your application and works
 
 
 
+    TABLES = {}
+
     TABLES['users'] = (
             "CREATE TABLE `users` ("
             "  `users_id` int(11) NOT NULL AUTO_INCREMENT,"
@@ -41,7 +43,7 @@ It can be used to perform most database operations in your application and works
             "  PRIMARY KEY (`emp_no`)"
             ") ENGINE=InnoDB")
 
-        TABLES['banks'] = (
+    TABLES['banks'] = (
             "CREATE TABLE `banks` ("
             "  `banks_id` int(11) NOT NULL AUTO_INCREMENT,"
             "  `users_id` int(11) NOT NULL,"
@@ -50,7 +52,7 @@ It can be used to perform most database operations in your application and works
             "  PRIMARY KEY (`banks_id`)"
             ") ENGINE=InnoDB")
 
-        TABLES['transactions'] = (
+    TABLES['transactions'] = (
             "CREATE TABLE `transactions` ("
             "  `transaction_id` int(11) NOT NULL,"
             "  `users_id` int(11) NOT NULL,"
@@ -73,7 +75,7 @@ Create table using ``create`` method
 drop
 ----
 
-If you wish to ``drop`` the entire table, which will delete the table, you may use the ``drop`` method:
+If you wish to ``drop`` the entire table, you may use the ``drop`` method:
 
 
 **Drop All**
@@ -139,7 +141,7 @@ If the table has an auto-incrementing id, use the insertGetId method to insert a
 
 .. note::
 
-    When using PostgreSQL the insertGetId method expects the auto-incrementing column to be named id. If you would like to retrieve the ID from a different "sequence",
+    When using PostgreSQL the insertGetId method expects the auto-incrementing column to be named id. If you would like to retrieve the ID from a different ``sequence``,
     you may pass the column name as the second parameter to the insertGetId method.
 
 update
@@ -197,28 +199,28 @@ If you don't even need an entire row, you may extract a single value from a reco
 The query schema also provides a variety of aggregate methods such as ``counts``, ``max``, ``min``, ``avg``,
 and ``sum``. You may call any of these methods after constructing your query:
 
-** MAX() **
+**MAX()**
 
 .. code-block:: python
 
 	DB.table('transactions').max('amount').select().get()
 
 
-** MIN() **
+**MIN()**
 
 
 .. code-block:: python
 
 	DB.table('transactions').min('amount').select().get()
 
-** AVG **
+**AVG**
 
 .. code-block:: python
 
 	DB.table('transactions').avg('amount').select().get()
 
 
-** COUNT() **
+**COUNT()**
 
 .. code-block:: python
 
@@ -233,8 +235,92 @@ You may combine these methods with other methods:
 
 
 
+**Determining If Records Exist**
+
+Instead of using the count method to determine if any records exist that match your query's constraints,
+you may use the exists and ``notExist`` methods:
+
+Example: **Exist**
+
+.. code-block:: python
+
+    DB.table('orders').where('finalized', 1).exists()
+
+Example: **notExist**
+
+.. code-block:: python
+
+    DB.table('orders')->where('finalized', 1).notExist()
+
+
+**Retrieving A Single Row / Column From A Table**
+
+If you just need to retrieve a single row from the database table, you may use the first method.
+This method will return a single dictionary object ``{}``:
+
+.. code-block:: python
+
+    user = DB::table('users')->where('status', 1)->first()
+
+    print(user["name"])
+
+
+**Retrieving A List Of Column Values**
+
+If you would like to retrieve a Collection containing the values of a single column, you may use the pluck method.
+In this example, we'll retrieve a Collection of role titles:
+
+.. code-block:: python
+
+    titles = DB::table('roles').pluck('title');
+
+    for  title in titles:
+         print(title)
+
+
+You may also specify a custom key column for the returned Collection:
+
+.. code-block:: python
+
+    roles = DB.table('roles').pluck('title', 'name');
+
+    for title in roles:
+
+        print(title["name"])
+
+
+
+If you need to work with thousands of database records, consider using the ``chunk`` method.
+This method retrieves a small chunk of the results at a time and feeds each chunk into a Closure for processing.
+This method is very useful for writing Artisan commands that process thousands of records.
+For example, let's work with the entire users table in chunks of 100 records at a time:
+
+.. code-block:: python
+
+    DB.table('users').orderBy('id').chunk(100)
+
+
+
+If you are updating database records while chunking results, your chunk results could change in unexpected ways. So,
+when updating records while chunking, it is always best to use the chunkById method instead.
+This method will automatically paginate the results based on the record's primary key:
+
+.. code-block:: python
+
+    users = DB.table('users').where('status ', 'PENDING').orderBy('users_id').chunk(100,
+    DB.table('countries').where('users_id', '{users_id}').updates([dict(vote='200', create_at='20/01/2020')])
+        )
+
+.. note::
+
+    When updating or deleting records inside the chunk callback, any changes to the primary key or foreign keys could affect the chunk query.
+    This could potentially result in records not being included in the chunked results.
+
 
 **Select Value**
+
+If you don't even need an entire row, you may extract a single value from a record using the ``value`` method.
+This method will return the value of the column directly
 
 Example 1.0:
 
@@ -500,6 +586,21 @@ The ``whereNotNull`` method verifies that the column's value is not ``NULL``:
 .. code-block:: python
 
     DB.table('users').whereNotNull('updated_at').select().get()
+
+
+The query schema also provides a quick way to ``union`` two queries together.
+For example, you may create an initial query and use the ``union`` method to ``union`` it with a second query:
+
+.. code-block:: python
+
+    first = DB.table('username').select().set()
+
+    users = DB.table('countries').orderBy('country_id').select().union(first).get()
+
+
+.. note::
+
+ The ``unionAll`` method is also available and has the same method signature as ``union``.
 
 
 join

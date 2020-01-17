@@ -3,15 +3,7 @@
 # Maintainer By: Emmanuel Martins
 # Maintainer Email: emmamartinscm@gmail.com
 # Created by BetaCodings on 14/01/2020.
-"""
-    sphinx.util.console
-    ~~~~~~~~~~~~~~~~~~~
 
-    Format colored console output.
-
-    :copyright: Copyright 2007-2019 by the Sphinx team, see AUTHORS.
-    :license: BSD, see LICENSE for details.
-"""
 
 import os
 import re

@@ -1,15 +1,5 @@
 #!/usr/bin/python
 
-"""
-	sphinx.cmd.quickstart
-	~~~~~~~~~~~~~~~~~~~~~
-
-	Quickly setup documentation source to work with Sphinx.
-
-	:copyright: Copyright 2007-2019 by the Sphinx team, see AUTHORS.
-	:license: BSD, see LICENSE for details.
-"""
-
 import argparse
 import locale
 import os
@@ -17,6 +7,7 @@ import re
 import sys
 import time
 import warnings
+from pytonik.cmd import lang
 from pytonik import Version
 from typing import Any, Callable, Dict, List, Pattern, Union
 from pytonik.cmd.console import (  # type: ignore
@@ -37,8 +28,41 @@ except ImportError:
 
 PROMPT_PREFIX = '> '
 
+
+if sys.platform == 'win32':
+    # On Windows, show questions as bold because of color scheme of PowerShell (refs: #5294).
+    COLOR_QUESTION = 'bold'
+else:
+    COLOR_QUESTION = 'purple'
+
 direct = {'controller': 'IndexController.py', 'lang': ['en.py', 'fr.py'], 'model': 'Index.py',
           'public': ['.htaccess', 'index.py'], 'views': 'index.html', '.env': '', '.htaccess': ''}
+
+def pathwhich():
+    pat = ""
+    if sys.platform == 'win32':
+        path = os.environ['PATH'].split(';')
+
+        for p in path:
+            if "Python" in p:
+                #python.exe
+                if 'python.exe' in p:
+                    pat = p
+                else:
+                    if p.endwith('/'):
+                        pat = p[:-1]+"/"+str("python.exe")
+                    else:
+                        pat = str(p)+"/"+str("python.exe")
+
+    else:
+        try:
+            pat = os.popen('which python').read()
+        except Exception as arr:
+            try:
+                pat = os.environ['__PYVENV_LAUNCHER__']
+            except Exception as arr:
+                print(arr)
+    return pat
 
 
 def context(lg):
@@ -70,7 +94,7 @@ RewriteRule ^(.*)$ index.py/$1 [L]
         \nApp = Web.App()
         \nApp.runs()
 
-        """.format(os.popen('which python').read()),
+        """.format(pathwhich()),
          'en.py':'{"lng.test":"sample text"}',
          'fr.py': '{"lng.test":"Exemple de texte"}',
         'index.html':
@@ -135,17 +159,35 @@ RewriteRule ^(.*)$ index.py/$1 [L]
 # function to get input from terminal -- overridden by the test suite
 def term_input(prompt: str) -> str:
     if sys.platform == 'win32':
-        # Important: On windows, readline is not enabled by default.  In these
-        #            environment, escape sequences have been broken.  To avoid the
-        #            problem, quickstart uses ``print()`` to show prompt.
+
         print(prompt, end='')
         return input('')
     else:
         return input(prompt)
 
 
-def __(l):
-    return l
+
+def __(mes_id):
+
+    try:
+        userlang = locale.getlocale()[0]
+
+        l_ = mes_id
+        for l in lang.lang:
+            if l == str(userlang):
+                getla = lang.lang.get(l, '')
+
+                if getla != "":
+                    l_ =  getla.get(mes_id, '')
+                    if l_ != "":
+                        l_ = getla.get(mes_id, '')
+                    else:
+                        l_ = mes_id
+                else:
+                    l_ = mes_id
+    except Exception as arr:
+        l_ = mes_id
+    return l_
 
 
 class ValidationError(Exception):
@@ -153,8 +195,8 @@ class ValidationError(Exception):
 
 
 def is_path(x: str) -> str:
-    x = path.expanduser(x)
-    if not path.isdir(x):
+    x = os.path.expanduser(x)
+    if not os.path.isdir(x):
         raise ValidationError(__("Please enter a valid path name."))
     return x
 
@@ -204,11 +246,14 @@ def get_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         usage='%(prog)s [OPTIONS] <PROJECT_DIR>',
         epilog=__("For more information, visit < https://pytonik.readthedocs.io >."),
-        description=__(""" """))
+        description=__("""Pytonik is a python framework built to enhance web development
+        fast and easy, also help web developers to build more apps with less codes.
+        it uses expressive architectural pattern, structured on model view controller MVC
+        and bundles of component to reuse while deploying the framework."""))
 
-    parser.add_argument('-q', '--quiet', action='store_true', dest='quiet',
+    parser.add_argument('-q', '--quit', action='store_true', dest='quit',
                         default=None,
-                        help=__('quiet mode'))
+                        help=__('quit mode'))
     parser.add_argument('--version', action='version', dest='show_version',
                         version='%%(prog)s %s' % Version.VERSION_TEXT)
 
@@ -219,39 +264,35 @@ def get_parser() -> argparse.ArgumentParser:
 
 
 def ask(d: Dict) -> None:
-    print(bold('Welcome to the Pytonik MVC Framework %s Start File Structure.' % Version.VERSION_TEXT))
+    print(bold(__('Welcome to the Pytonik MVC Framework %s Start File Structure.' % Version.VERSION_TEXT)))
 
-    print(__('''Please enter values for the following settings.
-	'''))
+    print(__('Please enter values for the following settings.'))
 
     if 'path' in d:
-        print(bold('''Selected root path: %s''' % os.getcwd()))
+        print(bold(__('''Selected root path: %s''' % os.getcwd())))
         d['path'] = os.getcwd()
 
-        d['step'] = do_prompt(__(''
-                                 'Do you want to create file pytonik in this directory  (y/n)'
-                                 ''),
+        d['step'] = do_prompt(__('Do you want to create file pytonik in this directory  (y/n)'),
                               'n', boolean)
-    else:
-        print(__('''Enter the root path for documentation.'''))
-        d['path'] = do_prompt(__('Root path for the documentation'), '.', is_path)
 
-    if d.get('step', '') == True:
+    if d.get('step', '') is True:
+
         if 'project' not in d:
-            print(__(''' Provide project name, it will be use in project folder creation, avoid space while typing '''))
+
+            print(__('''Provide project name, it will be use in project folder creation, avoid space while typing'''))
 
             d['project'] = do_prompt(bold('Project name'))
-            if d.get('project', '') is not "":
+            if d.get('project', '') != "":
 
-                if os.path.isdir(os.getcwd() + '/' + d.get('project', '')) == False:
+                if os.path.isdir(os.getcwd() + '/' + d.get('project', '')) is False:
 
-                    print(bold('''Project Inprogress ''') + ('please wait..'))
+                    print(bold(__('Project In-progress, please wait..')))
 
                     try:
 
                         os.mkdir(os.getcwd() + '/' + d.get('project', ''), mode=0o755)
 
-                        print(bold('Project {} Created Successfully'.format(d.get('project', ''))))
+                        print(bold(__('Project {} Created Successfully'.format(d.get('project', '')))))
 
                     except Exception as err:
                         print(red('Unable to create project {} directory'.format(
@@ -260,13 +301,10 @@ def ask(d: Dict) -> None:
                     make_file(direct, d)
 
 
-
-
-
                 else:
-                    d['cont'] = do_prompt(bold('Directory {} already exist, do you want to overwrite directoy (y/n)'.format(d.get('project', ''))),
+                    d['cont'] = do_prompt(bold(__('Directory {} already exist, do you want to overwrite directory (y/n)'.format(d.get('project', '')))),
                                           'n', boolean)
-                    if d.get('cont') == True:
+                    if d.get('cont') is True:
 
                         make_file(direct, d)
 
@@ -274,12 +312,12 @@ def ask(d: Dict) -> None:
                         sys.exit(-1)
 
             else:
-                d['quit'] = do_prompt(__('Do you want to quite (y/n)'), 'n', boolean)
+                d['quit'] = do_prompt(__('Do you want to quit (y/n)'), 'n', boolean)
 
     else:
-        d['quit'] = do_prompt(__('Do you want to quite (y/n)'), 'n', boolean)
+        d['quit'] = do_prompt(__('Do you want to quit (y/n)'), 'n', boolean)
 
-    if d.get('quit', '') == True:
+    if d.get('quit', '') is True:
         sys.exit(-1)
 
     print()
@@ -295,10 +333,10 @@ def make_file(direct, d):
     for kdir, vdir in itemsv:
 
         if kdir.startswith('.'):
-            print(bold(('File {} Created Successfully').format(kdir)))
+            print(bold(__('File {} Created Successfully').format(kdir)))
 
             if os.path.isfile(os.getcwd() + '/' + d.get('project', '') + '/' + str(
-                    kdir)) == False:
+                    kdir)) is False:
                 try:
 
                     f = open(os.getcwd() + '/' + d.get('project', '') + '/' + kdir, 'wt',  encoding='utf-8')
@@ -312,15 +350,14 @@ def make_file(direct, d):
 
                 except Exception as err:
 
-                    print(bold(red('Unable to create File  {}'.format(kdir))))
+                    print(bold(red(__(('Unable to create File  {}'.format(kdir))))))
 
-                if os.path.isfile(os.getcwd() + '/' + d.get('project', '') + '/' + str(
-                    kdir)) == True:
+                if os.path.isfile(os.getcwd() + '/' + d.get('project', '') + '/' + str(kdir)) is True:
                     try:
                         os.chmod(os.getcwd() + '/' + d.get('project', '') + '/' + str(kdir), mode=0o600)
-                        print(bold('File {} Permission Set {}'.format(kdir, '0600')))
+                        print(bold(__('File {} Permission Set {}'.format(kdir, '0600'))))
                     except Exception as arr:
-                        print(bold(red('Unable to Set file {} permission '.format(kdir))))
+                        print(bold(red(__('Unable to Set file {} permission '.format(kdir)))))
 
 
 
@@ -330,18 +367,18 @@ def make_file(direct, d):
             try:
                 os.mkdir(os.getcwd() + '/' + str(d.get('project', '')) + '/' + str(kdir), mode=0o755)
 
-                print(bold('''Folder {} Created Successfully'''.format(kdir)))
+                print(bold(__('''Folder {} Created Successfully'''.format(kdir))))
             except Exception as err:
-                print(bold(red('''Folder  {}  already exist'''.format(kdir))))
+                print(bold(red(__('''Folder  {}  already exist'''.format(kdir)))))
 
-            if direct[kdir] is not "":
+            if direct[kdir] != "":
                 if type(direct[kdir]) == list:
 
                     for ldir in direct[kdir]:
-                        if ldir is not "":
+                        if ldir != "":
                             if os.path.isfile(os.getcwd() + '/' + d.get('project',
                                                                         '') + '/' + str(
-                                kdir) + '/' + ldir) == False:
+                                kdir) + '/' + ldir) is False:
                                 try:
 
                                     f = open(
@@ -360,7 +397,7 @@ def make_file(direct, d):
 
                             if os.path.isfile(os.getcwd() + '/' + d.get('project',
                                                                         '') + '/' + str(
-                                kdir) + '/' + ldir) == True:
+                                kdir) + '/' + ldir) is True:
 
                                 if ldir.startswith('.'):
                                     try:
@@ -378,13 +415,13 @@ def make_file(direct, d):
 
                                     except Exception as err:
 
-                                        print(bold(red('Unable to Set file {} permission '.format(ldir))))
+                                        print(bold(red(__('Unable to Set file {} permission '.format(ldir)))))
 
 
                 else:
 
                     if os.path.isfile(os.getcwd() + '/' + d.get('project', '') + '/' + str(
-                            kdir) + '/' + direct[kdir]) == False:
+                            kdir) + '/' + direct[kdir]) is False:
 
                         try:
 
@@ -397,11 +434,11 @@ def make_file(direct, d):
 
                         except Exception as err:
 
-                            print(bold(red('Unable to create File  {}'.format(direct[kdir]))))
+                            print(bold(red(__('Unable to create File  {}'.format(direct[kdir])))))
 
                         finally:
 
-                            print(bold('File {} Created Successfully'.format(direct[kdir])))
+                            print(bold(__('File {} Created Successfully'.format(direct[kdir]))))
 
 
 

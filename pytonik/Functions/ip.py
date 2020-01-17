@@ -4,7 +4,7 @@
 # Maintainer Email: emmamartinscm@gmail.com
 # Created by BetaCodings on 07/12/2019.
 import os
-from pytonik_ip_vpn_checker import Version
+from pytonik import Version
 
 if Version.PYVERSION_MA < 3 and  Version.PYVERSION_MI <= 7:
     from urllib2 import urlopen
