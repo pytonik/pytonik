@@ -417,9 +417,7 @@ class Table:
             string = ""
 
 
-        table_outerjoin = " LEFT OUTER JOIN  {table} ON {variable} {sign} {string}".format(table=table,
-                                                                                           variable=variables,
-                                                                                           sign=sign, string=string)
+        table_outerjoin = " LEFT OUTER JOIN  {table} ON {variable} {sign} {string}".format(table=table, variable=variables, sign=sign, string=string)
         self.table_outerjoin.append(table_outerjoin)
         return self
 

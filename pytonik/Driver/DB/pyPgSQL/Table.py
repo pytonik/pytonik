@@ -390,8 +390,7 @@ class Table:
             sign = ""
             string = ""
 
-        table_join = " JOIN {table} ON {variable} {sign} {string}".format(table=str(self.prefix) + str(table),
-                                                                          variable=variables, sign=sign, string=string)
+        table_join = " JOIN {table} ON {variable} {sign} {string}".format(table=str(self.prefix) + str(table),variable=variables, sign=sign, string=string)
         self.table_join.append(table_join)
 
         return self
