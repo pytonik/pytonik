@@ -8,6 +8,7 @@ Knowing how to used will not make me better but limited. I think I need to impro
 how can I break my limit. The best way to do so, is to know how to create my own custom  ``model`` and ``controller``.
 Great, I believe I can now start developing scalable web application.
 
+
 Model
 -----
 
@@ -242,3 +243,76 @@ we can call each of the method defined in ``Users``
     }
     mvc.views('user', data)
 
+.. note::
+
+    ``App`` Module has three important methods ``header`` is called when displaying strings or characters, ``redirect``  from initial page to the preferred page. ``referer`` from initial to the previous page.
+    
+ ``header`` method has ``type`` argument with default value ``text/html``.
+
+Example:
+
+.. code-block:: python
+
+    from pytonik import Web
+    mvc = Web.App()
+
+    def index():
+
+        mvc.header()
+        
+        print("i love pytonik")
+        
+
+``redirect`` method has ``location`` argument with default value ``/``. 
+
+Example 1.0:
+
+.. code-block:: python
+
+    from pytonik import Web
+    mvc = Web.App()
+
+    def index():
+        mvc.redirect('/login')
+                
+Example 1.1: Using ``url`` function together with ``redirect`` method
+
+.. code-block:: python
+
+    from pytonik import Web
+    mvc = Web.App()
+
+    def index():
+        
+        mvc.redirect(Web.url('/login'))
+                                
+                                
+                                
+``referer`` method has ``location`` argument with default value ``/``.
+
+Example 1.0:
+
+.. code-block:: python
+
+    from pytonik import Web
+    mvc = Web.App()
+
+    def index():
+        mvc.referer()
+                                
+.. note::
+
+    Cases where referer page does not exist, set an alternative location ``referer('home')``. Let say previous page is not found, web have to provide the page. This means where are directing to **home** page
+
+Example 1.1: Using ``url`` function together with ``referer`` method
+
+.. code-block:: python
+
+    from pytonik import Web
+    mvc = Web.App()
+    
+    def index():
+            
+        mvc.referer(Web.url('/home'))
+                                    
+             
