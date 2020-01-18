@@ -178,7 +178,7 @@ it outline how to use form to perform task such as Login, Registering, Posting, 
 <li><p>file</p></li>
 <li><p>param</p></li>
 </ul>
-<p>method Return <code class="docutils literal notranslate"><span class="pre">`</span> <span class="pre">POST</span> <span class="pre">`</span></code> and <code class="docutils literal notranslate"><span class="pre">`</span> <span class="pre">GET</span> <span class="pre">`</span></code></p>
+<p>method Return <code class="docutils literal notranslate"><span class="pre">POST</span></code> and <code class="docutils literal notranslate"><span class="pre">GET</span></code></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Request</span><span class="o">.</span><span class="n">method</span>
 </pre></div>
 </div>
@@ -193,7 +193,7 @@ it outline how to use form to perform task such as Login, Registering, Posting, 
 </div></blockquote>
 <p>get param returns the value of GET request by accessing the key attributes to obtain the value from either a
 custom http query string <code class="docutils literal notranslate"><span class="pre">https://test.com/id/2/name/dog/age/3</span></code>  or http request query
-string <code class="docutils literal notranslate"><span class="pre">`https://test.com/?id=2&amp;name=dog&amp;age=3</span> <span class="pre">`</span></code> . which get attribute cannot perform such tasks</p>
+string <code class="docutils literal notranslate"><span class="pre">https://test.com/?id=2&amp;name=dog&amp;age=3</span></code> . which get attribute cannot perform such tasks</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Request</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
 
 <span class="n">Request</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
@@ -214,7 +214,7 @@ Demonstration form with html code</p>
 <span class="o">&lt;/</span><span class="n">form</span><span class="o">&gt;</span>
 </pre></div>
 </div>
-<p>Form actions is handle using the help of operators together with conditional statement to make it easy to check if fields are empty or not :- where <code class="docutils literal notranslate"><span class="pre">`is`</span></code>    is the same as <code class="docutils literal notranslate"><span class="pre">`==`</span></code> and <code class="docutils literal notranslate"><span class="pre">`is</span> <span class="pre">not`</span></code> is the same as <code class="docutils literal notranslate"><span class="pre">`</span> <span class="pre">!=`</span></code>.
+<p>Form actions is handle using the help of operators together with conditional statement to make it easy to check if fields are empty or not :- where <code class="docutils literal notranslate"><span class="pre">is</span></code>    is the same as <code class="docutils literal notranslate"><span class="pre">==</span></code> and <code class="docutils literal notranslate"><span class="pre">is</span> <span class="pre">not</span></code> is the same as <code class="docutils literal notranslate"><span class="pre">!=</span></code>.
 Notice that the form method is set to <code class="docutils literal notranslate"><span class="pre">POST</span></code></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">Request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
 

@@ -1,7 +1,7 @@
 Functions
 =========
 
-**Pytonik** Provides bundles of in-bulit functions that support ```mvc``` app development,
+**Pytonik** Provides bundles of in-bulit functions that support ``mvc`` app development,
 Each of the functions are useful and will break all limit and doubt as you get to know how to use them.
 These modules are created to make app building more easier and faster.
 Expect more functions in new released versions.
@@ -337,7 +337,7 @@ Pytonik ``curl`` is an in-built module support sending or initiating actions wit
 It enables access to API’s and return respond back to the application, in form of JSON, HTML, RAW data etc.
 In this case the use of curl module is to ``POST``, ``GET``,  ``HEAD``, ``PUT`` information in internal or from external API’s URL
 using attributes like ``status``, ``reason``,  and ``result``.  Whereby ``status`` handles response codes
-example **200**, **404**, **500**, etc. which the ```reason``` of this status could be OK, Not Found, Internal server Error, etc.
+example **200**, **404**, **500**, etc. which the ``reason`` of this status could be OK, Not Found, Internal server Error, etc.
 Get excepted information from ``result``
 
 **Import Module**
@@ -455,7 +455,7 @@ Example 1 : returns ``32 minutes ago.``
 Date: return correct date, let say todays date ``2020-01-09`` accept ``format`` as argument, default ``format``
 is set to ``%Y-%m-%d``
 
-Example 1 : returns ``12:30:59```
+Example 1 : returns ``12:30:59``
 
 
 .. code-block:: python
@@ -463,7 +463,7 @@ Example 1 : returns ``12:30:59```
     nowdatetime.date()
 
 
-Time: return correct time, let say my present ``12:30:59`` accept format as argument, default format is set to ``` %H:%M:%S```
+Time: return correct time, let say my present ``12:30:59`` accept format as argument, default format is set to ``%H:%M:%S``
 
 **Example 1:** returns ``12:30:59``
 
@@ -517,7 +517,7 @@ Example 2: returns ``2020-01-09 08:32:18``
 
 
 
-Past: returns previous minutes, hours, days, weeks, seconds, let say we want to go back to 27 days from today date and time.. now in our calendar todays date and time is  ```2020-01-09 08:32:18 ```
+Past: returns previous minutes, hours, days, weeks, seconds, let say we want to go back to 27 days from today date and time.. now in our calendar todays date and time is  ``2020-01-09 08:32:18``
 
 Example : returns ``2019-12-13 08:58:15.983552``
 
@@ -542,7 +542,7 @@ let say we want to look into 27 days from today date and time.. now in our calen
 
 Subtract: subtracting or minus a date time from another from date time..
 this process comment both date time to provide their format respectively. Argument are
-```date1```, ```format1``` and  ```date2``` ```format2```
+``date1``, ``format1`` and  ``date2`` ``format2``
 
 Example : returns ``27``
 
@@ -606,8 +606,8 @@ Let make callable outside template engine
 Validations
 -----------
 
-Pytonik provide bundles of validity functions that help to validate and trim syntax, string and characters.
-This Callable class are user when developing application that involves or supporter accuracy in data supply.
+Pytonik  ``validation`` module provides bundles of validity functions that help to validate and trim syntax, string and characters.
+This Callable module are used when developing application that involves checking of inputted datas or support accuracy in data supply.
 
 
 **Import Module**

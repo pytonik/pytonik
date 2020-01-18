@@ -177,7 +177,7 @@
             
   <div class="section" id="functions">
 <h1>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h1>
-<p><strong>Pytonik</strong> Provides bundles of in-bulit functions that support <code class="docutils literal notranslate"><span class="pre">`mvc`</span></code> app development,
+<p><strong>Pytonik</strong> Provides bundles of in-bulit functions that support <code class="docutils literal notranslate"><span class="pre">mvc</span></code> app development,
 Each of the functions are useful and will break all limit and doubt as you get to know how to use them.
 These modules are created to make app building more easier and faster.
 Expect more functions in new released versions.</p>
@@ -428,7 +428,7 @@ We recommend installation of <code class="docutils literal notranslate"><span cl
 It enables access to API’s and return respond back to the application, in form of JSON, HTML, RAW data etc.
 In this case the use of curl module is to <code class="docutils literal notranslate"><span class="pre">POST</span></code>, <code class="docutils literal notranslate"><span class="pre">GET</span></code>,  <code class="docutils literal notranslate"><span class="pre">HEAD</span></code>, <code class="docutils literal notranslate"><span class="pre">PUT</span></code> information in internal or from external API’s URL
 using attributes like <code class="docutils literal notranslate"><span class="pre">status</span></code>, <code class="docutils literal notranslate"><span class="pre">reason</span></code>,  and <code class="docutils literal notranslate"><span class="pre">result</span></code>.  Whereby <code class="docutils literal notranslate"><span class="pre">status</span></code> handles response codes
-example <strong>200</strong>, <strong>404</strong>, <strong>500</strong>, etc. which the <code class="docutils literal notranslate"><span class="pre">`reason`</span></code> of this status could be OK, Not Found, Internal server Error, etc.
+example <strong>200</strong>, <strong>404</strong>, <strong>500</strong>, etc. which the <code class="docutils literal notranslate"><span class="pre">reason</span></code> of this status could be OK, Not Found, Internal server Error, etc.
 Get excepted information from <code class="docutils literal notranslate"><span class="pre">result</span></code></p>
 <p><strong>Import Module</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytonik.Functions.curl</span> <span class="kn">import</span> <span class="n">curl</span>
@@ -507,11 +507,11 @@ engine, controller and model</p>
 </div>
 <p>Date: return correct date, let say todays date <code class="docutils literal notranslate"><span class="pre">2020-01-09</span></code> accept <code class="docutils literal notranslate"><span class="pre">format</span></code> as argument, default <code class="docutils literal notranslate"><span class="pre">format</span></code>
 is set to <code class="docutils literal notranslate"><span class="pre">%Y-%m-%d</span></code></p>
-<p>Example 1 : returns <code class="docutils literal notranslate"><span class="pre">12:30:59`</span></code></p>
+<p>Example 1 : returns <code class="docutils literal notranslate"><span class="pre">12:30:59</span></code></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nowdatetime</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Time: return correct time, let say my present <code class="docutils literal notranslate"><span class="pre">12:30:59</span></code> accept format as argument, default format is set to <code class="docutils literal notranslate"><span class="pre">`</span> <span class="pre">%H:%M:%S`</span></code></p>
+<p>Time: return correct time, let say my present <code class="docutils literal notranslate"><span class="pre">12:30:59</span></code> accept format as argument, default format is set to <code class="docutils literal notranslate"><span class="pre">%H:%M:%S</span></code></p>
 <p><strong>Example 1:</strong> returns <code class="docutils literal notranslate"><span class="pre">12:30:59</span></code></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nowdatetime</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 </pre></div>
@@ -540,7 +540,7 @@ Let say our present  <code class="docutils literal notranslate"><span class="pre
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nowdatetime</span><span class="o">.</span><span class="n">timestamp</span><span class="p">(</span><span class="s1">&#39;1578576738&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Past: returns previous minutes, hours, days, weeks, seconds, let say we want to go back to 27 days from today date and time.. now in our calendar todays date and time is  <code class="docutils literal notranslate"><span class="pre">`2020-01-09</span> <span class="pre">08:32:18</span> <span class="pre">`</span></code></p>
+<p>Past: returns previous minutes, hours, days, weeks, seconds, let say we want to go back to 27 days from today date and time.. now in our calendar todays date and time is  <code class="docutils literal notranslate"><span class="pre">2020-01-09</span> <span class="pre">08:32:18</span></code></p>
 <p>Example : returns <code class="docutils literal notranslate"><span class="pre">2019-12-13</span> <span class="pre">08:58:15.983552</span></code></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nowdatetime</span><span class="o">.</span><span class="n">past</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 </pre></div>
@@ -554,7 +554,7 @@ let say we want to look into 27 days from today date and time.. now in our calen
 </div>
 <p>Subtract: subtracting or minus a date time from another from date time..
 this process comment both date time to provide their format respectively. Argument are
-<code class="docutils literal notranslate"><span class="pre">`date1`</span></code>, <code class="docutils literal notranslate"><span class="pre">`format1`</span></code> and  <code class="docutils literal notranslate"><span class="pre">`date2`</span></code> <code class="docutils literal notranslate"><span class="pre">`format2`</span></code></p>
+<code class="docutils literal notranslate"><span class="pre">date1</span></code>, <code class="docutils literal notranslate"><span class="pre">format1</span></code> and  <code class="docutils literal notranslate"><span class="pre">date2</span></code> <code class="docutils literal notranslate"><span class="pre">format2</span></code></p>
 <p>Example : returns <code class="docutils literal notranslate"><span class="pre">27</span></code></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nowdatetime</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">date1</span><span class="o">=</span><span class="s1">&#39;2020-01-09 08:32:18&#39;</span><span class="p">,</span> <span class="n">format1</span><span class="o">=</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">,</span>  <span class="n">date2</span><span class="o">=</span><span class="s1">&#39;2019-12-13 08:58:15.983552&#39;</span><span class="p">,</span> <span class="n">format2</span><span class="o">=</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S.</span><span class="si">%f</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
@@ -591,8 +591,8 @@ this might result in page not found or error path.</p>
 </div>
 <div class="section" id="validations">
 <h2>Validations<a class="headerlink" href="#validations" title="Permalink to this headline">¶</a></h2>
-<p>Pytonik provide bundles of validity functions that help to validate and trim syntax, string and characters.
-This Callable class are user when developing application that involves or supporter accuracy in data supply.</p>
+<p>Pytonik  <code class="docutils literal notranslate"><span class="pre">validation</span></code> module provides bundles of validity functions that help to validate and trim syntax, string and characters.
+This Callable module are used when developing application that involves checking of inputted datas or support accuracy in data supply.</p>
 <p><strong>Import Module</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytonik.Functions.validation</span> <span class="kn">import</span> <span class="n">validation</span>
 </pre></div>

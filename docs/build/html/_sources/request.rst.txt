@@ -22,7 +22,7 @@ it outline how to use form to perform task such as Login, Registering, Posting, 
 •	param
 
 
-method Return ``` POST ``` and ``` GET ```
+method Return ``POST`` and ``GET``
 
 
 .. code-block:: python
@@ -43,7 +43,7 @@ post returns the value of ``POST`` request by obtaining the value using key attr
 
 get param returns the value of GET request by accessing the key attributes to obtain the value from either a
 custom http query string ``https://test.com/id/2/name/dog/age/3``  or http request query
-string ```https://test.com/?id=2&name=dog&age=3 ``` . which get attribute cannot perform such tasks
+string ``https://test.com/?id=2&name=dog&age=3`` . which get attribute cannot perform such tasks
 
 .. code-block:: python
 
@@ -73,7 +73,7 @@ Demonstration form with html code
 
 
 
-Form actions is handle using the help of operators together with conditional statement to make it easy to check if fields are empty or not :- where ```is```    is the same as ```==``` and ```is not``` is the same as ``` !=```.
+Form actions is handle using the help of operators together with conditional statement to make it easy to check if fields are empty or not :- where ``is``    is the same as ``==`` and ``is not`` is the same as ``!=``.
 Notice that the form method is set to ``POST``
 
 .. code-block:: python
