@@ -245,9 +245,11 @@ we can call each of the method defined in ``Users``
 
 .. note::
 
-    ``App`` Module has three important methods ``header`` is called when displaying strings or characters, ``redirect``  from initial page to the preferred page. ``referer`` from initial to the previous page.
+  ``App`` Module has three important methods ``header`` is called when displaying strings or characters, ``redirect``  from initial page to the preferred page. ``referer`` from initial to the previous page.
     
- ``header`` method has ``type`` argument with default value ``text/html``.
+
+
+``header`` method has ``type`` argument with default value ``text/html``.
 
 Example:
 
