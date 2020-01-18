@@ -302,7 +302,7 @@ Example 1.0:
                                 
 .. note::
 
-    Cases where referer page does not exist, set an alternative location ``referer('home')``. Let say previous page is not found, web have to provide the page. This means where are directing to **home** page
+    Cases where referer page does not exist, set an alternative location ``referer('home')``. Let say the previous page is not found, we have to provide the an alternative. This means we are directing to **home** page
 
 Example 1.1: Using ``url`` function together with ``referer`` method
 
