@@ -168,15 +168,19 @@
             
   <div class="section" id="configuration">
 <h1>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h1>
-<p><code class="docutils literal notranslate"><span class="pre">Pytonik</span></code> supports CGI and requires configuration to be able to run on Apache or any python
-CGI enable environment.  The Configuration step support both local and cloud server.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Pytonik</span></code> supports Common Gateway Interface <strong>(CGI)</strong> and requires configuration to be able to run on Apache or any python
+<strong>CGI</strong> enable environment.  The Configuration step support both local and cloud server.</p>
 <div class="section" id="local-server">
 <h2>Local Server<a class="headerlink" href="#local-server" title="Permalink to this headline">¶</a></h2>
-<p>Look into configuring <code class="docutils literal notranslate"><span class="pre">WAMP</span></code>, <code class="docutils literal notranslate"><span class="pre">XAMPP</span></code>,``LAMP``and <code class="docutils literal notranslate"><span class="pre">MAMP</span></code>,
-if you are not using any of the listed local servers don’t worry, this process supports Apache,
+<p>Look into configuring <code class="docutils literal notranslate"><span class="pre">WAMP</span></code> , <code class="docutils literal notranslate"><span class="pre">XAMPP</span></code> , <code class="docutils literal notranslate"><span class="pre">LAMP</span></code> and <code class="docutils literal notranslate"><span class="pre">MAMP</span></code>,
+if you are not using any of the listed local servers don’t worry, this process supports <strong>Apache</strong>,
 both older and newer version, Although you might notice little difference between versions.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you keep encountering problems during setup or local machine is unable to run Common Gateway Interface <strong>CGI</strong> We reference <strong>pytonik</strong> video tutorials.</p>
+</div>
 <p><strong>Apache</strong></p>
-<p>Locate httpd.conf in your local server open it with a text or code editor.</p>
+<p>Locate <strong>httpd.conf</strong> in your local server open it with a text or code editor.</p>
 <p>Find <code class="docutils literal notranslate"><span class="pre">AddHandler</span> <span class="pre">cgi-script</span> <span class="pre">.cgi</span></code> add .py  <code class="docutils literal notranslate"><span class="pre">AddHandler</span> <span class="pre">cgi-script</span> <span class="pre">.cgi</span> <span class="pre">.py</span></code>.</p>
 <p>Find <code class="docutils literal notranslate"><span class="pre">Options</span> <span class="pre">None</span></code> change to <code class="docutils literal notranslate"><span class="pre">Options</span> <span class="pre">ExecCGI</span></code>
 or find <code class="docutils literal notranslate"><span class="pre">Options</span> <span class="pre">+Indexes</span></code> change to <code class="docutils literal notranslate"><span class="pre">Options</span> <span class="pre">ExecCGI</span></code>
@@ -188,6 +192,25 @@ and  <code class="docutils literal notranslate"><span class="pre">#LoadModule</s
 <p>When all the changes are made, save <code class="docutils literal notranslate"><span class="pre">httpd.conf</span></code> file, Restart Apache for changes to take effect.</p>
 <p>Server is set and ready to run python CGI application which means you can deploy pytonik on it.
 Restart server and done.</p>
+<p><strong>Virtual Host (vhosts)</strong></p>
+<p>Setting up a virtual host is very important espicially when using a local server.
+virtual host grant you access to own custom domain names within a local environment, instead of <code class="docutils literal notranslate"><span class="pre">localhost/mypytonik</span></code> it uses <code class="docutils literal notranslate"><span class="pre">mypytonik.test</span></code> as the domain name. This features is very important especially when deploying application. Softwares Like <code class="docutils literal notranslate"><span class="pre">MAMP</span></code> and  <code class="docutils literal notranslate"><span class="pre">WAMP</span></code> provides <strong>GUI</strong> (graphic user interface) where you can add custom domain names, so you might not have to worry about how to set up <strong>vhosts</strong>, some other software’s do not have such features. If you are using <code class="docutils literal notranslate"><span class="pre">XAMPP</span></code> then you will need to confirgure vhost in <code class="docutils literal notranslate"><span class="pre">httpd-vhosts.conf</span></code> file, While <code class="docutils literal notranslate"><span class="pre">LAMP</span></code> uses Terminal for most of its configurations but takes the same proccess. Check the configuration below.</p>
+<p>Locate <strong>httpd-vhosts.conf</strong> File</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">VirtualHost</span> <span class="o">*</span><span class="p">:</span><span class="mi">80</span><span class="o">&gt;</span>
+        <span class="n">DocumentRoot</span> <span class="s2">&quot;c:/xampp/htdocs&quot;</span>
+        <span class="n">ServerName</span> <span class="n">localhost</span>
+        <span class="o">&lt;</span><span class="n">Directory</span> <span class="s2">&quot;c:/xampp/htdocs&quot;</span><span class="o">&gt;</span>
+        <span class="o">&lt;/</span><span class="n">Directory</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">VirtualHost</span><span class="o">&gt;</span>
+
+<span class="o">&lt;</span><span class="n">VirtualHost</span> <span class="o">*</span><span class="p">:</span><span class="mi">80</span><span class="o">&gt;</span>
+        <span class="n">DocumentRoot</span> <span class="s2">&quot;c:/xampp/htdocs/mypytonik&quot;</span>
+        <span class="n">ServerName</span> <span class="n">mypytonik</span><span class="o">.</span><span class="n">test</span>
+        <span class="o">&lt;</span><span class="n">Directory</span> <span class="s2">&quot;c:/xampp/htdocs/mypytonik&quot;</span><span class="o">&gt;</span>
+        <span class="o">&lt;/</span><span class="n">Directory</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">VirtualHost</span><span class="o">&gt;</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="cloud-server">
 <h2>Cloud Server<a class="headerlink" href="#cloud-server" title="Permalink to this headline">¶</a></h2>
@@ -203,10 +226,10 @@ now set for editing.</p>
 Restart server <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">systemctl</span> <span class="pre">restart</span> <span class="pre">httpd</span></code> and done.</p>
 <p><strong>Ubuntu/Linux</strong></p>
 <p>Install apache <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">apache2</span></code></p>
-<p>open the httpd.conf file``sudo nano /etc/httpd/conf/httpd.conf``
+<p>open the httpd.conf file <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">nano</span> <span class="pre">/etc/httpd/conf/httpd.conf</span></code>
 or <code class="docutils literal notranslate"><span class="pre">gksu</span> <span class="pre">gedit</span> <span class="pre">/etc/httpd/conf/httpd.conf</span></code> now set for editing.</p>
 <p>Find <code class="docutils literal notranslate"><span class="pre">AddHandler</span> <span class="pre">cgi-script</span> <span class="pre">.cgi</span></code> add .py  <code class="docutils literal notranslate"><span class="pre">AddHandler</span> <span class="pre">cgi-script</span> <span class="pre">.cgi</span> <span class="pre">.py</span></code>.</p>
-<p>Find``DirectoryIndex index.html`` add index.py <code class="docutils literal notranslate"><span class="pre">DirectoryIndex</span> <span class="pre">index.html</span> <span class="pre">index.py</span></code></p>
+<p>Find <code class="docutils literal notranslate"><span class="pre">DirectoryIndex</span> <span class="pre">index.html</span></code> add index.py <code class="docutils literal notranslate"><span class="pre">DirectoryIndex</span> <span class="pre">index.html</span> <span class="pre">index.py</span></code></p>
 <p>When all the changes are made, save httpd.conf file, changes takes effect.</p>
 <p>Server is set and ready to run python CGI application which means you can deploy pytonik on it.
 Restart server <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">systemctl</span> <span class="pre">restart</span> <span class="pre">httpd</span></code> and done.</p>

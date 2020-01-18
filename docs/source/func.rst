@@ -10,7 +10,7 @@ Expect more functions in new released versions.
 .. note::
 
     Some functions will be re-consider as standalone module and be made as dependencies in the future.
-    Making pytonik framework more flexible and lite.
+    Making pytonik framework more flexible and elegant.
 
 
 Count
@@ -198,6 +198,73 @@ Cases whereby there is an ``ip`` and we want to get the ``ip`` information we wi
     ip.property('41.190.30.100').country
     ip.property('41.190.30.100').loc
     ip.property('41.190.30.100').org
+
+
+
+
+Url
+---
+
+Pytonik ``url`` module handles uniform resource locator notation using ``url`` method with ``path`` argument which returns the application link  
+
+**Import Module**
+
+.. code-block:: python
+
+    from pytonik.Functions.url import url
+
+
+**Callable**
+
+.. code-block:: python
+
+    url = url()
+
+**Example**
+
+.. code-block:: python
+
+    url.url(path = "users")
+
+
+**Template Engine**
+
+.. code-block:: python
+
+    {% call url path = "users" %}
+        
+    {% call url "users"}
+    
+    
+
+Readmore
+--------
+Pytonik ``readmore`` module helps to hide or limit long content using ``lstring`` method with the following argument``text`` accept content, empty by default. ``trim`` accept bool (**True** or **False**) ``length`` accept integer which is the  set limit by default set to **100000000000**. ``link`` accept string which is the **url** direction, empty by default. ``label`` accept string, set to Read more by default. ``css`` accept css(cascading style sheet) as a string and set to **readmore** by default. All default attributes are changable.
+
+**Import Module**
+
+.. code-block:: python
+
+    from pytonik.Functions.readmore import readmore
+
+
+**Callable**
+
+.. code-block:: python
+
+    readmore = readmore()
+
+**Example**
+
+.. code-block:: python
+        
+    readmore.lstring(text="", trim = 'False', length = '1', link="", label="Read more",  css="readmore"):
+
+**Template Engine**
+
+.. code-block:: python
+
+    {% call readmore text='' trim=True lenght=180 link="url/read/"  %}
 
 
 

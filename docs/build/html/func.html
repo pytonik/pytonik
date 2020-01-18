@@ -99,6 +99,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#count">Count</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#agent">Agent</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#ip-address">Ip Address</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#url">Url</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#readmore">Readmore</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#iteration">Iteration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#curl">Curl</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#now">Now</a></li>
@@ -182,7 +184,7 @@ Expect more functions in new released versions.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Some functions will be re-consider as standalone module and be made as dependencies in the future.
-Making pytonik framework more flexible and lite.</p>
+Making pytonik framework more flexible and elegant.</p>
 </div>
 <div class="section" id="count">
 <h2>Count<a class="headerlink" href="#count" title="Permalink to this headline">¶</a></h2>
@@ -303,6 +305,48 @@ We recommend installation of <code class="docutils literal notranslate"><span cl
 <span class="n">ip</span><span class="o">.</span><span class="n">property</span><span class="p">(</span><span class="s1">&#39;41.190.30.100&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">country</span>
 <span class="n">ip</span><span class="o">.</span><span class="n">property</span><span class="p">(</span><span class="s1">&#39;41.190.30.100&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span>
 <span class="n">ip</span><span class="o">.</span><span class="n">property</span><span class="p">(</span><span class="s1">&#39;41.190.30.100&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">org</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="url">
+<h2>Url<a class="headerlink" href="#url" title="Permalink to this headline">¶</a></h2>
+<p>Pytonik <code class="docutils literal notranslate"><span class="pre">url</span></code> module handles uniform resource locator notation using <code class="docutils literal notranslate"><span class="pre">url</span></code> method with <code class="docutils literal notranslate"><span class="pre">path</span></code> argument which returns the application link</p>
+<p><strong>Import Module</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytonik.Functions.url</span> <span class="kn">import</span> <span class="n">url</span>
+</pre></div>
+</div>
+<p><strong>Callable</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Example</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">url</span><span class="o">.</span><span class="n">url</span><span class="p">(</span><span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;users&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Template Engine</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="o">%</span> <span class="n">call</span> <span class="n">url</span> <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;users&quot;</span> <span class="o">%</span><span class="p">}</span>
+
+<span class="p">{</span><span class="o">%</span> <span class="n">call</span> <span class="n">url</span> <span class="s2">&quot;users&quot;</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="readmore">
+<h2>Readmore<a class="headerlink" href="#readmore" title="Permalink to this headline">¶</a></h2>
+<p>Pytonik <code class="docutils literal notranslate"><span class="pre">readmore</span></code> module helps to hide or limit long content using <code class="docutils literal notranslate"><span class="pre">lstring</span></code> method with the following argument``text`` accept content, empty by default. <code class="docutils literal notranslate"><span class="pre">trim</span></code> accept bool (<strong>True</strong> or <strong>False</strong>) <code class="docutils literal notranslate"><span class="pre">length</span></code> accept integer which is the  set limit by default set to <strong>100000000000</strong>. <code class="docutils literal notranslate"><span class="pre">link</span></code> accept string which is the <strong>url</strong> direction, empty by default. <code class="docutils literal notranslate"><span class="pre">label</span></code> accept string, set to Read more by default. <code class="docutils literal notranslate"><span class="pre">css</span></code> accept css(cascading style sheet) as a string and set to <strong>readmore</strong> by default. All default attributes are changable.</p>
+<p><strong>Import Module</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytonik.Functions.readmore</span> <span class="kn">import</span> <span class="n">readmore</span>
+</pre></div>
+</div>
+<p><strong>Callable</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">readmore</span> <span class="o">=</span> <span class="n">readmore</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Example</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">readmore</span><span class="o">.</span><span class="n">lstring</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">trim</span> <span class="o">=</span> <span class="s1">&#39;False&#39;</span><span class="p">,</span> <span class="n">length</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="n">link</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Read more&quot;</span><span class="p">,</span>  <span class="n">css</span><span class="o">=</span><span class="s2">&quot;readmore&quot;</span><span class="p">):</span>
+</pre></div>
+</div>
+<p><strong>Template Engine</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="o">%</span> <span class="n">call</span> <span class="n">readmore</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;&#39;</span> <span class="n">trim</span><span class="o">=</span><span class="bp">True</span> <span class="n">lenght</span><span class="o">=</span><span class="mi">180</span> <span class="n">link</span><span class="o">=</span><span class="s2">&quot;url/read/&quot;</span>  <span class="o">%</span><span class="p">}</span>
 </pre></div>
 </div>
 </div>
