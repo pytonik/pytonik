@@ -1,8 +1,14 @@
 Configuration
 =============
 
-``Pytonik`` supports Common Gateway Interface **(CGI)** and requires configuration to be able to run on Apache or any python
-**CGI** enable environment.  The Configuration step support both local and cloud server.
+``Pytonik`` supports Common Gateway Interface **(CGI)** and Web Server Gateway Interface **(WSGI)**, it requires configuration to be able to run on Apache or any python
+**CGI** or **WSGI** enable environment.  The Configuration step support both local and cloud server.
+
+
+.. note::
+
+	Pytonik provides **lite-server**, that helps in deploying pytonik application faster with the use of, ``pytonik-start`` and ``pytonik-server`` command, this features was added to **version 1.9.7**, and will be improved in newer versions. You might intend using other technology such as ``WSGI`` ``WAMP``, ``XAMPP``etc.
+
 
 Local Server
 ------------
