@@ -201,7 +201,7 @@ def serv(path =""):
     handler = CGIHTTPRequestHandler
     server_address = ("", portno)
 
-    path = path if path != "" else os.getcwd()
+    path = str(path)+"/public" if path != "" else str(os.getcwd())+"/public"
 
 
     handler.cgi_directories = [path]
@@ -217,11 +217,13 @@ def serv(path =""):
                 path_info = self.path
 
                 os.chdir(path)
-                if os.path.isfile(str(path)+"/public/index.py") == True:
 
-                    self.cgi_info = ("/", "public/index.py" + path_info)
+
+                if os.path.isfile(str(path)+"/index.py") == True:
+
+                    self.cgi_info = ("/", "index.py" + path_info)
                 else:
-                    self.cgi_info = ("/", "public/home.py" + path_info)
+                    self.cgi_info = ("/", "home.py" + path_info)
 
                 return self.run_cgi()
 
