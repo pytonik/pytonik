@@ -9,6 +9,7 @@ import time
 import warnings
 from pytonik.cmd import lang
 from pytonik import Version
+from pytonik.cmd import server
 from typing import Any, Callable, Dict, List, Pattern, Union
 from pytonik.cmd.console import (  # type: ignore
     colorize, bold, red, turquoise, nocolor, color_terminal
@@ -28,7 +29,6 @@ except ImportError:
 
 PROMPT_PREFIX = '> '
 
-
 if sys.platform == 'win32':
     # On Windows, show questions as bold because of color scheme of PowerShell (refs: #5294).
     COLOR_QUESTION = 'bold'
@@ -38,6 +38,7 @@ else:
 direct = {'controller': 'IndexController.py', 'lang': ['en.py', 'fr.py'], 'model': 'Index.py',
           'public': ['.htaccess', 'index.py'], 'views': 'index.html', '.env': '', '.htaccess': ''}
 
+
 def pathwhich():
     pat = ""
     if sys.platform == 'win32':
@@ -45,14 +46,14 @@ def pathwhich():
 
         for p in path:
             if "Python" in p:
-                #python.exe
+                # python.exe
                 if 'python.exe' in p:
                     pat = p
                 else:
                     if p.endwith('/'):
-                        pat = p[:-1]+"/"+str("python.exe")
+                        pat = p[:-1] + "/" + str("python.exe")
                     else:
-                        pat = str(p)+"/"+str("python.exe")
+                        pat = str(p) + "/" + str("python.exe")
 
     else:
         try:
@@ -66,7 +67,6 @@ def pathwhich():
 
 
 def context(lg):
-
     lc = {
         '.htaccess1': """<IfModule mod_rewrite.c>
 RewriteEngine on
@@ -75,28 +75,28 @@ RewriteRule (.*) public/$1 [NC,L]
 </IfModule>
         """,
         '.htaccess':
-        """<IfModule mod_rewrite.c>
-DirectoryIndex index.py
-Options +ExecCGI
-AddHandler cgi-script .py
-RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.py/$1 [L]
-</IfModule>
-        """,
+            """<IfModule mod_rewrite.c>
+    DirectoryIndex index.py
+    Options +ExecCGI
+    AddHandler cgi-script .py
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.py/$1 [L]
+    </IfModule>
+            """,
         'index.py':
-        """#!{}
-        \ntry:
-        \n  from pytonik import Web
-        \nexcept Exception as err:
-        \n  exit(err)
-        \nApp = Web.App()
-        \nApp.runs()
+            """#!{}
+            \ntry:
+            \n  from pytonik import Web
+            \nexcept Exception as err:
+            \n  exit(err)
+            \nApp = Web.App()
+            \nApp.runs()
 
-        """.format(pathwhich()),
-         'en.py':'{"lng.test":"sample text"}',
-         'fr.py': '{"lng.test":"Exemple de texte"}',
+            """.format(pathwhich()),
+        'en.py': '{"lng.test":"sample text"}',
+        'fr.py': '{"lng.test":"Exemple de texte"}',
         'index.html':
             """<!DOCTYPE html>
         \n<html lang="en">
@@ -109,51 +109,51 @@ RewriteRule ^(.*)$ index.py/$1 [L]
 \n</body>
 </html>
         """,
-        'IndexController.py' :
-        """from pytonik.Web import App
-        \nm = App()
-        \ndef index():
-            \n  data = {'title': 'Pytonik MVC'}
-            \n  m.views('index', data)
-            \n
+        'IndexController.py':
+            """from pytonik.Web import App
+            \nm = App()
+            \ndef index():
+                \n  data = {'title': 'Pytonik MVC'}
+                \n  m.views('index', data)
+                \n
 
-        """,
+            """,
         '.env':
-        """{'route':
+            """{'route':
 
-        {
-                'default': '',
-        },
-        \n'dbConnect':
-                 {
-                 'host': '',
-                 'database': '',
-                  'password': '',
-                  'username': '',
-                  'port': '',
-                  'prefix': '',
-                  'driver': ''
-                         },
-        \n'languages':
-        {
-           'en': 'en',
-           'fr': 'fr',
-        },
-        \n'SMTP':
-        {
-            'server':   '',
-            'port':     '',
-            'username': '',
-            'password': '',
-        \n},
-        'default_actions': 'index',
-        'default_controllers' :'index',
-        'default_routes' :'index',
-        'default_languages':'en'}"""
+            {
+                    'default': '',
+            },
+            \n'dbConnect':
+                     {
+                     'host': '',
+                     'database': '',
+                      'password': '',
+                      'username': '',
+                      'port': '',
+                      'prefix': '',
+                      'driver': ''
+                             },
+            \n'languages':
+            {
+               'en': 'en',
+               'fr': 'fr',
+            },
+            \n'SMTP':
+            {
+                'server':   '',
+                'port':     '',
+                'username': '',
+                'password': '',
+            \n},
+            'default_actions': 'index',
+            'default_controllers' :'index',
+            'default_routes' :'index',
+            'default_languages':'en' }"""
 
-           }
+    }
 
-    return lc.get(lg, '')
+    return lc.get(lg, ' ')
 
 
 # function to get input from terminal -- overridden by the test suite
@@ -166,9 +166,7 @@ def term_input(prompt: str) -> str:
         return input(prompt)
 
 
-
 def __(mes_id):
-
     try:
         userlang = locale.getlocale()[0]
 
@@ -178,7 +176,7 @@ def __(mes_id):
                 getla = lang.lang.get(l, '')
 
                 if getla != "":
-                    l_ =  getla.get(mes_id, '')
+                    l_ = getla.get(mes_id, '')
                     if l_ != "":
                         l_ = getla.get(mes_id, '')
                     else:
@@ -302,7 +300,9 @@ def ask(d: Dict) -> None:
 
 
                 else:
-                    d['cont'] = do_prompt(bold(__('Directory {} already exist, do you want to overwrite directory (y/n)'.format(d.get('project', '')))),
+                    d['cont'] = do_prompt(bold(__(
+                        'Directory {} already exist, do you want to overwrite directory (y/n)'.format(
+                            d.get('project', '')))),
                                           'n', boolean)
                     if d.get('cont') is True:
 
@@ -337,27 +337,40 @@ def make_file(direct, d):
 
             if os.path.isfile(os.getcwd() + '/' + d.get('project', '') + '/' + str(
                     kdir)) is False:
+
                 try:
-
-                    f = open(os.getcwd() + '/' + d.get('project', '') + '/' + kdir, 'wt',  encoding='utf-8')
-                    if kdir == ".htaccess":
-                        f.write(context(".htaccess1"))
-                    else:
-                        f.write(context(kdir))
-
+                    f = open(os.getcwd() + '/' + d.get('project', '') + '/' + kdir, 'w')
                     f.close()
+                except Exception as err:
+                    print(bold(red(__(('Unable to create File  {}'.format(kdir))))))
+                finally:
+                    print(bold('File {} Created Successfully'.format(kdir)))
+
+                try:
+                    with open(os.getcwd() + '/' + d.get('project', '') + '/' + kdir, 'w+', encoding='utf-8') as f:
+
+                        if kdir == ".htaccess":
+                            f.write(str(context(".htaccess1")))
+                            f.close()
+                        else:
+                            f.write(str(context(kdir)))
+                            f.close()
 
 
                 except Exception as err:
 
-                    print(bold(red(__(('Unable to create File  {}'.format(kdir))))))
+                    print(bold(red(__(('Unable to Write File  {}'.format(kdir))))))
+                finally:
+                    print(bold('File {} Rewrite Successfully'.format(ldir)))
 
                 if os.path.isfile(os.getcwd() + '/' + d.get('project', '') + '/' + str(kdir)) is True:
                     try:
                         os.chmod(os.getcwd() + '/' + d.get('project', '') + '/' + str(kdir), mode=0o600)
-                        print(bold(__('File {} Permission Set {}'.format(kdir, '0600'))))
+
                     except Exception as arr:
                         print(bold(red(__('Unable to Set file {} permission '.format(kdir)))))
+                    finally:
+                        print(bold(__('File {} Permission Set {}'.format(kdir, '0600'))))
 
 
 
@@ -379,21 +392,31 @@ def make_file(direct, d):
                             if os.path.isfile(os.getcwd() + '/' + d.get('project',
                                                                         '') + '/' + str(
                                 kdir) + '/' + ldir) is False:
-                                try:
 
-                                    f = open(
-                                        os.getcwd() + '/' + d.get('project', '') + '/' + str(
-                                            kdir) + '/' + ldir, 'wt',  encoding='utf-8')
-                                    f.write(context(ldir))
+                                try:
+                                    f = open(os.getcwd() + '/' + d.get('project', '') + '/' + str(
+                                        kdir) + '/' + ldir, 'w+')
                                     f.close()
+
+                                except Exception as err:
+
+                                    print(bold(red(__(('Unable to create File  {}'.format(ldir))))))
+                                finally:
+                                    print(bold('File {} Created Successfully'.format(ldir)))
+
+                                try:
+                                    with open(os.getcwd() + '/' + d.get('project', '') + '/' + str(
+                                            kdir) + '/' + ldir, 'w+', encoding='utf-8') as f:
+                                        f.write(str(context(ldir)))
+                                        f.close()
 
 
                                 except Exception as err:
 
-                                    print(bold(red('Unable to create File  {}'.format(ldir))))
+                                    print(bold(red('Unable to Write File  {}'.format(ldir))))
 
                                 finally:
-                                    print(bold('File {} Created Successfully'.format(ldir)))
+                                    print(bold('File {} Rewrite Successfully'.format(ldir)))
 
                             if os.path.isfile(os.getcwd() + '/' + d.get('project',
                                                                         '') + '/' + str(
@@ -401,16 +424,17 @@ def make_file(direct, d):
 
                                 if ldir.startswith('.'):
                                     try:
-                                        os.chmod(os.getcwd() + '/' + d.get('project', '') + '/' + str(kdir) + '/' + str(ldir), mode=0o600)
+                                        os.chmod(os.getcwd() + '/' + d.get('project', '') + '/' + str(kdir) + '/' + str(
+                                            ldir), mode=0o600)
                                         print(bold('File {} Permission Set {}'.format(ldir, '0600')))
                                     except Exception as err:
 
                                         print(bold(red('Unable to Set file {} permission '.format(ldir))))
 
-
                                 if ldir == "index.py":
                                     try:
-                                        os.chmod(os.getcwd() + '/' + d.get('project', '') + '/' + str(kdir) + '/' + str(ldir), mode=0o755)
+                                        os.chmod(os.getcwd() + '/' + d.get('project', '') + '/' + str(kdir) + '/' + str(
+                                            ldir), mode=0o755)
                                         print(bold('File {} Permission Set {}'.format(ldir, '0755')))
 
                                     except Exception as err:
@@ -424,22 +448,34 @@ def make_file(direct, d):
                             kdir) + '/' + direct[kdir]) is False:
 
                         try:
-
                             f = open(os.getcwd() + '/' + d.get('project', '') + '/' + str(
-                                kdir) + '/' + direct[kdir], 'w')
-
-                            f.write(context(direct[kdir]))
+                                kdir) + '/' + direct[kdir], 'w+')
                             f.close()
-
 
                         except Exception as err:
 
-                            print(bold(red(__('Unable to create File  {}'.format(direct[kdir])))))
+                            print(bold(red(__(('Unable to create File  {}'.format(kdir))))))
 
                         finally:
 
                             print(bold(__('File {} Created Successfully'.format(direct[kdir]))))
+                        try:
 
+                            with open(os.getcwd() + '/' + d.get('project', '') + '/' + str(
+                                    kdir) + '/' + direct[kdir], 'w+', encoding='utf-8') as f:
+                                # context(direct[kdir])
+                                f.write(str(context(direct[kdir])))
+                                f.close()
+
+
+                        except Exception as err:
+
+                            print(bold(red(__('Unable to Write File  {}'.format(direct[kdir])))))
+
+                        finally:
+                            print(bold('File {} Rewrite Successfully'.format(direct[kdir])))
+
+    server.serv(os.getcwd() + '/' + d.get('project', ''))
 
 
 def main(argv: List[str] = sys.argv[1:]) -> int:
