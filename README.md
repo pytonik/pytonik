@@ -20,11 +20,13 @@ if you are running a local machine you will need to install either, wamp, xampp,
 We recommend you to install this MVC package using Terminal or Command Line
 
 ```
-$ pip install pytonik==1.9.7b1
+$ pip install pytonik==1.9.7b2
 ```
 
 
+Pytonik provides **lite-server**, that helps in deploying pytonik application faster with the use of, ``pytonik-start`` and ``pytonik-server`` command, this features was added to **version 1.9.7**, and will be improved in newer versions. You might intend using other technology such as ``WSGI`` ``WAMP``, ``XAMPP``etc.
 Terminal tool to start project folder structure
+
  
 ```
 pytonik-start
