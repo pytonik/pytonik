@@ -2,7 +2,7 @@ Template Engine
 ===============
 
 
-Pytonik provides flexible templating engine, making use of ``` blocks ```, ``` Variables ``` , ``` Loops ``` , ``` conditionals statement ```, ``` operators ```, ``` iteration ``` and ``` scopes ```.
+Pytonik provides flexible templating engine, making use of ``blocks``, ``Variables`` , ``Loops``, ``conditionals statement`` , ``operators`` , ``iteration`` and ``scopes``.
 
 
 .. code-block:: python
