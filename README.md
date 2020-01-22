@@ -25,7 +25,7 @@ if you are running a local machine you will need to install either, wamp, xampp,
 We recommend you to install this MVC package using Terminal or Command Line
 
 ```
-$ pip install pytonik==1.9.7b2
+$ pip install pytonik
 ```
 
 
