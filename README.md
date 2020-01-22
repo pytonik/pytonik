@@ -32,11 +32,19 @@ $ pip install pytonik
 Pytonik provides **lite-server**, that helps in deploying pytonik application faster with the use of, ``pytonik-start`` and ``pytonik-server`` command, this features was added to **version 1.9.7**, and will be improved in newer versions. You might intend using other technology such as ``WSGI`` ``WAMP``, ``XAMPP``etc.
 Terminal tool to start project folder structure
 
- 
-```
-pytonik-start
+To Create Pytonik Project Folder 
 
 ```
+$ pytonik-start
+```
+
+To Run Pytonik Server
+
+```
+$ pytonik-server
+
+```
+
 
 ## Table of Content
 
