@@ -69,4 +69,3 @@ from your email providers or emailing server,  example **GMAIL**, **YAHOO**, **O
     rename = "rename file"
     attached = mail.attach(file, rename).send(from, to, subject, content)
 
-
