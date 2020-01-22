@@ -6,6 +6,11 @@
 [![Python Version](https://img.shields.io/pypi/pyversions/pytonik)](https://pypi.python.org/pypi/pytonik)
 [![License](https://img.shields.io/pypi/l/pytonik)](https://pypi.python.org/pypi/pytonik)
 
+<p align="center">
+  <img  height="150" src="http://betacodings.com/public/pytonik_logo_color.png">
+</p>
+
+
 Pytonik is a python framework built to enhance web development fast and easy, also help web developers to build more apps with less codes. it uses expressive architectural pattern, structured on model view controller MVC  and bundles of component to reuse while deploying the framework.
 
 [![Made with python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://pypi.python.org/pypi/pytonik)
