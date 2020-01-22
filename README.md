@@ -6,6 +6,11 @@
 [![Python Version](https://img.shields.io/pypi/pyversions/pytonik)](https://pypi.python.org/pypi/pytonik)
 [![License](https://img.shields.io/pypi/l/pytonik)](https://pypi.python.org/pypi/pytonik)
 
+<p align="center">
+	<img  height="150" src="http://betacodings.com/public/pytonik_logo_color.png">
+</p>
+
+
 Pytonik is a python framework built to enhance web development fast and easy, also help web developers to build more apps with less codes. it uses expressive architectural pattern, structured on model view controller MVC  and bundles of component to reuse while deploying the framework.
 
 [![Made with python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://pypi.python.org/pypi/pytonik)
@@ -20,18 +25,26 @@ if you are running a local machine you will need to install either, wamp, xampp,
 We recommend you to install this MVC package using Terminal or Command Line
 
 ```
-$ pip install pytonik==1.9.7b2
+$ pip install pytonik=1.9.7
 ```
 
 
 Pytonik provides **lite-server**, that helps in deploying pytonik application faster with the use of, ``pytonik-start`` and ``pytonik-server`` command, this features was added to **version 1.9.7**, and will be improved in newer versions. You might intend using other technology such as ``WSGI`` ``WAMP``, ``XAMPP``etc.
 Terminal tool to start project folder structure
 
- 
-```
-pytonik-start
+To Create Pytonik Project Folder 
 
 ```
+$ pytonik-start
+```
+
+To Run Pytonik Server
+
+```
+$ pytonik-server
+
+```
+
 
 ## Table of Content
 
@@ -48,7 +61,7 @@ pytonik-start
 * [Functions](https://pytonik.readthedocs.io/en/latest/func.html)
 * [Schema](https://pytonik.readthedocs.io/en/latest/schema.html)
 * [Advance](https://pytonik.readthedocs.io/en/latest/advance.html)
-       
+			 
 
 ## Contact
 
