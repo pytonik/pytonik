@@ -44,4 +44,3 @@ destroy session associated with a keyword
 .. code-block:: python
 
     Session.destroy('name')
-
