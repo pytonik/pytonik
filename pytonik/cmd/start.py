@@ -50,10 +50,13 @@ def pathwhich():
                 if 'python.exe' in p:
                     pat = p
                 else:
-                    if p.endwith('/'):
-                        pat = p[:-1] + "/" + str("python.exe")
+
+                    if p[-1] == '\"' or p[-1] == '/':
+                        pat = p[:-1] + '\"' + str("python.exe")
+                        break
                     else:
-                        pat = str(p) + "/" + str("python.exe")
+                        pat = str(p) + "\'" + str("python.exe")
+                        break
 
     else:
         try:
@@ -63,81 +66,85 @@ def pathwhich():
                 pat = os.environ['__PYVENV_LAUNCHER__']
             except Exception as arr:
                 print(arr)
-    return pat
+    return pat.replace("'", '')
 
 
 def context(lg):
-    lc = {
-        '.htaccess1': """<IfModule mod_rewrite.c>
+    lc = ""
+    if lg == 'htaccess1':
+        lc = """<IfModule mod_rewrite.c>
 RewriteEngine on
 RewriteRule ^$ public/
 RewriteRule (.*) public/$1 [NC,L]
+</IfModule> """
+
+    if lg == '.htaccess':
+        lc = """<IfModule mod_rewrite.c>
+DirectoryIndex index.py
+Options +ExecCGI
+AddHandler cgi-script .py
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.py/$1 [L]
 </IfModule>
-        """,
-        '.htaccess':
-            """<IfModule mod_rewrite.c>
-    DirectoryIndex index.py
-    Options +ExecCGI
-    AddHandler cgi-script .py
-    RewriteEngine On
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ index.py/$1 [L]
-    </IfModule>
-            """,
-        'index.py':
-            """#!{}
-            \ntry:
-            \n  from pytonik import Web
-            \nexcept Exception as err:
-            \n  exit(err)
-            \nApp = Web.App()
-            \nApp.runs()
+                """
+    if lg == 'index.py':
+        lc = """{}
+try:
+\n  from pytonik import Web
+\nexcept Exception as err:
+\n  exit(err)
 
-            """.format(pathwhich()),
-        'en.py': '{"lng.test":"sample text"}',
-        'fr.py': '{"lng.test":"Exemple de texte"}',
-        'index.html':
-            """<!DOCTYPE html>
-        \n<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title> {{title}}</title>
-        \n</head>
-<body>
-<h1> {{title}}</h1>
-\n</body>
-</html>
-        """,
-        'IndexController.py':
-            """from pytonik.Web import App
-            \nm = App()
-            \ndef index():
-                \n  data = {'title': 'Pytonik MVC'}
-                \n  m.views('index', data)
-                \n
+\nApp = Web.App()
+\nApp.runs()
+""".format("#!" + str(pathwhich()))
 
-            """,
-        '.env':
-            """{'route':
+    if lg == 'en.py':
+        lc = '{"lng.test":"sample text"}'
+
+    if lg == 'fr.py':
+        lc = '{"lng.test":"Exemple de texte"}'
+
+    if lg == 'index.html':
+        lc = """<!DOCTYPE html>
+            \n<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <title> {{title}}</title>
+            \n</head>
+    <body>
+    <h1> {{title}}</h1>
+    \n</body>
+    </html>"""
+
+    if lg == 'IndexController.py':
+        lc = """from pytonik.Web import App
+\nm = App()
+\ndef index():
+\n  data = {'title': 'Pytonik MVC'}
+\n  m.views('index', data)
+            """
+    if lg == '.env':
+        lc = """{'route':
 
             {
                     'default': '',
             },
             \n'dbConnect':
-                     {
-                     'host': '',
-                     'database': '',
-                      'password': '',
-                      'username': '',
-                      'port': '',
-                      'prefix': '',
-                      'driver': ''
-                             },
+                    {
+                    'host': '',
+                    'database': '',
+                    'password': '',
+                    'username': '',
+                    'port': '',
+                    'prefix': '',
+                    'driver': ''
+                            },
             \n'languages':
             {
-               'en': 'en',
-               'fr': 'fr',
+            'en': 'en',
+            'fr': 'fr',
             },
             \n'SMTP':
             {
@@ -151,9 +158,7 @@ RewriteRule (.*) public/$1 [NC,L]
             'default_routes' :'index',
             'default_languages':'en' }"""
 
-    }
-
-    return lc.get(lg, ' ')
+    return lc
 
 
 # function to get input from terminal -- overridden by the test suite
@@ -350,10 +355,10 @@ def make_file(direct, d):
                     with open(os.getcwd() + '/' + d.get('project', '') + '/' + kdir, 'w+', encoding='utf-8') as f:
 
                         if kdir == ".htaccess":
-                            f.write(str(context(".htaccess1")))
+                            f.write(context("htaccess1"))
                             f.close()
                         else:
-                            f.write(str(context(kdir)))
+                            f.write(context(kdir))
                             f.close()
 
 
@@ -407,7 +412,7 @@ def make_file(direct, d):
                                 try:
                                     with open(os.getcwd() + '/' + d.get('project', '') + '/' + str(
                                             kdir) + '/' + ldir, 'w+', encoding='utf-8') as f:
-                                        f.write(str(context(ldir)))
+                                        f.write(context(ldir))
                                         f.close()
 
 
@@ -464,7 +469,7 @@ def make_file(direct, d):
                             with open(os.getcwd() + '/' + d.get('project', '') + '/' + str(
                                     kdir) + '/' + direct[kdir], 'w+', encoding='utf-8') as f:
                                 # context(direct[kdir])
-                                f.write(str(context(direct[kdir])))
+                                f.write(context(direct[kdir]))
                                 f.close()
 
 
