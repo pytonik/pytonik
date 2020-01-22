@@ -29,7 +29,3 @@ Contents:
    func
    schema
    advance
-
-
-
-
