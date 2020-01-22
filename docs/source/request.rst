@@ -98,4 +98,3 @@ Notice that the form method is set to ``POST``
         else:
             print("SUBMITTED successfully")
 
-
