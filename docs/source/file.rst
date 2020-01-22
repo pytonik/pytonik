@@ -136,6 +136,3 @@ IMAGE
 
     for w, h in dimension.items():
         image.resize(w, h rename)
-
-
-
