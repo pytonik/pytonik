@@ -8,7 +8,6 @@
 
 <p align="center">
 	<img  height="150" src="http://betacodings.com/public/pytonik_logo_color.png">
-
 </p>
 
 
@@ -43,7 +42,6 @@ To Run Pytonik Server
 
 ```
 $ pytonik-server
-
 ```
 
 
