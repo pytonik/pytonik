@@ -8,10 +8,12 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Functions &mdash; pytonik 1.9.7 beta documentation</title>
+  <title>Functions &mdash; pytonik 1.9.7 documentation</title>
   
 
   
+  
+    <link rel="shortcut icon" href="_static/favico.ico"/>
   
   
   
@@ -96,6 +98,7 @@
 <li class="toctree-l1"><a class="reference internal" href="session.html">Session</a></li>
 <li class="toctree-l1"><a class="reference internal" href="file.html">File</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#langauge">Langauge(__)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#count">Count</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#agent">Agent</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#ip-address">Ip Address</a></li>
@@ -185,6 +188,51 @@ Expect more functions in new released versions.</p>
 <p class="admonition-title">Note</p>
 <p>Some functions will be re-consider as standalone module and be made as dependencies in the future.
 Making pytonik framework more flexible and elegant.</p>
+</div>
+<div class="section" id="langauge">
+<h2>Langauge(__)<a class="headerlink" href="#langauge" title="Permalink to this headline">¶</a></h2>
+<p>pytonik provides inbuilt langauge module <code class="docutils literal notranslate"><span class="pre">__</span></code>, this module is responsible for translation / internationalization of word around pytonik application. Our project target is to support English, Russain and french world, the we will need to create content with multiple langauges . example when our users access <code class="docutils literal notranslate"><span class="pre">http://mydomainname.com/en</span></code> it will display english content, <code class="docutils literal notranslate"><span class="pre">http://mydomainname.com/ru</span></code> it will display russain content, and  <code class="docutils literal notranslate"><span class="pre">http://mydomainname.com/fr</span></code> it will display french content, using the help of <code class="docutils literal notranslate"><span class="pre">lang</span></code> method and <code class="docutils literal notranslate"><span class="pre">lang</span></code> argument.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Language files are stored/saved in <code class="docutils literal notranslate"><span class="pre">lang</span></code> folder  as <code class="docutils literal notranslate"><span class="pre">.py</span></code> in pytonik folder project and it uses <strong>dictionary</strong>.</p>
+</div>
+<p>Example: Below will be save in <code class="docutils literal notranslate"><span class="pre">en.py</span></code> file</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s1">&#39;lng.test&#39;</span><span class="p">:</span> <span class="s1">&#39;Welcome&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;text&#39;</span> <span class="p">:</span> <span class="s1">&#39;programming&#39;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Example: Below will be save in <code class="docutils literal notranslate"><span class="pre">ru.py</span></code> file</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s1">&#39;lng.test&#39;</span><span class="p">:</span> <span class="s1">&#39;zhelannyy&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;text&#39;</span> <span class="p">:</span> <span class="s1">&#39;programmirovaniye&#39;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Example: Below will be save in <code class="docutils literal notranslate"><span class="pre">fr.py</span></code> file</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s1">&#39;lng.test&#39;</span><span class="p">:</span> <span class="s1">&#39;Bienvenue&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;text&#39;</span> <span class="p">:</span> <span class="s1">&#39;programmation&#39;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Import Module</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pytonik.Functions.__</span> <span class="kn">import</span> <span class="n">__</span>
+</pre></div>
+</div>
+<p><strong>Callable</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lang</span> <span class="o">=</span> <span class="n">__</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Template Engine</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="o">%</span> <span class="n">call</span> <span class="n">__</span> <span class="s2">&quot;lng.test&quot;</span> <span class="o">%</span><span class="p">}</span>
+
+<span class="p">{</span><span class="o">%</span> <span class="n">call</span> <span class="n">__</span> <span class="n">lang</span><span class="o">=</span><span class="s1">&#39;lng.test&#39;</span>  <span class="o">%</span><span class="p">}</span>
+
+<span class="p">{</span><span class="o">%</span> <span class="n">call</span> <span class="n">__</span> <span class="s1">&#39;lang&#39;</span> <span class="n">lang</span><span class="o">=</span><span class="s1">&#39;lng.test&#39;</span>  <span class="o">%</span><span class="p">}</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="count">
 <h2>Count<a class="headerlink" href="#count" title="Permalink to this headline">¶</a></h2>

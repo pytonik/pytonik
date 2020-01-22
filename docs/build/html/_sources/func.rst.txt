@@ -12,6 +12,65 @@ Expect more functions in new released versions.
     Some functions will be re-consider as standalone module and be made as dependencies in the future.
     Making pytonik framework more flexible and elegant.
 
+Langauge(__)
+------------
+pytonik provides inbuilt langauge module ``__``, this module is responsible for translation / internationalization of word around pytonik application. Our project target is to support English, Russain and french world, the we will need to create content with multiple langauges . example when our users access ``http://mydomainname.com/en`` it will display english content, ``http://mydomainname.com/ru`` it will display russain content, and  ``http://mydomainname.com/fr`` it will display french content, using the help of ``lang`` method and ``lang`` argument.
+
+.. note::
+    Language files are stored/saved in ``lang`` folder  as ``.py`` in pytonik folder project and it uses **dictionary**. 
+    
+Example: Below will be save in ``en.py`` file
+
+.. code-block:: python
+
+    {
+        'lng.test': 'Welcome',
+        'text' : 'programming'
+    }
+
+Example: Below will be save in ``ru.py`` file
+
+.. code-block:: python
+
+    {
+        'lng.test': 'zhelannyy',
+        'text' : 'programmirovaniye'
+    }
+
+
+Example: Below will be save in ``fr.py`` file
+
+.. code-block:: python
+
+    {
+        'lng.test': 'Bienvenue',
+        'text' : 'programmation'
+    }
+
+
+**Import Module**
+
+.. code-block:: python
+
+    from pytonik.Functions.__ import __
+
+
+**Callable**
+
+.. code-block:: python
+
+    lang = __()
+
+
+**Template Engine**
+
+.. code-block:: python
+
+    {% call __ "lng.test" %}
+    
+    {% call __ lang='lng.test'  %}
+    
+    {% call __ 'lang' lang='lng.test'  %}
 
 Count
 -----
