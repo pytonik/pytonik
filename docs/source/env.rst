@@ -222,7 +222,3 @@ Why ``default_actions`` are set to ``index`` means all default methods are set t
 Why ``default_routes`` are set to ``index`` means application points to IndexController.
 
 Why ``default_languages`` set to ``en`` means application is using  en.py language file by default for internationalization.
-
-
-
-
