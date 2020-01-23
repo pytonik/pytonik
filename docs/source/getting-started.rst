@@ -55,7 +55,7 @@ download environment and Pytonik requirement.
 During installation process, add to Python to the operating system's path but if missed out, then you will have to add it to environment
 path once the installation is completed.
 
-After the installation process, open Terminal/Command promts and type in ``python`` or  ``which python``. This will enable you determine version of Python your system is using.
+After the installation process, open Terminal/Command promts and type in ``python`` or  ``which python``. This will enable you determine the version of Python your system is using.
 
 **Note:-**  ``which python`` command  might not work on windows environment,
 to achieve this, it will need the help of  ``https://git-scm.com`` on windows 10 or newer,
