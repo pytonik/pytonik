@@ -13,7 +13,7 @@ and destroy data with in pytonik web framework.
 
 
 
-**Attribute of Request are :-**
+**Attributes of Request are :**
 
 •	set
 •	get
@@ -44,3 +44,4 @@ destroy session associated with a keyword
 .. code-block:: python
 
     Session.destroy('name')
+

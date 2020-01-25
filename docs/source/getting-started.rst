@@ -6,8 +6,7 @@ Pytonik can be download from  ``https://pypi.org/pytonik``  using terminal or co
 ``pip install pytonik``  or   ``https://github.com/pytonik/pytonik``
 The installation will automatically be extracted into ``site-packages``  in Python  directory.
 
-Pytonik provides command line tool that helps in creating project folder structure with the use of ``pytonik-start``
-command, it gives internationalization, ``English`` as default language and other supported languages are listed below '
+Pytonik provides command line tool to help in creating a startup project folder structure. This boilerplate folder structure makes it easier to structure your project.  Get started with Pytonik by typing ``pytonik-start`` command in your command line. For internationalization, ``English`` is the default language.  The following are languages supported:
 
 .. code-block:: python
 
@@ -46,17 +45,17 @@ command, it gives internationalization, ``English`` as default language and othe
 Installations
 -------------
 
-Install python and make sure it’s running on your computer operating system environment or web server.
+Install python and make sure it is running on your operating system environment or web server.
 
 
 **Python** can be downloaded at  ``https://www.python.org/downloads``
 If you are using a cloud open terminal type or paste  ``sudo apt-get install python3``
 download environment and Pytonik requirement.
 
-During installation process add to path but if missed out, then you will have to add it to environment
+During installation process, add to Python to the operating system's path but if missed out, then you will have to add it to environment
 path once the installation is completed.
 
-After installation process, open Terminal/Command promts and type in ``python`` or  ``which python``.
+After the installation process, open Terminal/Command promts and type in ``python`` or  ``which python``. This will enable you determine the version of Python your system is using.
 
 **Note:-**  ``which python`` command  might not work on windows environment,
 to achieve this, it will need the help of  ``https://git-scm.com`` on windows 10 or newer,

@@ -701,5 +701,4 @@ Sometimes you may need to use a raw expression in a query. To create a raw expre
 .. code-block:: python
 
     DB.table('users').where('status', '>', 1).groupBy('status').select(DB.raw('count(*) as user_count, status')).get()
-    
 

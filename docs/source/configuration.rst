@@ -2,12 +2,12 @@ Configuration
 =============
 
 ``Pytonik`` supports Common Gateway Interface **(CGI)** and Web Server Gateway Interface **(WSGI)**, it requires configuration to be able to run on Apache or any python
-**CGI** or **WSGI** enable environment.  The Configuration step support both local and cloud server.
+**CGI** or **WSGI** enable environment.  The Configuration step supports both local and cloud servers.
 
 
 .. note::
 
-	Pytonik provides **lite-server**, that helps in deploying pytonik application faster with the use of, ``pytonik-start`` and ``pytonik-server`` command, this features was added to **version 1.9.7**, and will be improved in newer versions. You might intend using other technology such as ``WSGI`` ``WAMP``, ``XAMPP`` etc.
+	Pytonik provides **lite-server**, that helps in deploying pytonik applications faster with the use of, ``pytonik-start`` and ``pytonik-server`` command, this feature was added to **version 1.9.7**, and will be improved in newer versions. You may use other technology such as ``WSGI`` ``WAMP``, ``XAMPP`` etc.
 
 
 Local Server
@@ -19,12 +19,13 @@ both older and newer version, Although you might notice little difference betwee
 
 .. note::
 
-	If you keep encountering problems during setup or local machine is unable to run Common Gateway Interface **CGI** We reference **pytonik** video tutorials.
+	If you keep encountering problems during setup or local machine is unable to run Common Gateway Interface **CGI**. We will add **pytonik** video tutorials soon for referencing purposes.
 	
 	 
 **Apache**
 
-Locate **httpd.conf** in your local server open it with a text or code editor.
+Locate **httpd.conf** in your local server open it with a text or code editor. 
+On Ubuntu, httpd.conf is located in the directory /etc/apache2. apache2.conf is also located in /etc/apache2.
 
 Find ``AddHandler cgi-script .cgi`` add .py  ``AddHandler cgi-script .cgi .py``.
 
