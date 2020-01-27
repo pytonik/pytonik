@@ -4,7 +4,9 @@
 [![Downloads](https://img.shields.io/pypi/dm/pytonik)](https://pypi.python.org/pypi/pytonik/)
 [![Wheel](https://img.shields.io/pypi/wheel/pytonik.svg)](https://pypi.python.org/pypi/pytonik)
 [![Python Version](https://img.shields.io/pypi/pyversions/pytonik)](https://pypi.python.org/pypi/pytonik)
+[![Buy Beer](https://img.shields.io/beerpay/pytonik/pytonik?style=flat-square)](https://beerpay.io/pytonik/pytonik)
 [![License](https://img.shields.io/pypi/l/pytonik)](https://pypi.python.org/pypi/pytonik)
+
 
 <p align="center">
 	<img  height="150" src="http://betacodings.com/public/pytonik_logo_color.png">
@@ -25,7 +27,7 @@ if you are running a local machine you will need to install either, wamp, xampp,
 We recommend you to install this MVC package using Terminal or Command Line
 
 ```
-$ pip install pytonik
+$ pip install pytonik=1.9.7
 ```
 
 
