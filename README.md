@@ -5,6 +5,7 @@
 [![Wheel](https://img.shields.io/pypi/wheel/pytonik.svg)](https://pypi.python.org/pypi/pytonik)
 [![Python Version](https://img.shields.io/pypi/pyversions/pytonik)](https://pypi.python.org/pypi/pytonik)
 [![Buy Beer](https://img.shields.io/beerpay/pytonik/pytonik?style=flat-square)](https://beerpay.io/pytonik/pytonik)
+[![Donate](http://img.shields.io/liberapay/receives/pytonik.svg?logo=liberapay)](https://liberapay.com/pytonik/donate)
 [![License](https://img.shields.io/pypi/l/pytonik)](https://pypi.python.org/pypi/pytonik)
 
 
