@@ -7,6 +7,7 @@
 [![Buy Beer](https://img.shields.io/beerpay/pytonik/pytonik?style=flat-square)](https://beerpay.io/pytonik/pytonik)
 [![Donate](http://img.shields.io/liberapay/receives/pytonik.svg?logo=liberapay)](https://liberapay.com/pytonik/donate)
 [![License](https://img.shields.io/pypi/l/pytonik)](https://pypi.python.org/pypi/pytonik)
+[![first-timers-only](https://img.shields.io/badge/first--timers--only-friendly-blue.svg?style=flat-square)](https://www.firsttimersonly.com/)
 
 
 <p align="center">
