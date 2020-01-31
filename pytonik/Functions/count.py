@@ -30,7 +30,7 @@ class count:
 
         elif (float(num) > 1000) is True:
 
-            getcount = str(float(round((num / 1000), 1)))[:-2] if '.0' in str(float(round((num / 1000), 1))) else str(float(round((num / 1000), 1)))  + str('K')
+            getcount = str(float(round((num / 1000), 1)))[:-2]  + str('K')  if '.0' in str(float(round((num / 1000), 1))) else str(float(round((num / 1000), 1)))  + str('K')
         else:
 
             getcount = str(float(round((num / 1), 1)))[:-2] if '.0' in str(float(round((num / 1), 1))) else str(float(round((num / 1), 1)))

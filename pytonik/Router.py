@@ -10,6 +10,7 @@
 
 import sys, os, cgitb
 from pytonik import Version, Config, Log
+from pytonik.Session import Session
 cgitb.enable()
 url = os.environ.get('REQUEST_URI', os.environ.get('PATH_INFO'))
 log_msg = Log.Log()
@@ -227,9 +228,8 @@ class Router:
         return self.methodprefix
 
     def getLanguages(self):
-
-
         return self.languages
+
 
     def env(self):
 

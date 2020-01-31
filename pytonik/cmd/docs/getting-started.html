@@ -1,0 +1,273 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Getting Started &mdash; pytonik 1.9.7 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="_static/favico.ico"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Configuration" href="configuration.html" />
+    <link rel="prev" title="pytonik - web framework MVC" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pytonik
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installations">Installations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dependency.html">Dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filestructure.html">File Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="env.html">Environment File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="temp.html">Template Engine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="smtp.html">SMTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="request.html">Request</a></li>
+<li class="toctree-l1"><a class="reference internal" href="session.html">Session</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file.html">File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="func.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="schema.html">Schema</a></li>
+<li class="toctree-l1"><a class="reference internal" href="advance.html">Advance</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pytonik</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Getting Started</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/getting-started.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<p>Pytonik framework supports python version from 2.7 to newer,
+Pytonik can be download from  <code class="docutils literal notranslate"><span class="pre">https://pypi.org/pytonik</span></code>  using terminal or command line promts
+<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pytonik</span></code>  or   <code class="docutils literal notranslate"><span class="pre">https://github.com/pytonik/pytonik</span></code>
+The installation will automatically be extracted into <code class="docutils literal notranslate"><span class="pre">site-packages</span></code>  in Python  directory.</p>
+<p>Pytonik provides command line tool that helps in creating project folder structure with the use of <code class="docutils literal notranslate"><span class="pre">pytonik-start</span></code>
+command, it gives internationalization, <code class="docutils literal notranslate"><span class="pre">English</span></code> as default language and other supported languages are listed below ‘</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;bg_BG&#39;</span><span class="p">:</span> <span class="s1">&#39;Bulgarian&#39;</span><span class="p">,</span>
+<span class="s1">&#39;cs_CZ&#39;</span><span class="p">:</span> <span class="s1">&#39;Czech&#39;</span><span class="p">,</span>
+<span class="s1">&#39;da_DK&#39;</span><span class="p">:</span> <span class="s1">&#39;Danish&#39;</span><span class="p">,</span>
+<span class="s1">&#39;de_DE&#39;</span><span class="p">:</span> <span class="s1">&#39;German&#39;</span><span class="p">,</span>
+<span class="s1">&#39;el_GR&#39;</span><span class="p">:</span> <span class="s1">&#39;Greek&#39;</span><span class="p">,</span>
+<span class="s1">&#39;es_ES&#39;</span><span class="p">:</span> <span class="s1">&#39;Spanish&#39;</span><span class="p">,</span>
+<span class="s1">&#39;et_EE&#39;</span><span class="p">:</span> <span class="s1">&#39;Estonian&#39;</span><span class="p">,</span>
+<span class="s1">&#39;fi_FI&#39;</span><span class="p">:</span> <span class="s1">&#39;Finnish&#39;</span><span class="p">,</span>
+<span class="s1">&#39;fr_FR&#39;</span><span class="p">:</span> <span class="s1">&#39;French&#39;</span><span class="p">,</span>
+<span class="s1">&#39;hr_HR&#39;</span><span class="p">:</span> <span class="s1">&#39;Croatian&#39;</span><span class="p">,</span>
+<span class="s1">&#39;hu_HU&#39;</span><span class="p">:</span> <span class="s1">&#39;Hungarian&#39;</span><span class="p">,</span>
+<span class="s1">&#39;it_IT&#39;</span><span class="p">:</span> <span class="s1">&#39;Italian&#39;</span><span class="p">,</span>
+<span class="s1">&#39;lt_LT&#39;</span><span class="p">:</span> <span class="s1">&#39;Lithuanian&#39;</span><span class="p">,</span>
+<span class="s1">&#39;lv_LV&#39;</span><span class="p">:</span> <span class="s1">&#39;Latvian&#39;</span><span class="p">,</span>
+<span class="s1">&#39;nl_NL&#39;</span><span class="p">:</span> <span class="s1">&#39;Dutch&#39;</span><span class="p">,</span>
+<span class="s1">&#39;no_NO&#39;</span><span class="p">:</span> <span class="s1">&#39;Norwegian&#39;</span><span class="p">,</span>
+<span class="s1">&#39;pl_PL&#39;</span><span class="p">:</span> <span class="s1">&#39;Polish&#39;</span><span class="p">,</span>
+<span class="s1">&#39;pt_PT&#39;</span><span class="p">:</span> <span class="s1">&#39;Portuguese&#39;</span><span class="p">,</span>
+<span class="s1">&#39;ro_RO&#39;</span><span class="p">:</span> <span class="s1">&#39;Romanian&#39;</span><span class="p">,</span>
+<span class="s1">&#39;ru_RU&#39;</span><span class="p">:</span> <span class="s1">&#39;Russian&#39;</span><span class="p">,</span>
+<span class="s1">&#39;sv_SE&#39;</span><span class="p">:</span> <span class="s1">&#39;Swedish&#39;</span><span class="p">,</span>
+<span class="s1">&#39;tr_TR&#39;</span><span class="p">:</span> <span class="s1">&#39;Turkish&#39;</span><span class="p">,</span>
+<span class="s1">&#39;zh_CN&#39;</span><span class="p">:</span> <span class="s1">&#39;Chinese&#39;</span><span class="p">,</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>if you receive an error while running the command, the error will stop you from using the command, to get the error fixed,
+you will be required to add <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">LC_ALL=en_US.UTF-8</span></code> and <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">LANG=en_US.UTF-8</span></code> to system path. This error are common on <code class="docutils literal notranslate"><span class="pre">MAC</span> <span class="pre">OS</span></code>, <code class="docutils literal notranslate"><span class="pre">Ubuntu</span></code> and <code class="docutils literal notranslate"><span class="pre">Linux</span></code>.
+if you keep experiencing this error, refer to <strong>File Structure</strong>.</p>
+</div>
+<div class="section" id="installations">
+<h2>Installations<a class="headerlink" href="#installations" title="Permalink to this headline">¶</a></h2>
+<p>Install python and make sure it’s running on your computer operating system environment or web server.</p>
+<p><strong>Python</strong> can be downloaded at  <code class="docutils literal notranslate"><span class="pre">https://www.python.org/downloads</span></code>
+If you are using a cloud open terminal type or paste  <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">python3</span></code>
+download environment and Pytonik requirement.</p>
+<p>During installation process add to path but if missed out, then you will have to add it to environment
+path once the installation is completed.</p>
+<p>After installation process, open Terminal/Command promts and type in <code class="docutils literal notranslate"><span class="pre">python</span></code> or  <code class="docutils literal notranslate"><span class="pre">which</span> <span class="pre">python</span></code>.</p>
+<p><strong>Note:-</strong>  <code class="docutils literal notranslate"><span class="pre">which</span> <span class="pre">python</span></code> command  might not work on windows environment,
+to achieve this, it will need the help of  <code class="docutils literal notranslate"><span class="pre">https://git-scm.com</span></code> on windows 10 or newer,
+install ubuntu  <code class="docutils literal notranslate"><span class="pre">https://www.microsoft.com/en-us/p/ubuntu/9nblggh4msv6</span></code></p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="configuration.html" class="btn btn-neutral float-right" title="Configuration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="pytonik - web framework MVC" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, pytonik 
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
