@@ -44,6 +44,12 @@ To Run Pytonik Server
 $ pytonik-server
 ```
 
+To Read Pytonik Docs
+
+```
+$ pytonik-doc
+```
+
 
 ## Table of Content
 
