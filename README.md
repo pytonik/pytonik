@@ -7,7 +7,7 @@
 [![Buy Beer](https://img.shields.io/beerpay/pytonik/pytonik?style=flat-square)](https://beerpay.io/pytonik/pytonik)
 [![Donate](http://img.shields.io/liberapay/receives/pytonik.svg?logo=liberapay)](https://liberapay.com/pytonik/donate)
 [![License](https://img.shields.io/pypi/l/pytonik)](https://pypi.python.org/pypi/pytonik)
-
+[![Gitter](https://badges.gitter.im/pytonik-mvc/community.svg)](https://gitter.im/pytonik-mvc/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 
 <p align="center">
