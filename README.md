@@ -8,6 +8,7 @@
 [![Donate](http://img.shields.io/liberapay/receives/pytonik.svg?logo=liberapay)](https://liberapay.com/pytonik/donate)
 [![License](https://img.shields.io/pypi/l/pytonik)](https://pypi.python.org/pypi/pytonik)
 [![Donate](https://img.shields.io/badge/donate-KoFi-blue.svg)](https://ko-fi.com/pytonik) 
+[![Gitter](https://badges.gitter.im/pytonik-mvc/community.svg)](https://gitter.im/pytonik-mvc/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 <p align="center">
 	<img  height="150" src="http://betacodings.com/public/pytonik_logo_color.png">
