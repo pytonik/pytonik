@@ -7,8 +7,8 @@
 ###
 
 
-import os, datetime, sys
-from . import Version
+import os, datetime, sys, ast
+from pytonik import Version
 
 if Version.PYVERSION_MA <= 3 and  Version.PYVERSION_MI < 7:
     import Cookie
@@ -28,7 +28,7 @@ class Session:
         else:
             return False
 
-    def set(self, key="", value="", duration = 10, url=os.environ.get("HTTP_HOST"), path="/"):
+    def set(self, key="", value="", duration = 3600, url=os.environ.get("HTTP_HOST"), path="/"):
         expires = datetime.datetime.utcnow() + datetime.timedelta(minutes=duration)  # minutes in 30 days
 
         if Version.PYVERSION_MA >= 3:
@@ -54,16 +54,17 @@ class Session:
             cooKeys.load(OsEnviron)
             if key in cooKeys:
                 if cooKeys[key].value is not None:
-                    return cooKeys[key].value
+                    try:
+                        return ast.literal_eval(cooKeys[key].value)
+                    except Exception as err:
+                        return cooKeys[key].value
+
                 else:
                     return ""
             else:
                 return ""
         else:
             return ""
-
-
-
 
     def destroy(self, *args):
         if Version.PYVERSION_MA >= 3:

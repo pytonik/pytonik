@@ -9,8 +9,10 @@
 
 
 import importlib, os, sys, re
-from ..Editor import HTMLeditor
-from .. import Log
+from pytonik.Editor import HTMLeditor
+from pytonik import Log
+
+
 log_msg = Log.Log()
 
 class Helpers():
@@ -72,14 +74,35 @@ if "callfunc" not in dir(os):
 
 
 if "url" not in dir(os):
-    def url(path = ""):
+
+    def url(path = "", lang = False):
+        from pytonik.Router import Router
+        ront = Router()
+        seturl = str("localhost:") + str(os.environ.get("SERVER_PORT", ''))
         http = os.environ.get("HTTPS")
         if http == 'on':
-            url = str("https://") + os.environ.get("HTTP_HOST")
+            url = str("https://") + os.environ.get("HTTP_HOST", seturl) + "/" + ront.alllanguages.get(
+                ront.getLanguages(), ront.getLanguages()) if lang is True else str("https://") + os.environ.get(
+                "HTTP_HOST", seturl)
         else:
-            url = str("http://") + os.environ.get("HTTP_HOST")
+            url = str("http://") + os.environ.get("HTTP_HOST", seturl) + "/" + ront.alllanguages.get(
+                ront.getLanguages(), ront.getLanguages()) if lang is True else str("http://") + os.environ.get(
+                "HTTP_HOST", seturl)
 
-        return url+path
+        DS = ""
+        p = ""
+
+        if path == "":
+            DS = ""
+        else:
+            if path[:1] == "/":
+                p = path[1:]
+                DS = "/"
+            else:
+                p = path
+                DS = "/"
+
+        return url + DS + p
 
 if "public_path" not in dir(os):
     def public_path(path = ""):
@@ -105,7 +128,12 @@ if "mvc_dir" not in dir(os):
             newpath = path[:-1]
         else:
             newpath = path
-        host = str(os.path.dirname(os.getcwd()))
+        if os.path.isdir(os.getcwd() + '/public'):
+            host = os.getcwd()  # os.path.dirname(os.getcwd())
+
+        else:
+            host = os.path.dirname(os.getcwd())
+
         DS = str("/")
         dir = host + DS + newpath + DS
         return dir
@@ -119,3 +147,42 @@ if "key_tag" not in dir(os):
         split_tag = [x for x in pattern.split(tag) if x]
         for keyword in split_tag:
             return '<li><a href="{url}" class="{css}">{keyword}</a></li>'.format(css = css, keyword = str(keyword))
+
+if "alphanumeric" not in dir(os):
+    def alphanumeric(string):
+        return re.sub("[^a-zA-Z0-9]+", " ", string)
+
+
+if "rand" not in dir(os):
+    def rand(limit=0, list=1):
+        import random
+        num = {
+            1: 10,
+            2: 120,
+            3: 1230,
+            4: 12340,
+            5: 123450,
+            6: 1234560,
+            7: 12345670,
+            8: 123456780,
+            9: 1234567890,
+            10: 12345678900,
+        }
+        for x in range(list):
+            ran = random.randint(limit, num[limit])
+            return ran
+if "iteration" not in dir(os):
+
+    def iteration(dictionary="", itr="pid"):
+        i = 0
+        if dictionary is not "" or dictionary is not None:
+            dist, apend = [], []
+            for l in dictionary:
+                i += 1
+                ++i
+                listv = l
+                dist = {itr: i}
+                dist.update(listv)
+                apend.append(dist)
+            return apend
+

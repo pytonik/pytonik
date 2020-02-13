@@ -85,15 +85,12 @@ class Request:
 
     def params(self, key=0):
         try:
-            if 'POST' in self.type.get('REQUEST_METHOD'):
-                log_msg.info("advise use POST instead of PARAMS")
-                return False
+            para = self.Router.getParams()
+
+            if para != "" or para is not None:
+                return para.get(key, '')
             else:
-                para = self.Router.getParams()
-                if para != "" or para is not None:
-                    return para.get(key, '')
-                else:
-                    return self.get(key)
+                return self.get(key)
 
         except Exception as err:
             log_msg.info(err)

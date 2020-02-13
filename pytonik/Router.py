@@ -73,7 +73,6 @@ class Router:
                 pathparts_paramarrayOut.setdefault(name, value)
 
 
-
         else:
             pathparts_paramarrayOut = ""
 
@@ -200,7 +199,9 @@ class Router:
 
             else:
 
-                self.params = pathparts_paramarray
+
+                self.params = pathparts_paramarrayOut
+
                 path_parts.append(path_parts.pop(-1))
 
 
