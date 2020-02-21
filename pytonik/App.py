@@ -120,7 +120,11 @@ class App(Router):
 
         else:
 
-            controllersClass = str(self.controllers[0].capitalize()) + str(self.controllers[1:]) + 'Controller'
+            if '?' is str(self.controllers[0]):
+
+                controllersClass =  'IndexController'
+            else:
+                controllersClass = str(self.controllers[0].capitalize()) + str(self.controllers[1:])  + 'Controller'
 
             controllersMethods = str(self.actions)
 
@@ -130,6 +134,8 @@ class App(Router):
 
 
         controllers = controllerpath + DS + controllersClass + ".py"
+
+
 
         if os.path.isfile(controllers) == True:
             if __name__ == '__main__':
@@ -290,7 +296,7 @@ class App(Router):
         elif Version.PYVERSION_MA >= 3 and Version.PYVERSION_MI >= 4:
             import importlib
             importlib.reload(sys)
-        print("Content-type: {type}\r\n\r\n".format(type=type))
+        print("Content-type: {type}\r\n".format(type=type))#\r\n\r\n
         if p > 0:
             for x in range(p):
                 print("")
@@ -319,7 +325,7 @@ class App(Router):
             with open(html_file_path) as html_file:
                 html = html_file.read()
 
-            print(HTMLeditor.Template(html).render(**context))
+            print(str('<!-- Pytonik -->\n')+ HTMLeditor.Template(html).render(**context) + str('\n<!-- Pytonik {} -->'.format(Version.VERSION_TEXT)))
 
         except Exception as err:
             log_msg.error(err)

@@ -10,6 +10,7 @@
 
 import sys, os, cgitb
 from pytonik import Version, Config, Log
+from pytonik.Session import Session
 cgitb.enable()
 url = os.environ.get('REQUEST_URI', os.environ.get('PATH_INFO'))
 log_msg = Log.Log()
@@ -70,7 +71,6 @@ class Router:
                     pathparts_paramarray[name] = [pathparts_paramarray[name], value]
 
                 pathparts_paramarrayOut.setdefault(name, value)
-
 
 
         else:
@@ -199,7 +199,9 @@ class Router:
 
             else:
 
-                self.params = pathparts_paramarray
+
+                self.params = pathparts_paramarrayOut
+
                 path_parts.append(path_parts.pop(-1))
 
 
@@ -227,9 +229,8 @@ class Router:
         return self.methodprefix
 
     def getLanguages(self):
-
-
         return self.languages
+
 
     def env(self):
 

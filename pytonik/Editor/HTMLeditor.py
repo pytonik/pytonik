@@ -111,20 +111,21 @@ def resolve(name, context):
 
     try:
 
-
         for tok in name.split('.'):
-
             context = context[tok]
         return context
 
 
     except Exception as err:
 
+
         try:
             Ap = App.App()
             load = Ap.loadmodule()
-
-            return load.get(name, '')
+            load.update({name: name})
+            md = importlib.import_module(name, name)
+            ob = getattr(md, name)
+            return ob()
         except Exception as err:
 
             # name
@@ -140,8 +141,8 @@ class _Fragment(object):
 
     def clean_fragment(self):
         if self.raw[:2] in (VAR_TOKEN_START, BLOCK_TOKEN_START):
-            return self.raw.strip()[2:-2].strip()
 
+            return self.raw.strip()[2:-2].strip()
 
         return self.raw
 
@@ -151,7 +152,9 @@ class _Fragment(object):
         if raw_start == VAR_TOKEN_START:
             return VAR_FRAGMENT
         elif raw_start == BLOCK_TOKEN_START:
+
             block = str('end{}'.format(self.clean[3:9]))
+
             return CLOSE_BLOCK_FRAGMENT if self.clean[:9] == block else OPEN_BLOCK_FRAGMENT
 
         elif raw_start == COMMENT_TOKEN_START:
@@ -159,6 +162,7 @@ class _Fragment(object):
                 self.clean[2:-2].strip()
             return CLOSE_COMMENT_FRAGMENT
         else:
+
             return TEXT_FRAGMENT
 
 
@@ -225,7 +229,6 @@ class _Each(_ScopableNode):
 
         try:
 
-
             _, it = WHITESPACE.split(fragment, 1)
             self.it = eval_expression(it)
 
@@ -248,6 +251,55 @@ class _Each(_ScopableNode):
             return self.render_children(load)
 
         return ''.join(map(render_item, items))
+
+class _Block(_Node):
+
+    def process_fragment(self, fragment):
+
+        try:
+            it = WHITESPACE.split(fragment)
+
+            self.block = eval_expression(it)
+
+        except Exception as err:
+            raise TemplateSyntaxError(fragment)
+
+    def render(self, context):
+
+        it = self.block[1]
+
+        d, s = [], []
+        try:
+
+            for iv in it:
+                if iv not in operator_lookup_table:
+                    items = resolve(iv, context)
+                    d.append(items)
+                else:
+                    s.append(iv)
+            operator_lookup = s[0]
+            try:
+                return eval(operator_lookup.join(d))
+
+            except Exception as err:
+                return operator_lookup.join(d)
+
+        except Exception as err:
+
+            for iv in it:
+
+                if iv not in operator_lookup_table:
+                    d.append(iv)
+                else:
+                    s.append(iv)
+
+            operator_lookup = s[0]
+            try:
+                return eval(operator_lookup.join(d))
+            except Exception as err:
+                return operator_lookup.join(d)
+
+
 
 
 
@@ -410,8 +462,13 @@ class _Call(_Node):
             if kind == 'name':
 
                 value = value
+
             value = self._call_each(str(value))
-            resolved_kwargs[key] = value
+            try:
+                valux = eval(value)
+            except Exception as err:
+                valux = value
+            resolved_kwargs[key] = valux
 
 
 
@@ -497,7 +554,13 @@ class _Call(_Node):
 
         if  VAR_TOKEN_START in context:
             self.it = str(context).translate({ord(i): None for i in '{VAR_TOKEN_START}{VAR_TOKEN_END}'.format(VAR_TOKEN_START = '{{', VAR_TOKEN_END = '}}')})
-            contsplit = self.it.split('/')
+            oparatork = "/"
+            for oparator_k,  oparator_v in operator_lookup_table.items():
+                if oparator_k in self.it:
+                    oparatork = oparator_k
+
+
+            contsplit = self.it.split(oparatork)
 
 
             if len(contsplit) < 2:
@@ -636,6 +699,8 @@ class Compiler(object):
                 node_class = _Else
             elif cmd == 'call':
                 node_class = _Call
+            else:
+                node_class = _Block
 
         if node_class is None:
             raise TemplateSyntaxError(fragment)

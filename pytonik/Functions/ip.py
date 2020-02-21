@@ -92,15 +92,18 @@ class ip:
 
 
     def property(self, ip):
-        ipU= "http://ipinfo.io/{ip}/json".format(ip=ip)
-        url_ip = urlopen(ipU).read()
-        response = url_ip.decode('utf-8')
-        j_response = json.loads(response)
-        if j_response.get("bogon", "") == "":
-            self.hostname = j_response.get("hostname", "")
-            self.city = j_response.get("city", "")
-            self.region = j_response.get("region", "")
-            self.country = j_response.get("country", "")
-            self.loc = j_response.get("loc", "")
-            self.org = j_response.get("org", "")
-        return self
+        try:
+            ipU= "http://ipinfo.io/{ip}/json".format(ip=ip)
+            url_ip = urlopen(ipU).read()
+            response = url_ip.decode('utf-8')
+            j_response = json.loads(response)
+            if j_response.get("bogon", "") == "":
+                self.hostname = j_response.get("hostname", "")
+                self.city = j_response.get("city", "")
+                self.region = j_response.get("region", "")
+                self.country = j_response.get("country", "")
+                self.loc = j_response.get("loc", "")
+                self.org = j_response.get("org", "")
+            return self
+        except Exception:
+            return False

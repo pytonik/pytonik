@@ -665,6 +665,7 @@ class Table:
 
     def insert(self, data=[]):
         if (type(data) == list):
+
             if len(data) > 0:
                 ksys = []
                 value = []
@@ -685,6 +686,7 @@ class Table:
                 kvariables = ' , '.join(ksys)
                 
                 table_insert = "INSERT INTO  {table}  ({column}) VALUES ({kvariables}) ".format(table=str(self.table), column=lcolumn, kvariables=kvariables)
+
                 if len(value) == 1:
                     t_result = self.DB.query(table_insert, value[0])
                 else:

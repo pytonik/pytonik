@@ -22,15 +22,19 @@ class count:
     def digit(self, num=0):
         num = float(num)
         if (float(num) > 1000000000) is True:
-            getcount = str(float(round((num / 1000000000), ))) + str('T')
+            getcount = str(float(round((num / 1000000000), 1)))[:-2] + str('T') if '.0' in str(float(round((num / 1000), 1))) else str(float(round((num / 1000000000), 1))) + str('T')
+
 
         elif (float(num) > 1000000):
 
-            getcount = str(float(round((num / 1000000), 1))) + str('M')
+
+            getcount = str(float(round((num / 1000000), 1)))[:-2] + str('M') if '.0' in str(float(round((num / 1000), 1))) else str(float(round((num / 1000000), 1))) + str('M')
+
 
         elif (float(num) > 1000) is True:
 
-            getcount = str(float(round((num / 1000), 1)))[:-2] if '.0' in str(float(round((num / 1000), 1))) else str(float(round((num / 1000), 1)))  + str('K')
+            getcount = str(float(round((num / 1000), 1)))[:-2]  + str('K')  if '.0' in str(float(round((num / 1000), 1))) else str(float(round((num / 1000), 1)))  + str('K')
+
         else:
 
             getcount = str(float(round((num / 1), 1)))[:-2] if '.0' in str(float(round((num / 1), 1))) else str(float(round((num / 1), 1)))
@@ -56,3 +60,6 @@ class count:
         elif TB <= B:
             return '{0:.2f} TB'.format(B / TB)
 
+    def format(self, number=0):
+        number = '{:0,.2f}'.format(float(number))
+        return number

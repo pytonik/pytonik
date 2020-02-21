@@ -112,7 +112,7 @@ class Image():
             self.ext = ext(self.filename)
             self.filename = str(width) + 'x' + str(height) + '_' + str(fname)
             result = self.creator()
-            return result
+            return True
 
 
         except Exception as err:
@@ -246,7 +246,7 @@ class Image():
             with open(self.dir + self.filename, 'wb') as result:
                 result.write(img_tmp)
                 result.close()
-            return "True"
+            return True
         except Exception as err:
             log_msg.critical(err)
             return err
@@ -276,7 +276,7 @@ class Image():
                 with open(self.dir + fname, 'wb') as result:
                     result.write(self.read)
                     result.close()
-                return "True"
+                return True
             except Exception as err:
                 log_msg.critical(err)
                 return err

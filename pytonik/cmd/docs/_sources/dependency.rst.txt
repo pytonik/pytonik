@@ -1,0 +1,26 @@
+Dependency
+==========
+
+
+Pytonik is built on python and requires the support of other modules which enhance application development.
+Without it’s dependency functions like database connection, Imaging properties won’t work.
+Below are lists of dependencies:
+
+**MYSQL**
+If your web application supports MySQL database this module is required and needed to be installed
+``pip install mysql-connector``.
+
+**POSTGRESQL**
+If your web application supports PostgreSQL database this module is required and needed to be installed
+``pip install psycopg2``.
+
+**ORACLE**
+
+
+If your web application supports ORACLE database this module is required and needed to be installed.
+``pip install cx-Oracle``.
+
+**PILLOW**
+
+If your web application support Imaging, resize and other imaging functions this module is required and needed to be installed
+``pip install Pillow``.

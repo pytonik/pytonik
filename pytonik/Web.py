@@ -61,10 +61,23 @@ def now():
     from pytonik.Functions.now import now
     return now
 
+def os():
+    from pytonik.Functions.agent import os
+    return os
+
+def browser():
+    from pytonik.Functions.agent import browser
+    return browser
+
 
 def extend():
     from pytonik.Functions.extend import extend
     return extend
+
+
+def path():
+    from pytonik.Functions.path import path
+    return path
 
 
 
@@ -89,14 +102,20 @@ def Logs():
     return Log()
 
 
-def url(path=""):
+def url(path="", lang = False):
+    from pytonik.Router import Router
     import os
+    ront = Router()
     seturl = str("localhost:") + str(os.environ.get("SERVER_PORT", ''))
     http = os.environ.get("HTTPS")
     if http == 'on':
-        url = str("https://") + os.environ.get("HTTP_HOST", seturl)
+        url = str("https://") + os.environ.get("HTTP_HOST", seturl) + "/" + ront.alllanguages.get(
+            ront.getLanguages(), ront.getLanguages()) if lang is True else str("https://") + os.environ.get(
+            "HTTP_HOST", seturl)
     else:
-        url = str("http://") + os.environ.get("HTTP_HOST", seturl)
+        url = str("http://") + os.environ.get("HTTP_HOST", seturl) + "/" + ront.alllanguages.get(
+            ront.getLanguages(), ront.getLanguages()) if lang is True else str("http://") + os.environ.get(
+            "HTTP_HOST", seturl)
 
     DS = ""
     p = ""
@@ -112,3 +131,6 @@ def url(path=""):
             DS = "/"
 
     return url + DS + p
+
+
+

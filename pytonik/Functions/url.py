@@ -4,7 +4,7 @@
 # Maintainer Email: emmamartinscm@gmail.com
 # Created by BetaCodings on 05/11/2019.
 import os
-
+from pytonik.Router import Router
 
 class url:
 
@@ -30,14 +30,15 @@ class url:
         return self.ul
 
 
-    def url(self, path = ""):
+    def url(self, path = "", lang = False):
 
+        ront = Router()
         seturl = str("localhost:") + str(os.environ.get("SERVER_PORT", ''))
         http = os.environ.get("HTTPS")
         if http == 'on':
-            url = str("https://") + os.environ.get("HTTP_HOST", seturl)
+            url = str("https://") + os.environ.get("HTTP_HOST", seturl) + "/" + ront.alllanguages.get(ront.getLanguages(), ront.getLanguages()) if lang is True else str("https://") + os.environ.get("HTTP_HOST", seturl)
         else:
-            url = str("http://") + os.environ.get("HTTP_HOST", seturl)
+            url = str("http://") + os.environ.get("HTTP_HOST", seturl) + "/" + ront.alllanguages.get(ront.getLanguages(), ront.getLanguages()) if lang is True else str("http://") + os.environ.get("HTTP_HOST", seturl)
 
         DS = ""
         p = ""

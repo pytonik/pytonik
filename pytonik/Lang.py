@@ -48,15 +48,8 @@ class Lang:
 
 
     def get(self, key, defindValue = ''):
+
         data = ast.literal_eval(self.data)
 
-        if Version.PYVERSION_MA <= 2:
-            items = data.iteritems()
-        else:
-            items = data.items()
+        return data.get(key.lower(), defindValue)
 
-        if key in data:
-            for k, v in items:
-                return data[k.lower()]
-        else:
-            return defindValue
