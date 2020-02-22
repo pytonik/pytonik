@@ -22,8 +22,10 @@ setup(
     license= Version.LICENSE,
     keywords = Version.KEYWORDS,
     entry_points = {
-        'console_scripts' : ['pytonik-start = pytonik.cmd.start:main', 'pytonik-server = pytonik.cmd.server:main']
+        'console_scripts' : ['pytonik-start = pytonik.cmd.start:main', 'pytonik-docs = pytonik.cmd.doc:main',  'pytonik-server = pytonik.cmd.server:main']
                     },
+    install_requires=['Pillow', 'mysql-connector-python', 'psycopg2-binary', 'cx-Oracle'],
+    zip_safe=False,                
     classifiers=[
         'Environment :: Console',
         'License :: OSI Approved :: MIT License',
@@ -47,5 +49,5 @@ setup(
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python'
     ],
-    python_requires='>=2.7, >=3.*',
+    python_requires='>=2.7, >=2.7.*, >=3.*',
 )
