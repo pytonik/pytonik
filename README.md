@@ -1,7 +1,7 @@
 # pytonik
 
 [![Build Status](https://img.shields.io/pypi/v/pytonik)](https://pypi.python.org/pypi/pytonik)
-[![Downloads](https://img.shields.io/pypi/dm/pytonik)](https://pypi.python.org/pypi/pytonik/)
+[![Downloads](https://pepy.tech/badge/pytonik)](https://pypi.python.org/pypi/pytonik)
 [![Wheel](https://img.shields.io/pypi/wheel/pytonik.svg)](https://pypi.python.org/pypi/pytonik)
 [![Python Version](https://img.shields.io/pypi/pyversions/pytonik)](https://pypi.python.org/pypi/pytonik)
 [![Buy Beer](https://img.shields.io/beerpay/pytonik/pytonik?style=flat-square)](https://beerpay.io/pytonik/pytonik)
