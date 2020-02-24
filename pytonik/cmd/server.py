@@ -242,6 +242,7 @@ def serv(path =""):
     url = "localhost"
     server = ThreadedHTTPServer((url, portno), pysteveHTTPHandler)
     l = "{}:{}".format(url, portno)
+    print("Pytonik development server running on "+l)
     webbrowser.open_new(l)
     server.serve_forever()
 
