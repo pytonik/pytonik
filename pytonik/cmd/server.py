@@ -201,7 +201,7 @@ def serv(path =""):
     handler = CGIHTTPRequestHandler
     server_address = ("", portno)
 
-    path = str(path)+"/public" if path != "" else str(os.getcwd())+"/public"
+    path = str(path) if path != "" else str(os.getcwd())
 
 
     handler.cgi_directories = [path]
@@ -219,11 +219,11 @@ def serv(path =""):
                 os.chdir(path)
 
 
-                if os.path.isfile(str(path)+"/index.py") == True:
+                if os.path.isfile(str(path)+"/public/index.py") == True:
 
-                    self.cgi_info = ("/", "index.py" + path_info)
+                    self.cgi_info = ("/public/", "index.py" + path_info)
                 else:
-                    self.cgi_info = ("/", "home.py" + path_info)
+                    self.cgi_info = ("/public/", "home.py" + path_info)
 
                 return self.run_cgi()
 
@@ -239,10 +239,11 @@ def serv(path =""):
     class ThreadedHTTPServer(ThreadingMixIn, server):
         """Moomins live here"""
 
-    server = ThreadedHTTPServer(('localhost', portno), pysteveHTTPHandler)
-    url = "http://localhost:%u" % portno
-    print(url)
-    webbrowser.open_new(url)
+    url = "localhost"
+    server = ThreadedHTTPServer((url, portno), pysteveHTTPHandler)
+    l = "{}:{}".format(url, portno)
+    print("Pytonik development server running on "+l)
+    webbrowser.open_new(l)
     server.serve_forever()
 
 if __name__ == '__main__':
