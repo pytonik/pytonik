@@ -40,18 +40,17 @@ class url:
         else:
             url = str("http://") + os.environ.get("HTTP_HOST", seturl) + "/" + ront.alllanguages.get(ront.getLanguages(), ront.getLanguages()) if lang is True else str("http://") + os.environ.get("HTTP_HOST", seturl)
 
-        DS = ""
-        p = ""
+        DS, p = "", ""
 
         if path == "":
             DS = ""
         else:
+
             if path[:1] == "/":
                 p = path[1:]
                 DS = "/"
             else:
                 p = path
                 DS = "/"
-
 
         return url + DS + p
