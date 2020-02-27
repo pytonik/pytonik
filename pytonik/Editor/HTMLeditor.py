@@ -9,11 +9,9 @@
 
 
 import re, operator, ast
-from pytonik import Log, Version, App
+from pytonik import Version, App
 import os, importlib, sys
-
-log_msg = Log.Log()
-
+from pytonik.Log import Log
 
 VAR_FRAGMENT = 0
 OPEN_BLOCK_FRAGMENT = 1
@@ -81,7 +79,7 @@ class TemplateContextError(TemplateError):
 
 
     def __str__(self):
-        log_msg.error("cannot resolve '%s'" % self.context_var)
+        Log('').error("cannot resolve '%s'" % self.context_var)
         return "cannot resolve '%s'" % self.context_var
 
 
@@ -91,7 +89,7 @@ class TemplateSyntaxError(TemplateError):
         self.error_syntax = error_syntax
 
     def __str__(self):
-        log_msg.error("'%s' seems like invalid syntax" % self.error_syntax)
+        Log('').error("'%s' seems like invalid syntax" % self.error_syntax)
         return "'%s' seems like invalid syntax" % self.error_syntax
 
 
@@ -510,7 +508,7 @@ class _Call(_Node):
                             calls = ob(*resolved_args, **resolved_kwargs)
 
                         except Exception as err:
-                            log_msg.error(err)
+                            Log('').error(err)
 
                 return calls
             else:
@@ -542,7 +540,7 @@ class _Call(_Node):
                             calls = ob(*resolved_args, **resolved_kwargs)
 
                         except Exception as err:
-                            log_msg.error(err)
+                            Log('').error(err)
                 return calls
             else:
                 raise TemplateError("'%s' is not a callable" % self.callable)
