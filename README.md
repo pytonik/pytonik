@@ -48,6 +48,13 @@ To Run Pytonik Server
 $ pytonik-server
 ```
 
+To Install Project Requirements  from ```requirments.txt``` file.
+
+```
+$ pytonik-install
+```
+
+
 To Read Pytonik Docs
 
 ```

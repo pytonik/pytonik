@@ -2,14 +2,17 @@
 # Author : info@betacodings.com
 # Maintainer By: Emmanuel Martins
 # Maintainer Email: emmamartinscm@gmail.com
+# Created by BetaCodings on 2/25/20.
+##pip install --install-option="--prefix=$PREFIX_PATH" package_name
+
+
+
+# Author : BetaCodings
+# Author : info@betacodings.com
+# Maintainer By: Emmanuel Martins
+# Maintainer Email: emmamartinscm@gmail.com
 # Created by BetaCodings on 1/19/20.
 
-
-from socketserver import ThreadingMixIn
-import cgitb
-import base64, traceback
-from http.server import BaseHTTPRequestHandler, CGIHTTPRequestHandler, HTTPServer
-from  http import HTTPStatus
 
 import argparse
 import locale
@@ -18,17 +21,14 @@ import re
 import sys
 import time
 import warnings
-from pytonik.cmd import lang
 from pytonik import Version
+from pytonik.Core.requirement import requirement
+from typing import Any, Callable, Dict, List, Pattern, Union
+from random import randint
 from typing import Any, Callable, Dict, List, Pattern, Union
 from pytonik.cmd.console import (  # type: ignore
     colorize, bold, red, green, turquoise, nocolor, color_terminal
 )
-
-import webbrowser
-
-cgitb.enable()
-
 from random import randint
 
 try:
@@ -115,7 +115,6 @@ PROMPT_PREFIX = '> '
 def do_prompt(text: str, default: str = None, validator: Callable[[str], Any] = nonempty) -> Union[str, bool]:  # NOQA
 
     while True:
-
         if default is not None:
             prompt = PROMPT_PREFIX + '%s [%s]: ' % (text, default)
         else:
@@ -139,6 +138,25 @@ def do_prompt(text: str, default: str = None, validator: Callable[[str], Any] = 
     return x
 
 
+def ask(d: Dict) -> None:
+
+    print(bold(__('Welcome to the Pytonik MVC Framework %s.' % Version.VERSION_TEXT)))
+
+    print(__(bold(red('PLEASE NOTE :'))+' This feature is use for installation of project requirments.'))
+
+    d['step'] = do_prompt(__('Do you want install requirements  (y/n)'),'n', boolean)
+    if d.get('step', '') == True:
+        try:
+            requirement().rf()
+        except Exception as err:
+            print(err)
+
+    if d.get('step', '') is False:
+        sys.exit(-1)
+
+
+
+
 def term_input(prompt: str) -> str:
     if sys.platform == 'win32':
 
@@ -146,7 +164,6 @@ def term_input(prompt: str) -> str:
         return input('')
     else:
         return input(prompt)
-
 
 
 def get_parser() -> argparse.ArgumentParser:
@@ -164,46 +181,10 @@ def get_parser() -> argparse.ArgumentParser:
     parser.add_argument('--version', action='version', dest='show_version',
                         version='%%(prog)s %s' % Version.VERSION_TEXT)
 
-    parser.add_argument('port', default='6060', nargs='?',)
+    parser.add_argument('path', metavar='PROJECT_DIR', default='.', nargs='?',
+                        help=__('project root'))
 
     return parser
-
-def ask(d: Dict) -> None:
-
-    print(bold(__('Run Pytonik Server.')))
-
-    d['run'] = do_prompt(__('Do you want to run this project using default port (y/n)'), 'n', boolean)
-
-    if d.get('run', '') is True:
-        serv()
-
-    else:
-        d['port'] = do_prompt(__('Enter Custom Port'))
-        if d.get('port', '') != "":
-            if type(d.get('port', '')):
-
-
-                askg(d)
-
-
-            else:
-                print(bold(red(__('Enter Only Number'))))
-                askg(d)
-
-        else:
-            d['quite'] = do_prompt(__('Do you want exite (y/n)'), 'n', boolean)
-            if d.get('quite', '') is True:
-                sys.exit(-1)
-            else:
-                askg(d)
-
-        print()
-
-
-def askg(d):
-
-    serv(port=d.get('port', ''))
-
 
 
 
@@ -217,64 +198,9 @@ def main(argv: List[str] = sys.argv[1:]) -> int:
         return err.code
     d = vars(args)
     ask(d)
-
-def serv(path ="", port=6060):
-    ##randint(1000, 9999)
-
-    try:
-        portno = int(port)
-    except Exception as err:
-        print(bold(red(__("Accept only int, not String !!"))))
-        return False
-    server = HTTPServer
-
-    handler = CGIHTTPRequestHandler
-    server_address = ("", portno)
-
-    path = str(path) if path != "" else str(os.getcwd())
+    #path = str(os.getcwd())
 
 
-    handler.cgi_directories = [path]
-    handler.cgi_info = {}
-
-
-    class pysteveHTTPHandler(handler):
-
-        def do_GET(self):
-
-            try:
-
-                path_info = self.path
-
-                os.chdir(path)
-
-
-                if os.path.isfile(str(path)+"/public/index.py") == True:
-
-                    self.cgi_info = ("/public/", "index.py" + path_info)
-                else:
-                    self.cgi_info = ("/public/", "home.py" + path_info)
-
-                return self.run_cgi()
-
-            except Exception as err:
-                doTraceBack()
-
-        def do_POST(self):
-            self.do_GET()
-
-        def do_HEAD(self):
-            self.do_GET()
-
-    class ThreadedHTTPServer(ThreadingMixIn, server):
-        """Moomins live here"""
-
-    url = "localhost"
-    server = ThreadedHTTPServer((url, portno), pysteveHTTPHandler)
-    l = "{}:{}".format(url, portno)
-    print(green("Pytonik development server running on " + str(l)))
-    webbrowser.open_new(l)
-    server.serve_forever()
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv[1:]))

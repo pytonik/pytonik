@@ -9,27 +9,29 @@
 
 
 import sys, os, cgitb
-from pytonik import Version, Config, Log
+from pytonik import Version, Log
+from pytonik.Config import Config
+from pytonik.Core.env import env
 from pytonik.Session import Session
 cgitb.enable()
 url = os.environ.get('REQUEST_URI', os.environ.get('PATH_INFO'))
 log_msg = Log.Log()
 
 
-class Router:
+class Router(env, Config):
+
     def __init__(self):
         urlstr = str(url)
         self.uri = urlstr.split('/')
 
-        Conf = Config.Config()
-        Conf.add(self.env())
+        self.add(self._e())
 
 
-        self.controllers = Conf.get('default_controllers')
-        self.actions = Conf.get('default_actions')
-        self.languages = Conf.get('default_languages')
-        self.alllanguages = Conf.get('languages', '')
-        self.routes = Conf.get('default_routes')
+        self.controllers = self.get('default_controllers')
+        self.actions = self.get('default_actions')
+        self.languages = self.get('default_languages')
+        self.alllanguages = self.get('languages', '')
+        self.routes = self.get('default_routes')
         self.methodprefix = ""
         self.params = ""
 
@@ -90,7 +92,7 @@ class Router:
 
 
 
-            routes = Conf.get('route', '')
+            routes = self.get('route', '')
 
             if list(set(path_parts).intersection(routes.keys())):
 
@@ -107,7 +109,7 @@ class Router:
                         #path_parts.append(path_parts.pop(-1))
 
 
-            languages = Conf.get('languages', '')
+            languages = self.get('languages', '')
 
 
             if list(set(path_parts).intersection(languages.keys())):
@@ -118,7 +120,7 @@ class Router:
                         path_parts.append(path_parts.pop(-1))
 
 
-            controllers = Conf.get('default_controllers', '')
+            controllers = self.get('default_controllers', '')
             if controllers:
 
                 i = 0
@@ -135,7 +137,7 @@ class Router:
                     ++i
 
 
-            action = Conf.get('default_actions', '')
+            action = self.get('default_actions', '')
             if action:
                 i = 0
                 for s in path_parts:
@@ -178,13 +180,22 @@ class Router:
 
                                 if len(new_para) > 0:
                                     param_m = []
+
                                     for i, para in enumerate(getMapPara[1:]):
+
                                         param_n = para
-                                        v_para  = new_para[i]
+
+                                        if (len(new_para)-i) > 0:
+                                            v_para  = new_para[i]
+                                        else:
+                                            v_para = ""
+
+
                                         list_params.append(param_n)
                                         list_params.append(v_para)
 
                                 self.params = Helpers.covert_list_dict(list_params)
+
 
                 else:
                     for s in path_parts:
@@ -232,27 +243,3 @@ class Router:
         return self.languages
 
 
-    def env(self):
-
-        import os
-
-        if os.path.isdir(os.getcwd() + '/public'):
-            host = os.getcwd()  # os.path.dirname(os.getcwd())
-
-        else:
-            host = os.path.dirname(os.getcwd())
-
-        DS = str("/")
-
-        envpath = host + DS + ".env"
-
-        if os.path.isfile(envpath) == True:
-
-            try:
-                f = open(envpath, "r")
-                return f.read()
-            except Exception as err:
-                    log_msg.error(err)
-        else:
-            log_msg.critical(".env file not found")
-            return ".env file not found"

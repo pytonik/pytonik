@@ -20,10 +20,8 @@ from http import HTTPStatus
 
 cgitb.enable()
 
-log_msg = Log()
 
 global host, u
-
 
 
 if os.path.isdir(os.getcwd()+'/public'):
@@ -31,6 +29,7 @@ if os.path.isdir(os.getcwd()+'/public'):
 
 else:
     host = os.path.dirname(os.getcwd())
+
 
 
 DS = str("/")
@@ -46,6 +45,9 @@ header_response_page = {
 
 
 class App(Router):
+
+    def __getattr__(self, item):
+        return item
 
 
     def __init__(self, routers="", routes="", getpath="", getrouters=""):
@@ -93,6 +95,7 @@ class App(Router):
         langs = Lang.Lang(self.languages)
         langs.loadLang()
         routesUri = []
+
         for k, getRouter in self.getrouters.items():
 
             if self.controllers == k:
@@ -138,6 +141,7 @@ class App(Router):
 
 
         if os.path.isfile(controllers) == True:
+
             if __name__ == '__main__':
                 spac = ""
             if os.path.isfile(controllers) == True:
@@ -149,6 +153,7 @@ class App(Router):
 
         else:
 
+            Log(controllerpath).error('Controller does not exist ' + str(controllersClass))
             self.errorP('405')
 
 
@@ -204,10 +209,9 @@ class App(Router):
 
 
     def envrin(self,  key):
-        env = self.env()
-        self.Config = Config()
-        self.Config.add(env)
-        return self.Config.get(key, '')
+        env = self._e()
+        self.add(env)
+        return self.get(key, '')
 
 
     def DB(self):
@@ -244,22 +248,27 @@ class App(Router):
             sys.path.append(p)
             ms = str(self.actions)
             md = importlib.import_module(c)
-            self.strMethod(md, ms)
+            self.strMethod(p, md, ms)
 
         except Exception as err:
-            log_msg.error(err)
+            Log(p + DS + c + '.py').critical(err)
+
             self.errorP('400')
 
 
 
 
 
-    def strMethod(self, c=None, m=None):
+    def strMethod(self, p, c=None, m=None):
         Request = self.Request()
         try:
             return getattr(c, m)(Request)
         except Exception as err:
-            return getattr(c, m)()
+            try:
+                return getattr(c, m)()
+            except:
+                Log(p+DS+c+'.py').critical(err)
+
 
     def strClass3(self, p=None, c=None):
 
@@ -268,10 +277,11 @@ class App(Router):
             ms = str(self.actions)
             importlib._RELOADING
             md = importlib.import_module(c, ms)
-            self.strMethod(md, ms)
+            self.strMethod(p, md, ms)
 
         except Exception as err:
-            log_msg.error(err)
+
+            Log(p+DS+c+'.py').critical(err)
             self.errorP('400')
 
 
@@ -309,6 +319,7 @@ class App(Router):
         pathfhtml = host + DS + 'views' + DS + pathf + ".html"
 
         if os.path.isfile(pathfhtml) == False:
+            Log(host + DS + 'views').critical('Cannot find file {}'.format(pathf + ".html"))
             self.errorP('404')
         else:
             self.header()
@@ -328,7 +339,7 @@ class App(Router):
             print(str('<!-- Pytonik -->\n')+ HTMLeditor.Template(html).render(**context) + str('\n<!-- Pytonik {} -->'.format(Version.VERSION_TEXT)))
 
         except Exception as err:
-            log_msg.error(err)
+            Log(template_dir+DS+engine+str('.html')).error(err)
 
     def getDefaultViewPath(self):
 
@@ -375,7 +386,7 @@ class App(Router):
             f.close()
 
         except Exception as err:
-            log_msg.error(err)
+            Log(__file__).critical(err)
 
     def loadmodule(self):
 
