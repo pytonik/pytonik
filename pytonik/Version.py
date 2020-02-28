@@ -23,3 +23,4 @@ KEYWORDS = "mvc, oop, module, python, framework, web, app"
 
 PYVERSION_MA = sys.version_info.major
 PYVERSION_MI = sys.version_info.minor
+
