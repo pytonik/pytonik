@@ -22,22 +22,23 @@ setup(
     license= Version.LICENSE,
     keywords = Version.KEYWORDS,
     entry_points = {
-        'console_scripts' : ['pytonik-start = pytonik.cmd.start:main', 'pytonik-docs = pytonik.cmd.doc:main',  'pytonik-server = pytonik.cmd.server:main']
+        'console_scripts' : ['pytonik-install = pytonik.cmd.install:main', 'pytonik-start = pytonik.cmd.start:main', 'pytonik-docs = pytonik.cmd.doc:main',  'pytonik-server = pytonik.cmd.server:main']
                     },
-    install_requires=['Pillow', 'mysql-connector-python', 'psycopg2-binary', 'cx-Oracle'],
+    install_requires=['Pillow', 'colorama', 'mysql-connector-python', 'psycopg2-binary', 'cx-Oracle'],
     zip_safe=False,                
     classifiers=[
         'Environment :: Console',
+        'Framework :: Pytonik ::{}'.format(Version.VERSION_TEXT),
         'License :: OSI Approved :: MIT License',
+        'Development Status :: 4 - Beta'
         'Environment :: Web Environment',
-        'Intended Audience :: End Users/Desktop',
         'Intended Audience :: Developers',
-        'Intended Audience :: System Administrators',
-        'License :: OSI Approved :: Python Software Foundation License',
-        'Programming Language :: Python',
+        'License :: OSI Approved :: BSD License',
         'Topic :: Office/Business',
-        'Intended Audience :: Developers',
-        'License :: OSI Approved :: MIT License',
+        'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
+        'Topic :: Internet :: WWW/HTTP :: WSGI :: Application',
+        'Topic :: Software Development :: Libraries :: Application Frameworks',
+        'Topic :: Software Development :: Libraries :: Python Modules',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
