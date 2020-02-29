@@ -14,11 +14,11 @@ resources for questions about your own code:
 	* The IRC channel ``#pytonik`` on FreeNode is linked to Discord, but
 		Discord is preferred.
 
-* Join Community : ``https://gitter.im/pytonik-mvc/community``
+* Join Community : https://gitter.im/pytonik-mvc/community
 
-* The mailing list pytonik@python.org for long term discussion or larger issues.
-* Ask on `Stack Overflow`_. Search with Google first using:
-	``site:stackoverflow.com pytonik {search term, exception message, etc.}``
+* The mailing list dev@pytonik.com for long term discussion or larger issues.
+* Ask on `Stack Overflow``. Search with Google first using:
+	``site:stackoverflow.com pytonik {search term, exception message, etc.} ``
 
 
 Reporting issues
@@ -38,19 +38,19 @@ Reporting issues
 Submitting patches
 ------------------
 
-- Use `Black`_ to autoformat your code. This should be done for you as a
-	git `pre-commit`_ hook, which gets installed when you run ``pip install -e .[dev]``.
-	You may also wish to use Black's `Editor integration`_.
+- Use ``Black``_ to autoformat your code. This should be done for you as a
+	git ``pre-commit``_ hook, which gets installed when you run ``pip install -e .[dev]``.
+	You may also wish to use Black's ``Editor integration``_.
 - Include tests if your patch is supposed to solve a bug, and explain
 	clearly under which circumstances the bug happens. Make sure the test fails
 	without your patch.
 - Include a string like "Fixes #123" in your commit message
 	(where 123 is the issue you fixed).
 	See `Closing issues using keywords
-	<https://help.github.com/articles/creating-a-pull-request/>`__.
+	<https://help.github.com/articles/creating-a-pull-request/>`.
 
 First time setup
-~~~~~~~~~~~~~~~~
+----------------
 
 - Download and install the `latest version of git`_.
 - Configure git with your `username`_ and `email`_::
@@ -94,7 +94,7 @@ First time setup
 .. _pre-commit framework: https://pre-commit.com/#install
 
 Start coding
-~~~~~~~~~~~~
+------------
 
 -   Create a branch to identify the issue you would like to work on. If
 		you're submitting a bug or documentation fix, branch off of the
@@ -107,29 +107,20 @@ Start coding
 
 				git checkout -b your-branch-name origin/master
 
-- Using your favorite editor, make your changes, `committing as you go`_.
+- Using your favorite editor, make your changes, ``committing as you go``_.
 - Include tests that cover any code changes you make. Make sure the test fails
-	without your patch. `Run the tests <contributing-testsuite_>`_.
-- Push your commits to GitHub and `create a pull request`_ by using::
+	without your patch. ``Run the tests <contributing-testsuite_>``_.
+- Push your commits to GitHub and ``create a pull request`_ by using::
 
 				git push --set-upstream origin your-branch-name
 
-- Celebrate 🎉
-
-.. _committing as you go: https://dont-be-afraid-to-commit.readthedocs.io/en/latest/git/commandlinegit.html#commit-your-changes
-.. _Black: https://black.readthedocs.io
-.. _Editor integration: https://black.readthedocs.io/en/stable/editor_integration.html
-.. _pre-commit: https://pre-commit.com
-.. _create a pull request: https://help.github.com/en/articles/creating-a-pull-request
-
-.. _contributing-testsuite: #running-the-tests
 
 Running the tests
-~~~~~~~~~~~~~~~~~
+-----------------
 
 Run the basic test suite with::
 
-		pytest
+``pytest``
 
 This only runs the tests for the current environment. Whether this is relevant
 depends on which part of pytonik you're working on. Travis-CI will run the full
@@ -139,28 +130,8 @@ The full test suite takes a long time to run because it tests multiple
 combinations of Python and dependencies. You need to have Python 2.7, 3.4,
 3.5, 3.6, 3.7, 3.8 and PyPy 2.7 installed to run all of the environments. Then run::
 
-		tox
-
-Running test coverage
-~~~~~~~~~~~~~~~~~~~~~
-
-Generating a report of lines that do not have test coverage can indicate
-where to start contributing. Run ``pytest`` using ``coverage`` and generate a
-report on the terminal and as an interactive HTML document::
-
-		coverage run -m pytest
-		coverage report
-		coverage html
-		# then open htmlcov/index.html
-
-Read more about `coverage <https://coverage.readthedocs.io>`_.
-
-Running the full test suite with ``tox`` will combine the coverage reports
-from all runs.
-
-
 Building the docs
-~~~~~~~~~~~~~~~~~
+-----------------
 
 Build the docs in the ``docs`` directory using Sphinx::
 
