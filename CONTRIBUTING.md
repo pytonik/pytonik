@@ -54,65 +54,75 @@ First time setup
 
 - Download and install the `latest version of git`_.
 - Configure git with your `username`_ and `email`_::
-
-				git config --global user.name 'your name'
-				git config --global user.email 'your email'
-
-- Make sure you have a `GitHub account`_.
+```
+git config --global user.name 'your name'
+git config --global user.email 'your email'
+```
+- Make sure you have a ``GitHub account``.
 - Fork pytonik to your GitHub account by clicking the `Fork`_ button.
-- `Clone`_ your GitHub fork locally::
 
-				git clone https://github.com/{username}/pytonik
-				cd pytonik
+- `Clone`_ your GitHub fork locally
 
-- Add the main repository as a remote to update later::
+`` 
+git clone https://github.com/{username}/pytonik
+cd pytonik 
+``
 
-				git remote add pallets https://github.com/pytonik/pytonik
-				git fetch pytonik
+- Add the main repository as a remote to update later
+
+`` 
+git remote add pallets https://github.com/pytonik/pytonik
+git fetch pytonik
+``
 
 - Create a virtualenv::
+``
+python3 -m venv env
+. env/bin/activate
+# or "env\Scripts\activate" on Windows
+``
 
-				python3 -m venv env
-				. env/bin/activate
-				# or "env\Scripts\activate" on Windows
+- Install pytonik in editable mode with development dependencies
 
-- Install pytonik in editable mode with development dependencies::
+`` pip install -e ".[dev]" ``
 
-				pip install -e ".[dev]"
+- Install the ``pre-commit framework ``.
+- Install the pre-commit hooks
 
-- Install the `pre-commit framework`_.
-- Install the pre-commit hooks::
+`` 
+pre-commit install --install-hooks
+``
 
-				pre-commit install --install-hooks
+New to Github
+------------
 
-.. _GitHub account: https://github.com/join
-.. _latest version of git: https://git-scm.com/downloads
-.. _username: https://help.github.com/en/articles/setting-your-username-in-git
-.. _email: https://help.github.com/en/articles/setting-your-commit-email-address-in-git
-.. _Fork: https://github.com/pallets/pytonik/fork
-.. _Clone: https://help.github.com/en/articles/fork-a-repo#step-2-create-a-local-clone-of-your-fork
-.. _pre-commit framework: https://pre-commit.com/#install
+**GitHub account:** https://github.com/join
+**latest version of git:** https://git-scm.com/downloads
+**username:** https://help.github.com/en/articles/setting-your-username-in-git
+**email:** https://help.github.com/en/articles/setting-your-commit-email-address-in-git
+**Fork:** https://github.com/pallets/pytonik/fork
+**Clone:** https://help.github.com/en/articles/fork-a-repo#step-2-create-a-local-clone-of-your-fork
+**pre-commit framework:** https://pre-commit.com/#install
 
 Start coding
 ------------
 
--   Create a branch to identify the issue you would like to work on. If
-		you're submitting a bug or documentation fix, branch off of the
-		latest ".x" branch::
+-   Create a branch to identify the issue you would like to work on. If you're submitting a bug or documentation fix, branch off of the latest ".x" branch::
 
-				git checkout -b your-branch-name origin/1.9.x
+`` 
+git checkout -b your-branch-name origin/1.9.x ``
 
-		If you're submitting a feature addition or change, branch off of the
-		"master" branch::
+If you're submitting a feature addition or change, branch off of the
+"master" branch
+`` 
+git checkout -b your-branch-name origin/master
+``
 
-				git checkout -b your-branch-name origin/master
+- Using your favorite editor, make your changes, `` committing as you go ``.
+- Include tests that cover any code changes you make. Make sure the test fails without your patch. `` Run the tests <contributing-testsuite> ``.
+- Push your commits to GitHub and ``create a pull request`` by using
 
-- Using your favorite editor, make your changes, ``committing as you go``_.
-- Include tests that cover any code changes you make. Make sure the test fails
-	without your patch. ``Run the tests <contributing-testsuite_>``_.
-- Push your commits to GitHub and ``create a pull request`_ by using::
-
-				git push --set-upstream origin your-branch-name
+`` git push --set-upstream origin your-branch-name ``
 
 
 Running the tests
@@ -135,9 +145,11 @@ Building the docs
 
 Build the docs in the ``docs`` directory using Sphinx::
 
-		cd docs
-		pip install -r requirements.txt
-		make html
+``
+cd docs
+pip install -r requirements.txt
+make html
+``
 
 Open ``_build/html/index.html`` in your browser to view the docs.
 
