@@ -82,6 +82,7 @@ python3 -m venv env
 env/bin/activate
 ``
 on Windows
+
 `` 
 env\Scripts\activate
 
@@ -96,6 +97,7 @@ env\Scripts\activate
 
 `` 
 pre-commit install --install-hooks
+
 ``
 
 New to Github
@@ -112,17 +114,17 @@ New to Github
 Start coding
 ------------
 
--   Create a branch to identify the issue you would like to work on. If you're submitting a bug or documentation fix, branch off of the latest ".x" branch::
+- Create a branch to identify the issue you would like to work on. If you're submitting a bug or documentation fix, branch off of the latest ".x" branch
 
 `` 
-git checkout -b your-branch-name origin/1.9.x ``
+git checkout -b your-branch-name origin/1.9.x 
+``
 
 If you're submitting a feature addition or change, branch off of the
 "master" branch
 
 `` 
 git checkout -b your-branch-name origin/master
-
 ``
 
 - Using your favorite editor, make your changes, `` committing as you go ``.
@@ -161,6 +163,6 @@ make html
 
 ``
 
-Open ``_build/html/index.html`` in your browser to view the docs.
+Open ``build/html/index.html`` in your browser to view the docs.
 
 Read more about `Sphinx <https://www.sphinx-doc.org/en/master/>`_.
