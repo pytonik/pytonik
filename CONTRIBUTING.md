@@ -104,12 +104,19 @@ New to Github
 ------------
 
 **GitHub account:** https://github.com/join
+
 **latest version of git:** https://git-scm.com/downloads
+
 **username:** https://help.github.com/en/articles/setting-your-username-in-git
+
 **email:** https://help.github.com/en/articles/setting-your-commit-email-address-in-git
+
 **Fork:** https://github.com/pallets/pytonik/fork
+
 **Clone:** https://help.github.com/en/articles/fork-a-repo#step-2-create-a-local-clone-of-your-fork
+
 **pre-commit framework:** https://pre-commit.com/#install
+
 
 Start coding
 ------------
