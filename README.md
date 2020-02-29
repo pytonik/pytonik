@@ -78,7 +78,9 @@ $ pytonik-doc
 * [Functions](https://pytonik.readthedocs.io/en/latest/func.html)
 * [Schema](https://pytonik.readthedocs.io/en/latest/schema.html)
 * [Advance](https://pytonik.readthedocs.io/en/latest/advance.html)
-			 
+
+## Testing
+Run `nosetests test` in the root directory.			 
 
 ## Contact
 

@@ -1,2 +1,6 @@
-
 *.rst
+__pycache__
+*.pyc
+.idea/
+.vscode/
+.mypy_cache
