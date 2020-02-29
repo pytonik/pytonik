@@ -1,5 +1,5 @@
 How to contribute to Pytonik
-==========================
+============================
 
 Thank you for considering contributing to Pytonik!
 
@@ -75,11 +75,16 @@ git remote add pallets https://github.com/pytonik/pytonik
 git fetch pytonik
 ``
 
-- Create a virtualenv::
+- Create a virtualenv
+
 ``
 python3 -m venv env
-. env/bin/activate
-# or "env\Scripts\activate" on Windows
+env/bin/activate
+``
+on Windows
+`` 
+env\Scripts\activate
+
 ``
 
 - Install pytonik in editable mode with development dependencies
@@ -114,15 +119,19 @@ git checkout -b your-branch-name origin/1.9.x ``
 
 If you're submitting a feature addition or change, branch off of the
 "master" branch
+
 `` 
 git checkout -b your-branch-name origin/master
+
 ``
 
 - Using your favorite editor, make your changes, `` committing as you go ``.
 - Include tests that cover any code changes you make. Make sure the test fails without your patch. `` Run the tests <contributing-testsuite> ``.
 - Push your commits to GitHub and ``create a pull request`` by using
 
-`` git push --set-upstream origin your-branch-name ``
+`` 
+git push --set-upstream origin your-branch-name 
+``
 
 
 Running the tests
@@ -143,12 +152,13 @@ combinations of Python and dependencies. You need to have Python 2.7, 3.4,
 Building the docs
 -----------------
 
-Build the docs in the ``docs`` directory using Sphinx::
+Build the docs in the ``docs`` directory using Sphinx
 
 ``
 cd docs
 pip install -r requirements.txt
 make html
+
 ``
 
 Open ``_build/html/index.html`` in your browser to view the docs.
