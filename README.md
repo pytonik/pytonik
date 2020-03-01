@@ -62,6 +62,9 @@ To Read Pytonik Docs
 $ pytonik-doc
 ```
 
+## Contributing
+For guidance on setting up a development environment and how to make a contribution to Pytonik, see the [contributing guidelines.](https://github.com/pytonik/pytonik/blob/master/CONTRIBUTING.md)
+
 
 ## Table of Content
 
@@ -81,6 +84,12 @@ $ pytonik-doc
 
 ## Testing
 Run `nosetests test` in the root directory.			 
+
+
+## Donate
+
+Support Pytonik and the libraries it uses. In order to grow the community of contributors and users, and allow the maintainers to devote more time to the projects, [please donate today.](https://liberapay.com/pytonik/)
+
 
 ## Contact
 
