@@ -41,7 +41,7 @@ class requirement:
 
         DS = str("/")
 
-        requirepath = host + DS + "requirments.txt"
+        requirepath = host + DS + "requirements.txt"
         if os.path.isfile(requirepath) == True:
 
             try:
