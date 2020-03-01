@@ -49,7 +49,7 @@ To Run Pytonik Server
 $ pytonik-server
 ```
 
-To Install Project Requirements  from ```requirments.txt``` file.
+To Install Project Requirements  from ```requirements.txt``` file.
 
 ```
 $ pytonik-install
