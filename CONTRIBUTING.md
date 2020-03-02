@@ -145,9 +145,7 @@ git push --set-upstream origin your-branch-name
 Running the tests
 -----------------
 
-Run the basic test suite with::
-
-``pytest``
+Run the basic test suite with ``nosetests test``
 
 This only runs the tests for the current environment. Whether this is relevant
 depends on which part of pytonik you're working on. Travis-CI will run the full
@@ -171,4 +169,4 @@ make html
 
 Open ``build/html/index.html`` in your browser to view the docs.
 
-Read more about `Sphinx <https://www.sphinx-doc.org/en/master/>`_.
+Read more about `Sphinx <https://www.sphinx-doc.org/en/master/>`.
