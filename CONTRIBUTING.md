@@ -16,7 +16,7 @@ resources for questions about your own code:
 * Join Community : https://gitter.im/pytonik-mvc/community
 
 * The mailing list dev@pytonik.com for long term discussion or larger issues.
-* Ask on `Stack Overflow``. Search with Google first using:
+* Ask on ``Stack Overflow``. Search with Google first using:
 	``site:stackoverflow.com pytonik {search term, exception message, etc.} ``
 
 
@@ -32,7 +32,7 @@ Reporting issues
 - List your Python, pytonik, and versions. If possible, check if this
 	issue is already fixed in the repository.
 
-.. _minimal reproducible example: https://stackoverflow.com/help/minimal-reproducible-example
+.. minimal reproducible example: https://stackoverflow.com/help/minimal-reproducible-example
 
 Submitting patches
 ------------------
