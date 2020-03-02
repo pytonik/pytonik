@@ -11,8 +11,7 @@ resources for questions about your own code:
 
 * The ``#get-help`` channel on our Discord chat: https://discordapp.com/invite/36kGE5
 
-	* The IRC channel ``#pytonik`` on FreeNode is linked to Discord, but
-		Discord is preferred.
+* The IRC channel ``#pytonik`` on FreeNode is linked to Discord, but Discord is preferred.
 
 * Join Community : https://gitter.im/pytonik-mvc/community
 
