@@ -80,12 +80,7 @@ git fetch pytonik
 python3 -m venv env
 env/bin/activate
 ``
-on Windows
-
-`` 
-env\Scripts\activate
-
-``
+ **on Windows** `` env\Scripts\activate ``
 
 - Install pytonik in editable mode with development dependencies
 
@@ -94,13 +89,12 @@ env\Scripts\activate
 - Install the ``pre-commit framework ``.
 - Install the pre-commit hooks
 
-`` 
+``
 pre-commit install --install-hooks
-
 ``
 
 New to Github
-------------
+--------------
 
 **GitHub account:** https://github.com/join
 
@@ -160,13 +154,12 @@ Building the docs
 
 Build the docs in the ``docs`` directory using Sphinx
 
-``
+```
 cd docs
 pip install -r requirements.txt
 make html
-
-``
+```
 
 Open ``build/html/index.html`` in your browser to view the docs.
 
-Read more about `Sphinx <https://www.sphinx-doc.org/en/master/>`.
+Read more about ``Sphinx <https://www.sphinx-doc.org/en/master/>``.
