@@ -30,7 +30,7 @@ if you are running a local machine you will need to install either, wamp, xampp,
 We recommend you to install this MVC package using Terminal or Command Line
 
 ```
-$ pip install pytonik=1.9.8a1
+$ pip install pytonik==1.9.8a2
 ```
 
 
@@ -49,11 +49,21 @@ To Run Pytonik Server
 $ pytonik-server
 ```
 
+To Install Project Requirements  from ```requirements.txt``` file.
+
+```
+$ pytonik-install
+```
+
+
 To Read Pytonik Docs
 
 ```
 $ pytonik-doc
 ```
+
+## Contributing
+For guidance on setting up a development environment and how to make a contribution to Pytonik, see the [contributing guidelines.](https://github.com/pytonik/pytonik/blob/master/CONTRIBUTING.md)
 
 
 ## Table of Content
@@ -71,7 +81,15 @@ $ pytonik-doc
 * [Functions](https://pytonik.readthedocs.io/en/latest/func.html)
 * [Schema](https://pytonik.readthedocs.io/en/latest/schema.html)
 * [Advance](https://pytonik.readthedocs.io/en/latest/advance.html)
-			 
+
+## Testing
+Run `nosetests test` in the root directory.			 
+
+
+## Donate
+
+Support Pytonik and the libraries it uses. In order to grow the community of contributors and users, and allow the maintainers to devote more time to the projects, [please donate today.](https://liberapay.com/pytonik/)
+
 
 ## Contact
 
