@@ -12,6 +12,7 @@
 
 
 from pytonik import Log
+
 log_msg = Log.Log()
 
 try:
@@ -21,68 +22,66 @@ except Exception as err:
 
 
 class MYSQL:
-
     def __init__(self, setting):
         self.settings = setting
-        self.host = setting.get('host', '') #  get 'host' name 
-        self.username = setting.get('username', '') #  get host 'username' 
-        self.password = setting.get('password', '') #  get host 'password' 
-        self.port = setting.get('port', '') #  get host 'port' 
-        self.database = setting.get('database', '') #  get 'database' name 
-        self.prefix = setting.get('prefix', '') #  get database 'prefix' 
-        self.Exception = "" # Exception String handler
-        self.conn =  None # Connection Return handler
-        self.con = None # Connection Return cursor handler
-        self.result = None # Return Query Results
-        self.connectDB() # Initiating Connection Method 
+        self.host = setting.get("host", "")  #  get 'host' name
+        self.username = setting.get("username", "")  #  get host 'username'
+        self.password = setting.get("password", "")  #  get host 'password'
+        self.port = setting.get("port", "")  #  get host 'port'
+        self.database = setting.get("database", "")  #  get 'database' name
+        self.prefix = setting.get("prefix", "")  #  get database 'prefix'
+        self.Exception = ""  # Exception String handler
+        self.conn = None  # Connection Return handler
+        self.con = None  # Connection Return cursor handler
+        self.result = None  # Return Query Results
+        self.connectDB()  # Initiating Connection Method
 
-
-    # This method 'connectDB' represent MYSQL configuration and Connection using 
-    # 'host', 'database' 'username',  'password',  'prefix' 
+    # This method 'connectDB' represent MYSQL configuration and Connection using
+    # 'host', 'database' 'username',  'password',  'prefix'
     def connectDB(self):
 
         try:
 
             self.conn = mysql.connector.connect(
-                    host=self.host,
-                    user=self.username,
-                    passwd=self.password,
-                    database=self.database,
-                    port = self.port
+                host=self.host,
+                user=self.username,
+                passwd=self.password,
+                database=self.database,
+                port=self.port,
             )
         except mysql.connector.Error as err:
             log_msg.error(err)
             self.Exception = err
 
-    # This method 'query' execute MYSQL query and returns cursor handler for 
-    # select, update, delete, insert, tasks 
-    def query(self, sql="", value = ""):
+    # This method 'query' execute MYSQL query and returns cursor handler for
+    # select, update, delete, insert, tasks
+    def query(self, sql="", value=""):
         try:
             self.con = self.conn.cursor(dictionary=True)
-            if sql !="" and value != "":
+            if sql != "" and value != "":
                 self.con.execute(str(sql), value)
             else:
                 self.con.execute(str(sql))
         except Exception as err:
             log_msg.error(err)
             self.Exception = err
-            
+
         return self
 
-    # This method 'querymultiple' handles many execution of MYSQL queries and returns cursor handler for 
-    # multiple insert tasks 
-    def querymultiple(self, sql="", value = ""):
+    # This method 'querymultiple' handles many execution of MYSQL queries and returns cursor handler for
+    # multiple insert tasks
+    def querymultiple(self, sql="", value=""):
         try:
             self.con = self.conn.cursor(dictionary=True)
-            
-            if sql !="" and value != "":
+
+            if sql != "" and value != "":
                 self.con.executemany(str(sql), value)
             else:
                 self.con.executemany(str(sql))
         except Exception as err:
             log_msg.error(err)
             self.Exception = err
-            
+
         return self
 
     # This method 'lastId' gets the last inserted or generated increment number in a row
@@ -91,17 +90,17 @@ class MYSQL:
 
     # This method 'fetch' returns table results dictionary
     def fetch(self):
-            return self.con.fetchall()
+        return self.con.fetchall()
 
-    # This method 'queryone' execute MYSQL query and returns cursor handler for 
-    # select, update, delete, insert, tasks 
-    def queryone(self, sql="", value = ""):
+    # This method 'queryone' execute MYSQL query and returns cursor handler for
+    # select, update, delete, insert, tasks
+    def queryone(self, sql="", value=""):
         self.con = self.conn.cursor(buffered=True)
-        if sql !="" and value != "":
+        if sql != "" and value != "":
             self.con.execute(str(sql), value)
         else:
             self.con.execute(str(sql))
-            
+
         return self.con
 
     # This method 'all' returns table results dictionary
@@ -117,14 +116,14 @@ class MYSQL:
     # This method 'count' returns total number of rows count of a table
     def count(self):
         return self.con.rowcount
-    
+
     # This method 'countall' returns table results dictionary
     # Helps in calling both result and count
     def countall(self):
         self.all()
         return self.con.rowcount
 
-    # This method 'save' Execute table query: 
+    # This method 'save' Execute table query:
     # insert, update and return bool -> True or Exception
     def save(self):
         try:
@@ -135,24 +134,28 @@ class MYSQL:
             log_msg.error(err)
             return self
 
-    # This method 'close' end query and also 
-    # close connection at the end of a query 
+    # This method 'close' end query and also
+    # close connection at the end of a query
     def close(self):
         return self.con.close()
 
     # This method 'create' handles query creation of tables
-    def create(self, TABLES = ''):
+    def create(self, TABLES=""):
         self.con = self.conn.cursor()
         if TABLES:
             for table_name in TABLES:
                 table_description = TABLES[table_name]
                 try:
                     self.con.execute(table_description)
-                    
+
                 except mysql.connector.Error as err:
-                        log_msg.info("Database table '{}' already exists.".format(table_name))
-                        self.Exception =  "Database table '{}' already exists.".format(table_name)
-            return self          
+                    log_msg.info(
+                        "Database table '{}' already exists.".format(table_name)
+                    )
+                    self.Exception = "Database table '{}' already exists.".format(
+                        table_name
+                    )
+            return self
         else:
-            self.Exception =  "Empty Table"
+            self.Exception = "Empty Table"
             return self

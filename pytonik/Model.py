@@ -10,22 +10,18 @@ from pytonik.App import App
 from pytonik import Log
 from pytonik.Driver.Schema import Schema
 import sys, os, importlib
+
 log_msg = Log.Log()
 
 
-
 class Model(Schema):
-    
     def __init__(self):
         ap = App()
         self.db = ap.DB()
 
-
-
-
     def load(self, m):
 
-        if os.path.isdir(os.getcwd() + '/public'):
+        if os.path.isdir(os.getcwd() + "/public"):
             host = os.getcwd()  # os.path.dirname(os.getcwd())
 
         else:
@@ -33,8 +29,7 @@ class Model(Schema):
 
         DS = str("/")
 
-
-        paths = host + DS + 'model'
+        paths = host + DS + "model"
         model = paths + DS + m + ".py"
         sys.path.append(paths)
         importlib._RELOADING
@@ -44,7 +39,7 @@ class Model(Schema):
 
                 md = importlib.import_module(m)
                 ob = getattr(md, m)
-                if hasattr(ob(), '__call__'):
+                if hasattr(ob(), "__call__"):
                     return ob()
                 else:
                     log_msg.error("'%s' is not a callable" % m)
@@ -56,5 +51,3 @@ class Model(Schema):
         else:
 
             log_msg.error("Model {e} does not exist ".format(m))
-
-    

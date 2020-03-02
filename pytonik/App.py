@@ -24,31 +24,27 @@ cgitb.enable()
 global host, u
 
 
-if os.path.isdir(os.getcwd()+'/public'):
-    host = os.getcwd() #os.path.dirname(os.getcwd())
+if os.path.isdir(os.getcwd() + "/public"):
+    host = os.getcwd()  # os.path.dirname(os.getcwd())
 
 else:
     host = os.path.dirname(os.getcwd())
 
 
-
 DS = str("/")
 u = url
-controllerpath = host + DS + 'controller'
-error_page_class= controllerpath + DS + "ErrorController" + ".py"
+controllerpath = host + DS + "controller"
+error_page_class = controllerpath + DS + "ErrorController" + ".py"
 header_response_page = {
-   '400': 'error/page400', #Bad Request
-   '404': 'error/page404', #Not Found
-   '405': 'error/page405', #Method Not Allowed
-
+    "400": "error/page400",  # Bad Request
+    "404": "error/page404",  # Not Found
+    "405": "error/page405",  # Method Not Allowed
 }
 
 
 class App(Router):
-
     def __getattr__(self, item):
         return item
-
 
     def __init__(self, routers="", routes="", getpath="", getrouters=""):
 
@@ -79,10 +75,9 @@ class App(Router):
     def getPath(self):
         return self.getpath
 
-
     def runs(self):
 
-        self.getrouters = self.envrin('route')
+        self.getrouters = self.envrin("route")
         self.routersc = self.Router()
         self.methodprefix = self.routersc.getMethodPrefix()
         self.actions = self.routersc.getAction()
@@ -91,7 +86,6 @@ class App(Router):
         self.languages = self.routersc.getLanguages()
         self.params = self.routersc.getParams()
 
-
         langs = Lang.Lang(self.languages)
         langs.loadLang()
         routesUri = []
@@ -99,50 +93,49 @@ class App(Router):
         for k, getRouter in self.getrouters.items():
 
             if self.controllers == k:
-                routesUri = getRouter.split('@')
-
+                routesUri = getRouter.split("@")
 
         if len(routesUri) != 0:
 
+            if "controller" in routesUri[0].lower():
 
-            if 'controller' in routesUri[0].lower():
-
-                controllersClass =  str(routesUri[0].lower()).replace('controller', '').capitalize()+ 'Controller'
+                controllersClass = (
+                    str(routesUri[0].lower()).replace("controller", "").capitalize()
+                    + "Controller"
+                )
             else:
-                controllersClass = str(routesUri[0]).capitalize() + 'Controller'
+                controllersClass = str(routesUri[0]).capitalize() + "Controller"
 
-            if ':' not in routesUri[1]:
+            if ":" not in routesUri[1]:
                 controllersMethods = str(routesUri[1])
 
             else:
-                getMapPara = routesUri[1].split(':')
+                getMapPara = routesUri[1].split(":")
 
                 controllersMethods = str(getMapPara[0])
 
-
-
         else:
 
-            if '?' is str(self.controllers[0]):
+            if "?" is str(self.controllers[0]):
 
-                controllersClass =  'IndexController'
+                controllersClass = "IndexController"
             else:
-                controllersClass = str(self.controllers[0].capitalize()) + str(self.controllers[1:])  + 'Controller'
+                controllersClass = (
+                    str(self.controllers[0].capitalize())
+                    + str(self.controllers[1:])
+                    + "Controller"
+                )
 
             controllersMethods = str(self.actions)
-
 
         if controllersMethods != "":
             self.actions = controllersMethods
 
-
         controllers = controllerpath + DS + controllersClass + ".py"
-
-
 
         if os.path.isfile(controllers) == True:
 
-            if __name__ == '__main__':
+            if __name__ == "__main__":
                 spac = ""
             if os.path.isfile(controllers) == True:
 
@@ -153,43 +146,58 @@ class App(Router):
 
         else:
 
-            Log(controllerpath).error('Controller does not exist ' + str(controllersClass))
-            self.errorP('405')
+            Log(controllerpath).error(
+                "Controller does not exist " + str(controllersClass)
+            )
+            self.errorP("405")
 
-
-
-    def errorP(self, code="", replace = ""):
-        getErrorP = self.envrin('error')
+    def errorP(self, code="", replace=""):
+        getErrorP = self.envrin("error")
 
         pageCode = "page{code}".format(code=code)
 
-        if getErrorP is not '':
+        if getErrorP is not "":
             errorP = getErrorP
 
-            if errorP.get(code, '') is not '':
-               if '/' in  errorP.get(code, ''):
-                    splitP = errorP.get(code, '').split('/')
-                    controllerP = controllerpath + DS + str(splitP[0]).capitalize() + 'Controller'  + ".py"
-               else:
-                    controllerP = controllerpath + DS + str(errorP.get(code, '')).capitalize() + 'Controller'  + ".py"
+            if errorP.get(code, "") is not "":
+                if "/" in errorP.get(code, ""):
+                    splitP = errorP.get(code, "").split("/")
+                    controllerP = (
+                        controllerpath
+                        + DS
+                        + str(splitP[0]).capitalize()
+                        + "Controller"
+                        + ".py"
+                    )
+                else:
+                    controllerP = (
+                        controllerpath
+                        + DS
+                        + str(errorP.get(code, "")).capitalize()
+                        + "Controller"
+                        + ".py"
+                    )
 
+                if os.path.isfile(controllerP) == True:
+                    self.redirect(u.url().url("/" + str(errorP.get(code, ""))))
 
-               if os.path.isfile(controllerP) == True:
-                   self.redirect(u.url().url('/'+str(errorP.get(code, ''))))
+                else:
 
-               else:
+                    if os.path.isfile(self.error_page_html(code)) == True:
 
-                   if  os.path.isfile(self.error_page_html(code)) == True:
+                        self.redirect(
+                            u.url().url("/error/{code}".format(code=pageCode))
+                        )
 
-                       self.redirect(u.url().url("/error/{code}".format(code=pageCode)))
-
-                   else:
-                       self.create_error_page(error_page_class)
-                       self.redirect(u.url().url("/error/page{code}".format(code=code)))
+                    else:
+                        self.create_error_page(error_page_class)
+                        self.redirect(
+                            u.url().url("/error/page{code}".format(code=code))
+                        )
 
             else:
 
-                if  os.path.isfile(self.error_page_html(code)) == True:
+                if os.path.isfile(self.error_page_html(code)) == True:
                     self.redirect(u.url().url("/error/{code}".format(code=pageCode)))
 
                 else:
@@ -204,43 +212,41 @@ class App(Router):
                 self.create_error_page(error_page_class)
                 self.redirect(u.url().url("/error/{code}".format(code=pageCode)))
 
-
-
-
-
-    def envrin(self,  key):
+    def envrin(self, key):
         env = self._e()
         self.add(env)
-        return self.get(key, '')
-
+        return self.get(key, "")
 
     def DB(self):
 
-        self.dbDriver = self.envrin('dbConnect')
-        if self.dbDriver.get("driver", '') == "MYSQL":
+        self.dbDriver = self.envrin("dbConnect")
+        if self.dbDriver.get("driver", "") == "MYSQL":
             from pytonik.Driver.DB.MYSQL.MYSQL import MYSQL
+
             self.getDB = MYSQL(self.dbDriver)
             self.Driver = "MYSQL"
             return self.getDB
 
-        if self.dbDriver.get("driver", '') == "SQLite":
+        if self.dbDriver.get("driver", "") == "SQLite":
             from pytonik.Driver.DB.SQLite.SQLite import SQLite
+
             self.getDB = SQLite(self.dbDriver)
             self.Driver = "SQLite"
             return self.getDB
 
-        if self.dbDriver.get("driver", '') == "Oracle":
+        if self.dbDriver.get("driver", "") == "Oracle":
             from pytonik.Driver.DB.Oracle.Oracle import Oracle
+
             self.getDB = Oracle(self.dbDriver)
             self.Driver = "Oracle"
             return self.getDB
 
-        if self.dbDriver.get("driver", '') == "pyPgSQL":
+        if self.dbDriver.get("driver", "") == "pyPgSQL":
             from pytonik.Driver.DB.pyPgSQL.pyPgSQL import pyPgSQL
+
             self.getDB = pyPgSQL(self.dbDriver)
             self.Driver = "pyPgSQL"
             return self.getDB
-
 
     def strClass(self, p=None, c=None):
 
@@ -251,13 +257,9 @@ class App(Router):
             self.strMethod(p, md, ms)
 
         except Exception as err:
-            Log(p + DS + c + '.py').critical(err)
+            Log(p + DS + c + ".py").critical(err)
 
-            self.errorP('400')
-
-
-
-
+            self.errorP("400")
 
     def strMethod(self, p, c=None, m=None):
         Request = self.Request()
@@ -267,8 +269,7 @@ class App(Router):
             try:
                 return getattr(c, m)()
             except:
-                Log(p+DS+c+'.py').critical(err)
-
+                Log(p + DS + c + ".py").critical(err)
 
     def strClass3(self, p=None, c=None):
 
@@ -281,16 +282,19 @@ class App(Router):
 
         except Exception as err:
 
-            Log(p+DS+c+'.py').critical(err)
-            self.errorP('400')
+            Log(p + DS + c + ".py").critical(err)
+            self.errorP("400")
 
-
-    def redirect(self, location='/'):
+    def redirect(self, location="/"):
         print("Location: {location}".format(location=location))
         print()
 
-    def referer(self, location='/'):
-        print("Location: {location}".format(location=os.environ.get('HTTP_REFERER', location)))
+    def referer(self, location="/"):
+        print(
+            "Location: {location}".format(
+                location=os.environ.get("HTTP_REFERER", location)
+            )
+        )
         print()
 
     @staticmethod
@@ -298,15 +302,17 @@ class App(Router):
 
         if Version.PYVERSION_MA <= 2 and Version.PYVERSION_MI <= 7:
             reload(sys)
-            sys.setdefaultencoding('utf-8')
+            sys.setdefaultencoding("utf-8")
         elif Version.PYVERSION_MA == 3 and Version.PYVERSION_MI <= 3:
             import imp
+
             imp.reload()
 
         elif Version.PYVERSION_MA >= 3 and Version.PYVERSION_MI >= 4:
             import importlib
+
             importlib.reload(sys)
-        print("Content-type: {type}\r\n".format(type=type))#\r\n\r\n
+        print("Content-type: {type}\r\n".format(type=type))  # \r\n\r\n
         if p > 0:
             for x in range(p):
                 print("")
@@ -316,14 +322,16 @@ class App(Router):
         if pathf == "":
             pathf = self.getDefaultViewPath()
 
-        pathfhtml = host + DS + 'views' + DS + pathf + ".html"
+        pathfhtml = host + DS + "views" + DS + pathf + ".html"
 
         if os.path.isfile(pathfhtml) == False:
-            Log(host + DS + 'views').critical('Cannot find file {}'.format(pathf + ".html"))
-            self.errorP('404')
+            Log(host + DS + "views").critical(
+                "Cannot find file {}".format(pathf + ".html")
+            )
+            self.errorP("404")
         else:
             self.header()
-            self.read_html(host + DS + 'views' + DS, pathf, datag)
+            self.read_html(host + DS + "views" + DS, pathf, datag)
 
         return False
 
@@ -331,15 +339,18 @@ class App(Router):
 
         html_file_path = os.path.join(template_dir, "%s.html" % engine)
 
-
         try:
             with open(html_file_path) as html_file:
                 html = html_file.read()
 
-            print(str('<!-- Pytonik -->\n')+ HTMLeditor.Template(html).render(**context) + str('\n<!-- Pytonik {} -->'.format(Version.VERSION_TEXT)))
+            print(
+                str("<!-- Pytonik -->\n")
+                + HTMLeditor.Template(html).render(**context)
+                + str("\n<!-- Pytonik {} -->".format(Version.VERSION_TEXT))
+            )
 
         except Exception as err:
-            Log(template_dir+DS+engine+str('.html')).error(err)
+            Log(template_dir + DS + engine + str(".html")).error(err)
 
     def getDefaultViewPath(self):
 
@@ -349,30 +360,31 @@ class App(Router):
             rout = ""
         controllerDirectory = self.Router.getControllers()
 
-        templateName = str(self.Router.getMethodPrefix()) + str(self.Router.getAction()) + '.html'
+        templateName = (
+            str(self.Router.getMethodPrefix()) + str(self.Router.getAction()) + ".html"
+        )
 
         return templateName
 
     def error_page_html(self, code):
-        return host+DS+'views'+DS+str(code)+".html"
+        return host + DS + "views" + DS + str(code) + ".html"
 
     def create_error_page(self, error_page_class):
-
 
         try:
             python_writer_code = ""
             for code in header_response_page:
                 if os.path.isfile(self.error_page_html(code)) == False:
-                    f = open(self.error_page_html(code), 'a+')
+                    f = open(self.error_page_html(code), "a+")
                     f.write("<h1> {code}  Not Found</h1>".format(code=code))
                     f.close()
                     python_writer_code += """\ndef page{code} ():\n""".format(code=code)
                     python_writer_code += """\n    data = {'title': 'pytonik"""
                     python_writer_code += """ {code} """.format(code=code)
                     python_writer_code += """'}\n\n"""
-                    python_writer_code += """    m.views('{code}', data)\n""".format(code=code)
-
-
+                    python_writer_code += """    m.views('{code}', data)\n""".format(
+                        code=code
+                    )
 
             writer_code = """from pytonik import Web
                               \nm = Web.App()
@@ -380,8 +392,8 @@ class App(Router):
                               \n  m.header()
                               \n  print("do work here") \n
                             """
-            code_line = str(writer_code)+str(python_writer_code)
-            f = open(error_page_class, 'w')
+            code_line = str(writer_code) + str(python_writer_code)
+            f = open(error_page_class, "w")
             f.write(code_line)
             f.close()
 
@@ -390,9 +402,11 @@ class App(Router):
 
     def loadmodule(self):
 
-        path = [os.path.dirname(__file__)+ str("/") +str("Functions"), str(host) + str("/") + "model"]
+        path = [
+            os.path.dirname(__file__) + str("/") + str("Functions"),
+            str(host) + str("/") + "model",
+        ]
         listpath = [path[0], path[1]]
-
 
         i = 0
         lclass = {}

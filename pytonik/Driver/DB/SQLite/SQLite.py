@@ -12,6 +12,7 @@
 
 from pytonik import Log
 import os, sys
+
 log_msg = Log.Log()
 host = os.path.dirname(os.getcwd())
 D = "/"
@@ -22,58 +23,52 @@ except Exception as err:
     log_msg.critical(err)
 
 
-
 class SQLite:
-
     def __init__(self, setting):
-        self.path = setting.get('path', '')
-        self.name = setting.get('name', '')
-        self.bdfile = str(host) + D + str(self.path)+ D +str(self.name)
-        self.prefix = setting.get('prefix', '')
+        self.path = setting.get("path", "")
+        self.name = setting.get("name", "")
+        self.bdfile = str(host) + D + str(self.path) + D + str(self.name)
+        self.prefix = setting.get("prefix", "")
         self.Exception = ""
         self.success = ""
         self.conn = None
         self.con = None
         self.result = None
         self.connectDB()
-        
 
     def connectDB(self):
 
         try:
             self.conn = sqlite3.connect(self.bdfile)
-         
+
         except Exception as err:
             log_msg.error(err)
             self.Exception = err
 
-
-    def query(self, sql="", value = ""):
+    def query(self, sql="", value=""):
         try:
             self.con = self.conn.cursor()
-            if sql !="" and value != "":
+            if sql != "" and value != "":
                 self.con.execute(str(sql), value)
             else:
                 self.con.execute(str(sql))
         except Exception as err:
             log_msg.error(err)
-            self.Exception = err        
+            self.Exception = err
         return self
 
-    def querymultiple(self, sql="", value = ""):
+    def querymultiple(self, sql="", value=""):
         try:
             self.con = self.conn.cursor()
-            if sql !="" and value != "":
+            if sql != "" and value != "":
                 self.con.executemany(str(sql), value)
             else:
                 self.con.executemany(str(sql))
         except Exception as err:
             log_msg.error(err)
-            self.Exception = err   
+            self.Exception = err
         return self
 
-
- 
     def lastId(self):
         return self.con.lastrowid
 
@@ -87,10 +82,10 @@ class SQLite:
             row.append(rowf)
         return row if len(row) > 0 else ""
 
-    def queryone(self, sql="", value = ""):
+    def queryone(self, sql="", value=""):
         self.con = self.conn.cursor()
-        if sql !="" and value != "":
-            
+        if sql != "" and value != "":
+
             self.con.execute(str(sql), value)
         else:
             self.con.execute(str(sql))
@@ -105,7 +100,7 @@ class SQLite:
         result = self.con.fetchone()
         row = {}
         for idx, col in enumerate(self.con.description):
-            
+
             row[col[0]] = result[idx]
         return row
 
@@ -115,7 +110,7 @@ class SQLite:
     def countall(self):
         self.all()
         return self.con.rowcount if self.con.rowcount > 0 else 0
-     
+
     def save(self):
         try:
             self.conn.commit()
@@ -128,23 +123,27 @@ class SQLite:
     def close(self):
         return self.con.close()
 
-
-    def create(self, TABLES = ''):
+    def create(self, TABLES=""):
         self.con = self.conn.cursor()
         if TABLES:
             for table_name in TABLES:
                 table_description = TABLES[table_name]
                 try:
                     self.con.execute(table_description)
-                    self.Exception = "Database table '{}' created successfully.".format(table_name)
+                    self.Exception = "Database table '{}' created successfully.".format(
+                        table_name
+                    )
                 except Exception as err:
-                
-                    log_msg.info("Database table '{}' already exists.".format(table_name))
-                    self.Exception =  "Database table '{}' already exists.".format(table_name)
-            
-            return self
-        
-        else:
-            self.Exception =  "Empty Table"
+
+                    log_msg.info(
+                        "Database table '{}' already exists.".format(table_name)
+                    )
+                    self.Exception = "Database table '{}' already exists.".format(
+                        table_name
+                    )
+
             return self
 
+        else:
+            self.Exception = "Empty Table"
+            return self

@@ -31,7 +31,7 @@ class path(url):
 
     def path(self, path="", link=False):
 
-        DS = str('/')
+        DS = str("/")
         u = ""
 
         if path[:1] == DS or path[:1] == DS:
@@ -58,7 +58,6 @@ class path(url):
 
         elif os.path.isdir(newpath) == True:
             return self.path(newpath, link)
-
 
         elif os.path.isdir(self.public(newpath)) == True:
 
@@ -90,12 +89,12 @@ class path(url):
 
     def public(self, path):
 
-        if os.path.isdir(os.getcwd() + '/public'):
-            host = str(os.getcwd()) + '/public'  # os.path.dirname(os.getcwd())
+        if os.path.isdir(os.getcwd() + "/public"):
+            host = str(os.getcwd()) + "/public"  # os.path.dirname(os.getcwd())
 
         else:
-            host = str(os.path.dirname(os.getcwd())) + '/public'
-        DS = str('/')
+            host = str(os.path.dirname(os.getcwd())) + "/public"
+        DS = str("/")
 
         if path[:1] == DS or path[:1] == DS:
             DS = ""

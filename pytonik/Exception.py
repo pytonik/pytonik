@@ -4,12 +4,11 @@
 # Maintainer Email: emmamartinscm@gmail.com
 # Created by BetaCodings on 2/24/20.
 
-class Exception:
 
+class Exception:
     def __getattr__(self, item):
         return item
 
     def __init__(self, error=""):
-         self.error = error
-         print(error)
-
+        self.error = error
+        print(error)

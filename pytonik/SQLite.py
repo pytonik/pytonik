@@ -6,6 +6,7 @@
 
 from . import Log
 import os, sys
+
 log_msg = Log.Log()
 host = os.path.dirname(os.getcwd())
 
@@ -18,10 +19,11 @@ except Exception as err:
 
 class SQLite:
     global connect, con
+
     def __init__(self, setting):
-        self.path = setting['path']
-        self.name = setting['name']
-        self.conn = str(host) + str(self.path)+"/"+str(name)
+        self.path = setting["path"]
+        self.name = setting["name"]
+        self.conn = str(host) + str(self.path) + "/" + str(name)
         self.con = None
         self.result = None
         self.connectDB()
@@ -32,19 +34,17 @@ class SQLite:
             self.con = self.conn.cursor(dictionary=True)
         except Exception as err:
             log_msg.error(err)
-            return ("Something went wrong : {err}".format(err=err))
+            return "Something went wrong : {err}".format(err=err)
 
+    def query(self, sql="", value=""):
 
-    def query(self, sql="", value = ""):
-
-        if sql !="" and value != "":
+        if sql != "" and value != "":
             self.con.execute(str(sql), value)
         else:
             self.con.execute(str(sql))
-            #self.result = self.con.fetchall()
-            #self.fetch()
+            # self.result = self.con.fetchall()
+            # self.fetch()
         return self.con
-
 
     def insert_id(self):
         return self.con.lastrowid
@@ -62,18 +62,19 @@ class SQLite:
 
     global dictv
     dictv = dict()
+
     def addDict(self, k, v):
 
         for i in dictv:
             if i == k:
                 print(i)
-                print('error')
+                print("error")
                 return
-        #dictv[k] = v
+        # dictv[k] = v
 
     def all(self):
         self.result = self.con.fetchall()
-        return  self.fetch()
+        return self.fetch()
 
     def one(self):
         return self.con.fetchone()
@@ -94,4 +95,3 @@ class SQLite:
 
     def close(self):
         return self.con.close()
-

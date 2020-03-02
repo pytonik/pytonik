@@ -7,15 +7,13 @@
 ###
 import ast
 
+
 class Config:
-
-
     def __init__(self, key=None, value=None):
 
         self.__key = key
         self.__value = value
-        self.settings = {key : value}
-
+        self.settings = {key: value}
 
     def add(self, key=None, value=None):
 
@@ -28,9 +26,9 @@ class Config:
             print(err)
 
     def set(self, key=None, value=None):
-        self.settings = {key : value}
+        self.settings = {key: value}
 
-    def get(self, key=None, empty=''):
+    def get(self, key=None, empty=""):
 
         try:
             l = ast.literal_eval(self.settings)
@@ -41,4 +39,3 @@ class Config:
                 return ""
         except Exception as err:
             print(err)
-

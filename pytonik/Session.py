@@ -10,7 +10,7 @@
 import os, datetime, sys, ast
 from pytonik import Version
 
-if Version.PYVERSION_MA <= 3 and  Version.PYVERSION_MI < 7:
+if Version.PYVERSION_MA <= 3 and Version.PYVERSION_MI < 7:
     import Cookie
 else:
     from http import cookies
@@ -18,8 +18,7 @@ else:
 
 class Session:
     def __init__(self):
-            self.result = ""
-
+        self.result = ""
 
     def has(self, key=None):
 
@@ -28,18 +27,22 @@ class Session:
         else:
             return False
 
-    def set(self, key="", value="", duration = 3600, url=os.environ.get("HTTP_HOST"), path="/"):
-        expires = datetime.datetime.utcnow() + datetime.timedelta(minutes=duration)  # minutes in 30 days
+    def set(
+        self, key="", value="", duration=3600, url=os.environ.get("HTTP_HOST"), path="/"
+    ):
+        expires = datetime.datetime.utcnow() + datetime.timedelta(
+            minutes=duration
+        )  # minutes in 30 days
 
         if Version.PYVERSION_MA >= 3:
-            cooKeys = cookies.SimpleCookie(os.environ.get('HTTP_COOKIE'))
+            cooKeys = cookies.SimpleCookie(os.environ.get("HTTP_COOKIE"))
         else:
-            cooKeys = Cookie.SimpleCookie(os.environ.get('HTTP_COOKIE'))
+            cooKeys = Cookie.SimpleCookie(os.environ.get("HTTP_COOKIE"))
 
         cooKeys[str(key)] = value
-        cooKeys[str(key)]['domain'] = url
-        cooKeys[str(key)]['path'] = '/'
-        cooKeys[str(key)]['expires'] = expires.strftime('%a, %d %b %Y %H:%M:%S')
+        cooKeys[str(key)]["domain"] = url
+        cooKeys[str(key)]["path"] = "/"
+        cooKeys[str(key)]["expires"] = expires.strftime("%a, %d %b %Y %H:%M:%S")
         print(cooKeys)
 
     def get(self, key=""):
@@ -68,11 +71,11 @@ class Session:
 
     def destroy(self, *args):
         if Version.PYVERSION_MA >= 3:
-            cooKeys = cookies.SimpleCookie(os.environ.get('HTTP_COOKIE'))
+            cooKeys = cookies.SimpleCookie(os.environ.get("HTTP_COOKIE"))
             cook = cooKeys.items()
         else:
 
-            cooKeys = Cookie.SimpleCookie(os.environ.get('HTTP_COOKIE'))
+            cooKeys = Cookie.SimpleCookie(os.environ.get("HTTP_COOKIE"))
             cook = cooKeys.iteritems()
 
         if "HTTP_COOKIE" in os.environ:

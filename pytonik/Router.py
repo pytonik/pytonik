@@ -7,61 +7,55 @@
 ###
 
 
-
 import sys, os, cgitb
 from pytonik import Version, Log
 from pytonik.Config import Config
 from pytonik.Core.env import env
 from pytonik.Session import Session
+
 cgitb.enable()
-url = os.environ.get('REQUEST_URI', os.environ.get('PATH_INFO'))
+url = os.environ.get("REQUEST_URI", os.environ.get("PATH_INFO"))
 log_msg = Log.Log()
 
 
 class Router(env, Config):
-
     def __init__(self):
         urlstr = str(url)
-        self.uri = urlstr.split('/')
+        self.uri = urlstr.split("/")
 
         self.add(self._e())
 
-
-        self.controllers = self.get('default_controllers')
-        self.actions = self.get('default_actions')
-        self.languages = self.get('default_languages')
-        self.alllanguages = self.get('languages', '')
-        self.routes = self.get('default_routes')
+        self.controllers = self.get("default_controllers")
+        self.actions = self.get("default_actions")
+        self.languages = self.get("default_languages")
+        self.alllanguages = self.get("languages", "")
+        self.routes = self.get("default_routes")
         self.methodprefix = ""
         self.params = ""
 
+        # if "?" in self.uri:
 
+        # uri_paths = urlstr.split("?")
+        # path_array = uri_paths[0]
+        # else:
+        # uri_paths = urlstr.split('/')
+        # path_array = uri_paths[0]
 
-        #if "?" in self.uri:
-
-            #uri_paths = urlstr.split("?")
-            #path_array = uri_paths[0]
-        #else:
-            #uri_paths = urlstr.split('/')
-            #path_array = uri_paths[0]
-
-        uri_paths = urlstr.split('/')
+        uri_paths = urlstr.split("/")
 
         pathparts_array = uri_paths
 
-
-
-        pathparts_paramarray = os.environ.get("QUERY_STRING", '')
+        pathparts_paramarray = os.environ.get("QUERY_STRING", "")
 
         pathparts_paramarrayOut = dict()
-        if pathparts_paramarray != '':
-            pairs = pathparts_paramarray.split('&')
+        if pathparts_paramarray != "":
+            pairs = pathparts_paramarray.split("&")
 
             pathparts_paramarray = pairs
 
             for i in pairs:
 
-                name, value = i.split('=', 2)
+                name, value = i.split("=", 2)
 
                 pathparts_paramarray = {name: value}
 
@@ -74,25 +68,21 @@ class Router(env, Config):
 
                 pathparts_paramarrayOut.setdefault(name, value)
 
-
         else:
             pathparts_paramarrayOut = ""
 
         path_parts = pathparts_array
 
-
         if len(path_parts):
 
-            #print(routes.keys())
+            # print(routes.keys())
 
             if Version.PYVERSION_MA < 3:
                 path_parts = filter(None, path_parts)
             else:
                 path_parts = list(filter(None, path_parts))
 
-
-
-            routes = self.get('route', '')
+            routes = self.get("route", "")
 
             if list(set(path_parts).intersection(routes.keys())):
 
@@ -106,11 +96,9 @@ class Router(env, Config):
                         else:
                             self.methodprefix = ""
 
-                        #path_parts.append(path_parts.pop(-1))
+                        # path_parts.append(path_parts.pop(-1))
 
-
-            languages = self.get('languages', '')
-
+            languages = self.get("languages", "")
 
             if list(set(path_parts).intersection(languages.keys())):
 
@@ -119,8 +107,7 @@ class Router(env, Config):
                         self.languages = s
                         path_parts.append(path_parts.pop(-1))
 
-
-            controllers = self.get('default_controllers', '')
+            controllers = self.get("default_controllers", "")
             if controllers:
 
                 i = 0
@@ -136,8 +123,7 @@ class Router(env, Config):
                             path_parts.append(path_parts.pop(-1))
                     ++i
 
-
-            action = self.get('default_actions', '')
+            action = self.get("default_actions", "")
             if action:
                 i = 0
                 for s in path_parts:
@@ -148,12 +134,12 @@ class Router(env, Config):
                             path_parts.append(path_parts.pop(-1))
                         ++i
 
-
             from .Core import Helpers
+
             h = Helpers
             list_params = []
 
-            if pathparts_paramarray == None or pathparts_paramarray == "" :
+            if pathparts_paramarray == None or pathparts_paramarray == "":
                 if Version.PYVERSION_MA <= 2:
                     lroutes = routes.iteritems()
                 else:
@@ -162,15 +148,14 @@ class Router(env, Config):
 
                     if self.controllers == k:
 
-                        paraUri = getRouter.split('@')
+                        paraUri = getRouter.split("@")
                     else:
                         paraUri = []
                     if len(paraUri) > 0:
-                        if ':' not in paraUri[1]:
+                        if ":" not in paraUri[1]:
                             getMapPara = []
                         else:
-                            getMapPara = paraUri[1].split(':')
-
+                            getMapPara = paraUri[1].split(":")
 
                         if self.controllers in routes:
 
@@ -185,22 +170,24 @@ class Router(env, Config):
 
                                         param_n = para
 
-                                        if (len(new_para)-i) > 0:
-                                            v_para  = new_para[i]
+                                        if (len(new_para) - i) > 0:
+                                            v_para = new_para[i]
                                         else:
                                             v_para = ""
-
 
                                         list_params.append(param_n)
                                         list_params.append(v_para)
 
                                 self.params = Helpers.covert_list_dict(list_params)
 
-
                 else:
                     for s in path_parts:
 
-                        if s is not self.controllers and s is not self.actions and s is not self.languages:
+                        if (
+                            s is not self.controllers
+                            and s is not self.actions
+                            and s is not self.languages
+                        ):
 
                             list_params.append(s)
 
@@ -210,11 +197,9 @@ class Router(env, Config):
 
             else:
 
-
                 self.params = pathparts_paramarrayOut
 
                 path_parts.append(path_parts.pop(-1))
-
 
         return None
 
@@ -241,5 +226,3 @@ class Router(env, Config):
 
     def getLanguages(self):
         return self.languages
-
-

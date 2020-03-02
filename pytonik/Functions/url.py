@@ -6,8 +6,8 @@
 import os
 from pytonik.Router import Router
 
-class url:
 
+class url:
     def __getattr__(self, item):
         return item
 
@@ -22,23 +22,36 @@ class url:
             else:
                 self.ul = self.url(**kwargs)
         else:
-            self.ul = self.url('')
+            self.ul = self.url("")
         return None
 
     def __str__(self):
 
         return self.ul
 
-
-    def url(self, path = "", lang = False):
+    def url(self, path="", lang=False):
 
         ront = Router()
-        seturl = str("localhost:") + str(os.environ.get("SERVER_PORT", ''))
+        seturl = str("localhost:") + str(os.environ.get("SERVER_PORT", ""))
         http = os.environ.get("HTTPS")
-        if http == 'on':
-            url = str("https://") + os.environ.get("HTTP_HOST", seturl) + "/" + ront.alllanguages.get(ront.getLanguages(), ront.getLanguages()) if lang is True else str("https://") + os.environ.get("HTTP_HOST", seturl)
+        if http == "on":
+            url = (
+                str("https://")
+                + os.environ.get("HTTP_HOST", seturl)
+                + "/"
+                + ront.alllanguages.get(ront.getLanguages(), ront.getLanguages())
+                if lang is True
+                else str("https://") + os.environ.get("HTTP_HOST", seturl)
+            )
         else:
-            url = str("http://") + os.environ.get("HTTP_HOST", seturl) + "/" + ront.alllanguages.get(ront.getLanguages(), ront.getLanguages()) if lang is True else str("http://") + os.environ.get("HTTP_HOST", seturl)
+            url = (
+                str("http://")
+                + os.environ.get("HTTP_HOST", seturl)
+                + "/"
+                + ront.alllanguages.get(ront.getLanguages(), ront.getLanguages())
+                if lang is True
+                else str("http://") + os.environ.get("HTTP_HOST", seturl)
+            )
 
         DS, p = "", ""
 

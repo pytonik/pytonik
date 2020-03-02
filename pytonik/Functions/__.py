@@ -7,8 +7,8 @@
 from pytonik.Lang import Lang
 from pytonik.Router import Router
 
-class __():
 
+class __:
     def __getattr__(self, item):
         return item
 
@@ -30,13 +30,10 @@ class __():
 
         return self.lg
 
-
-    def lang(self, lang="", defindValue = ''):
+    def lang(self, lang="", defindValue=""):
 
         if lang is not "":
             return self.langs.get(lang, defindValue)
-
-
 
     def default(self):
 

@@ -22,7 +22,7 @@ from random import randint
 try:
     import readline
 
-    if readline.__doc__ and 'libedit' in readline.__doc__:
+    if readline.__doc__ and "libedit" in readline.__doc__:
         readline.parse_and_bind("bind ^I rl_complete")
         USE_LIBEDIT = True
     else:
@@ -31,27 +31,41 @@ try:
 except ImportError:
     USE_LIBEDIT = False
 
+
 def __(string):
     return string
 
 
 def get_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        usage='%(prog)s [OPTIONS] <PROJECT_DIR>',
+        usage="%(prog)s [OPTIONS] <PROJECT_DIR>",
         epilog=__("For more information, visit < https://pytonik.readthedocs.io >."),
-        description=__("""Pytonik is a python framework built to enhance web development
+        description=__(
+            """Pytonik is a python framework built to enhance web development
         fast and easy, also help web developers to build more apps with less codes.
         it uses expressive architectural pattern, structured on model view controller MVC
-        and bundles of component to reuse while deploying the framework."""))
+        and bundles of component to reuse while deploying the framework."""
+        ),
+    )
 
-    parser.add_argument('-q', '--quit', action='store_true', dest='quit',
-                        default=None,
-                        help=__('quit mode'))
-    parser.add_argument('--version', action='version', dest='show_version',
-                        version='%%(prog)s %s' % Version.VERSION_TEXT)
+    parser.add_argument(
+        "-q",
+        "--quit",
+        action="store_true",
+        dest="quit",
+        default=None,
+        help=__("quit mode"),
+    )
+    parser.add_argument(
+        "--version",
+        action="version",
+        dest="show_version",
+        version="%%(prog)s %s" % Version.VERSION_TEXT,
+    )
 
-    parser.add_argument('path', metavar='PROJECT_DIR', default='.', nargs='?',
-                        help=__('project root'))
+    parser.add_argument(
+        "path", metavar="PROJECT_DIR", default=".", nargs="?", help=__("project root")
+    )
 
     return parser
 
@@ -70,8 +84,8 @@ def main(argv: List[str] = sys.argv[1:]) -> int:
 
     class MyHttpRequestHandler(http.server.SimpleHTTPRequestHandler):
         def do_GET(self):
-            if self.path == '/':
-                self.path = 'docs'
+            if self.path == "/":
+                self.path = "docs"
 
             return http.server.SimpleHTTPRequestHandler.do_GET(self)
 
@@ -88,6 +102,5 @@ def main(argv: List[str] = sys.argv[1:]) -> int:
     my_server.serve_forever()
 
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main(sys.argv[1:]))

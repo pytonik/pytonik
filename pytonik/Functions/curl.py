@@ -14,7 +14,7 @@ log_msg = Log()
 
 if Version.PYVERSION_MA > 2:
     import http.client as htp
-    from  http import client
+    from http import client
     import urllib as urllib
 else:
     import httplib as htp
@@ -36,10 +36,10 @@ class curl:
         self.CONTENTHEADER = "CONTENTHEADER"
         self.POSTFIELDS = "POSTFIELDS"
         self.ACCEPTHEADER = "ACCEPTHEADER"
-        self.POST = 'POST'
-        self.GET = 'GET'
-        self.HEAD = 'HEAD'
-        self.PUT = 'PUT'
+        self.POST = "POST"
+        self.GET = "GET"
+        self.HEAD = "HEAD"
+        self.PUT = "PUT"
         self.PORT = "PORT"
 
         return
@@ -61,7 +61,6 @@ class curl:
         self.output = ""
         self.pt = None
         self.tout = socket._GLOBAL_DEFAULT_TIMEOUT
-
 
     def set(self, options, actions=""):
 
@@ -114,19 +113,39 @@ class curl:
         try:
 
             if self.method == self.GET or self.method == self.HEAD:
-                if 's' in self.http:
-                    self.conn = htp.HTTPSConnection(host=self.link, port=self.pt, timeout=self.tout,
-                                                    source_address=self.source_address, blocksize=self.blocksize)
+                if "s" in self.http:
+                    self.conn = htp.HTTPSConnection(
+                        host=self.link,
+                        port=self.pt,
+                        timeout=self.tout,
+                        source_address=self.source_address,
+                        blocksize=self.blocksize,
+                    )
                 else:
-                    self.conn = htp.HTTPConnection(host=self.link, port=self.pt, timeout=self.tout,
-                                                   source_address=self.source_address, blocksize=self.blocksize)
+                    self.conn = htp.HTTPConnection(
+                        host=self.link,
+                        port=self.pt,
+                        timeout=self.tout,
+                        source_address=self.source_address,
+                        blocksize=self.blocksize,
+                    )
             else:
-                if 's' in self.http:
-                    self.conn = htp.HTTPSConnection(host=self.link, port=self.pt, timeout=self.tout,
-                                                    source_address=self.source_address, blocksize=self.blocksize)
+                if "s" in self.http:
+                    self.conn = htp.HTTPSConnection(
+                        host=self.link,
+                        port=self.pt,
+                        timeout=self.tout,
+                        source_address=self.source_address,
+                        blocksize=self.blocksize,
+                    )
                 else:
-                    self.conn = htp.HTTPConnection(host=self.link, port=self.pt, timeout=self.tout,
-                                                   source_address=self.source_address, blocksize=self.blocksize)
+                    self.conn = htp.HTTPConnection(
+                        host=self.link,
+                        port=self.pt,
+                        timeout=self.tout,
+                        source_address=self.source_address,
+                        blocksize=self.blocksize,
+                    )
 
             self.conn.request(self.method, self.path, self.body, self.h)
             self.res = self.conn.getresponse()
@@ -138,7 +157,7 @@ class curl:
         return self
 
     def __url(self, url=""):
-        lh = ['ftps://', 'ftp://', "https://", "http://"]
+        lh = ["ftps://", "ftp://", "https://", "http://"]
         for ht in lh:
             if ht in url:
                 self.http = ht
@@ -154,19 +173,16 @@ class curl:
         return self
 
     def __accept(self, accept):
-        header = {'Accept': accept}
+        header = {"Accept": accept}
         return self.array_dict(header)
-
 
     def __contentType(self, contT):
 
-        header = {'Content-type': contT}
+        header = {"Content-type": contT}
         return self.array_dict(header)
-
 
     def __header(self, header):
         return self.array_dict(header)
-
 
     def array_dict(self, ldict):
         ldict = ldict
@@ -197,4 +213,3 @@ class curl:
             reSlt = self.output
 
         return reSlt
-

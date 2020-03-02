@@ -7,7 +7,6 @@
 ###
 
 
-
 import re, operator, ast
 from pytonik import Version, App
 import os, importlib, sys
@@ -19,49 +18,51 @@ CLOSE_BLOCK_FRAGMENT = 2
 TEXT_FRAGMENT = 3
 CLOSE_COMMENT_FRAGMENT = 4
 
-VAR_TOKEN_START = '{{'
-VAR_TOKEN_END = '}}'
-BLOCK_TOKEN_START = '{%'
-BLOCK_TOKEN_END = '%}'
-COMMENT_TOKEN_START = '{#'
-COMMENT_TOKEN_END = '#}'
+VAR_TOKEN_START = "{{"
+VAR_TOKEN_END = "}}"
+BLOCK_TOKEN_START = "{%"
+BLOCK_TOKEN_END = "%}"
+COMMENT_TOKEN_START = "{#"
+COMMENT_TOKEN_END = "#}"
 
 
+TOK_REGEX = re.compile(
+    "(%s.*?%s|%s.*?%s|%s.*?%s)"
+    % (
+        re.escape(VAR_TOKEN_START),
+        re.escape(VAR_TOKEN_END),
+        re.escape(BLOCK_TOKEN_START),
+        re.escape(BLOCK_TOKEN_END),
+        re.escape(COMMENT_TOKEN_START),
+        re.escape(COMMENT_TOKEN_END),
+    )
+)
 
-TOK_REGEX = (re.compile('(%s.*?%s|%s.*?%s|%s.*?%s)' % (
-    re.escape(VAR_TOKEN_START),
-    re.escape(VAR_TOKEN_END),
-    re.escape(BLOCK_TOKEN_START),
-    re.escape(BLOCK_TOKEN_END),
-    re.escape(COMMENT_TOKEN_START),
-    re.escape(COMMENT_TOKEN_END)
-)))
-
-TRANSLATOR_COMMENT_MARK = 'Comment'
+TRANSLATOR_COMMENT_MARK = "Comment"
 
 WHITESPACE = re.compile("[\s]")
-UPPARA = re.compile('\,+')
+UPPARA = re.compile("\,+")
 
 operator_lookup_table = {
-    '<': operator.lt,
-    '>': operator.gt,
-    '==': operator.eq,
-    '!=': operator.ne,
-    '<=': operator.le,
-    '>=': operator.ge,
-    '+': operator.add,
-    '-': operator.sub,
-    '*': operator.mul,
-    '//': operator.floordiv,
-    '/': operator.truediv,
-    '%': operator.mod,
-    '**': operator.pow,
-    '<<': operator.lshift,
-    '>>': operator.rshift,
-    '^': operator.xor,
+    "<": operator.lt,
+    ">": operator.gt,
+    "==": operator.eq,
+    "!=": operator.ne,
+    "<=": operator.le,
+    ">=": operator.ge,
+    "+": operator.add,
+    "-": operator.sub,
+    "*": operator.mul,
+    "//": operator.floordiv,
+    "/": operator.truediv,
+    "%": operator.mod,
+    "**": operator.pow,
+    "<<": operator.lshift,
+    ">>": operator.rshift,
+    "^": operator.xor,
 }
 
-if os.path.isdir(os.getcwd() + '/public'):
+if os.path.isdir(os.getcwd() + "/public"):
     host = os.getcwd()  # os.path.dirname(os.getcwd())
 
 else:
@@ -73,49 +74,44 @@ class TemplateError(Exception):
 
 
 class TemplateContextError(TemplateError):
-
     def __init__(self, context_var):
         self.context_var = context_var
 
-
     def __str__(self):
-        Log('').error("cannot resolve '%s'" % self.context_var)
+        Log("").error("cannot resolve '%s'" % self.context_var)
         return "cannot resolve '%s'" % self.context_var
 
 
 class TemplateSyntaxError(TemplateError):
-
     def __init__(self, error_syntax):
         self.error_syntax = error_syntax
 
     def __str__(self):
-        Log('').error("'%s' seems like invalid syntax" % self.error_syntax)
+        Log("").error("'%s' seems like invalid syntax" % self.error_syntax)
         return "'%s' seems like invalid syntax" % self.error_syntax
 
 
 def eval_expression(expr):
 
     try:
-        return 'literal', ast.literal_eval(expr)
+        return "literal", ast.literal_eval(expr)
     except Exception as err:
-        return 'name', expr
+        return "name", expr
 
 
 def resolve(name, context):
 
-    if name.startswith('..'):
-        context = context.get('..', {})
+    if name.startswith(".."):
+        context = context.get("..", {})
         name = name[2:]
 
     try:
 
-        for tok in name.split('.'):
+        for tok in name.split("."):
             context = context[tok]
         return context
 
-
     except Exception as err:
-
 
         try:
             Ap = App.App()
@@ -151,9 +147,11 @@ class _Fragment(object):
             return VAR_FRAGMENT
         elif raw_start == BLOCK_TOKEN_START:
 
-            block = str('end{}'.format(self.clean[3:9]))
+            block = str("end{}".format(self.clean[3:9]))
 
-            return CLOSE_BLOCK_FRAGMENT if self.clean[:9] == block else OPEN_BLOCK_FRAGMENT
+            return (
+                CLOSE_BLOCK_FRAGMENT if self.clean[:9] == block else OPEN_BLOCK_FRAGMENT
+            )
 
         elif raw_start == COMMENT_TOKEN_START:
             if self.clean.find(TRANSLATOR_COMMENT_MARK):
@@ -162,7 +160,6 @@ class _Fragment(object):
         else:
 
             return TEXT_FRAGMENT
-
 
 
 class _Node(object):
@@ -189,7 +186,6 @@ class _Node(object):
 
     def render_children(self, context, children=None):
 
-
         if children is None:
             children = self.children
 
@@ -197,9 +193,9 @@ class _Node(object):
 
             child_html = child.render(context)
 
-            return '' if not child_html else str(child_html)
+            return "" if not child_html else str(child_html)
 
-        return ''.join(map(render_child, children))
+        return "".join(map(render_child, children))
 
 
 class _ScopableNode(_Node):
@@ -222,7 +218,6 @@ class _Variable(_Node):
 
 
 class _Each(_ScopableNode):
-
     def process_fragment(self, fragment):
 
         try:
@@ -236,22 +231,22 @@ class _Each(_ScopableNode):
 
     def render(self, context):
 
-        items = self.it[1] if self.it[0] == 'literal' else resolve(self.it[1], context)
+        items = self.it[1] if self.it[0] == "literal" else resolve(self.it[1], context)
 
         def render_item(item):
             Ap = App.App()
             load = Ap.loadmodule()
 
-            load_m = {'..': context, 'it': item}
+            load_m = {"..": context, "it": item}
 
             load.update(load_m)
 
             return self.render_children(load)
 
-        return ''.join(map(render_item, items))
+        return "".join(map(render_item, items))
+
 
 class _Block(_Node):
-
     def process_fragment(self, fragment):
 
         try:
@@ -298,9 +293,6 @@ class _Block(_Node):
                 return operator_lookup.join(d)
 
 
-
-
-
 class _If(_ScopableNode):
     def process_fragment(self, fragment):
         bits = fragment.split()[1:]
@@ -315,7 +307,7 @@ class _If(_ScopableNode):
 
         lhs = self.resolve_side(self.lhs, context)
 
-        if hasattr(self, 'op'):
+        if hasattr(self, "op"):
             op = operator_lookup_table.get(self.op)
             if op is None:
                 raise TemplateSyntaxError(self.op)
@@ -324,13 +316,14 @@ class _If(_ScopableNode):
         else:
             exec_if_branch = operator.truth(lhs)
 
-
         self.if_branch, self.else_branch = self.split_children()
-        return self.render_children(context, self.if_branch if exec_if_branch else self.else_branch)
+        return self.render_children(
+            context, self.if_branch if exec_if_branch else self.else_branch
+        )
 
     def resolve_side(self, side, context):
 
-        return side[1] if side[0] == 'literal' else resolve(side[1], context)
+        return side[1] if side[0] == "literal" else resolve(side[1], context)
 
     def exit_scope(self):
         self.if_branch, self.else_branch = self.split_children()
@@ -362,27 +355,26 @@ def dict_local(it, resolves):
         else:
             return l
 
+
 def dict_local_next(it, resolves):
 
     for i, k in enumerate(resolves):
 
         if k in it:
-           l = str(it).replace(k, str(resolves[k]))
-           return l
+            l = str(it).replace(k, str(resolves[k]))
+            return l
+
 
 class _Call(_Node):
-
     def process_fragment(self, fragment):
 
         try:
-            #bits = WHITESPACE.
+            # bits = WHITESPACE.
             self.bits = WHITESPACE.split(fragment)
             self.callable = self.bits[1]
             self.fragment = fragment
 
             self.args, self.kwargs = self._parse_params(self.bits[2:])
-
-
 
         except Exception as err:
             raise TemplateSyntaxError(fragment)
@@ -396,23 +388,22 @@ class _Call(_Node):
 
                 p = str(params).translate({ord(i): None for i in '"'})
 
-                if '=' in p:
+                if "=" in p:
 
-                    new_name = str(p).translate({ord(i): None for i in '"\',\[]'})
+                    new_name = str(p).translate({ord(i): None for i in "\"',\[]"})
                     sln = new_name.split(" ")
 
                     for n in sln:
 
-                        if '=' in n:
+                        if "=" in n:
 
                             k, v = str(n).split("=")
 
                             kwargs[k] = eval_expression(str(v))
                         else:
 
-                            new_n = str(n).translate({ord(i): None for i in '[]'})
+                            new_n = str(n).translate({ord(i): None for i in "[]"})
                             new_args.append(new_n)
-
 
                     args.append(eval_expression(" ".join(new_args)))
 
@@ -422,42 +413,40 @@ class _Call(_Node):
                 break
 
             else:
-                if '=' in param:
-                    name, value = param.split('=')
+                if "=" in param:
+                    name, value = param.split("=")
 
                     kwargs[name] = eval_expression(str(value))
                 else:
                     args.append(eval_expression(param))
-
 
         return args, kwargs
 
     def render(self, context):
         self.contxt = context
 
-        ob_dir = [str(os.path.dirname(__file__).replace('Editor', '')) + str("Functions"), str(host) + str("/") + "model"]
-
-
+        ob_dir = [
+            str(os.path.dirname(__file__).replace("Editor", "")) + str("Functions"),
+            str(host) + str("/") + "model",
+        ]
 
         resolved_args, resolved_kwargs = [], {}
 
-
         for kind, value in self.args:
 
-            if kind == 'name':
+            if kind == "name":
                 value = value
             value = self._call_each(str(value))
             resolved_args.append(value)
 
-
         if Version.PYVERSION_MA >= 2:
-            items  = self.kwargs.items()
+            items = self.kwargs.items()
         else:
             items = self.kwargs.iteritems()
 
         for key, (kind, value) in items:
 
-            if kind == 'name':
+            if kind == "name":
 
                 value = value
 
@@ -468,60 +457,23 @@ class _Call(_Node):
                 valux = value
             resolved_kwargs[key] = valux
 
-
-
-        path = [str(ob_dir[0]) + "/" + str(self.callable) + ".py",  str(ob_dir[1]) + "/" + str(self.callable) + ".py"]
-
+        path = [
+            str(ob_dir[0]) + "/" + str(self.callable) + ".py",
+            str(ob_dir[1]) + "/" + str(self.callable) + ".py",
+        ]
 
         sys.path.append(str(ob_dir[0]))
         sys.path.append(str(ob_dir[1]))
-
 
         importlib._RELOADING
 
         if os.path.isfile(path[0]) == True:
 
-
             md = importlib.import_module(self.callable, self.callable)
-
 
             ob = getattr(md, self.callable)
 
-
-
-            if hasattr(ob(), '__call__') == True:
-
-                calls = ""
-                try:
-                    _cal = ob()
-                    _new_cal = getattr(_cal, *resolved_args)
-                    calls =  _new_cal(**resolved_kwargs)
-                except Exception as err:
-
-                    try:
-                        newob = getattr(ob, ''.join(resolved_args))
-
-                        calls = newob(**resolved_kwargs)
-
-                    except Exception as err:
-                        try:
-                            calls = ob(*resolved_args, **resolved_kwargs)
-
-                        except Exception as err:
-                            Log('').error(err)
-
-                return calls
-            else:
-                raise TemplateError("'%s' is not a callable" % self.callable)
-
-        elif os.path.isfile(path[1]) == True:
-
-
-            md = importlib.import_module(self.callable, self.callable)
-            ob = getattr(md, self.callable)
-
-
-            if hasattr(ob(), '__call__'):
+            if hasattr(ob(), "__call__") == True:
 
                 calls = ""
                 try:
@@ -531,7 +483,7 @@ class _Call(_Node):
                 except Exception as err:
 
                     try:
-                        newob = getattr(ob, ''.join(resolved_args))
+                        newob = getattr(ob, "".join(resolved_args))
 
                         calls = newob(**resolved_kwargs)
 
@@ -540,7 +492,37 @@ class _Call(_Node):
                             calls = ob(*resolved_args, **resolved_kwargs)
 
                         except Exception as err:
-                            Log('').error(err)
+                            Log("").error(err)
+
+                return calls
+            else:
+                raise TemplateError("'%s' is not a callable" % self.callable)
+
+        elif os.path.isfile(path[1]) == True:
+
+            md = importlib.import_module(self.callable, self.callable)
+            ob = getattr(md, self.callable)
+
+            if hasattr(ob(), "__call__"):
+
+                calls = ""
+                try:
+                    _cal = ob()
+                    _new_cal = getattr(_cal, *resolved_args)
+                    calls = _new_cal(**resolved_kwargs)
+                except Exception as err:
+
+                    try:
+                        newob = getattr(ob, "".join(resolved_args))
+
+                        calls = newob(**resolved_kwargs)
+
+                    except Exception as err:
+                        try:
+                            calls = ob(*resolved_args, **resolved_kwargs)
+
+                        except Exception as err:
+                            Log("").error(err)
                 return calls
             else:
                 raise TemplateError("'%s' is not a callable" % self.callable)
@@ -550,27 +532,32 @@ class _Call(_Node):
 
     def _call_each(self, context):
 
-        if  VAR_TOKEN_START in context:
-            self.it = str(context).translate({ord(i): None for i in '{VAR_TOKEN_START}{VAR_TOKEN_END}'.format(VAR_TOKEN_START = '{{', VAR_TOKEN_END = '}}')})
+        if VAR_TOKEN_START in context:
+            self.it = str(context).translate(
+                {
+                    ord(i): None
+                    for i in "{VAR_TOKEN_START}{VAR_TOKEN_END}".format(
+                        VAR_TOKEN_START="{{", VAR_TOKEN_END="}}"
+                    )
+                }
+            )
             oparatork = "/"
-            for oparator_k,  oparator_v in operator_lookup_table.items():
+            for oparator_k, oparator_v in operator_lookup_table.items():
                 if oparator_k in self.it:
                     oparatork = oparator_k
 
-
             contsplit = self.it.split(oparatork)
-
 
             if len(contsplit) < 2:
 
                 for k, itc in enumerate(contsplit):
 
-                    if 'it.' in itc:
+                    if "it." in itc:
 
                         ite = resolve(itc, self.contxt)
                         item = str(self.it).replace(itc, str(ite))
                         return item
-                    elif '..' in itc:
+                    elif ".." in itc:
 
                         ite = resolve(itc, self.contxt)
                         item = str(self.it).replace(itc, str(ite))
@@ -580,42 +567,36 @@ class _Call(_Node):
                         item = str(self.it).replace(itc, str(ite))
                         return item
 
-
             elif len(contsplit) > 1:
 
                 dic_ls = {}
                 for s in contsplit:
 
-                    if 'it.'.lower() in s.lower():
-                        dic_ls.update({s:resolve(s, self.contxt)})
+                    if "it.".lower() in s.lower():
+                        dic_ls.update({s: resolve(s, self.contxt)})
 
-                    elif '..'.lower() in s.lower():
+                    elif "..".lower() in s.lower():
 
                         dic_ls.update({s: resolve(s, self.contxt)})
 
-
-
-                return dict_local(self.it,dic_ls)
-
+                return dict_local(self.it, dic_ls)
 
             else:
 
-                if 'it.' in self.it:
+                if "it." in self.it:
                     ite = resolve(self.it, self.contxt)
                     item = str(self.it).replace(self.it, ite)
-                elif '..' in self.it:
+                elif ".." in self.it:
 
                     ite = resolve(self.it, self.contxt)
                     item = str(self.it).replace(self.it, ite)
 
                 return item
 
+        elif ".." in context:
 
-
-        elif '..' in context:
-
-            for it in context.split('/'):
-                if '..' in it:
+            for it in context.split("/"):
+                if ".." in it:
                     ite = resolve(it, self.contxt)
 
                 else:
@@ -627,7 +608,6 @@ class _Call(_Node):
         else:
 
             return context
-
 
 
 class _Text(_Node):
@@ -645,7 +625,6 @@ class Compiler(object):
 
     def each_fragment(self):
 
-
         for fragment in TOK_REGEX.split(self.template_string):
 
             if fragment:
@@ -659,10 +638,9 @@ class Compiler(object):
         for fragment in self.each_fragment():
 
             if not scope_stack:
-                raise TemplateError('nesting issues')
+                raise TemplateError("nesting issues")
 
             parent_scope = scope_stack[-1]
-
 
             if fragment.type == CLOSE_BLOCK_FRAGMENT:
                 parent_scope.exit_scope()
@@ -689,13 +667,13 @@ class Compiler(object):
         elif fragment.type == OPEN_BLOCK_FRAGMENT:
             cmd = fragment.clean.split()[0]
 
-            if cmd == 'each':
+            if cmd == "each":
                 node_class = _Each
-            elif cmd == 'if':
+            elif cmd == "if":
                 node_class = _If
-            elif cmd == 'else':
+            elif cmd == "else":
                 node_class = _Else
-            elif cmd == 'call':
+            elif cmd == "call":
                 node_class = _Call
             else:
                 node_class = _Block
@@ -710,8 +688,6 @@ class Template(object):
     def __init__(self, contents):
         self.contents = contents
         self.root = Compiler(contents).compile()
-
-
 
     def render(self, **kwargs):
         return self.root.render(kwargs)

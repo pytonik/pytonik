@@ -9,24 +9,24 @@ from pytonik.Editor import HTMLeditor
 from pytonik.Log import Log
 from pytonik.App import App
 import os
+
 log_msg = Log()
 Ap = App()
 
-class public():
 
+class public:
     def __getattr__(self, item):
         return item
 
     def __init__(self, *args, **kwargs):
 
-        return  None
+        return None
 
-    def path(self, public = ""):
-        DS = str('/');
+    def path(self, public=""):
+        DS = str("/")
 
         if public == "/":
             DS = ""
         else:
             DS = "/"
-        return DS + 'public' + DS + value
-
+        return DS + "public" + DS + value

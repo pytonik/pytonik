@@ -5,9 +5,8 @@
 # Created by BetaCodings on 08/01/2020.
 import re
 
+
 class iteration:
-
-
     def __getattr__(self, item):
 
         return item
@@ -28,7 +27,6 @@ class iteration:
     def __str__(self):
         return self.iter
 
-
     def iteri(self, dictionary="", itr="pid"):
 
         i = 0
@@ -43,9 +41,7 @@ class iteration:
                 apend.append(dist)
             return apend
 
-
-
-    def keyword(self, keywords, limit = 0):
+    def keyword(self, keywords, limit=0):
 
         if type(keywords) == str:
             pattern = re.compile("\s*,\s*|\s+$")
@@ -57,16 +53,14 @@ class iteration:
             stag = " ".join(joinl)
             splittag = stag.split(",")
 
-
-
         try:
 
             if int(limit) > 0:
                 lk = []
                 ct = 0
                 for nsl in splittag:
-                    ct +=1
-                    if ct < limit+1:
+                    ct += 1
+                    if ct < limit + 1:
                         lk.append(nsl)
 
                 return lk
@@ -74,5 +68,4 @@ class iteration:
                 return splittag
 
         except Exception as err:
-            return  err
-
+            return err

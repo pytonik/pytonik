@@ -6,9 +6,6 @@
 
 
 class env:
-
-
-
     def __init__(self):
         return None
 
@@ -16,10 +13,9 @@ class env:
 
         from pytonik import Version, Config
 
-
         import sys, os
 
-        if os.path.isdir(os.getcwd() + '/public'):
+        if os.path.isdir(os.getcwd() + "/public"):
             host = os.getcwd()  # os.path.dirname(os.getcwd())
 
         else:
@@ -35,7 +31,7 @@ class env:
                 f = open(envpath, "r")
                 return f.read()
             except Exception as err:
-                   print(err)
+                print(err)
         else:
 
             print(".env file not found")

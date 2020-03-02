@@ -7,26 +7,25 @@
 ###
 
 
-
 import cgi, os
 from . import Router, Log
+
 log_msg = Log.Log()
 
+
 class Request:
- 
     def __init__(self):
         self.attr = cgi.FieldStorage()
         self.type = os.environ
         self.Router = Router.Router()
-        self.method = self.type.get('REQUEST_METHOD', '')
-
+        self.method = self.type.get("REQUEST_METHOD", "")
 
     def get(self, key=0, error=0):
         try:
-            if 'GET' in self.type.get('REQUEST_METHOD'):
+            if "GET" in self.type.get("REQUEST_METHOD"):
 
                 if key != 0:
-                    if (key in self.attr):
+                    if key in self.attr:
                         return self.attr.getvalue(key)
                     elif error == 1:
                         return self.attr
@@ -40,13 +39,13 @@ class Request:
                 return False
         except Exception as err:
             log_msg.info(err)
-            return  err
+            return err
 
     def post(self, key=0, error=0):
         try:
-            if 'POST' in self.type.get('REQUEST_METHOD'):
+            if "POST" in self.type.get("REQUEST_METHOD"):
                 if key != 0:
-                    if (key in self.attr):
+                    if key in self.attr:
                         return self.attr.getvalue(key)
                     elif error == 1:
                         return self.attr
@@ -65,7 +64,7 @@ class Request:
     def file(self, key=0, error=0):
         try:
             if key != 0:
-                if (key in self.attr):
+                if key in self.attr:
                     self.attr.getvalue(key)
                     return self.attr[key]
                 elif error == 1:
@@ -88,11 +87,9 @@ class Request:
             para = self.Router.getParams()
 
             if para != "" or para is not None:
-                return para.get(key, '')
+                return para.get(key, "")
             else:
                 return self.get(key)
 
         except Exception as err:
             log_msg.info(err)
-
-
