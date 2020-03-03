@@ -22,6 +22,7 @@ http_s = os.environ.get("HTTP_HOST")
 class Router(env, Config):
 
     def __init__(self):
+
         urlstr = str(url)
         if http_s == "127.0.0.1" or http_s == "localhost":
             self.uri = urlstr.split('/')[2:]

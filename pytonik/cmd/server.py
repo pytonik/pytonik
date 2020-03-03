@@ -25,8 +25,8 @@ from pytonik.cmd import lang
 from pytonik import Version
 from typing import Any, Callable, Dict, List, Pattern, Union
 from pytonik.cmd.console import (  # type: ignore
-                                 colorize, bold, red, green, turquoise, nocolor, color_terminal
-                                 )
+    colorize, bold, red, green, turquoise, nocolor, color_terminal
+)
 
 import webbrowser
 
@@ -36,7 +36,7 @@ from random import randint
 
 try:
     import readline
-    
+
     if readline.__doc__ and 'libedit' in readline.__doc__:
         readline.parse_and_bind("bind ^I rl_complete")
         USE_LIBEDIT = True
@@ -77,12 +77,12 @@ def nonempty(x: str) -> str:
 def __(mes_id):
     try:
         userlang = locale.getlocale()[0]
-        
+
         l_ = mes_id
         for l in lang.lang:
             if l == str(userlang):
                 getla = lang.lang.get(l, '')
-                
+
                 if getla != "":
                     l_ = getla.get(mes_id, '')
                     if l_ != "":
@@ -91,8 +91,8 @@ def __(mes_id):
                         l_ = mes_id
                 else:
                     l_ = mes_id
-except Exception as arr:
-    l_ = mes_id
+    except Exception as arr:
+        l_ = mes_id
     return l_
 
 
@@ -114,9 +114,9 @@ PROMPT_PREFIX = '> '
 
 
 def do_prompt(text: str, default: str = None, validator: Callable[[str], Any] = nonempty) -> Union[str, bool]:  # NOQA
-    
+
     while True:
-        
+
         if default is not None:
             prompt = PROMPT_PREFIX + '%s [%s]: ' % (text, default)
         else:
@@ -137,12 +137,12 @@ def do_prompt(text: str, default: str = None, validator: Callable[[str], Any] = 
             print(red('* ' + str(err)))
             continue
         break
-return x
+    return x
 
 
 def term_input(prompt: str) -> str:
     if sys.platform == 'win32':
-        
+
         print(prompt, end='')
         return input('')
     else:
@@ -151,29 +151,29 @@ def term_input(prompt: str) -> str:
 
 def get_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-                                     usage='%(prog)s [OPTIONS] <PROJECT_DIR>',
-                                     epilog=__("For more information, visit < https://pytonik.readthedocs.io >."),
-                                     description=__("""Pytonik is a python framework built to enhance web development
+        usage='%(prog)s [OPTIONS] <PROJECT_DIR>',
+        epilog=__("For more information, visit < https://pytonik.readthedocs.io >."),
+        description=__("""Pytonik is a python framework built to enhance web development
         fast and easy, also help web developers to build more apps with less codes.
         it uses expressive architectural pattern, structured on model view controller MVC
         and bundles of component to reuse while deploying the framework."""))
-    
+
     parser.add_argument('-q', '--quit', action='store_true', dest='quit',
                         default=None,
                         help=__('quit mode'))
-                        parser.add_argument('--version', action='version', dest='show_version',
-                                            version='%%(prog)s %s' % Version.VERSION_TEXT)
-                        
-                        parser.add_argument('port', default='6060', nargs='?', )
-                        
+    parser.add_argument('--version', action='version', dest='show_version',
+                        version='%%(prog)s %s' % Version.VERSION_TEXT)
+
+    parser.add_argument('port', default='6060', nargs='?', )
+
     return parser
 
 
 def ask(d: Dict) -> None:
     print(bold(__('Run Pytonik Server.')))
-    
+
     d['run'] = do_prompt(__('Do you want to run this project using default port (y/n)'), 'n', boolean)
-    
+
     if d.get('run', '') is True:
         serv()
 
@@ -181,22 +181,22 @@ def ask(d: Dict) -> None:
         d['port'] = do_prompt(__('Enter Custom Port'))
         if d.get('port', '') != "":
             if type(d.get('port', '')):
-                
+
                 askg(d)
-            
-            
+
+
             else:
                 print(bold(red(__('Enter Only Number'))))
                 askg(d)
 
-else:
-    d['quite'] = do_prompt(__('Do you want exite (y/n)'), 'n', boolean)
-        if d.get('quite', '') is True:
-            sys.exit(-1)
+        else:
+            d['quite'] = do_prompt(__('Do you want exite (y/n)'), 'n', boolean)
+            if d.get('quite', '') is True:
+                sys.exit(-1)
             else:
                 askg(d)
 
-    print()
+        print()
 
 
 def askg(d):
@@ -208,7 +208,7 @@ def main(argv: List[str] = sys.argv[1:]) -> int:
     parser = get_parser()
     try:
         args = parser.parse_args(argv)
-    
+
     except SystemExit as err:
         return err.code
     d = vars(args)
@@ -217,7 +217,7 @@ def main(argv: List[str] = sys.argv[1:]) -> int:
 
 def serv(path="", port=6060):
     ##randint(1000, 9999)
-    
+
     try:
         portno = int(port)
     except Exception as err:
@@ -225,65 +225,68 @@ def serv(path="", port=6060):
         return False
     server = HTTPServer
 
-handler = CGIHTTPRequestHandler
+    handler = CGIHTTPRequestHandler
     server_address = ("", portno)
-    
+
     path = str(path) if path != "" else str(os.getcwd())
-    
+
     handler.cgi_directories = [path]
     handler.cgi_info = {}
-    
+
     class pysteveHTTPHandler(handler):
-        
+
         def do_GET(self):
-            
+
             try:
-                
+
                 path_info = self.path
-                
+
                 os.chdir(path)
-                
+
                 if os.path.isfile(str(path) + "/public/index.py") == True:
-                    
+
                     self.cgi_info = ("/public", "index.py" + path_info)
                 else:
                     self.cgi_info = ("/public/", "home.py" + path_info)
-                
+
                 return self.run_cgi()
-            
+
             except Exception as err:
                 doTraceBack()
-    
-    def do_POST(self):
-        self.do_GET()
-        
+
+        def do_POST(self):
+            self.do_GET()
+
         def do_HEAD(self):
             self.do_GET()
 
 
-class ThreadedHTTPServer(ThreadingMixIn, server):
-    """Moomins live here"""
-    
+    class ThreadedHTTPServer(ThreadingMixIn, server):
+        """Moomins live here"""
+
     url = "localhost"
-    
+
     #randint(1000, 9999)
-    l = ""
-    
+    l = "{}:{}".format(url, portno)
+
     try:
-        l = "{}:{}".format(url, portno)
-        print(green("Pytonik development server running on " + str(l)))
+
+
         server = ThreadedHTTPServer((url, portno), pysteveHTTPHandler)
-        server.serve_forever()
-except Exception as err:
-    portno = randint(1000, 9999)
-        l = "{}:{}".format(url, portno)
         print(green("Pytonik development server running on " + str(l)))
-        server = ThreadedHTTPServer((url, portno), pysteveHTTPHandler)
+        webbrowser.open_new(l)
         server.serve_forever()
+    except Exception as err:
+        try:
+            server = ThreadedHTTPServer((url, portno), pysteveHTTPHandler)
+            print(green("Pytonik development server running on " + str(l)))
+            server.serve_forever()
+        except Exception as err:
+            print(red("Something went wrong: Default port already in use"))
     try:
         webbrowser.open_new(l)
-except Exception as err:
-    print("Default web browser not set")
+    except Exception as err:
+        print("Default web browser not set")
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv[1:]))

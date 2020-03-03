@@ -34,6 +34,7 @@ else:
 
 DS = str("/")
 u = url
+
 controllerpath = host + DS + 'controller'
 error_page_class= controllerpath + DS + "ErrorController" + ".py"
 header_response_page = {
