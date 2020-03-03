@@ -7,9 +7,10 @@
 
 from socketserver import ThreadingMixIn
 import cgitb
-import base64, traceback
+import base64
+import traceback
 from http.server import BaseHTTPRequestHandler, CGIHTTPRequestHandler, HTTPServer
-from  http import HTTPStatus
+from http import HTTPStatus
 import socket
 
 import argparse
@@ -103,7 +104,8 @@ def doTraceBack():
 
 
 if sys.platform == 'win32':
-    # On Windows, show questions as bold because of color scheme of PowerShell (refs: #5294).
+    # On Windows, show questions as bold because of color scheme of PowerShell
+    # (refs: #5294).
     COLOR_QUESTION = 'bold'
 else:
     COLOR_QUESTION = 'purple'
@@ -111,7 +113,7 @@ else:
 PROMPT_PREFIX = '> '
 
 
-def do_prompt(text: str, default: str = None, validator: Callable[[str], Any] = nonempty) -> Union[str, bool]:  # NOQA
+def do_prompt(text: str, default: str = None, validator: Callable[[str], Any]=nonempty) -> Union[str, bool]:  # NOQA
 
     while True:
 
@@ -150,7 +152,8 @@ def term_input(prompt: str) -> str:
 def get_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         usage='%(prog)s [OPTIONS] <PROJECT_DIR>',
-        epilog=__("For more information, visit < https://pytonik.readthedocs.io >."),
+        epilog=__(
+            "For more information, visit < https://pytonik.readthedocs.io >."),
         description=__("""Pytonik is a python framework built to enhance web development
         fast and easy, also help web developers to build more apps with less codes.
         it uses expressive architectural pattern, structured on model view controller MVC
@@ -170,7 +173,8 @@ def get_parser() -> argparse.ArgumentParser:
 def ask(d: Dict) -> None:
     print(bold(__('Run Pytonik Server.')))
 
-    d['run'] = do_prompt(__('Do you want to run this project using default port (y/n)'), 'n', boolean)
+    d['run'] = do_prompt(
+        __('Do you want to run this project using default port (y/n)'), 'n', boolean)
 
     if d.get('run', '') is True:
         serv()
@@ -181,7 +185,6 @@ def ask(d: Dict) -> None:
             if type(d.get('port', '')):
 
                 askg(d)
-
 
             else:
                 print(bold(red(__('Enter Only Number'))))
@@ -285,112 +288,11 @@ def serv(path="", port=6060):
                         self.wfile.write(bytes(str(App.App.runs()).encode()))
 
             try:
-
-                if self.path.endswith(".html"):
-                    mimetype = 'text/html'
-                    mode = "r"
-                    self.render(path=path, mimetype=mimetype, mode=mode)
-
-                if self.path.endswith(".txt"):
-                    mimetype = 'text/plain'
-                    mode = "r"
-                    self.render(path=path, mimetype=mimetype, mode=mode)
-
-                if self.path.endswith(".ico"):
-                    if os.path.isfile(str(path) + "/public/favicon.ico") == True:
-                        mimetype = 'image/x-icon'
-                        mode = "rb"
-                        self.render(path=path, mimetype=mimetype, mode=mode)
-
-                if self.path.endswith(".jpg"):
-                    mimetype = 'image/jpg'
-                    mode = "rb"
-                    self.render(path=path, mimetype=mimetype, mode=mode)
-
-                if self.path.endswith(".jpeg"):
-                    mimetype = 'image/jpeg'
-                    mode = "rb"
-                    self.render(path=path, mimetype=mimetype, mode=mode)
-
-                if self.path.endswith(".mp3") or self.path.endswith(".mpeg") or self.path.endswith(".mpe"):
-                    mimetype = 'audio/mpeg'
-                    mode = "rb"
-                    self.render(path=path, mimetype=mimetype, mode=mode)
-
-                if self.path.endswith(".mp4"):
-                    mimetype = 'audio/mp4'
-                    mode = "rb"
-                    self.render(path=path, mimetype=mimetype, mode=mode)
-
-                if self.path.endswith(".rtf"):
-                    mimetype = 'text/rtf'
-                    mode = "r"
-                    self.render(path=path, mimetype=mimetype, mode=mode)
-
-                if self.path.endswith(".zip"):
-                    mimetype = 'application/zip'
-                    mode = "rb"
-                    self.render(path=path, mimetype=mimetype, mode=mode)
-
-                if self.path.endswith(".gif"):
-                    mimetype = 'image/gif'
-                    mode = "rb"
-                    self.render(path=path, mimetype=mimetype, mode=mode)
-
-                if self.path.endswith(".png"):
-                    mimetype = 'image/png'
-                    mode = "rb"
-                    self.render(path=path, mimetype=mimetype, mode=mode)
-
-                if self.path.endswith(".js"):
-                    mimetype = 'application/javascript'
-                    mode = "r"
-                    self.render(path=path, mimetype=mimetype, mode=mode)
-
-                if self.path.endswith(".css"):
-                    mimetype = 'text/css'
-                    mode = "r"
-                    self.render(path=path, mimetype=mimetype, mode=mode)
-
-                if self.path.endswith(".json"):
-                    mimetype = 'application/json'
-                    self.render(path=path, mimetype=mimetype, mode=mode)
-
-                if self.path.endswith(".ttf"):
-                    mimetype = 'application/x-font-ttf'
-                    mode = "rb"
-                    self.render(path=path, mimetype=mimetype, mode=mode)
-
-                if self.path.endswith(".woff2"):
-                    mimetype = 'application/x-font-woff2'
-                    mode = "rb"
-                    self.render(path=path, mimetype=mimetype, mode=mode)
-
-                if self.path.endswith(".woff"):
-                    mimetype = 'application/x-font-woff'
-                    mode = "rb"
-                    self.render(path=path, mimetype=mimetype, mode=mode)
-
-                if self.path.endswith(".wav"):
-                    mimetype = 'audio/wav'
-                    mode = "rb"
-                    self.render(path=path, mimetype=mimetype, mode=mode)
-
-                if self.path.endswith(".svg"):
-                    mimetype = 'image/svg+xml'
-                    mode = "rb"
-                    self.render(path=path, mimetype=mimetype, mode=mode)
-
-                if self.path.endswith(".xhtml") or self.path.endswith(".xht"):
-                    mimetype = 'application/xhtml+xml'
-                    mode = "rb"
-                    self.render(path=path, mimetype=mimetype, mode=mode)
-
-                if self.path.endswith(".xml"):
-                    mimetype = 'application/xml'
-                    mode = "rb"
-                    self.render(path=path, mimetype=mimetype, mode=mode)
-
+                from pytonik import Version
+                for mime in Version.MIME_TYPES:
+                    if self.path.endswith(mime['ext']):
+                        self.render(path=path, mimetype=mime[
+                                    'type'], mode=mime['mode'])
 
             except Exception as err:
                 self.send_response(404)
@@ -445,7 +347,7 @@ def env_set(path, host, port, para="", status=200, accept=""):
         'HTTP_ACCEPT': accept,
         'DOCUMENT_ROOT': os.path.basename(path),
         'SERVER_SOFTWARE': "Pytonik",
-        'PATH_TRANSLATED': path+"/public",
+        'PATH_TRANSLATED': path + "/public",
         "REQUEST_URI": str(host) + ":" + str(port) + "/" + str(uri) + str(para),
 
     }
@@ -463,7 +365,7 @@ def env_set(path, host, port, para="", status=200, accept=""):
 
     i = 0
     for c, (k, v) in enumerate(lt):
-        i +=1
+        i += 1
         os.environ.setdefault(k, str(v).encode())
         ++i
     os.environ.update(dict(REQUEST_URI=os.environ.get("REQUEST_URI")))
