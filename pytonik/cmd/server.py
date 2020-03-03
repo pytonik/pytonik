@@ -12,8 +12,6 @@ from http.server import BaseHTTPRequestHandler, CGIHTTPRequestHandler, HTTPServe
 from  http import HTTPStatus
 import socket
 
-
-
 import argparse
 import locale
 import os
@@ -233,25 +231,170 @@ def serv(path="", port=6060):
     handler.cgi_directories = [path]
     handler.cgi_info = {}
 
-    class pysteveHTTPHandler(handler):
+    url = "localhost"
+
+    # randint(1000, 9999)
+    l = "{}:{}".format(url, portno)
+
+    class pysteveHTTPHandler(BaseHTTPRequestHandler):
 
         def do_GET(self):
+            try:
+                import imp as im
+            except Exception as err:
+                import importlib as im
+
+            mimetype = ""
+            sys.path.insert(0, os.path.dirname(__file__))
+
+            path_info = self.path
+
+            os.chdir(path)
+
+            if self.path == "/":
+                if os.path.isfile(str(path) + "/public/index.py") == True:
+                    vpath = "public/index.py"
+                    env_set(path, url, portno, self.path)
+
+                elif os.path.isfile(str(path) + "/public/home.py") == True:
+                    vpath = "public/home.py"
+                    env_set(path, url, portno, self.path)
+                App = im.load_source('App.App', path + "/" + vpath)
+                mimetype = 'text/html'
+                self.send_response(200)
+                self.send_header('Content-type', mimetype)
+                self.end_headers()
+                self.wfile.write(bytes(str(App.App.runs()).encode()))
+            elif self.path != "/":
+
+                if "." not in str(self.path):
+                    if str(self.path) != "":
+                        if os.path.isfile(str(path) + "/public/index.py") == True:
+                            lpath = "public/index.py"
+                            env_set(path, url, portno, self.path)
+
+                        elif os.path.isfile(str(path) + "/public/home.py") == True:
+                            lpath = "public/home.py"
+                            env_set(path, url, portno, self.path)
+
+                        App = im.load_source('App.App', path + "/" + lpath)
+                        mimetype = 'text/html'
+                        self.send_response(200)
+                        self.send_header('Content-type', mimetype)
+                        self.end_headers()
+                        self.wfile.write(bytes(str(App.App.runs()).encode()))
 
             try:
 
-                path_info = self.path
+                if self.path.endswith(".html"):
+                    mimetype = 'text/html'
+                    mode = "r"
+                    self.render(path=path, mimetype=mimetype, mode=mode)
 
-                os.chdir(path)
+                if self.path.endswith(".txt"):
+                    mimetype = 'text/plain'
+                    mode = "r"
+                    self.render(path=path, mimetype=mimetype, mode=mode)
 
-                if os.path.isfile(str(path) + "/public/index.py") == True:
+                if self.path.endswith(".ico"):
+                    if os.path.isfile(str(path) + "/public/favicon.ico") == True:
+                        mimetype = 'image/x-icon'
+                        mode = "rb"
+                        self.render(path=path, mimetype=mimetype, mode=mode)
 
-                    self.cgi_info = ("/public", "index.py" + path_info)
-                else:
-                    self.cgi_info = ("/public/", "home.py" + path_info)
+                if self.path.endswith(".jpg"):
+                    mimetype = 'image/jpg'
+                    mode = "rb"
+                    self.render(path=path, mimetype=mimetype, mode=mode)
 
-                return self.run_cgi()
+                if self.path.endswith(".jpeg"):
+                    mimetype = 'image/jpeg'
+                    mode = "rb"
+                    self.render(path=path, mimetype=mimetype, mode=mode)
+
+                if self.path.endswith(".mp3") or self.path.endswith(".mpeg") or self.path.endswith(".mpe"):
+                    mimetype = 'audio/mpeg'
+                    mode = "rb"
+                    self.render(path=path, mimetype=mimetype, mode=mode)
+
+                if self.path.endswith(".mp4"):
+                    mimetype = 'audio/mp4'
+                    mode = "rb"
+                    self.render(path=path, mimetype=mimetype, mode=mode)
+
+                if self.path.endswith(".rtf"):
+                    mimetype = 'text/rtf'
+                    mode = "r"
+                    self.render(path=path, mimetype=mimetype, mode=mode)
+
+                if self.path.endswith(".zip"):
+                    mimetype = 'application/zip'
+                    mode = "rb"
+                    self.render(path=path, mimetype=mimetype, mode=mode)
+
+                if self.path.endswith(".gif"):
+                    mimetype = 'image/gif'
+                    mode = "rb"
+                    self.render(path=path, mimetype=mimetype, mode=mode)
+
+                if self.path.endswith(".png"):
+                    mimetype = 'image/png'
+                    mode = "rb"
+                    self.render(path=path, mimetype=mimetype, mode=mode)
+
+                if self.path.endswith(".js"):
+                    mimetype = 'application/javascript'
+                    mode = "r"
+                    self.render(path=path, mimetype=mimetype, mode=mode)
+
+                if self.path.endswith(".css"):
+                    mimetype = 'text/css'
+                    mode = "r"
+                    self.render(path=path, mimetype=mimetype, mode=mode)
+
+                if self.path.endswith(".json"):
+                    mimetype = 'application/json'
+                    self.render(path=path, mimetype=mimetype, mode=mode)
+
+                if self.path.endswith(".ttf"):
+                    mimetype = 'application/x-font-ttf'
+                    mode = "rb"
+                    self.render(path=path, mimetype=mimetype, mode=mode)
+
+                if self.path.endswith(".woff2"):
+                    mimetype = 'application/x-font-woff2'
+                    mode = "rb"
+                    self.render(path=path, mimetype=mimetype, mode=mode)
+
+                if self.path.endswith(".woff"):
+                    mimetype = 'application/x-font-woff'
+                    mode = "rb"
+                    self.render(path=path, mimetype=mimetype, mode=mode)
+
+                if self.path.endswith(".wav"):
+                    mimetype = 'audio/wav'
+                    mode = "rb"
+                    self.render(path=path, mimetype=mimetype, mode=mode)
+
+                if self.path.endswith(".svg"):
+                    mimetype = 'image/svg+xml'
+                    mode = "rb"
+                    self.render(path=path, mimetype=mimetype, mode=mode)
+
+                if self.path.endswith(".xhtml") or self.path.endswith(".xht"):
+                    mimetype = 'application/xhtml+xml'
+                    mode = "rb"
+                    self.render(path=path, mimetype=mimetype, mode=mode)
+
+                if self.path.endswith(".xml"):
+                    mimetype = 'application/xml'
+                    mode = "rb"
+                    self.render(path=path, mimetype=mimetype, mode=mode)
+
 
             except Exception as err:
+                self.send_response(404)
+                self.send_error(404, 'File Not Found: %s' % self.path)
                 doTraceBack()
 
         def do_POST(self):
@@ -260,22 +403,29 @@ def serv(path="", port=6060):
         def do_HEAD(self):
             self.do_GET()
 
+        def render(self, path, mimetype, mode='r', encoding="utf-8"):
+            f = open(path + '/' + self.path, mode)
+            self.send_response(200)
+            self.send_header('Content-type', mimetype)
+            self.end_headers()
+            if mode == "rb":
+                readv = f.read()
+            else:
+                readv = bytes(str(f.read()).encode('utf-8'))
+            self.wfile.write(readv)
+            f.close()
+            return readv
 
     class ThreadedHTTPServer(ThreadingMixIn, server):
         """Moomins live here"""
 
-    url = "localhost"
-
-    #randint(1000, 9999)
-    l = "{}:{}".format(url, portno)
-
     try:
-
 
         server = ThreadedHTTPServer((url, portno), pysteveHTTPHandler)
         print(green("Pytonik development server running on " + str(l)))
         webbrowser.open_new(l)
         server.serve_forever()
+
     except Exception as err:
         try:
             server = ThreadedHTTPServer((url, portno), pysteveHTTPHandler)
@@ -283,10 +433,41 @@ def serv(path="", port=6060):
             server.serve_forever()
         except Exception as err:
             print(red("Something went wrong: Default port already in use"))
-    try:
-        webbrowser.open_new(l)
-    except Exception as err:
-        print("Default web browser not set")
+
+
+def env_set(path, host, port, para="", status=200, accept=""):
+    uri = path.split('/')[-1]
+    env = {
+        "PATH_INFO": str(path),
+        "HTTP_HOST": str(host),
+        "SERVER_PORT": str(port),
+        "REDIRECT_STATUS": str(status),
+        'HTTP_ACCEPT': accept,
+        'DOCUMENT_ROOT': os.path.basename(path),
+        'SERVER_SOFTWARE': "Pytonik",
+        'PATH_TRANSLATED': path+"/public",
+        "REQUEST_URI": str(host) + ":" + str(port) + "/" + str(uri) + str(para),
+
+    }
+
+    if Version.PYVERSION_MA <= 2:
+        lt = env.iteritems()
+    else:
+        lt = env.items()
+    if os.environ.get("REQUEST_URI", "") != "" or os.environ.get("REQUEST_URI", "") != None:
+        try:
+            del os.environ["REQUEST_URI"]
+        except Exception as err:
+            os.environ.clear()
+            os.environ.update(dict(env))
+
+    i = 0
+    for c, (k, v) in enumerate(lt):
+        i +=1
+        os.environ.setdefault(k, str(v).encode())
+        ++i
+    os.environ.update(dict(REQUEST_URI=os.environ.get("REQUEST_URI")))
+
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv[1:]))

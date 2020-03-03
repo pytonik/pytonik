@@ -11,4 +11,4 @@ def index():
         'reversion': Version().VERSION_TEXT[0:5],
     }
 
-    m.views('index', data)
+    return m.views('index', data)

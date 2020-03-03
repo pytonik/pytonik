@@ -489,13 +489,21 @@ class Table:
         kl = []
         if key is "":
             for v in self.result:
-                for ks, vs in v.items():
+                if Version.PYVERSION_MA <= 2:
+                    lt = v.iteritems()
+                else:
+                    lt = v.items()
+                for ks, vs in lt:
                     ls = vs
                 kl.append(ls)
         else:
             for v in self.result:
                 kd = {}
-                for ks, vs in v.items():
+                if Version.PYVERSION_MA <= 2:
+                    lt = v.iteritems()
+                else:
+                    lt = v.items()
+                for ks, vs in lt:
                     l = {key: vs}
                     kd.update({key: vs})
 

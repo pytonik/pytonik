@@ -44,6 +44,9 @@ header_response_page = {
 
 }
 
+os.environ.setdefault("Framework", "Pytonik")
+os.environ.setdefault("X-Version", Version.VERSION_TEXT)
+os.environ.setdefault("X-Organisation", "Betacodings")
 
 class App(Router):
 
@@ -82,6 +85,7 @@ class App(Router):
 
 
     def runs(self):
+
 
         self.getrouters = self.envrin('route')
         self.routersc = self.Router()
@@ -140,20 +144,20 @@ class App(Router):
         controllers = controllerpath + DS + controllersClass + ".py"
 
 
-
         if os.path.isfile(controllers) == True:
-
             if __name__ == '__main__':
                 spac = ""
             if os.path.isfile(controllers) == True:
 
                 if sys.version_info.major <= 2:
-                    self.strClass(controllerpath, controllersClass)
+
+                   return self.strClass(controllerpath, controllersClass)
                 else:
-                    self.strClass3(controllerpath, controllersClass)
+
+                   return self.strClass3(controllerpath, controllersClass)
 
         else:
-
+            print("not")
             Log(controllerpath).error('Controller does not exist ' + str(controllersClass))
             self.errorP('405')
 
@@ -184,26 +188,16 @@ class App(Router):
 
                        self.redirect(u.url().url("/error/{code}".format(code=pageCode)))
 
-                   else:
-                       self.create_error_page(error_page_class)
-                       self.redirect(u.url().url("/error/page{code}".format(code=code)))
-
             else:
 
                 if  os.path.isfile(self.error_page_html(code)) == True:
                     self.redirect(u.url().url("/error/{code}".format(code=pageCode)))
 
-                else:
-                    self.create_error_page(error_page_class)
-                    self.redirect(u.url().url("/error/{code}".format(code=pageCode)))
 
         else:
             if os.path.isfile(error_page_class) == True:
                 self.redirect(u.url().url("/error/{code}".format(code=pageCode)))
 
-            else:
-                self.create_error_page(error_page_class)
-                self.redirect(u.url().url("/error/{code}".format(code=pageCode)))
 
 
 
@@ -249,7 +243,7 @@ class App(Router):
             sys.path.append(p)
             ms = str(self.actions)
             md = importlib.import_module(c)
-            self.strMethod(p, md, ms)
+            return self.strMethod(p, md, ms)
 
         except Exception as err:
             Log(p + DS + c + '.py').critical(err)
@@ -278,7 +272,7 @@ class App(Router):
             ms = str(self.actions)
             importlib._RELOADING
             md = importlib.import_module(c, ms)
-            self.strMethod(p, md, ms)
+            return self.strMethod(p, md, ms)
 
         except Exception as err:
 
@@ -307,10 +301,13 @@ class App(Router):
         elif Version.PYVERSION_MA >= 3 and Version.PYVERSION_MI >= 4:
             import importlib
             importlib.reload(sys)
-        print("Content-type: {type}\r\n".format(type=type))#\r\n\r\n
-        if p > 0:
-            for x in range(p):
-                print("")
+        if os.path.isdir(os.getcwd() + '/public') == False:
+            print("Content-type: {type}\r\n".format(type=type))#\r\n\r\n
+            if p > 0:
+                for x in range(p):
+                    print("")
+        else:
+            return
 
     def views(self, pathf="", datag={}, datal={}):
 
@@ -318,15 +315,18 @@ class App(Router):
             pathf = self.getDefaultViewPath()
 
         pathfhtml = host + DS + 'views' + DS + pathf + ".html"
-
+        html = ""
         if os.path.isfile(pathfhtml) == False:
             Log(host + DS + 'views').critical('Cannot find file {}'.format(pathf + ".html"))
             self.errorP('404')
         else:
-            self.header()
-            self.read_html(host + DS + 'views' + DS, pathf, datag)
+            if os.path.isdir(os.getcwd() + '/public'):
+                # print(os.environ)
+                return self.read_html(host + DS + 'views' + DS, pathf, datag)
 
-        return False
+            else:
+                self.header()
+                print(self.read_html(host + DS + 'views' + DS, pathf, datag))
 
     def read_html(self, template_dir, engine, context=[]):
 
@@ -337,10 +337,12 @@ class App(Router):
             with open(html_file_path) as html_file:
                 html = html_file.read()
 
-            print(str('<!-- Pytonik -->\n')+ HTMLeditor.Template(html).render(**context) + str('\n<!-- Pytonik {} -->'.format(Version.VERSION_TEXT)))
+            return str('<!-- Pytonik -->\n')+ HTMLeditor.Template(html).render(**context) + str('\n<!-- Pytonik {} -->'.format(Version.VERSION_TEXT))
 
         except Exception as err:
+
             Log(template_dir+DS+engine+str('.html')).error(err)
+            return
 
     def getDefaultViewPath(self):
 
@@ -356,38 +358,6 @@ class App(Router):
 
     def error_page_html(self, code):
         return host+DS+'views'+DS+str(code)+".html"
-
-    def create_error_page(self, error_page_class):
-
-
-        try:
-            python_writer_code = ""
-            for code in header_response_page:
-                if os.path.isfile(self.error_page_html(code)) == False:
-                    f = open(self.error_page_html(code), 'a+')
-                    f.write("<h1> {code}  Not Found</h1>".format(code=code))
-                    f.close()
-                    python_writer_code += """\ndef page{code} ():\n""".format(code=code)
-                    python_writer_code += """\n    data = {'title': 'pytonik"""
-                    python_writer_code += """ {code} """.format(code=code)
-                    python_writer_code += """'}\n\n"""
-                    python_writer_code += """    m.views('{code}', data)\n""".format(code=code)
-
-
-
-            writer_code = """from pytonik import Web
-                              \nm = Web.App()
-                              \ndef index():
-                              \n  m.header()
-                              \n  print("do work here") \n
-                            """
-            code_line = str(writer_code)+str(python_writer_code)
-            f = open(error_page_class, 'w')
-            f.write(code_line)
-            f.close()
-
-        except Exception as err:
-            Log(__file__).critical(err)
 
     def loadmodule(self):
 

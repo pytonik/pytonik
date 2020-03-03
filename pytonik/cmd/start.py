@@ -249,7 +249,7 @@ def make_file(d):
 
         print(bold(green(__('Project {} Is ready...'.format(d.get('project', ''))))))
     except Exception as err:
-        print(err)
+        print("")
 
     server.serv(os.getcwd() + '/' + d.get('project', ''))
 
