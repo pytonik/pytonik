@@ -31,7 +31,8 @@ class Session(Variable):
         else:
             return False
 
-    def set(self, key="", value="", duration=3600, url=self.out("HTTP_HOST"), path="/"):
+    def set(self, key="", value="", duration=3600, url="", path="/"):
+        url = self.out("HTTP_HOST", "") if url =="" or url == None else url
         expires = datetime.datetime.utcnow(
         ) + datetime.timedelta(minutes=duration)  # minutes in 30 days
 
@@ -60,10 +61,10 @@ class Session(Variable):
             cooKeys = Cookie.SimpleCookie()
 
         OsEnviron = self.out("HTTP_COOKIE")
-        if OsEnviron is not None:
+        if OsEnviron != None:
             cooKeys.load(OsEnviron)
             if key in cooKeys:
-                if cooKeys[key].value is not None:
+                if cooKeys[key].value != None:
                     try:
                         return ast.literal_eval(cooKeys[key].value)
                     except Exception as err:
@@ -89,12 +90,12 @@ class Session(Variable):
             if args:
 
                 for key in args:
-                    if self.get(key) is not "":
+                    if self.get(key) != "":
                         return self.set(key, "", 60)
             else:
                 for key, v in cook:
 
-                    if self.get(key) is not "":
+                    if self.get(key) != "":
                         return self.set(key, "", 60)
 
         else:
