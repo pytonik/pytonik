@@ -10,7 +10,7 @@
 import os, datetime, sys, ast
 from pytonik import Version
 
-if Version.PYVERSION_MA <= 3 and  Version.PYVERSION_MI < 7:
+if sys.version_info < (3,0):
     import Cookie
 else:
     from http import cookies
