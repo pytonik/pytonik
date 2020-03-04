@@ -38,5 +38,6 @@ class public():
             DS = ""
         else:
             DS = "/"
+
         return DS + 'public' + DS + value
 
