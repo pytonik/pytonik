@@ -14,12 +14,18 @@ class Variable:
         return None
 
     def put(self, path="", host="", port="", para="", status=200, accept="", method="GET", cookies="", ssl_v="off"):
-        uri = path.split('/')[-1]+str(para)
+        uri = ''
+        query_string = ''
         host = str(host) if str(host) !=  "" else os.environ.get("HTTP_HOST", "")
         port = str(port) if str(port) !=  "" else os.environ.get("SERVER_PORT", "")
         path = str(path) if str(path) != "" else os.environ.get("PATH_INFO", "")
         status = str(status) if status !=  "" else os.environ.get("REDIRECT_STATUS", "")
-        query_string = para if para.find("?") == True else ""
+
+        if para.find("?") == True :
+            parts = para.split('?')
+            uri = parts[0]
+            query_string = parts[1]
+
 
         env = {
             "Framework": Version.AUTHOR if Version.AUTHOR !=  "" else os.environ.get("Framework", ""),
@@ -36,7 +42,7 @@ class Variable:
             'SERVER_SOFTWARE': Version.AUTHOR if Version.AUTHOR !=  "" else os.environ.get("SERVER_SOFTWARE", ""),
             'PATH_TRANSLATED': str(path) + "/public",
             'HTTPS': ssl_v,
-            "REQUEST_URI": "/"+str(os.path.basename(os.getcwd()))+str(para)
+            "REQUEST_URI": "/"+str(os.path.basename(os.getcwd()))+str(uri)
 
         }
 
