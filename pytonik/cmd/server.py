@@ -356,7 +356,7 @@ def serv(path="", port=6060):
 
         server = ThreadedHTTPServer((host, portno), pysteveHTTPHandler)
         print(green("Pytonik development server running on " + str(l)))
-        #webbrowser.open_new(l)
+        webbrowser.open_new(l)
         server.serve_forever()
 
     except Exception as err:
@@ -367,25 +367,6 @@ def serv(path="", port=6060):
         except Exception as err:
             print(red("Something went wrong: Default port already in use"))
 
-
-
-    if Version.PYVERSION_MA <= 2:
-        lt = env.iteritems()
-    else:
-        lt = env.items()
-    if os.environ.get("REQUEST_URI", "") != "" or os.environ.get("REQUEST_URI", "") != None:
-        try:
-            del os.environ["REQUEST_URI"]
-        except Exception as err:
-            os.environ.clear()
-            os.environ.update(dict(env))
-
-    i = 0
-    for c, (k, v) in enumerate(lt):
-        i += 1
-        os.environ.setdefault(k, str(v).encode())
-        ++i
-    os.environ.update(dict(REQUEST_URI=os.environ.get("REQUEST_URI")))
 
 
 if __name__ == '__main__':
