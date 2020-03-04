@@ -94,7 +94,7 @@ class Log():
 
 
     def __file(self):
-
+        from pytonik.util.Exception import Exception
         error_log = self.locate + "/" + 'app.log'
         if os.path.isfile(error_log) == False:
             try:
@@ -109,7 +109,6 @@ class Log():
 
             if int(self.__check()) == 1:
                 logging.basicConfig(stream=sys.stdout, format=self.format, datefmt=self.datefmt)
-
             else:
                 logging.basicConfig(filename=error_log, format=self.format, datefmt=self.datefmt)
 
@@ -117,11 +116,10 @@ class Log():
 
         from pytonik.Core.env import env
         from pytonik.Config import Config
-        from pytonik.Exception import Exception
         getenv = env()
         conf = Config()
         conf.add(getenv._e())
-        return 0 if conf.get('exception', 0) is "" else conf.get('exception', 0)
+        return 1 if conf.get('exception', 0) == 1  else 0
 
 
     def __open_tem(self):

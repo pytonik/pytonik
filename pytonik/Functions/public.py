@@ -16,10 +16,20 @@ class public():
 
     def __getattr__(self, item):
         return item
-
+    
     def __init__(self, *args, **kwargs):
+        if len(args) > 0 or len(kwargs) > 0:
+            if all(args) is not False:
+                self.pt = self.path(*args, **kwargs)
+            else:
+                self.pt = self.path(**kwargs)
 
-        return  None
+        return None
+
+    def __str__(self):
+
+        return self.pt
+
 
     def path(self, public = ""):
         DS = str('/');
@@ -28,5 +38,6 @@ class public():
             DS = ""
         else:
             DS = "/"
+
         return DS + 'public' + DS + value
 

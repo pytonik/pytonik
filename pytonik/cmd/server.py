@@ -7,9 +7,11 @@
 
 from socketserver import ThreadingMixIn
 import cgitb
-import base64, traceback
+import base64
+import traceback
 from http.server import BaseHTTPRequestHandler, CGIHTTPRequestHandler, HTTPServer
-from  http import HTTPStatus
+from http import HTTPStatus
+import socket
 
 import argparse
 import locale
@@ -20,10 +22,14 @@ import time
 import warnings
 from pytonik.cmd import lang
 from pytonik import Version
+from pytonik.Functions.url import url
+from pytonik.App import App as Pytonik
 from typing import Any, Callable, Dict, List, Pattern, Union
 from pytonik.cmd.console import (  # type: ignore
     colorize, bold, red, green, turquoise, nocolor, color_terminal
 )
+
+
 
 import webbrowser
 
@@ -42,7 +48,6 @@ try:
         USE_LIBEDIT = False
 except ImportError:
     USE_LIBEDIT = False
-
 
 
 class ValidationError(Exception):
@@ -73,7 +78,6 @@ def nonempty(x: str) -> str:
 
 
 def __(mes_id):
-
     try:
         userlang = locale.getlocale()[0]
 
@@ -83,7 +87,7 @@ def __(mes_id):
                 getla = lang.lang.get(l, '')
 
                 if getla != "":
-                    l_ =  getla.get(mes_id, '')
+                    l_ = getla.get(mes_id, '')
                     if l_ != "":
                         l_ = getla.get(mes_id, '')
                     else:
@@ -94,6 +98,7 @@ def __(mes_id):
         l_ = mes_id
     return l_
 
+
 def doTraceBack():
     exc_type, exc_value, exc_traceback = sys.exc_info()
     traceback.print_tb(exc_traceback, limit=1, file=sys.stdout)
@@ -102,9 +107,9 @@ def doTraceBack():
     traceback.print_exc()
 
 
-
 if sys.platform == 'win32':
-    # On Windows, show questions as bold because of color scheme of PowerShell (refs: #5294).
+    # On Windows, show questions as bold because of color scheme of PowerShell
+    # (refs: #5294).
     COLOR_QUESTION = 'bold'
 else:
     COLOR_QUESTION = 'purple'
@@ -112,7 +117,7 @@ else:
 PROMPT_PREFIX = '> '
 
 
-def do_prompt(text: str, default: str = None, validator: Callable[[str], Any] = nonempty) -> Union[str, bool]:  # NOQA
+def do_prompt(text: str, default: str = None, validator: Callable[[str], Any]=nonempty) -> Union[str, bool]:  # NOQA
 
     while True:
 
@@ -148,11 +153,11 @@ def term_input(prompt: str) -> str:
         return input(prompt)
 
 
-
 def get_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         usage='%(prog)s [OPTIONS] <PROJECT_DIR>',
-        epilog=__("For more information, visit < https://pytonik.readthedocs.io >."),
+        epilog=__(
+            "For more information, visit < https://pytonik.readthedocs.io >."),
         description=__("""Pytonik is a python framework built to enhance web development
         fast and easy, also help web developers to build more apps with less codes.
         it uses expressive architectural pattern, structured on model view controller MVC
@@ -164,15 +169,17 @@ def get_parser() -> argparse.ArgumentParser:
     parser.add_argument('--version', action='version', dest='show_version',
                         version='%%(prog)s %s' % Version.VERSION_TEXT)
 
-    parser.add_argument('port', default='6060', nargs='?',)
+    parser.add_argument('port', default='6060', nargs='?', )
 
     return parser
+
 
 def ask(d: Dict) -> None:
 
     print(bold(__('Run Pytonik Server.')))
 
-    d['run'] = do_prompt(__('Do you want to run this project using default port (y/n)'), 'n', boolean)
+    d['run'] = do_prompt(
+        __('Do you want to run this project using default port (y/n)'), 'n', boolean)
 
     if d.get('run', '') is True:
         serv()
@@ -182,9 +189,7 @@ def ask(d: Dict) -> None:
         if d.get('port', '') != "":
             if type(d.get('port', '')):
 
-
                 askg(d)
-
 
             else:
                 print(bold(red(__('Enter Only Number'))))
@@ -201,10 +206,7 @@ def ask(d: Dict) -> None:
 
 
 def askg(d):
-
     serv(port=d.get('port', ''))
-
-
 
 
 def main(argv: List[str] = sys.argv[1:]) -> int:
@@ -218,7 +220,8 @@ def main(argv: List[str] = sys.argv[1:]) -> int:
     d = vars(args)
     ask(d)
 
-def serv(path ="", port=6060):
+
+def serv(path="", port=6060):
     ##randint(1000, 9999)
 
     try:
@@ -233,31 +236,74 @@ def serv(path ="", port=6060):
 
     path = str(path) if path != "" else str(os.getcwd())
 
-
     handler.cgi_directories = [path]
     handler.cgi_info = {}
 
+    host = "localhost"
 
-    class pysteveHTTPHandler(handler):
+    # randint(1000, 9999)
+    l = "{}:{}".format(host, portno)
+
+    class pysteveHTTPHandler(BaseHTTPRequestHandler):
 
         def do_GET(self):
+            try:
+                import imp as im
+            except Exception as err:
+                import importlib as im
+
+            mimetype = ""
+            sys.path.insert(0, os.path.dirname(__file__))
+
+            path_info = self.path
+
+            os.chdir(path)
+            vpath = ""
+            if self.path == "/":
+                if os.path.isfile(str(path) + "/public/index.py") == True:
+                    vpath = "public/index.py"
+
+
+                elif os.path.isfile(str(path) + "/public/home.py") == True:
+                    vpath == "public/home.py"
+
+                App = im.load_source('App.App', path + "/" + vpath)
+                App.App.put(path=path, host=host, port=portno, para=self.path)
+                mimetype = 'text/html'
+
+                self.rendering(mimetype=mimetype, content=App.App.runs(), code=200)
+
+            elif self.path != "/":
+                if self.path.endswith('favicon.ico'):
+                    return
+                if "." not in str(self.path):
+
+                    if str(self.path) != "":
+                        if os.path.isfile(str(path) + "/public/index.py") == True:
+                            vpath = "public/index.py"
+
+
+                        elif os.path.isfile(str(path) + "/public/home.py") == True:
+                            vpath = "public/home.py"
+
+
+                        App = im.load_source('App.App', path + "/" + vpath)
+                        App.App.put(path=path, host=host, port=portno, para=self.path)
+                        mimetype = 'text/html'
+
+                        if App.App.runs() == "404" or App.App.runs() == "405" or App.App.runs() == "400":
+                           self.redirect(App.App.runs())
+                        else:
+                            self.rendering(mimetype=mimetype, content=App.App.runs())
 
             try:
-
-                path_info = self.path
-
-                os.chdir(path)
-
-
-                if os.path.isfile(str(path)+"/public/index.py") == True:
-
-                    self.cgi_info = ("/public/", "index.py" + path_info)
-                else:
-                    self.cgi_info = ("/public/", "home.py" + path_info)
-
-                return self.run_cgi()
+                for mime in Version.MIME_TYPES:
+                    if self.path.endswith(mime['ext']):
+                        self.rendering(path=path, mimetype=mime[
+                                    'type'], mode=mime['mode'], code=200)
 
             except Exception as err:
+                self.redirect("404")
                 doTraceBack()
 
         def do_POST(self):
@@ -266,16 +312,63 @@ def serv(path ="", port=6060):
         def do_HEAD(self):
             self.do_GET()
 
+        def rendering(self, path="", mimetype="", mode='r', encoding="utf-8", content="", code=200):
+
+            self.send_response(code)
+            self.send_header('Content-type', mimetype)
+            self.end_headers()
+            if path != "":
+
+                f = open(path+self.path, mode)
+                readv = ""
+                if mode == "rb":
+                    readv = f.read()
+                else:
+                    readv = bytes(str(f.read()).encode('utf-8'))
+
+                self.wfile.write(readv)
+
+                f.close()
+
+            elif content !="":
+                self.wfile.write(bytes(str(content).encode()))
+            else:
+                return False
+
+        def redirect(self, code):
+            code_mess = {
+                '404': "Not Found",
+                '403': "Forbidden",
+                '405': "Method Not Allowed",
+                '400': "Bad Request",
+                '200': "OK",
+            }
+            code1 = 301
+            self.send_response(int(code1))
+            self.send_header('Location', "/error/page{code}".format(code=code))
+            self.send_error(code=int(code1), message=code_mess.get(code1, ""))
+            self.end_headers()
+
+
     class ThreadedHTTPServer(ThreadingMixIn, server):
         """Moomins live here"""
 
-    url = "localhost"
-    server = ThreadedHTTPServer((url, portno), pysteveHTTPHandler)
-    l = "{}:{}".format(url, portno)
-    print(bold(green("Pytonik development server running on " + str(l))))
+    try:
 
-    webbrowser.open_new(l)
-    server.serve_forever()
+        server = ThreadedHTTPServer((host, portno), pysteveHTTPHandler)
+        print(green("Pytonik development server running on " + str(l)))
+        webbrowser.open_new(l)
+        server.serve_forever()
+
+    except Exception as err:
+        try:
+            server = ThreadedHTTPServer((host, portno), pysteveHTTPHandler)
+            print(green("Pytonik development server running on " + str(l)))
+            server.serve_forever()
+        except Exception as err:
+            print(red("Something went wrong: Default port already in use"))
+
+
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv[1:]))

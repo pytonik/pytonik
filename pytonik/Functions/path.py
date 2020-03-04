@@ -6,9 +6,11 @@
 import os
 
 from pytonik.Functions.url import url
+from pytonik.util.Variable import Variable
+from pytonik import Version
 
 
-class path(url):
+class path(url, Variable):
     def __getattr__(self, item):
         return item
 
@@ -34,7 +36,9 @@ class path(url):
         DS = str('/')
         u = ""
 
-        if path[:1] == DS or path[:1] == DS:
+        dev_path = ""
+
+        if path[:1] == DS or path[0] == DS:
             DS = ""
         else:
             DS = "/"
@@ -42,7 +46,7 @@ class path(url):
         if bool(link) is True:
             u = self.url()
 
-        return u + DS + path
+        return u+DS + path
 
     def exist(self, newpath, defaultpath="", link=False):
 
@@ -91,7 +95,11 @@ class path(url):
     def public(self, path):
 
         if os.path.isdir(os.getcwd() + '/public'):
-            host = str(os.getcwd()) + '/public'  # os.path.dirname(os.getcwd())
+
+            if self.out("SERVER_NAME") == Version.AUTHOR:
+                host = os.path.dirname(os.getcwd()) + '/public'  # os.path.dirname(os.getcwd())
+            else:
+                host = os.path.dirname(os.getcwd()) + '/public'
 
         else:
             host = str(os.path.dirname(os.getcwd())) + '/public'
