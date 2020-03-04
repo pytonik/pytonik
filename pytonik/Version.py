@@ -24,6 +24,8 @@ KEYWORDS = "mvc, oop, module, python, framework, web, app"
 PYVERSION_MA = sys.version_info.major
 PYVERSION_MI = sys.version_info.minor
 
+AUTHOR = "Pytonik"
+ORG = "Betacodings"
 
 MIME_TYPES = [
     {'ext': '.ai', 'type': 'application/postscript', 'mode': 'rb'},

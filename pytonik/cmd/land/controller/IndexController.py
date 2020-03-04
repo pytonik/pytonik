@@ -10,5 +10,5 @@ def index():
         'version': Version().VERSION_TEXT,
         'reversion': Version().VERSION_TEXT[0:5],
     }
-
-    return m.views('index', data)
+      
+    return m.views('index', data)#os.environ#

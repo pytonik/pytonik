@@ -22,10 +22,14 @@ import time
 import warnings
 from pytonik.cmd import lang
 from pytonik import Version
+from pytonik.Functions.url import url
+from pytonik.App import App as Pytonik
 from typing import Any, Callable, Dict, List, Pattern, Union
 from pytonik.cmd.console import (  # type: ignore
     colorize, bold, red, green, turquoise, nocolor, color_terminal
 )
+
+
 
 import webbrowser
 
@@ -234,10 +238,10 @@ def serv(path="", port=6060):
     handler.cgi_directories = [path]
     handler.cgi_info = {}
 
-    url = "localhost"
+    host = "localhost"
 
     # randint(1000, 9999)
-    l = "{}:{}".format(url, portno)
+    l = "{}:{}".format(host, portno)
 
     class pysteveHTTPHandler(BaseHTTPRequestHandler):
 
@@ -253,50 +257,52 @@ def serv(path="", port=6060):
             path_info = self.path
 
             os.chdir(path)
-
+            vpath = ""
             if self.path == "/":
                 if os.path.isfile(str(path) + "/public/index.py") == True:
                     vpath = "public/index.py"
-                    env_set(path, url, portno, self.path)
+
 
                 elif os.path.isfile(str(path) + "/public/home.py") == True:
-                    vpath = "public/home.py"
-                    env_set(path, url, portno, self.path)
-                App = im.load_source('App.App', path + "/" + vpath)
-                mimetype = 'text/html'
-                self.send_response(200)
-                self.send_header('Content-type', mimetype)
-                self.end_headers()
-                self.wfile.write(bytes(str(App.App.runs()).encode()))
-            elif self.path != "/":
+                    vpath == "public/home.py"
 
+                App = im.load_source('App.App', path + "/" + vpath)
+                App.App.put(path=path, host=host, port=portno, para=self.path)
+                mimetype = 'text/html'
+
+                self.rendering(mimetype=mimetype, content=App.App.runs(), code=200)
+
+            elif self.path != "/":
+                if self.path.endswith('favicon.ico'):
+                    return
                 if "." not in str(self.path):
+
                     if str(self.path) != "":
                         if os.path.isfile(str(path) + "/public/index.py") == True:
-                            lpath = "public/index.py"
-                            env_set(path, url, portno, self.path)
+                            vpath = "public/index.py"
+
 
                         elif os.path.isfile(str(path) + "/public/home.py") == True:
-                            lpath = "public/home.py"
-                            env_set(path, url, portno, self.path)
+                            vpath = "public/home.py"
 
-                        App = im.load_source('App.App', path + "/" + lpath)
+
+                        App = im.load_source('App.App', path + "/" + vpath)
+                        App.App.put(path=path, host=host, port=portno, para=self.path)
                         mimetype = 'text/html'
-                        self.send_response(200)
-                        self.send_header('Content-type', mimetype)
-                        self.end_headers()
-                        self.wfile.write(bytes(str(App.App.runs()).encode()))
+
+                        if App.App.runs() == "404" or App.App.runs() == "405" or App.App.runs() == "400":
+                           self.redirect(App.App.runs())
+                        else:
+                            self.rendering(mimetype=mimetype, content=App.App.runs())
 
             try:
-                from pytonik import Version
                 for mime in Version.MIME_TYPES:
                     if self.path.endswith(mime['ext']):
-                        self.render(path=path, mimetype=mime[
-                                    'type'], mode=mime['mode'])
+                        self.rendering(path=path, mimetype=mime[
+                                    'type'], mode=mime['mode'], code=200)
 
             except Exception as err:
-                self.send_response(404)
-                self.send_error(404, 'File Not Found: %s' % self.path)
+                self.redirect("404")
                 doTraceBack()
 
         def do_POST(self):
@@ -305,52 +311,63 @@ def serv(path="", port=6060):
         def do_HEAD(self):
             self.do_GET()
 
-        def render(self, path, mimetype, mode='r', encoding="utf-8"):
-            f = open(path + '/' + self.path, mode)
-            self.send_response(200)
+        def rendering(self, path="", mimetype="", mode='r', encoding="utf-8", content="", code=200):
+
+            self.send_response(code)
             self.send_header('Content-type', mimetype)
             self.end_headers()
-            if mode == "rb":
-                readv = f.read()
+            if path != "":
+
+                f = open(path+self.path, mode)
+                readv = ""
+                if mode == "rb":
+                    readv = f.read()
+                else:
+                    readv = bytes(str(f.read()).encode('utf-8'))
+
+                self.wfile.write(readv)
+
+                f.close()
+
+            elif content !="":
+                self.wfile.write(bytes(str(content).encode()))
             else:
-                readv = bytes(str(f.read()).encode('utf-8'))
-            self.wfile.write(readv)
-            f.close()
-            return readv
+                return False
+
+        def redirect(self, code):
+            code_mess = {
+                '404': "Not Found",
+                '403': "Forbidden",
+                '405': "Method Not Allowed",
+                '400': "Bad Request",
+                '200': "OK",
+            }
+            code1 = 301
+            self.send_response(int(code1))
+            self.send_header('Location', "/error/page{code}".format(code=code))
+            self.send_error(code=int(code1), message=code_mess.get(code1, ""))
+            self.end_headers()
+
 
     class ThreadedHTTPServer(ThreadingMixIn, server):
         """Moomins live here"""
 
     try:
 
-        server = ThreadedHTTPServer((url, portno), pysteveHTTPHandler)
+        server = ThreadedHTTPServer((host, portno), pysteveHTTPHandler)
         print(green("Pytonik development server running on " + str(l)))
-        webbrowser.open_new(l)
+        #webbrowser.open_new(l)
         server.serve_forever()
 
     except Exception as err:
         try:
-            server = ThreadedHTTPServer((url, portno), pysteveHTTPHandler)
+            server = ThreadedHTTPServer((host, portno), pysteveHTTPHandler)
             print(green("Pytonik development server running on " + str(l)))
             server.serve_forever()
         except Exception as err:
             print(red("Something went wrong: Default port already in use"))
 
 
-def env_set(path, host, port, para="", status=200, accept=""):
-    uri = path.split('/')[-1]
-    env = {
-        "PATH_INFO": str(path),
-        "HTTP_HOST": str(host),
-        "SERVER_PORT": str(port),
-        "REDIRECT_STATUS": str(status),
-        'HTTP_ACCEPT': accept,
-        'DOCUMENT_ROOT': os.path.basename(path),
-        'SERVER_SOFTWARE': "Pytonik",
-        'PATH_TRANSLATED': path + "/public",
-        "REQUEST_URI": str(host) + ":" + str(port) + "/" + str(uri) + str(para),
-
-    }
 
     if Version.PYVERSION_MA <= 2:
         lt = env.iteritems()

@@ -13,21 +13,27 @@ from pytonik import Version, Log
 from pytonik.Config import Config
 from pytonik.Core.env import env
 from pytonik.Session import Session
+from pytonik.util.Variable import Variable
 cgitb.enable()
-url = os.environ.get('REQUEST_URI', os.environ.get('PATH_INFO'))
 log_msg = Log.Log()
 
-http_s = os.environ.get("HTTP_HOST")
 
-class Router(env, Config):
+
+
+class Router(env, Config, Variable):
 
     def __init__(self):
+        #self.out('PATH_INFO')
+        url = self.out('REQUEST_URI', "")
 
-        urlstr = str(url)
+        http_s = self.out("HTTP_HOST")
         if http_s == "127.0.0.1" or http_s == "localhost":
-            self.uri = urlstr.split('/')[2:]
+            if self.out("SERVER_SOFTWARE", "") == Version.AUTHOR:
+                self.uri = url.split('/')[2:]
+            else:
+                self.uri = url.split('/')[2:]
         else:
-            self.uri = urlstr.split('/')
+            self.uri = url.split('/')[1:]
 
         self.add(self._e())
 
@@ -57,7 +63,7 @@ class Router(env, Config):
 
 
 
-        pathparts_paramarray = os.environ.get("QUERY_STRING", '')
+        pathparts_paramarray = self.out("QUERY_STRING", '')
 
         pathparts_paramarrayOut = dict()
         if pathparts_paramarray != '':

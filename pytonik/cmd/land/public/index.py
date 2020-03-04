@@ -1,5 +1,4 @@
 #!/usr/local/bin/python
-
 try:
 
   from pytonik import Web

@@ -16,7 +16,7 @@ def page400():
         'version': Version().VERSION_TEXT
 
     }
-    m.views('400', data)
+    return m.views('400', data)
 
 
 def page404():
@@ -25,7 +25,7 @@ def page404():
         'name': 'Pytonik',
         'version': Version().VERSION_TEXT
     }
-    m.views('405', data)
+    return m.views('405', data)
 
 
 def page405():
@@ -34,5 +34,5 @@ def page405():
         'name': 'Pytonik',
         'version': Version().VERSION_TEXT
     }
-    m.views('405', data)
+    return m.views('405', data)
 

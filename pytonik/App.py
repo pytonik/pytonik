@@ -14,6 +14,9 @@ from pytonik.Config import Config
 from pytonik.Log import Log
 from pytonik import Lang
 from pytonik import Version
+from pytonik.Core.env import env
+from http.server import BaseHTTPRequestHandler
+from pytonik.util.Variable import Variable
 from pytonik.Functions import url
 import os, sys, cgi, cgitb, importlib, glob, inspect
 from http import HTTPStatus
@@ -44,11 +47,8 @@ header_response_page = {
 
 }
 
-os.environ.setdefault("Framework", "Pytonik")
-os.environ.setdefault("X-Version", Version.VERSION_TEXT)
-os.environ.setdefault("X-Organisation", "Betacodings")
 
-class App(Router):
+class App(env, Config, Variable, BaseHTTPRequestHandler):
 
     def __getattr__(self, item):
         return item
@@ -59,9 +59,9 @@ class App(Router):
         self.routers = routers
         self.routes = routes
         self.getpath = getpath
+        self.codereponse = 200
         self.getrouters = getrouters
         self.getDB = ""
-        self.Router = Router
         self.Request = Request
         self.methodprefix = ""
         self.actions = ""
@@ -85,17 +85,19 @@ class App(Router):
 
 
     def runs(self):
+        return self.initial()
 
 
+
+    def initial(self):
         self.getrouters = self.envrin('route')
-        self.routersc = self.Router()
+        self.routersc = Router()
         self.methodprefix = self.routersc.getMethodPrefix()
         self.actions = self.routersc.getAction()
         self.controllers = self.routersc.getControllers()
         self.routers = self.routersc.getRoutes()
         self.languages = self.routersc.getLanguages()
         self.params = self.routersc.getParams()
-
 
         langs = Lang.Lang(self.languages)
         langs.loadLang()
@@ -106,13 +108,11 @@ class App(Router):
             if self.controllers == k:
                 routesUri = getRouter.split('@')
 
-
         if len(routesUri) != 0:
-
 
             if 'controller' in routesUri[0].lower():
 
-                controllersClass =  str(routesUri[0].lower()).replace('controller', '').capitalize()+ 'Controller'
+                controllersClass = str(routesUri[0].lower()).replace('controller', '').capitalize() + 'Controller'
             else:
                 controllersClass = str(routesUri[0]).capitalize() + 'Controller'
 
@@ -130,77 +130,80 @@ class App(Router):
 
             if '?' is str(self.controllers[0]):
 
-                controllersClass =  'IndexController'
+                controllersClass = 'IndexController'
             else:
-                controllersClass = str(self.controllers[0].capitalize()) + str(self.controllers[1:])  + 'Controller'
+                controllersClass = str(self.controllers[0].capitalize()) + str(self.controllers[1:]) + 'Controller'
 
             controllersMethods = str(self.actions)
-
 
         if controllersMethods != "":
             self.actions = controllersMethods
 
-
         controllers = controllerpath + DS + controllersClass + ".py"
 
-
         if os.path.isfile(controllers) == True:
+
             if __name__ == '__main__':
                 spac = ""
             if os.path.isfile(controllers) == True:
 
                 if sys.version_info.major <= 2:
 
-                   return self.strClass(controllerpath, controllersClass)
+                    return self.strClass(controllerpath, controllersClass)
                 else:
 
-                   return self.strClass3(controllerpath, controllersClass)
+                    return self.strClass3(controllerpath, controllersClass)
 
         else:
-            print("not")
             Log(controllerpath).error('Controller does not exist ' + str(controllersClass))
-            self.errorP('405')
+            return self.errorP('405')
 
 
 
-    def errorP(self, code="", replace = ""):
+  
+
+    def errorP(self, code, replace = ""):
         getErrorP = self.envrin('error')
-
+        code_mess = {
+            '404' : "Not Found",
+            '403' : "Forbidden",
+            '405' : "Method Not Allowed",
+            '400' : "Bad Request",
+            '200' : "OK",
+        }
         pageCode = "page{code}".format(code=code)
+        if os.path.isdir(os.getcwd() + '/public'):
+            if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
+                return code
 
         if getErrorP is not '':
+
             errorP = getErrorP
 
             if errorP.get(code, '') is not '':
-               if '/' in  errorP.get(code, ''):
+                if '/' in errorP.get(code, ''):
                     splitP = errorP.get(code, '').split('/')
-                    controllerP = controllerpath + DS + str(splitP[0]).capitalize() + 'Controller'  + ".py"
-               else:
-                    controllerP = controllerpath + DS + str(errorP.get(code, '')).capitalize() + 'Controller'  + ".py"
+                    controllerP = controllerpath + DS + str(splitP[0]).capitalize() + 'Controller' + ".py"
+                else:
+                    controllerP = controllerpath + DS + str(errorP.get(code, '')).capitalize() + 'Controller' + ".py"
 
+                if os.path.isfile(controllerP) == True:
+                    return self.redirect(u.url().url('/' + str(errorP.get(code, ''))))
 
-               if os.path.isfile(controllerP) == True:
-                   self.redirect(u.url().url('/'+str(errorP.get(code, ''))))
+                else:
 
-               else:
-
-                   if  os.path.isfile(self.error_page_html(code)) == True:
-
-                       self.redirect(u.url().url("/error/{code}".format(code=pageCode)))
+                    if os.path.isfile(self.error_page_html(code)) == True:
+                        return self.redirect(u.url().url("/error/{code}".format(code=pageCode)))
 
             else:
 
-                if  os.path.isfile(self.error_page_html(code)) == True:
-                    self.redirect(u.url().url("/error/{code}".format(code=pageCode)))
+                if os.path.isfile(self.error_page_html(code)) == True:
+                    return  self.redirect(u.url().url("/error/{code}".format(code=pageCode)))
 
 
         else:
             if os.path.isfile(error_page_class) == True:
-                self.redirect(u.url().url("/error/{code}".format(code=pageCode)))
-
-
-
-
+                return self.redirect(u.url().url("/error/{code}".format(code=pageCode)))
 
 
     def envrin(self,  key):
@@ -248,7 +251,10 @@ class App(Router):
         except Exception as err:
             Log(p + DS + c + '.py').critical(err)
 
-            self.errorP('400')
+
+            return self.errorP('400')
+
+            
 
 
 
@@ -264,6 +270,8 @@ class App(Router):
             except:
                 Log(p+DS+c+'.py').critical(err)
 
+                return self.errorP('400')
+
 
     def strClass3(self, p=None, c=None):
 
@@ -277,7 +285,9 @@ class App(Router):
         except Exception as err:
 
             Log(p+DS+c+'.py').critical(err)
-            self.errorP('400')
+            return self.errorP('400')
+
+
 
 
     def redirect(self, location='/'):
@@ -318,7 +328,11 @@ class App(Router):
         html = ""
         if os.path.isfile(pathfhtml) == False:
             Log(host + DS + 'views').critical('Cannot find file {}'.format(pathf + ".html"))
-            self.errorP('404')
+
+
+            return self.errorP('404')
+
+
         else:
             if os.path.isdir(os.getcwd() + '/public'):
                 # print(os.environ)
