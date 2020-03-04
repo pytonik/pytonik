@@ -5,6 +5,7 @@
 # Created by BetaCodings on 1/19/20.
 
 
+from random import randint
 from socketserver import ThreadingMixIn
 import cgitb
 import base64
@@ -30,12 +31,10 @@ from pytonik.cmd.console import (  # type: ignore
 )
 
 
-
 import webbrowser
 
 cgitb.enable()
 
-from random import randint
 
 try:
     import readline
@@ -117,7 +116,7 @@ else:
 PROMPT_PREFIX = '> '
 
 
-def do_prompt(text: str, default: str = None, validator: Callable[[str], Any]=nonempty) -> Union[str, bool]:  # NOQA
+def do_prompt(text: str, default: str = None, validator: Callable[[str], Any] = nonempty) -> Union[str, bool]:  # NOQA
 
     while True:
 
@@ -221,7 +220,7 @@ def main(argv: List[str] = sys.argv[1:]) -> int:
 
 
 def serv(path="", port=6060):
-    ##randint(1000, 9999)
+    # randint(1000, 9999)
 
     try:
         portno = int(port)
@@ -234,10 +233,7 @@ def serv(path="", port=6060):
     server_address = ("", portno)
 
     path = str(path) if path != "" else str(os.getcwd())
-
-    handler.cgi_directories = [path]
-    handler.cgi_info = {}
-
+    
     host = "localhost"
 
     # randint(1000, 9999)
@@ -246,6 +242,15 @@ def serv(path="", port=6060):
     class pysteveHTTPHandler(BaseHTTPRequestHandler):
 
         def do_GET(self):
+            spes = "/"
+            if sys.platform == 'win32':
+                if path.find("\/"):
+                    spes = "\/"
+                else:
+                    spes = "/"
+            else:
+                spes = "/"
+                
             try:
                 import imp as im
             except Exception as err:
@@ -258,13 +263,14 @@ def serv(path="", port=6060):
 
             os.chdir(path)
             vpath = ""
-            if self.path == "/":
-                if os.path.isfile(str(path) + "/public/index.py") == True:
-                    vpath = "public/index.py"
+			
+            if self.path == spes:
+                if os.path.isfile(str(path) +spes+"public"+spes+"index.py") == True:
+                    vpath = "public"+spes+"index.py"
 
 
-                elif os.path.isfile(str(path) + "/public/home.py") == True:
-                    vpath == "public/home.py"
+                elif os.path.isfile(str(path) +spes+"public"+spes+"home.py") == True:
+                    vpath == "public"+spes+"home.py"
 
                 App = im.load_source('App.App', path + "/" + vpath)
                 App.App.put(path=path, host=host, port=portno, para=self.path)
@@ -272,21 +278,21 @@ def serv(path="", port=6060):
 
                 self.rendering(mimetype=mimetype, content=App.App.runs(), code=200)
 
-            elif self.path != "/":
+            elif self.path != spes:
                 if self.path.endswith('favicon.ico'):
                     return
                 if "." not in str(self.path):
 
                     if str(self.path) != "":
-                        if os.path.isfile(str(path) + "/public/index.py") == True:
-                            vpath = "public/index.py"
+                        if os.path.isfile(str(path) +spes+"public"+spes+"index.py") == True:
+                            vpath = "public"+spes+"index.py"
 
 
-                        elif os.path.isfile(str(path) + "/public/home.py") == True:
-                            vpath = "public/home.py"
+                        elif os.path.isfile(str(path) +spes+"public"+spes+"home.py") == True:
+                            vpath = "public"+spes+"home.py"
 
 
-                        App = im.load_source('App.App', path + "/" + vpath)
+                        App = im.load_source('App.App', path +spes+ vpath)
                         App.App.put(path=path, host=host, port=portno, para=self.path)
                         mimetype = 'text/html'
 
