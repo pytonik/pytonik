@@ -168,7 +168,8 @@ class App(env, Config, Variable, BaseHTTPRequestHandler):
         pageCode = "page{code}".format(code=code)
         if os.path.isdir(os.getcwd() + '/public'):
             if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
-                re_url, errorP = "", ""
+                re_url = ""
+                errorP = {}
                 if getErrorP != '':
                     errorP = getErrorP
                     
