@@ -15,11 +15,14 @@ from pytonik.Log import Log
 from pytonik import Lang
 from pytonik import Version
 from pytonik.Core.env import env
-from http.server import BaseHTTPRequestHandler
+try:
+    from BaseHTTPServer import BaseHTTPRequestHandler  as BaseHTTP
+except Exception as e:
+    from http.server import BaseHTTPRequestHandler as BaseHTTP
+
 from pytonik.util.Variable import Variable
 from pytonik.Functions import url
 import os, sys, cgi, cgitb, importlib, glob, inspect
-from http import HTTPStatus
 
 cgitb.enable()
 
@@ -48,7 +51,7 @@ header_response_page = {
 }
 
 
-class App(env, Config, Variable, BaseHTTPRequestHandler):
+class App(env, Config, Variable, BaseHTTP):
 
     def __getattr__(self, item):
         return item
