@@ -35,10 +35,10 @@ class url(Router):
         DS, p = "", ""
         seturl = self.out("HTTP_HOST")+str(":")+str(self.out("SERVER_PORT", '')) if self.out("HTTP_HOST") == "localhost" or self.out("HTTP_HOST") == "127.0.0.1" else self.out("HTTP_HOST")
         if self.out("HTTPS", "") == 'on':
-            url = str("https://") + seturl + "/" + self.alllanguages.get(self.getLanguages(), self.getLanguages()) if lang is True else str(
+            url = str("https://") + seturl + "/" + self.alllanguages.get(self.getLanguages(), self.getLanguages()) if lang == True else str(
                     "https://") + seturl 
         else:
-            url = str("http://") + seturl+ "/" + self.alllanguages.get(self.getLanguages(), self.getLanguages()) if lang is True else str("http://") + seturl
+            url = str("http://") + seturl+ "/" + self.alllanguages.get(self.getLanguages(), self.getLanguages()) if lang == True else str("http://") + seturl
 
         if path == "":
             DS = ""
