@@ -7,7 +7,7 @@ name: Pytonik
 on:
   push:
     branches: [ master ]
-    paths: 'test/*'
+    paths: 'pytonik/*'
     
   pull_request:
     branches: [ master ]
