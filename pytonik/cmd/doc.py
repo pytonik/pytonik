@@ -89,7 +89,7 @@ def main(argv: List[str] = sys.argv[1:]) -> int:
 
     l = "http://{}:{}".format(url, PORT)
     print("Documentation Link {}".format(l))
-    try
+    try:
         webbrowser.open_new(l)
     except Exception as err:
         ""
