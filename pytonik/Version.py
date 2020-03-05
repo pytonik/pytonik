@@ -83,7 +83,6 @@ MIME_TYPES = [
     {'ext': '.jpe', 'type': 'image/jpeg', 'mode': 'rb'},
     {'ext': '.jpeg', 'type': 'image/jpeg', 'mode': 'rb'},
     {'ext': '.jpg', 'type': 'image/jpeg', 'mode': 'rb'},
-    {'ext': '.js', 'type': 'application/x-javascript', 'mode': 'rb'},
     {'ext': '.kar', 'type': 'audio/midi', 'mode': 'rb'},
     {'ext': '.latex', 'type': 'application/x-latex', 'mode': 'rb'},
     {'ext': '.lha', 'type': 'application/octet-stream', 'mode': 'rb'},
