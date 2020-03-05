@@ -12,7 +12,7 @@ on:
   pull_request:
     branches: [ master ]
   schedule:
-    - cron: 0 4 * * 1-5
+    - cron: 20 * * 1-12
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -20,15 +20,11 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: [self-hosted, windows-latest, linux, ubuntu-latest]
-    strategy:
-      matrix:
-        os: [windows, linux, ubuntu, centOs, MacOs]
-        python: [2.7, 3.*]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
+    #- uses: pytonik/tests
     # Runs a single command using the runners shell
-    - name: Install Pytonik
-      run: pip install pytonik
+    - name: Run Pytonik
+      run: nosetests test
