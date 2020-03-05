@@ -32,10 +32,10 @@ class Session(Variable):
             return False
 
     def set(self, key="", value="", duration=3600, url="", path="/"):
-        url = self.out("HTTP_HOST", "") if url =="" or url == None else url
+        url = self.out("HTTP_HOST", "") if url == "" or url == None else url
         expires = datetime.datetime.utcnow(
         ) + datetime.timedelta(minutes=duration)  # minutes in 30 days
-    
+
         if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
             if Version.PYVERSION_MA >= 3:
                 cooKeys = cookies.SimpleCookie(self.out('HTTP_SESSION'))
@@ -53,7 +53,7 @@ class Session(Variable):
         cooKeys[str(key)]['expires'] = expires.strftime(
             '%a, %d %b %Y %H:%M:%S')
         if self.out("SERVER_SOFTWARE", "") == Version.AUTHOR:
-            self.put(session==cooKeys)
+            self.put(session == cooKeys)
             return cooKeys
         else:
             print(cooKeys)
@@ -64,12 +64,12 @@ class Session(Variable):
 
         else:
             cooKeys = Cookie.SimpleCookie()
-    
+
         if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
             OsEnviron = self.out("HTTP_SESSION")
         else:
             OsEnviron = self.out("HTTP_COOKIE")
-            
+
         if OsEnviron != None:
             cooKeys.load(OsEnviron)
             if key in cooKeys:
@@ -87,8 +87,8 @@ class Session(Variable):
             return ""
 
     def destroy(self, *args):
-         var_q = ""
-         if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
+        var_q = ""
+        if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
             var_q = "HTTP_SESSION"
             if Version.PYVERSION_MA >= 3:
                 cooKeys = cookies.SimpleCookie(self.out(var_q))
@@ -96,7 +96,7 @@ class Session(Variable):
             else:
                 cooKeys = Cookie.SimpleCookie(self.out(var_q))
                 cook = cooKeys.items()
-            
+
             OsEnviron = self.out(var_q)
         else:
             var_q = "HTTP_COOKIE"
