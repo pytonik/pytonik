@@ -209,3 +209,13 @@ MIME_TYPES = [
     {'ext': '.mpeg', 'type': 'audio/mpeg', 'mode': 'rb'},
     {'ext': '.json', 'type': 'application/json', 'mode': 'rb'}
 ]
+
+
+HTTP_CODE = {
+    "301" : "Moved Permanently",
+    "307" : "Temporary Redirect",
+    "400" : "Bad Request",
+    "404" : "Not Found",
+    "405" : "Method Not Allowed",
+    
+}
