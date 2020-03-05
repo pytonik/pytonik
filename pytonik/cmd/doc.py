@@ -72,18 +72,27 @@ def main(argv: List[str] = sys.argv[1:]) -> int:
         def do_GET(self):
             if self.path == '/':
                 self.path = 'docs'
-
+            if self.path.endswith('favicon.ico'):
+                    return
+            if self.path.endswith('robots.txt'):
+                    return
+            if self.path.endswith('favicon.ico'):
+                    return
             return http.server.SimpleHTTPRequestHandler.do_GET(self)
 
     # Create an object of the above class
     handler_object = MyHttpRequestHandler
 
-    PORT = randint(1000, 9999)
+    PORT = 6061
     url = "localhost"
     my_server = socketserver.TCPServer((url, PORT), handler_object)
 
-    l = "{}:{}".format(url, PORT)
-    webbrowser.open_new(l)
+    l = "http://{}:{}".format(url, PORT)
+    print("Documentation Link {}".format(l))
+    try
+        webbrowser.open_new(l)
+    except Exception as err:
+        ""
     # Star the server
     my_server.serve_forever()
 
