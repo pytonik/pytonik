@@ -232,7 +232,7 @@ def serv(path="", port=6060):
     handler = CGIHTTPRequestHandler
     server_address = ("", portno)
 
-    path = str(path) if path != "" else str(os.getcwd())
+    path = str(path).replace("\\", "/") if path != "" else str(os.getcwd()).replace("\\", "/")
     
     host = "localhost"
 
@@ -243,14 +243,6 @@ def serv(path="", port=6060):
 
         def do_GET(self):
             spes = "/"
-            if sys.platform == 'win32':
-                if path.find("\/"):
-                    spes = "\/"
-                else:
-                    spes = "/"
-            else:
-                spes = "/"
-                
             try:
                 import imp as im
             except Exception as err:
@@ -272,7 +264,7 @@ def serv(path="", port=6060):
                 elif os.path.isfile(str(path) +spes+"public"+spes+"home.py") == True:
                     vpath == "public"+spes+"home.py"
 
-                App = im.load_source('App.App', path + "/" + vpath)
+                App = im.load_source('App.App', path + spes + vpath)
                 App.App.put(path=path, host=host, port=portno, para=self.path)
                 mimetype = 'text/html'
 
