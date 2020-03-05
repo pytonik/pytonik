@@ -64,6 +64,7 @@ class Variable:
             'HTTP_REFERER': referral,
             "REQUEST_URI": "/"+str(os.path.basename(os.getcwd()))+str(para)
         }
+        
         if Version.PYVERSION_MA <= 2:
             lt = env.iteritems()
         else:
