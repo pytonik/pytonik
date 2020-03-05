@@ -89,7 +89,7 @@ class Session(Variable):
     def destroy(self, *args):
          var_q = ""
          if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
-             var_q = "HTTP_SESSION"
+            var_q = "HTTP_SESSION"
             if Version.PYVERSION_MA >= 3:
                 cooKeys = cookies.SimpleCookie(self.out(var_q))
                 cook = cooKeys.iteritems()
