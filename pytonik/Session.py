@@ -14,10 +14,10 @@ import ast
 from pytonik import Version
 from pytonik.util.Variable import Variable
 
-if Version.PYVERSION_MA >= 3:
-    from http import cookies
-else:
-    import Cookie
+try:
+    import Cookie as coki
+except Exception as err:
+    from http import cookies as coki
 
 
 class Session(Variable):
@@ -38,14 +38,14 @@ class Session(Variable):
 
         if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
             if Version.PYVERSION_MA >= 3:
-                cooKeys = cookies.SimpleCookie(self.out('HTTP_SESSION'))
+                cooKeys = coki.SimpleCookie(self.out('HTTP_SESSION'))
             else:
-                cooKeys = Cookie.SimpleCookie(self.out('HTTP_SESSION'))
+                cooKeys = coki.SimpleCookie(self.out('HTTP_SESSION'))
         else:
             if Version.PYVERSION_MA >= 3:
-                cooKeys = cookies.SimpleCookie(self.out('HTTP_COOKIE'))
+                cooKeys = coki.SimpleCookie(self.out('HTTP_COOKIE'))
             else:
-                cooKeys = Cookie.SimpleCookie(self.out('HTTP_COOKIE'))
+                cooKeys = coki.SimpleCookie(self.out('HTTP_COOKIE'))
 
         cooKeys[str(key)] = value
         cooKeys[str(key)]['domain'] = url
@@ -53,17 +53,17 @@ class Session(Variable):
         cooKeys[str(key)]['expires'] = expires.strftime(
             '%a, %d %b %Y %H:%M:%S')
         if self.out("SERVER_SOFTWARE", "") == Version.AUTHOR:
-            self.put(session == cooKeys)
+            self.put(session = cooKeys)
             return cooKeys
         else:
             print(cooKeys)
 
     def get(self, key=""):
         if Version.PYVERSION_MA >= 3:
-            cooKeys = cookies.SimpleCookie()
+            cooKeys = coki.SimpleCookie()
 
         else:
-            cooKeys = Cookie.SimpleCookie()
+            cooKeys = coki.SimpleCookie()
 
         if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
             OsEnviron = self.out("HTTP_SESSION")
@@ -91,21 +91,21 @@ class Session(Variable):
         if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
             var_q = "HTTP_SESSION"
             if Version.PYVERSION_MA >= 3:
-                cooKeys = cookies.SimpleCookie(self.out(var_q))
+                cooKeys = coki.SimpleCookie(self.out(var_q))
                 cook = cooKeys.iteritems()
             else:
-                cooKeys = Cookie.SimpleCookie(self.out(var_q))
+                cooKeys = coki.SimpleCookie(self.out(var_q))
                 cook = cooKeys.items()
 
             OsEnviron = self.out(var_q)
         else:
             var_q = "HTTP_COOKIE"
             if Version.PYVERSION_MA >= 3:
-                cooKeys = cookies.SimpleCookie(self.out(var_q))
+                cooKeys = coki.SimpleCookie(self.out(var_q))
                 cook = cooKeys.items()
             else:
 
-                cooKeys = Cookie.SimpleCookie(self.out(var_q))
+                cooKeys = coki.SimpleCookie(self.out(var_q))
                 cook = cooKeys.iteritems()
             
             OsEnviron = self.out(var_q)
