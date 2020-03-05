@@ -128,7 +128,7 @@ class App(env, Config, Variable, BaseHTTPRequestHandler):
 
         else:
 
-            if '?' is str(self.controllers[0]):
+            if str(self.controllers[0]) == '?':
 
                 controllersClass = 'IndexController'
             else:
@@ -164,23 +164,40 @@ class App(env, Config, Variable, BaseHTTPRequestHandler):
 
     def errorP(self, code, replace = ""):
         getErrorP = self.envrin('error')
-        code_mess = {
-            '404' : "Not Found",
-            '403' : "Forbidden",
-            '405' : "Method Not Allowed",
-            '400' : "Bad Request",
-            '200' : "OK",
-        }
+        
         pageCode = "page{code}".format(code=code)
         if os.path.isdir(os.getcwd() + '/public'):
             if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
-                return code
+                re_url, errorP = "", ""
+                if getErrorP != '':
+                    errorP = getErrorP
+                    
+                if errorP.get(code, '') != '':
+                    if '/' in errorP.get(code, ''):
+                        splitP = errorP.get(code, '').split('/')
+                        controllerP = controllerpath + DS + str(splitP[0]).capitalize() + 'Controller' + ".py"
+                    else:
+                        controllerP = controllerpath + DS + str(errorP.get(code, '')).capitalize() + 'Controller' + ".py"
+                    
+                    if os.path.isfile(controllerP) == True:
+                        re_url = u.url().url('/' + str(errorP.get(code, '')))
+                    else:
 
-        if getErrorP is not '':
+                        if os.path.isfile(self.error_page_html(code)) == True:
+                            re_url = u.url().url("/error/{code}".format(code=pageCode))
+
+                else:
+
+                    if os.path.isfile(self.error_page_html(code)) == True:
+                        re_url = u.url().url("/error/{code}".format(code=pageCode))
+
+                return code, re_url 
+
+        if getErrorP != '':
 
             errorP = getErrorP
 
-            if errorP.get(code, '') is not '':
+            if errorP.get(code, '') != '':
                 if '/' in errorP.get(code, ''):
                     splitP = errorP.get(code, '').split('/')
                     controllerP = controllerpath + DS + str(splitP[0]).capitalize() + 'Controller' + ".py"
@@ -189,7 +206,6 @@ class App(env, Config, Variable, BaseHTTPRequestHandler):
 
                 if os.path.isfile(controllerP) == True:
                     return self.redirect(u.url().url('/' + str(errorP.get(code, ''))))
-
                 else:
 
                     if os.path.isfile(self.error_page_html(code)) == True:
@@ -291,12 +307,20 @@ class App(env, Config, Variable, BaseHTTPRequestHandler):
 
 
     def redirect(self, location='/'):
-        print("Location: {location}".format(location=location))
-        print()
+        if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
+                self.put(redirect_url=location)
+                return "307", location
+        else:
+            print("Location: {location}".format(location=location))
+            print()
 
     def referer(self, location='/'):
-        print("Location: {location}".format(location=os.environ.get('HTTP_REFERER', location)))
-        print()
+        if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
+                self.put(referral=self.out('HTTP_REFERER', location))
+                return "307", self.out('HTTP_REFERER', location)
+        else:
+            print("Location: {location}".format(location=self.out('HTTP_REFERER', location)))
+            print()
 
     @staticmethod
     def header(p=0, type="text/html"):
@@ -396,7 +420,7 @@ class App(env, Config, Variable, BaseHTTPRequestHandler):
                 ++i
                 if name.startswith("__init__"):
                     continue
-                if name is not "__init__":
+                if name != "__init__":
                     lclass0 = {name: name}
                     lclass.update(lclass0)
 

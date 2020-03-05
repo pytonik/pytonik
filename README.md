@@ -59,7 +59,7 @@ $ pytonik-install
 To Read Pytonik Docs
 
 ```
-$ pytonik-doc
+$ pytonik-docs
 ```
 
 ## Contributing

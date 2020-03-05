@@ -219,7 +219,7 @@ def main(argv: List[str] = sys.argv[1:]) -> int:
     ask(d)
 
 
-def serv(path="", port=6060):
+def serv(path="", port=6060, server_pro="HTTP/1.1"):
     # randint(1000, 9999)
 
     try:
@@ -265,14 +265,13 @@ def serv(path="", port=6060):
                     vpath == "public"+spes+"home.py"
 
                 App = im.load_source('App.App', path + spes + vpath)
-                App.App.put(path=path, host=host, port=portno, para=self.path)
                 mimetype = 'text/html'
-
+                App.App.put(path=path, host=host, port=portno, para=self.path, remoter_addr = self.client_address[0], remoter_port=self.client_address[1], script_file=str(path)+str(spes)+(vpath), server_proto=server_pro, server_ver=self.server_version, protocol_ver=self.protocol_version)
+                        
                 self.rendering(mimetype=mimetype, content=App.App.runs(), code=200)
 
             elif self.path != spes:
-                if self.path.endswith('favicon.ico'):
-                    return
+                
                 if "." not in str(self.path):
 
                     if str(self.path) != "":
@@ -285,14 +284,19 @@ def serv(path="", port=6060):
 
 
                         App = im.load_source('App.App', path +spes+ vpath)
-                        App.App.put(path=path, host=host, port=portno, para=self.path)
                         mimetype = 'text/html'
-
-                        if App.App.runs() == "404" or App.App.runs() == "405" or App.App.runs() == "400":
-                           self.redirect(App.App.runs())
+                        
+                        App.App.put(path=path, host=host, port=portno, para=self.path, remoter_addr = self.client_address[0], remoter_port=self.client_address[1], script_file=str(path)+str(spes)+(vpath), server_proto=server_pro, server_ver=self.server_version, protocol_ver=self.protocol_version)
+                        
+                        if App.App.runs()[0] == "404" or App.App.runs()[0] == "405" or App.App.runs()[0] == "400":
+                           self.error(App.App.runs()[0], App.App.runs()[1])
+                        elif App.App.runs()[0] == "307":
+                            self.redirect(App.App.runs()[0], App.App.runs()[1])
                         else:
                             self.rendering(mimetype=mimetype, content=App.App.runs())
-
+                            
+            if self.path.endswith('favicon.ico'):
+                    return
             try:
                 for mime in Version.MIME_TYPES:
                     if self.path.endswith(mime['ext']):
@@ -300,7 +304,7 @@ def serv(path="", port=6060):
                                     'type'], mode=mime['mode'], code=200)
 
             except Exception as err:
-                self.redirect("404")
+                self.errro("404")
                 doTraceBack()
 
         def do_POST(self):
@@ -332,19 +336,18 @@ def serv(path="", port=6060):
             else:
                 return False
 
-        def redirect(self, code):
-            code_mess = {
-                '404': "Not Found",
-                '403': "Forbidden",
-                '405': "Method Not Allowed",
-                '400': "Bad Request",
-                '200': "OK",
-            }
-            code1 = 301
-            self.send_response(int(code1))
-            self.send_header('Location', "/error/page{code}".format(code=code))
-            self.send_error(code=int(code1), message=code_mess.get(code1, ""))
+        def error(self, code, e_url, code_re = 301):
+            
+            self.send_response(int(code_re))
+            self.send_header('Location', "{e_url}".format(e_url=e_url))
+            self.send_error(code=int(code), message=Version.HTTP_CODE.get(code, ""))
             self.end_headers()
+            
+        def redirect(self, code, re_url, code_re = 307):
+                self.send_response(int(code_re))
+                self.send_header('Location', "{re_url}".format(re_url=re_url))
+                self.send_error(code=int(code), message=Version.HTTP_CODE.get(code, ""))
+                self.end_headers()
 
 
     class ThreadedHTTPServer(ThreadingMixIn, server):
@@ -353,17 +356,16 @@ def serv(path="", port=6060):
     try:
 
         server = ThreadedHTTPServer((host, portno), pysteveHTTPHandler)
-        print(green("Pytonik development server running on " + str(l)))
-        webbrowser.open_new(l)
+        print(bold(green("Pytonik development server running on " + str(l))))
         server.serve_forever()
 
     except Exception as err:
         try:
             server = ThreadedHTTPServer((host, portno), pysteveHTTPHandler)
-            print(green("Pytonik development server running on " + str(l)))
+            print(bold(green("Pytonik development server running on " + str(l))))
             server.serve_forever()
         except Exception as err:
-            print(red("Something went wrong: Default port already in use"))
+            print(bold(red("Something went wrong: Default port already in use")))
 
 
 
