@@ -194,7 +194,7 @@ def ask(d: Dict) -> None:
                 askg(d)
 
         else:
-            d['quite'] = do_prompt(__('Do you want exite (y/n)'), 'n', boolean)
+            d['quite'] = do_prompt(__('Do you want exit (y/n)'), 'n', boolean)
             if d.get('quite', '') is True:
                 sys.exit(-1)
             else:
@@ -219,9 +219,8 @@ def main(argv: List[str] = sys.argv[1:]) -> int:
     ask(d)
 
 
-def serv(path="", port=6060, server_pro="HTTP/1.1"):
+def serv(host="localhost", path="", port=6060, server_pro="HTTP/1.1"):
     # randint(1000, 9999)
-
     try:
         portno = int(port)
     except Exception as err:
@@ -233,8 +232,6 @@ def serv(path="", port=6060, server_pro="HTTP/1.1"):
     server_address = ("", portno)
 
     path = str(path).replace("\\", "/") if path != "" else str(os.getcwd()).replace("\\", "/")
-    
-    host = "localhost"
 
     # randint(1000, 9999)
     l = "{}:{}".format(host, portno)
