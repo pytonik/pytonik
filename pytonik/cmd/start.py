@@ -257,9 +257,6 @@ def make_file(d):
     except Exception as err:
         print(err)
 
-    server.serv(os.getcwd() + '/' + d.get('project', ''))
-
-
 def main(argv: List[str] = sys.argv[1:]) -> int:
     # parse options
     parser = get_parser()
@@ -277,5 +274,3 @@ def main(argv: List[str] = sys.argv[1:]) -> int:
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv[1:]))
-
-    
