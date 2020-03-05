@@ -100,3 +100,5 @@ class Session(Variable):
 
         else:
             return False
+        
+        
