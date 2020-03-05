@@ -12,6 +12,7 @@ from typing import Dict
 
 try:
     # check if colorama is installed to support color on Windows
+    from colorama import deinit, init, Fore, Back, Style
     import colorama
 except ImportError:
     colorama = None
@@ -56,7 +57,7 @@ def term_width_line(text: str) -> str:
 
 def color_terminal() -> bool:
     if sys.platform == 'win32' and colorama is not None:
-        colorama.init()
+        init()
         return True
     if not hasattr(sys.stdout, 'isatty'):
         return False
@@ -72,7 +73,7 @@ def color_terminal() -> bool:
 
 def nocolor() -> None:
     if sys.platform == 'win32' and colorama is not None:
-        colorama.deinit()
+        deinit()
     codes.clear()
 
 
@@ -106,34 +107,66 @@ def create_color_func(name: str) -> None:
     globals()[name] = inner
 
 
-_attrs = {
-    'reset':     '39;49;00m',
-    'bold':      '01m',
-    'faint':     '02m',
-    'standout':  '03m',
-    'underline': '04m',
-    'blink':     '05m',
-}
+if sys.platform == 'win32':
+    _attrs = {
+        'reset':     '',
+        'bold':      '',
+        'faint':     '',
+        'standout':  '',
+        'underline': '',
+        'blink':     '',
+    }
+    for _name, _value in _attrs.items():
+        codes[_name] = '' + _value
 
-for _name, _value in _attrs.items():
-    codes[_name] = '\x1b[' + _value
+    _colors = [
+        ('black',     'darkgray'),
+        ('darkred',   'red'),
+        ('darkgreen', 'green'),
+        ('brown',     'yellow'),
+        ('darkblue',  'blue'),
+        ('purple',    'fuchsia'),
+        ('turquoise', 'teal'),
+        ('lightgray', 'white'),
+    ]
 
-_colors = [
-    ('black',     'darkgray'),
-    ('darkred',   'red'),
-    ('darkgreen', 'green'),
-    ('brown',     'yellow'),
-    ('darkblue',  'blue'),
-    ('purple',    'fuchsia'),
-    ('turquoise', 'teal'),
-    ('lightgray', 'white'),
-]
+    for i, (dark, light) in enumerate(_colors):
+        codes[dark] = ''
+        codes[light] = ''
 
-for i, (dark, light) in enumerate(_colors):
-    codes[dark] = '\x1b[%im' % (i + 30)
-    codes[light] = '\x1b[%i;01m' % (i + 30)
+    _orig_codes = codes.copy()
 
-_orig_codes = codes.copy()
+    for _name in codes:
+        create_color_func(_name)
+else:
+    _attrs = {
+        'reset':     '39;49;00m',
+        'bold':      '01m',
+        'faint':     '02m',
+        'standout':  '03m',
+        'underline': '04m',
+        'blink':     '05m',
+    }
 
-for _name in codes:
-    create_color_func(_name)
+    for _name, _value in _attrs.items():
+        codes[_name] = '\x1b[' + _value
+
+    _colors = [
+        ('black',     'darkgray'),
+        ('darkred',   'red'),
+        ('darkgreen', 'green'),
+        ('brown',     'yellow'),
+        ('darkblue',  'blue'),
+        ('purple',    'fuchsia'),
+        ('turquoise', 'teal'),
+        ('lightgray', 'white'),
+    ]
+
+    for i, (dark, light) in enumerate(_colors):
+        codes[dark] = '\x1b[%im' % (i + 30)
+        codes[light] = '\x1b[%i;01m' % (i + 30)
+
+    _orig_codes = codes.copy()
+
+    for _name in codes:
+        create_color_func(_name)
