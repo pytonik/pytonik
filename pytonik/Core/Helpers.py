@@ -175,7 +175,7 @@ if "iteration" not in dir(os):
 
     def iteration(dictionary="", itr="pid"):
         i = 0
-        if dictionary is not "" or dictionary is not None:
+        if dictionary != "" or dictionary != None:
             dist, apend = [], []
             for l in dictionary:
                 i += 1
