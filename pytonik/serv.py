@@ -166,20 +166,23 @@ def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port=
     
     hostname = ssl_ip if ssl_ip != "" else host
     portnumber = int(ssl_port) if ssl_port != "" else int(port)
+    vars_http = ""
     try:
         cert = ssl.get_server_certificate((hostname, portnumber))
         varb.put("HTTPS", "on")
+        vars_http = "https://"
     except Exception as err:
         varb.put("HTTPS", "off")
+        vars_http = "http://"
         
     
     try:
         l = host if port == "8080" or port == "80" else "{}:{}".format(host, port)
         if pr == True:
             
-            print(bold(green("Pytonik development server running on " + str(l))))
+            print(bold(green("Pytonik development server running on " + str(vars_http)+str(l))))
         else:
-            print(bold(green("Pytonik server running on " + str(l))))
+            print(bold(green("Pytonik server running on " +str(vars_http)+ str(l))))
             
         server = ThreadedHTTPServer((host, port), httpv)
         server.serve_forever()
