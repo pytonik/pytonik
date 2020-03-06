@@ -12,8 +12,11 @@ import time
 import warnings
 from pytonik.cmd import lang
 from pytonik import Version
-from pytonik.util.Variable import Variable
-from pytonik import serv
+from pytonik.util.Variable import Variable 
+from typing import Any, Callable, Dict, List, Pattern, Union
+from pytonik.cmd.console import (  # type: ignore
+    colorize, bold, red, green, turquoise, nocolor, color_terminal
+)
 from socketserver import ThreadingMixIn
 try:
     from BaseHTTPServer import BaseHTTPRequestHandler
@@ -36,7 +39,7 @@ except Exception as err:
 varb = Variable()
 
 
-def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port=""):
+def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port="", pr=False):
 
     server = HTTPServer
 
@@ -169,6 +172,19 @@ def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port=
     except Exception as err:
         varb.put("HTTPS", "off")
         
-    server = ThreadedHTTPServer((host, port), httpv)
-    server.serve_forever()
-    server.server_close()
+    
+    try:
+        l = host if port == "8080" or port == "80" else "{}:{}".format(host, port)
+        if pr == True:
+            
+            print(bold(green("Pytonik development server running on " + str(l))))
+        else:
+            print(bold(green("Pytonik server running on " + str(l))))
+            
+        server = ThreadedHTTPServer((host, port), httpv)
+        server.serve_forever()
+        server.server_close()
+    except Exception as err:
+        print(bold(red("Something went wrong: Default port already in use")))
+
+    
