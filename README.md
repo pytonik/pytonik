@@ -9,6 +9,7 @@
 [![License](https://img.shields.io/pypi/l/pytonik)](https://pypi.python.org/pypi/pytonik)
 [![Donate](https://img.shields.io/badge/donate-KoFi-blue.svg)](https://ko-fi.com/pytonik) 
 [![Gitter](https://badges.gitter.im/pytonik-mvc/community.svg)](https://gitter.im/pytonik-mvc/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Docs](https://img.shields.io/readthedocs/pytonik)](https://pytonik.readthedocs.io/en/latest)
 
 
 <p align="center">
@@ -60,7 +61,7 @@ $ pytonik-install
 To Read Pytonik Docs
 
 ```
-$ pytonik-doc
+$ pytonik-docs
 ```
 
 ## Contributing

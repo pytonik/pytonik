@@ -7,13 +7,16 @@
 ###
 
 
-
-import importlib, os, sys, re
+import importlib
+import os
+import sys
+import re
 from pytonik.Editor import HTMLeditor
 from pytonik import Log
 
 
 log_msg = Log.Log()
+
 
 class Helpers():
 
@@ -22,6 +25,7 @@ class Helpers():
 
     def __call__(self, *args, **kwargs):
         return None
+
 
 if "includeFile" not in dir(os):
     def includeFile(path, datag={}, datal={}):
@@ -38,10 +42,9 @@ if "includeFile" not in dir(os):
             #fileExists = str(x)
             fileExists.append(x)
         try:
-            dirF =  list(filter(None, fileExists))
+            dirF = list(filter(None, fileExists))
             template_dir = host + DS + 'views' + DS + dirF[0] + DS
-            engine  = dirF[1]
-
+            engine = dirF[1]
 
             if os.path.isdir(template_dir) == True:
                 dataG = datag
@@ -53,11 +56,11 @@ if "includeFile" not in dir(os):
                 return HTMLeditor.Template(html).render(**dataG)
 
             else:
-              return "The file {filepath} does not exists.".format(filepath=template_dir)
+                return "The file {filepath} does not exists.".format(filepath=template_dir)
 
         except Exception as err:
-                log_msg.error(err)
-                return  err
+            log_msg.error(err)
+            return err
 
 if "callfunc" not in dir(os):
     def callfunc(myfile, myfunc, *args):
@@ -69,28 +72,26 @@ if "callfunc" not in dir(os):
             result = getattr(mymod, myfunc)(*args)
             return result
         except Exception as err:
-                log_msg.error(err)
-                return  err
+            log_msg.error(err)
+            return err
 
 
 if "url" not in dir(os):
 
-    def url(path = "", lang = False):
+    def url(path="", lang=False):
         from pytonik.Router import Router
-        ront = Router()
-        seturl = str("localhost:") + str(os.environ.get("SERVER_PORT", ''))
-        http = os.environ.get("HTTPS")
-        if http == 'on':
-            url = str("https://") + os.environ.get("HTTP_HOST", seturl) + "/" + ront.alllanguages.get(
-                ront.getLanguages(), ront.getLanguages()) if lang is True else str("https://") + os.environ.get(
-                "HTTP_HOST", seturl)
-        else:
-            url = str("http://") + os.environ.get("HTTP_HOST", seturl) + "/" + ront.alllanguages.get(
-                ront.getLanguages(), ront.getLanguages()) if lang is True else str("http://") + os.environ.get(
-                "HTTP_HOST", seturl)
 
-        DS = ""
-        p = ""
+        ront = Router()
+        DS, p, url = "", "",  ""
+        seturl = ront.out("HTTP_HOST")+str(":")+str(ront.out("SERVER_PORT", '')) if ront.out(
+            "HTTP_HOST") == "localhost" or ront.out("HTTP_HOST") == "127.0.0.1" else ront.out("HTTP_HOST")
+
+        if ront.out("HTTPS", "") == 'on':
+
+            url = str("https://") + seturl + "/" + ront.alllanguages.get(ront.getLanguages(), ront.getLanguages()) if lang == True else str(
+                "https://") + seturl
+        else:
+            url = str("http://") + seturl + "/" + ront.alllanguages.get(ront.getLanguages(), ront.getLanguages()) if lang == True else str("http://") + seturl
 
         if path == "":
             DS = ""
@@ -105,9 +106,9 @@ if "url" not in dir(os):
         return url + DS + p
 
 if "public_path" not in dir(os):
-    def public_path(path = ""):
-        DS = str('/');
-        return url(DS+'public'+DS+path);
+    def public_path(path=""):
+        DS = str('/')
+        return url(DS+'public'+DS+path)
 
 
 if "covert_list_dict" not in dir(os):
@@ -117,14 +118,13 @@ if "covert_list_dict" not in dir(os):
             return dict(zip(itlist, itlist))
         except Exception as err:
             log_msg.error(err)
-            return  err
-
+            return err
 
 
 if "mvc_dir" not in dir(os):
     def mvc_dir(path):
-        dpp =  path[len(str(path))-1]
-        if '/' in dpp :
+        dpp = path[len(str(path))-1]
+        if '/' in dpp:
             newpath = path[:-1]
         else:
             newpath = path
@@ -146,7 +146,7 @@ if "key_tag" not in dir(os):
 
         split_tag = [x for x in pattern.split(tag) if x]
         for keyword in split_tag:
-            return '<li><a href="{url}" class="{css}">{keyword}</a></li>'.format(css = css, keyword = str(keyword))
+            return '<li><a href="{url}" class="{css}">{keyword}</a></li>'.format(css=css, keyword=str(keyword))
 
 if "alphanumeric" not in dir(os):
     def alphanumeric(string):
@@ -185,4 +185,3 @@ if "iteration" not in dir(os):
                 dist.update(listv)
                 apend.append(dist)
             return apend
-

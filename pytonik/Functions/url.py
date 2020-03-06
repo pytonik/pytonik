@@ -5,11 +5,10 @@
 # Created by BetaCodings on 05/11/2019.
 import os
 from pytonik.Router import Router
-from pytonik.util.Variable import Variable
 from pytonik import Version
 
 
-class url(Variable):
+class url(Router):
     def __getattr__(self, item):
         return item
 
@@ -33,36 +32,13 @@ class url(Variable):
 
     def url(self, path="", lang=False):
 
-        ront = Router()
-
-        dev_path = ""
-
-        seturl = str("localhost:") + str(os.environ.get("SERVER_PORT", ''))
-        http = os.environ.get("HTTPS", "")
-
-        if self.out("SERVER_SOFTWARE", "") == Version.AUTHOR:
-            if http == 'on':
-                url = str("https://") + seturl + str(
-                    dev_path) + "/" + ront.alllanguages.get(ront.getLanguages(),
-                                                            ront.getLanguages()) if lang is True else str(
-                    "https://") + seturl + str(dev_path)
-            else:
-                url = str("http://") + seturl + str(dev_path) + "/" + ront.alllanguages.get(ront.getLanguages(),
-                                                            ront.getLanguages()) if lang is True else str("http://") + seturl + str(dev_path)
-
-        else:
-            if http == 'on':
-                url = str("https://") + os.environ.get("HTTP_HOST", seturl) + str(
-                    dev_path) + "/" + ront.alllanguages.get(ront.getLanguages(),
-                                                            ront.getLanguages()) if lang is True else str(
-                    "https://") + os.environ.get("HTTP_HOST", seturl) + str(dev_path)
-            else:
-                url = str("http://") + os.environ.get("HTTP_HOST", seturl) + str(
-                    dev_path) + "/" + ront.alllanguages.get(ront.getLanguages(),
-                                                            ront.getLanguages()) if lang is True else str(
-                    "http://") + os.environ.get("HTTP_HOST", seturl) + str(dev_path)
-
         DS, p = "", ""
+        seturl = self.out("HTTP_HOST")+str(":")+str(self.out("SERVER_PORT", '')) if self.out("HTTP_HOST") == "localhost" or self.out("HTTP_HOST") == "127.0.0.1" else self.out("HTTP_HOST")
+        if self.out("HTTPS", "") == 'on':
+            url = str("https://") + seturl + "/" + self.alllanguages.get(self.getLanguages(), self.getLanguages()) if lang == True else str(
+                    "https://") + seturl 
+        else:
+            url = str("http://") + seturl+ "/" + self.alllanguages.get(self.getLanguages(), self.getLanguages()) if lang == True else str("http://") + seturl
 
         if path == "":
             DS = ""

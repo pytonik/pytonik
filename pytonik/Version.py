@@ -83,7 +83,6 @@ MIME_TYPES = [
     {'ext': '.jpe', 'type': 'image/jpeg', 'mode': 'rb'},
     {'ext': '.jpeg', 'type': 'image/jpeg', 'mode': 'rb'},
     {'ext': '.jpg', 'type': 'image/jpeg', 'mode': 'rb'},
-    {'ext': '.js', 'type': 'application/x-javascript', 'mode': 'rb'},
     {'ext': '.kar', 'type': 'audio/midi', 'mode': 'rb'},
     {'ext': '.latex', 'type': 'application/x-latex', 'mode': 'rb'},
     {'ext': '.lha', 'type': 'application/octet-stream', 'mode': 'rb'},
@@ -210,3 +209,13 @@ MIME_TYPES = [
     {'ext': '.mpeg', 'type': 'audio/mpeg', 'mode': 'rb'},
     {'ext': '.json', 'type': 'application/json', 'mode': 'rb'}
 ]
+
+
+HTTP_CODE = {
+    "301" : "Moved Permanently",
+    "307" : "Temporary Redirect",
+    "400" : "Bad Request",
+    "404" : "Not Found",
+    "405" : "Method Not Allowed",
+    
+}

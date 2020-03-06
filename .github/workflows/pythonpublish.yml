@@ -1,9 +1,11 @@
-name: Upload Python Package
+name: pytonik
 
 on:
   release:
     types: [created]
-
+  schedule:
+  - cron: "0 2 * * 1-5"
+    
 jobs:
   deploy:
     runs-on: ubuntu-latest
