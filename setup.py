@@ -30,8 +30,6 @@ setup(
     classifiers=[
         'Environment :: Console',
         'Framework :: Pytonik ::{}'.format(Version.VERSION_TEXT),
-        'License :: OSI Approved :: MIT License',
-        'Development Status :: 4 - Beta'
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
