@@ -85,16 +85,16 @@ def main(argv: List[str] = sys.argv[1:]) -> int:
 
     PORT = 6061
     url = "localhost"
-    my_server = socketserver.TCPServer((url, PORT), handler_object)
+    #my_server = socketserver.TCPServer((url, PORT), handler_object)
 
-    l = "http://{}:{}".format(url, PORT)
+    l = "https://pytonik.readthedocs.io/en/latest/" #"http://{}:{}".format(url, PORT)
     print("Documentation Link {}".format(l))
     try:
         webbrowser.open_new(l)
     except Exception as err:
-        ""
+        print(err)
     # Star the server
-    my_server.serve_forever()
+    #my_server.serve_forever()
 
 
 
