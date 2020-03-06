@@ -15,14 +15,19 @@ class Variable:
     def __init__(self):
         return None
 
-    def put(self, path="", host="", port="", para="", status=200, accept="", method="GET", cookies="", session="", referral="", remoter_addr="", remoter_port="", script_file="", server_proto="", server_ver="", protocol_ver="", redirect_url=""):
+    def put(self, path="", host="", port="", para="", status=200, accept="", method="GET", cookies="", session="", referral="", remoter_addr="", remoter_port="", script_file="", server_proto="", server_ver="", protocol_ver="", redirect_url="", ssl_v=""):
         uri, query_string = "", ""  # path.split('/')[-1]+str(para)
         host = str(host) if str(
             host) != "" else os.environ.get("HTTP_HOST", "")
+        
         port = str(port) if str(
             port) != "" else os.environ.get("SERVER_PORT", "")
+        
         path = str(path) if str(
             path) != "" else os.environ.get("PATH_INFO", "")
+    
+        ssl_v = str(ssl_v) if str(
+            ssl_v) != "" else os.environ.get("HTTPS", "")
         
         
         status = str(status) if status != "" else os.environ.get(
@@ -88,6 +93,7 @@ class Variable:
             "X-Organisation": Version.ORG if Version.ORG != "" else os.environ.get("X-Organisation", ""),
             "PATH_INFO": para,
             "HTTP_HOST": host,
+            "HTTPS": ssl_v,
             "SERVER_PORT": port,
             "HTTP_COOKIE": cookies,
             "HTTP_SESSION": session,
