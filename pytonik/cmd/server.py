@@ -223,15 +223,10 @@ def action(path="", port=6060, server_pro="HTTP/1.1"):
     except Exception as err:
         print(bold(red(__("Accept only int, not String !!"))))
         return False
-    try:
-        host = "localhost"
-        l = "{}:{}".format(host, portno)
-        print(bold(green("Pytonik development server running on " + str(l))))
-        serv.run(host=host, path="", port=portno, server_pro="HTTP/1.1")
-        
-    except Exception as err:
-        print(bold(red("Something went wrong: Default port already in use")))
-
+    
+    host = "localhost"
+    serv.run(host=host, path="", port=portno, server_pro="HTTP/1.1", pr=True)
+    
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv[1:]))
