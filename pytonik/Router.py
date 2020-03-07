@@ -25,16 +25,19 @@ class Router(env, Config, Variable):
     def __init__(self):
         #self.out('PATH_INFO')
         url = self.out('REQUEST_URI', "")
-
         http_s = self.out("HTTP_HOST")
-        if http_s == "127.0.0.1" or http_s == "localhost":
-            if self.out("SERVER_SOFTWARE", "") == Version.AUTHOR:
+        
+        if self.out("SERVER_SOFTWARE", "") == Version.AUTHOR:
+            
+            self.uri = url.split('/')[2:]
+            
+        else:
+            if http_s == "127.0.0.1" or http_s == "localhost":
                 self.uri = url.split('/')[2:]
             else:
-                self.uri = url.split('/')[2:]
-        else:
-            self.uri = url.split('/')[1:]
+                self.uri = url.split('/')[1:]
 
+        
         self.add(self._e())
 
 
