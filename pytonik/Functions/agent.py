@@ -4,8 +4,8 @@
 # Maintainer Email: emmamartinscm@gmail.com
 # Created by BetaCodings on 17/11/2019.
 import os as opy, re
-
-class os:
+from pytonik.util.Variable import Variable
+class os(Variable):
 
     def __getattr__(self, item):
         return item
@@ -14,8 +14,8 @@ class os:
         return None
 
     def __init__(self):
-        if "" is not opy.environ.get('HTTP_USER_AGENT'):
-            self.agent = opy.environ.get('HTTP_USER_AGENT')
+        if self.out('HTTP_USER_AGENT') != "":
+            self.agent = self.out('HTTP_USER_AGENT')
         else:
             self.agent = None
 
@@ -86,7 +86,7 @@ class os:
 
 
 
-class browser:
+class browser(Variable):
 
     def __getattr__(self, item):
         return item
@@ -96,8 +96,8 @@ class browser:
         return None
 
     def __init__(self):
-        if "" is not opy.environ.get('HTTP_USER_AGENT'):
-            self.agent = opy.environ.get('HTTP_USER_AGENT')
+        if self.out('HTTP_USER_AGENT') !="":
+            self.agent = self.out('HTTP_USER_AGENT')
         else:
             self.agent = None
 
