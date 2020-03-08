@@ -68,9 +68,9 @@ def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port=
     class httpv(BaseHTTPRequestHandler):
 
         def do_GET(self):
-            
+
             path_info = self.path
-            
+
             form = cgi.FieldStorage(
                 fp=self.rfile,
                 headers=self.headers,
@@ -90,11 +90,25 @@ def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port=
 
                 App = im.load_source('App.App', path + spes + vpath)
                 mimetype = 'text/html'
-                App.App.put(method="GET", accept_lang = self.headers["Accept-Language"], http_connect=self.headers["Connection"],  http_user_agt=self.headers["User-Agent"], http_encode=self.headers["Accept-Encoding"], path=path,  host=host, port=port, para=self.path, remoter_addr=self.client_address[0], remoter_port=self.client_address[1], script_file=str(
+                App.App.put(method="GET", accept_lang=self.headers["Accept-Language"], http_connect=self.headers["Connection"],  http_user_agt=self.headers["User-Agent"], http_encode=self.headers["Accept-Encoding"], path=path,  host=host, port=port, para=self.path, remoter_addr=self.client_address[0], remoter_port=self.client_address[1], script_file=str(
                     path)+str(spes)+(vpath), server_proto=server_pro, server_ver=self.server_version, protocol_ver=self.protocol_version)
+                runs_response = App.App.runs(formData=form)
+                if isinstance(runs_response, tuple) == True:
 
-                self.rendering(mimetype=mimetype,
-                               content=App.App.runs(formData=form), code=200)
+                    if str(runs_response[0]) == "404" or str(runs_response[0]) == "405" or str(runs_response[0]) == "400":
+
+                        self.error(runs_response[0], runs_response[1])
+
+                    elif str(runs_response[0]) == "307":
+
+                        self.redirect(runs_response[0], runs_response[1])
+                    else:
+
+                        self.rendering(mimetype=mimetype,
+                                       content=runs_response)
+
+                else:
+                    self.rendering(mimetype=mimetype, content=runs_response)
 
             elif self.path != spes:
 
@@ -113,19 +127,28 @@ def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port=
                         App = im.load_source('App.App', path + spes + vpath)
                         mimetype = 'text/html'
 
-                        App.App.put(method="GET", accept_lang =self.headers["Accept-Language"], http_connect=self.headers["Connection"],  http_user_agt=self.headers["User-Agent"], http_encode=self.headers["Accept-Encoding"],   path=path, host=host, port=port, para=self.path, remoter_addr=self.client_address[0], remoter_port=self.client_address[1], script_file=str(
+                        App.App.put(method="GET", accept_lang=self.headers["Accept-Language"], http_connect=self.headers["Connection"],  http_user_agt=self.headers["User-Agent"], http_encode=self.headers["Accept-Encoding"],   path=path, host=host, port=port, para=self.path, remoter_addr=self.client_address[0], remoter_port=self.client_address[1], script_file=str(
                             path)+str(spes)+(vpath), server_proto=server_pro, server_ver=self.server_version, protocol_ver=self.protocol_version)
 
-                        if isinstance(App.App.runs(), tuple):
-                            if App.App.runs()[0] == "404" or App.App.runs(form)[0] == "405" or App.App.runs(form)[0] == "400":
-                                self.error(App.App.runs(form)[
-                                           0], App.App.runs()[1])
-                            elif App.App.runs()[0] == "307":
+                        runs_response = App.App.runs(formData=form)
+                        if isinstance(runs_response, tuple) == True:
+
+                            if str(runs_response[0]) == "404" or str(runs_response[0]) == "405" or str(runs_response[0]) == "400":
+
+                                self.error(runs_response[0], runs_response[1])
+
+                            elif str(runs_response[0]) == "307":
+
                                 self.redirect(
-                                    App.App.runs(form)[0], App.App.runs(form)[1])
+                                    runs_response[0], runs_response[1])
+                            else:
+
+                                self.rendering(mimetype=mimetype,
+                                               content=runs_response)
+
                         else:
                             self.rendering(mimetype=mimetype,
-                                           content=App.App.runs(formData=form))
+                                           content=runs_response)
 
             if self.path.endswith('favicon.ico'):
                 return
@@ -158,8 +181,7 @@ def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port=
 
         def do_POST(self):
             path_info = self.path
-            
-            
+
             form = cgi.FieldStorage(
                 fp=self.rfile,
                 headers=self.headers,
@@ -168,8 +190,7 @@ def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port=
                     'CONTENT-TYPE': self.headers['Content-Type']
                 }
             )
-            
-            
+
             # text/plain; charset=utf-8
             if os.path.isfile(str(path) + spes+"public"+spes+"index.py") == True:
                 vpath = "public"+spes+"index.py"
@@ -182,14 +203,14 @@ def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port=
 
             App = im.load_source('App.App', path + spes + vpath)
             mimetype = 'text/html'
-            
-            
-            App.App.put(method="POST", accept_lang =self.headers["Accept-Language"], http_connect=self.headers["Connection"],  http_user_agt=self.headers["User-Agent"], http_encode=self.headers["Accept-Encoding"],   path=path,  host=host, port=port, para=self.path, remoter_addr=self.client_address[0], remoter_port=self.client_address[1], script_file=str(
-                    path)+str(spes)+(vpath), server_proto=server_pro, server_ver=self.server_version, protocol_ver=self.protocol_version)
-             
-            self.rendering(mimetype=mimetype, code=200, content=App.App.runs(formData=form))
 
-        def do_HEAD(self): 
+            App.App.put(method="POST", accept_lang=self.headers["Accept-Language"], http_connect=self.headers["Connection"],  http_user_agt=self.headers["User-Agent"], http_encode=self.headers["Accept-Encoding"],   path=path,  host=host, port=port, para=self.path, remoter_addr=self.client_address[0], remoter_port=self.client_address[1], script_file=str(
+                path)+str(spes)+(vpath), server_proto=server_pro, server_ver=self.server_version, protocol_ver=self.protocol_version)
+
+            self.rendering(mimetype=mimetype, code=200,
+                           content=App.App.runs(formData=form))
+
+        def do_HEAD(self):
             self.do_GET()
 
         def do_PUT(self):
@@ -256,8 +277,8 @@ def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port=
 
         server = ThreadedHTTPServer((host, port), httpv)
         server.serve_forever()
-        
+
     except Exception as err:
         print(bold(red("Something went wrong: Default port already in use")))
-        
+
     server.server_close()

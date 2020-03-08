@@ -289,10 +289,6 @@ class App(env, Config, Variable):
 
             
 
-
-
-
-
     def strMethod(self, p, c=None, m=None):
         Request = self.Request(prform=self.formData)
         Session = self.Session()
@@ -334,12 +330,21 @@ class App(env, Config, Variable):
 
 
 
-    def redirect(self, location='/'):
+    def redirect(self, location='/', link=False):
         if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
-                self.put(redirect_url=location)
-                return "307", location
+                
+                if link == True:
+                    location_d = u.url().url(location)
+                else:
+                    location_d = location
+                self.put(redirect_url=location_d)
+                return "307", location_d
         else:
-            print("Location: {location}".format(location=location))
+            if link == True:
+                location_d = u.url().url(location)
+            else:
+                location_d = location
+            print("Location: {location}".format(location=location_d))
             print()
 
     def referer(self, location='/'):

@@ -17,6 +17,9 @@ log_msg = Log.Log()
 
 class Request(Router):
 
+    def __getattr__(self, item):
+        return item
+
     def __init__(self, prform=None):
         
         if self.out("SERVER_SOFTWARE") == Version.AUTHOR:

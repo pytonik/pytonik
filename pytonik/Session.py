@@ -19,19 +19,31 @@ try:
 except Exception as err:
     import Cookie as cook
 
-var_q = "HTTP_COOKIE"
+
 
 
 class Session(Variable):
 
+    def __getattr__(self, item):
+        return item
+
+    def __call__(self, *args, **kwargs):
+        return None
+
     def __init__(self):
         self.result = ""
-        self.list_Str = []
+        self.s_string = "HTTP_COOKIE"
+        self.session_list = []
+        return None
         
-    def has(self, key=None):
+    def has(self, key=""):
 
-        if key in self.settings:
-            return True
+        session_dict = self.x_get()
+        if len(session_dict) > 0:
+            if session_dict.get(key, "") != None or session_dict.get(key, "") != "":
+                return True
+            else:
+                return False
         else:
             return False
 
@@ -41,58 +53,37 @@ class Session(Variable):
         expires = datetime.datetime.utcnow(
         ) + datetime.timedelta(minutes=duration)  # minutes in 30 days
         if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
-            #cooKeys = cook.SimpleCookie(self.out(var_q))
-
-            ##self.prheader("Set-cookie", cooKeys.output(header="", sep=""))
-            ck = str(key)+"="+str(value)
-            self.list(ck) 
-            
-            
-
+            session_string = str(key)+"="+str(value)
+            self.set_x(session_string) 
         else:
 
-            cooKeys = cook.SimpleCookie(self.out(var_q))
+            cooKeys = cook.SimpleCookie(self.out(self.s_string))
 
             cooKeys[str(key)] = value
             cooKeys[str(key)]['domain'] = url
             cooKeys[str(key)]['path'] = '/'
             cooKeys[str(key)]['expires'] = expires.strftime(
                 '%a, %d %b %Y %H:%M:%S')
-            #print(cooKeys)
-            ck = str(key)+"="+str(value)
-            self.list(ck) 
+            print(cooKeys)
 
+        
     def get(self, key=""):
-
         if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
-
-            #cooKeys = #cook.SimpleCookie()
-            OsEnviron = self.out(var_q)
-            if OsEnviron != "" or OsEnviron !=None:
-                
-                cooKeys = {}
-                try:
-                    for c_g in OsEnviron.split(";"):
-                        k, v = c_g.split("=")
-                        cooKeys.update({str(k):str(v)})
-                except Exception as err:
+            session_dict = self.x_get()
+            if len(session_dict) > 0:
+                if session_dict.get(key, "") != None or session_dict.get(key, "") != "":
                     try:
-                        k, v = OsEnviron.split("=")
-                        cooKeys.update({str(k):str(v)})
+                        return ast.literal_eval(session_dict.get(key, ""))
                     except Exception as err:
-                         ""
-                if cooKeys.get(key, "") != None or cooKeys.get(key, "") != "":
-                    try:
-                        return ast.literal_eval(cooKeys.get(key, ""))
-                    except Exception as err:
-                        return cooKeys.get(key, "")
+                        return session_dict.get(key, "")
                 else:
-                    
                     return ""
+            else:
+                return ""       
         else:
             cooKeys = cook.SimpleCookie()
-            OsEnviron = self.out(var_q)
-
+            OsEnviron = self.out(self.s_string)
+            
             if OsEnviron != None:
                 cooKeys.load(OsEnviron)
                 if key in cooKeys:
@@ -113,74 +104,130 @@ class Session(Variable):
 
         if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
 
-            cooKeys = cook.SimpleCookie(self.out(var_q))
-            if Version.PYVERSION_MA >= 3:
-                cookv = cooKeys.iteritems()
+            session_result = self._delete(args)
+            if session_result[0] == True:
+                return self._reset(session_result[1])
             else:
-                cookv = cooKeys.items()
-
-            OsEnviron = self.out(var_q)
+                return False
+            
         else:
-            cooKeys = cook.SimpleCookie(self.out(var_q))
+            cooKeys = cook.SimpleCookie(self.out(self.s_string))
             if Version.PYVERSION_MA >= 3:
 
                 cookv = cooKeys.items()
             else:
                 cookv = cooKeys.iteritems()
 
-            OsEnviron = self.out(var_q)
+            OsEnviron = self.out(self.s_string)
 
-        if var_q in self.see():
-            if args:
+            if self.s_string in self.see():
+                if args:
 
-                for key in args:
-                    if self.get(key) != "":
-                        return self.set(key, "", 60)
+                    for key in args:
+                        if self.get(key) != "":
+                            return self.set(key, "", 60)
+                else:
+                    for key, v in cookv:
+
+                        if self.get(key) != "":
+                            return self.set(key, "", 60)
+
             else:
-                for key, v in cookv:
-
-                    if self.get(key) != "":
-                        return self.set(key, "", 60)
-
+                return False
+    
+    def set_x(self, session_string=""):
+        if session_string  != "":
+            if self.s_string not in self.see():
+                self.default(self.s_string, session_string)
+                
+            else:
+                self.session_list.append(session_string)
+                self._update(self.unqiue(self.session_list))
         else:
             return False
-    
-    def list(self, list_s=""):
-        if list_s  != "":
-            list_v_c = []
-           
-            
-            if "HTTP_COOKIE" not in self.see():
-               
-                try:
-                
-                    self.default("HTTP_COOKIE", list_s)
-                except Exception as err:
-                    return err
-            else:
                 
                 
-                self.list_Str.append(list_s)
-                
-                dl = dict({"HTTP_COOKIE": self.unqiue(self.list_Str)})
-                
-                self.update(dl)
-                
-        
-    def unqiue(self, list_s):
-       
-        repl_cook = []
-        for lcook in list_s:
-            s_c = str(lcook)+";"+str(self.out("HTTP_COOKIE", ""))
-            repl_cook.append(s_c)
-       
-        intial_cook = str(repl_cook).replace("[' ", "").replace("]", "").replace(',', ";").replace("'", "").replace("[", "")
+    def _update(self, session_string):
+        dict_session = dict({"HTTP_COOKIE": session_string})
         try:
-            unique_l = intial_cook.split(";")
-            ress = []
-            [ress.append(x) for x in unique_l if x not in ress]
-            return ";".join(ress)
-        except Exception as err:
-            return intial_cook
-         
+            self.update(dict_session)
+            return True
+        except Exception as e:
+            return False
         
+
+    def unqiue(self, session_list=[]):
+       
+        session_relist = []
+        for l_session in session_list:
+            session_string = str(l_session)+";"+str(self.out("HTTP_COOKIE", ""))
+            session_relist.append(session_string)
+        initial_session = str(session_relist).replace("[' ", "").replace("]", "").replace(',', ";").replace("'", "").replace("[", "")
+        return self._unquie(initial_session)
+
+    def _unquie(self, initial_session=""):
+        try:
+            unique_session = initial_session.split(";")
+            re_unique = []
+            [ress.append(x) for x in unique_session if x not in re_unique]
+            return ";".join(re_unique)
+        except Exception as err:
+            return initial_session    
+        
+    def _delete(self, session_key=tuple()):
+        get_session = self.x_get()
+        response = None
+        if len(get_session) > 0: 
+            if len(session_key) > 0:
+                
+                try:
+                    for k in session_key:  
+                        get_session.pop(k, None)
+                    self._update(get_session)
+                    response = True
+
+                except Exception as err:
+                    response = False 
+            else:   
+                try:
+                    for k in dict(get_session):
+                        get_session.pop(k, None)
+                    response = True 
+                except Exception as err:
+                    response = False 
+        else:
+            response = False 
+        return response, get_session
+
+    def _reset(self, session_dict = dict()):
+
+        session_list =  []
+        if Version.PYVERSION_MA >= 3:
+            session_dict_l = session_dict.items()
+        else:
+            session_dict_l = cooKsession_dicteys.iteritems()
+
+        for k, v in session_dict_l:
+            session_list.append("{k}={v}".format(k=k,v=v))
+            
+        return self._update(";".join(session_list))
+
+    def x_get(self):
+        session_dict = {}
+        session_string = ""
+        try:
+            session_string = self.out(self.s_string)
+        except Exception as err:
+
+            session_dict = {}
+        try:
+            for c_g in session_string.split(";"):
+                k, v = c_g.split("=")
+                session_dict.update({str(k):str(v)})
+        except Exception as err:
+            try:
+                k, v = session_string.split("=")
+                session_dict.update({str(k):str(v)})
+            except Exception as err:
+                 session_dict = {}
+        return session_dict
