@@ -88,10 +88,10 @@ if "url" not in dir(os):
 
         if ront.out("HTTPS", "") == 'on':
 
-            url = str("https://") + seturl + "/" + ront.alllanguages.get(ront.getLanguages(), ront.getLanguages()) if lang == True else str(
-                "https://") + seturl
+            url = str("https://") + seturl.replace(":80", "") + "/" + ront.alllanguages.get(ront.getLanguages(), ront.getLanguages()) if lang == True else str(
+                "https://") + seturl.replace(":80", "")
         else:
-            url = str("http://") + seturl + "/" + ront.alllanguages.get(ront.getLanguages(), ront.getLanguages()) if lang == True else str("http://") + seturl
+            url = str("http://") + seturl.replace(":80", "") + "/" + ront.alllanguages.get(ront.getLanguages(), ront.getLanguages()) if lang == True else str("http://") + seturl.replace(":80", "")
 
         if path == "":
             DS = ""
