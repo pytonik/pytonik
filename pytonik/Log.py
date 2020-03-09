@@ -5,7 +5,8 @@
 # Maintainer Email: emmamartinscm@gmail.com
 # Created by Betacodings on 2019.
 ###
-
+from pytonik.Core.env import env
+from pytonik.Config import Config
 
 import logging, os, datetime, sys
 
@@ -109,13 +110,11 @@ class Log():
 
             if int(self.__check()) == 1:
                 logging.basicConfig(stream=sys.stdout, format=self.format, datefmt=self.datefmt)
+                
             else:
                 logging.basicConfig(filename=error_log, format=self.format, datefmt=self.datefmt)
 
     def __check(self):
-
-        from pytonik.Core.env import env
-        from pytonik.Config import Config
         getenv = env()
         conf = Config()
         conf.add(getenv._e())

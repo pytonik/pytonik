@@ -1,12 +1,11 @@
 from pytonik.Web import App, Version
 
-m = App()
+app = App()
 
 
 def index():
-    m.header()
-
-    print("do work here")
+    app.header()
+    # do work here
 
 
 def page400():
@@ -16,7 +15,7 @@ def page400():
         'version': Version().VERSION_TEXT
 
     }
-    return m.views('400', data)
+    return app.views('400', data)
 
 
 def page404():
@@ -25,7 +24,7 @@ def page404():
         'name': 'Pytonik',
         'version': Version().VERSION_TEXT
     }
-    return m.views('405', data)
+    return app.views('405', data)
 
 
 def page405():
@@ -34,5 +33,4 @@ def page405():
         'name': 'Pytonik',
         'version': Version().VERSION_TEXT
     }
-    return m.views('405', data)
-
+    return app.views('405', data)

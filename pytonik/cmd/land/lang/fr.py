@@ -1,1 +1,1 @@
-{"lng.test":"Exemple de texte"}
+{"lng.test": "Exemple de texte"}

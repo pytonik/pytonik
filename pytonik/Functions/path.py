@@ -43,10 +43,10 @@ class path(url, Variable):
         else:
             DS = "/"
 
-        if bool(link) is True:
+        if bool(link) == True:
             u = self.url()
 
-        return u+DS + path
+        return str(u)+str(DS)+str(path)
 
     def exist(self, newpath, defaultpath="", link=False):
 
@@ -70,7 +70,7 @@ class path(url, Variable):
 
         else:
 
-            if defaultpath is not "":
+            if defaultpath != "":
 
                 if os.path.isfile(defaultpath) == True:
 
@@ -93,16 +93,9 @@ class path(url, Variable):
                 return False
 
     def public(self, path):
-
-        if os.path.isdir(os.getcwd() + '/public'):
-
-            if self.out("SERVER_NAME") == Version.AUTHOR:
-                host = os.path.dirname(os.getcwd()) + '/public'  # os.path.dirname(os.getcwd())
-            else:
-                host = os.path.dirname(os.getcwd()) + '/public'
-
-        else:
-            host = str(os.path.dirname(os.getcwd())) + '/public'
+        
+        host = str(os.path.dirname(os.getcwd())) + '/public'
+        
         DS = str('/')
 
         if path[:1] == DS or path[:1] == DS:

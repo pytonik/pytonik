@@ -1,6 +1,6 @@
 from pytonik.Web import App, Version
 
-m = App()
+app = App()
 
 
 def index():
@@ -10,5 +10,5 @@ def index():
         'version': Version().VERSION_TEXT,
         'reversion': Version().VERSION_TEXT[0:5],
     }
-      
-    return m.views('index', data)#os.environ#
+
+    return app.views('index', data)

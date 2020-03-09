@@ -16,7 +16,7 @@ class requirement:
         return None
 
     def run(self, pacakage, dir=""):
-        dir_new = ' --install-option="--prefix={dir} "'.format(dir=dir) if dir is not "" else ""
+        dir_new = ' --install-option="--prefix={dir} "'.format(dir=dir) if dir != "" else ""
         cmd = "pip install {dir}{pacakage}".format(dir=dir_new, pacakage=pacakage)
 
         try:
