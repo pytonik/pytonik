@@ -5,7 +5,6 @@
 # Created by BetaCodings on 17/11/2019.
 import os as opy, re
 from pytonik.util.Variable import Variable
-
 class os(Variable):
 
     def __getattr__(self, item):

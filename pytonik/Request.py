@@ -17,7 +17,7 @@ log_msg = Log.Log()
 
 
 class Request(Variable):
-
+    
     def __getattr__(self, item):
         return item
 

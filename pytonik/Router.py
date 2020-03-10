@@ -14,7 +14,6 @@ from pytonik.Config import Config
 from pytonik.Core.env import env
 from pytonik.Session import Session
 from pytonik.util.Variable import Variable
-
 cgitb.enable()
 log_msg = Log.Log()
 
@@ -90,7 +89,7 @@ class Router(env, Config):
         path_parts = pathparts_array
 
         if len(path_parts):
-
+    
             # print(routes.keys())
 
             if Version.PYVERSION_MA < 3:

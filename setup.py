@@ -6,29 +6,30 @@ with open("README.md", "r") as fd:
     longdescription = fd.read()
 
 
-
 setup(
     name='pytonik',
-    version = Version.VERSION_TEXT+Version.EDITION,
+    version=Version.VERSION_TEXT + Version.EDITION,
     description='Pytonik is a python framework built to enhance web development fast and easy, also help web developers to build more apps with less codes',
     url="https://pytonik.readthedocs.io/en/1.9.8",
     author='pytonik',
     author_email='info@pytonik.com',
-    maintainer= 'Emmanuel Essien',
+    maintainer='Emmanuel Essien',
     maintainer_email='emmamartinscm@gmail.com',
-    packages=find_namespace_packages(include=['*', '']),
-    long_description = longdescription,
-    long_description_content_type='text/markdown',
-    license= Version.LICENSE,
-    keywords = Version.KEYWORDS,
-    entry_points = {
-        'console_scripts' : ['pytonik-install = pytonik.cmd.install:main', 'pytonik-start = pytonik.cmd.start:main', 'pytonik-docs = pytonik.cmd.doc:main',  'pytonik-server = pytonik.cmd.server:main']
-                    },
-    install_requires=['Pillow', 'colorama', 'mysql-connector-python', 'psycopg2-binary', 'cx-Oracle'],
     include_package_data=True,
+    packages=find_namespace_packages(include=['*', '']),
+    long_description=longdescription,
+    long_description_content_type='text/markdown',
+    license=Version.LICENSE,
+    keywords=Version.KEYWORDS,
+    entry_points={
+        'console_scripts': ['pytonik-install = pytonik.cmd.install:main', 'pytonik-start = pytonik.cmd.start:main', 'pytonik-docs = pytonik.cmd.doc:main',  'pytonik-server = pytonik.cmd.server:main']
+    },
+    install_requires=['Pillow', 'colorama',
+                      'mysql-connector-python', 'psycopg2-binary', 'cx-Oracle'],
     zip_safe=False,
     classifiers=[
         'Environment :: Console',
+        'Framework :: Pytonik ::{}'.format(Version.VERSION_TEXT),
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
