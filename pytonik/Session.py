@@ -40,7 +40,6 @@ class Session(Variable):
 
         session_dict = self.x_get()
         if len(session_dict) > 0:
-
             if session_dict.get(key, "") != "":
                 return True
             else:

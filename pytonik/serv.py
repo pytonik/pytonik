@@ -60,6 +60,7 @@ def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port=
     mimetype = ""
     sys.path.insert(0, os.path.dirname(__file__))
     os.chdir(path)
+
     cookie_v = cook
 
     class httpv(BaseHTTPRequestHandler):
