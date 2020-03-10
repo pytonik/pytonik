@@ -80,18 +80,20 @@ if "url" not in dir(os):
 
     def url(path="", lang=False):
         from pytonik.Router import Router
+        from pytonik.util.Variable import Variable
 
         ront = Router()
+        env_os = Variable()
         DS, p, url = "", "",  ""
-        seturl = ront.out("HTTP_HOST")+str(":")+str(ront.out("SERVER_PORT", '')) if ront.out(
-            "HTTP_HOST") == "localhost" or ront.out("HTTP_HOST") == "127.0.0.1" else ront.out("HTTP_HOST")
+        seturl = ront.out("HTTP_HOST")+str(":")+str(env_os.out("SERVER_PORT", '')) if env_os.out(
+            "HTTP_HOST") == "localhost" or env_os.out("HTTP_HOST") == "127.0.0.1" else env_os.out("HTTP_HOST")
 
         if ront.out("HTTPS", "") == 'on':
 
-            url = str("https://") + seturl + "/" + ront.alllanguages.get(ront.getLanguages(), ront.getLanguages()) if lang == True else str(
-                "https://") + seturl
+            url = str("https://") + seturl.replace(":80", "") + "/" + ront.alllanguages.get(ront.getLanguages(), ront.getLanguages()) if lang == True else str(
+                "https://") + seturl.replace(":80", "")
         else:
-            url = str("http://") + seturl + "/" + ront.alllanguages.get(ront.getLanguages(), ront.getLanguages()) if lang == True else str("http://") + seturl
+            url = str("http://") + seturl.replace(":80", "") + "/" + ront.alllanguages.get(ront.getLanguages(), ront.getLanguages()) if lang == True else str("http://") + seturl.replace(":80", "")
 
         if path == "":
             DS = ""

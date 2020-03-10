@@ -18,10 +18,11 @@ class now:
         self.date_time = ""
         if len(args) > 0 or len(kwargs) > 0:
 
-            if all(args) is not False:
+            if all(args) != False:
                 self.ag_o = self.datetime(*args, **kwargs)
             else:
                 self.ag_o = self.datetime(**kwargs)
+
         return None
 
     def __str__(self):
@@ -77,7 +78,7 @@ class now:
 
     def format(self, fmt=''):
 
-        fmt = '%Y-%m-%d %H:%M:%S' if fmt is "" else  fmt
+        fmt = '%Y-%m-%d %H:%M:%S' if fmt == "" else  fmt
         try:
             return datetime.strptime(self.date_time, fmt)
         except Exception as err:
@@ -119,7 +120,7 @@ class now:
     def timestamp(self, string = ""):
 
         try:
-            date_s = datetime.fromtimestamp(int(string)) if string is not "" else datetime.now().strftime("%s")
+            date_s = datetime.fromtimestamp(int(string)) if string !="" else datetime.now().strftime("%s")
 
             return date_s
 

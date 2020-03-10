@@ -255,7 +255,23 @@ def make_file(d):
 
         print(bold(green(__('Project {} Is ready...'.format(d.get('project', ''))))))
     except Exception as err:
-        print(err)
+        try:
+
+            src = os.path.dirname(os.path.abspath(__file__)) + "/land"
+
+            dst = os.getcwd() + '/' + d.get('project', '')
+
+            for f in os.listdir(src):
+                s = os.path.join(src, f)
+                dt = os.path.join(dst, f)
+                if os.path.isdir(s):
+                    shutil.copytree(s, dt)
+                else:
+                    shutil.copy2(s, dt)
+
+            print(bold(green(__('Project {} Is ready...'.format(d.get('project', ''))))))
+        except Exception as err:
+            print(err)
 
 def main(argv: List[str] = sys.argv[1:]) -> int:
     # parse options

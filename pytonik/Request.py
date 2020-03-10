@@ -7,23 +7,31 @@
 ###
 
 
+import os
+import cgi
+from pytonik.Router import Router
+from pytonik.util.Variable import Variable
+from pytonik import Version, Log
 
-import cgi, os
-from . import Router, Log
 log_msg = Log.Log()
 
-class Request:
- 
-    def __init__(self):
-        self.attr = cgi.FieldStorage()
-        self.type = os.environ
-        self.Router = Router.Router()
-        self.method = self.type.get('REQUEST_METHOD', '')
 
+class Request(Variable):
+
+    def __getattr__(self, item):
+        return item
+
+    def __init__(self, prform=None):
+        self.Router = Router()
+        if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
+             self.attr = prform
+        else:
+            self.attr = cgi.FieldStorage()
+        self.method = self.out('REQUEST_METHOD', '')
 
     def get(self, key=0, error=0):
         try:
-            if 'GET' in self.type.get('REQUEST_METHOD'):
+            if 'GET' in self.out('REQUEST_METHOD'):
 
                 if key != 0:
                     if (key in self.attr):
@@ -40,11 +48,11 @@ class Request:
                 return False
         except Exception as err:
             log_msg.info(err)
-            return  err
+            return err
 
     def post(self, key=0, error=0):
         try:
-            if 'POST' in self.type.get('REQUEST_METHOD'):
+            if 'POST' in self.out('REQUEST_METHOD'):
                 if key != 0:
                     if (key in self.attr):
                         return self.attr.getvalue(key)
@@ -87,12 +95,12 @@ class Request:
         try:
             para = self.Router.getParams()
 
-            if para != "" or para is not None:
+            if para != "" or para != None:
                 return para.get(key, '')
             else:
+
                 return self.get(key)
 
         except Exception as err:
+
             log_msg.info(err)
-
-

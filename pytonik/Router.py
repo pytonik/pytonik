@@ -14,29 +14,31 @@ from pytonik.Config import Config
 from pytonik.Core.env import env
 from pytonik.Session import Session
 from pytonik.util.Variable import Variable
+
 cgitb.enable()
 log_msg = Log.Log()
 
 
-
-
-class Router(env, Config, Variable):
+class Router(env, Config):
+    def __getattr__(self, item):
+        return item
 
     def __init__(self):
-        #self.out('PATH_INFO')
-        url = self.out('REQUEST_URI', "")
+        osv = Variable()
+        url = osv.out('REQUEST_URI', "")
+        http_s = osv.out("HTTP_HOST")
 
-        http_s = self.out("HTTP_HOST")
-        if http_s == "127.0.0.1" or http_s == "localhost":
-            if self.out("SERVER_SOFTWARE", "") == Version.AUTHOR:
+        if osv.out("SERVER_SOFTWARE", "") == Version.AUTHOR:
+
+            self.uri = url.split('/')[2:]
+
+        else:
+            if http_s == "127.0.0.1" or http_s == "localhost":
                 self.uri = url.split('/')[2:]
             else:
-                self.uri = url.split('/')[2:]
-        else:
-            self.uri = url.split('/')[1:]
+                self.uri = url.split('/')[1:]
 
         self.add(self._e())
-
 
         self.controllers = self.get('default_controllers')
         self.actions = self.get('default_actions')
@@ -44,26 +46,21 @@ class Router(env, Config, Variable):
         self.alllanguages = self.get('languages', '')
         self.routes = self.get('default_routes')
         self.methodprefix = ""
-        self.params = ""
+        self.parameter = ""
 
+        # if "?" in self.uri:
 
+        # uri_paths = urlstr.split("?")
+        # path_array = uri_paths[0]
+        # else:
+        # uri_paths = urlstr.split('/')
+        # path_array = uri_paths[0]
 
-
-        #if "?" in self.uri:
-
-            #uri_paths = urlstr.split("?")
-            #path_array = uri_paths[0]
-        #else:
-            #uri_paths = urlstr.split('/')
-            #path_array = uri_paths[0]
-
-        uri_paths = self.uri #.split('/')
+        uri_paths = self.uri  # .split('/')
 
         pathparts_array = uri_paths
 
-
-
-        pathparts_paramarray = self.out("QUERY_STRING", '')
+        pathparts_paramarray = os.environ.get("QUERY_STRING", '')
 
         pathparts_paramarrayOut = dict()
         if pathparts_paramarray != '':
@@ -92,17 +89,14 @@ class Router(env, Config, Variable):
 
         path_parts = pathparts_array
 
-
         if len(path_parts):
 
-            #print(routes.keys())
+            # print(routes.keys())
 
             if Version.PYVERSION_MA < 3:
                 path_parts = filter(None, path_parts)
             else:
                 path_parts = list(filter(None, path_parts))
-
-
 
             routes = self.get('route', '')
 
@@ -118,11 +112,9 @@ class Router(env, Config, Variable):
                         else:
                             self.methodprefix = ""
 
-                        #path_parts.append(path_parts.pop(-1))
-
+                            # path_parts.append(path_parts.pop(-1))
 
             languages = self.get('languages', '')
-
 
             if list(set(path_parts).intersection(languages.keys())):
 
@@ -130,7 +122,6 @@ class Router(env, Config, Variable):
                     if s in languages:
                         self.languages = s
                         path_parts.append(path_parts.pop(-1))
-
 
             controllers = self.get('default_controllers', '')
             if controllers:
@@ -148,7 +139,6 @@ class Router(env, Config, Variable):
                             path_parts.append(path_parts.pop(-1))
                     ++i
 
-
             action = self.get('default_actions', '')
             if action:
                 i = 0
@@ -160,12 +150,11 @@ class Router(env, Config, Variable):
                             path_parts.append(path_parts.pop(-1))
                         ++i
 
-
             from .Core import Helpers
             h = Helpers
             list_params = []
 
-            if pathparts_paramarray == None or pathparts_paramarray == "" :
+            if pathparts_paramarray == None or pathparts_paramarray == "":
                 if Version.PYVERSION_MA <= 2:
                     lroutes = routes.iteritems()
                 else:
@@ -183,7 +172,6 @@ class Router(env, Config, Variable):
                         else:
                             getMapPara = paraUri[1].split(':')
 
-
                         if self.controllers in routes:
 
                             if len(getMapPara[1:]) > 0:
@@ -197,36 +185,32 @@ class Router(env, Config, Variable):
 
                                         param_n = para
 
-                                        if (len(new_para)-i) > 0:
-                                            v_para  = new_para[i]
+                                        if (len(new_para) - i) > 0:
+                                            v_para = new_para[i]
                                         else:
                                             v_para = ""
-
 
                                         list_params.append(param_n)
                                         list_params.append(v_para)
 
-                                self.params = Helpers.covert_list_dict(list_params)
+                                self.parameter = Helpers.covert_list_dict(list_params)
 
 
                 else:
                     for s in path_parts:
 
                         if s is not self.controllers and s is not self.actions and s is not self.languages:
-
                             list_params.append(s)
 
                             path_parts.append(path_parts.pop(-1))
 
-                    self.params = Helpers.covert_list_dict(list_params)
+                    self.parameter = Helpers.covert_list_dict(list_params)
 
             else:
 
-
-                self.params = pathparts_paramarrayOut
+                self.parameter = pathparts_paramarrayOut
 
                 path_parts.append(path_parts.pop(-1))
-
 
         return None
 
@@ -242,7 +226,7 @@ class Router(env, Config, Variable):
 
     def getParams(self):
 
-        return self.params
+        return self.parameter
 
     def getRoutes(self):
 
@@ -253,5 +237,3 @@ class Router(env, Config, Variable):
 
     def getLanguages(self):
         return self.languages
-
-

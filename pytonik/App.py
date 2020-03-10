@@ -8,6 +8,7 @@
 
 
 from pytonik.Request import Request
+from pytonik.Session import Session
 from pytonik.Router import Router
 from pytonik.Editor import HTMLeditor
 from pytonik.Config import Config
@@ -15,11 +16,6 @@ from pytonik.Log import Log
 from pytonik import Lang
 from pytonik import Version
 from pytonik.Core.env import env
-try:
-    from BaseHTTPServer import BaseHTTPRequestHandler  as BaseHTTP
-except Exception as e:
-    from http.server import BaseHTTPRequestHandler as BaseHTTP
-
 from pytonik.util.Variable import Variable
 from pytonik.Functions import url
 import os, sys, cgi, cgitb, importlib, glob, inspect
@@ -47,18 +43,19 @@ header_response_page = {
    '400': 'error/page400', #Bad Request
    '404': 'error/page404', #Not Found
    '405': 'error/page405', #Method Not Allowed
+   '500': 'error/', #Internal Server Error
 
 }
 
 
-class App(env, Config, Variable, BaseHTTP):
+class App(env, Config, Variable):
 
     def __getattr__(self, item):
         return item
 
 
     def __init__(self, routers="", routes="", getpath="", getrouters=""):
-
+        
         self.routers = routers
         self.routes = routes
         self.getpath = getpath
@@ -66,6 +63,7 @@ class App(env, Config, Variable, BaseHTTP):
         self.getrouters = getrouters
         self.getDB = ""
         self.Request = Request
+        self.Session = Session
         self.methodprefix = ""
         self.actions = ""
         self.controllers = ""
@@ -78,6 +76,7 @@ class App(env, Config, Variable, BaseHTTP):
         self.vpathf = ""
         self.languages = ""
         self.Driver = ""
+        self.formData = None
 
     def getRouters(self):
 
@@ -87,12 +86,14 @@ class App(env, Config, Variable, BaseHTTP):
         return self.getpath
 
 
-    def runs(self):
+    def runs(self, formData = None):
+        
+        self.formData = formData
         return self.initial()
 
-
-
     def initial(self):
+        self.default("Framework", Version.AUTHOR)
+        self.default("X-Version", Version.VERSION_TEXT)
         self.getrouters = self.envrin('route')
         self.routersc = Router()
         self.methodprefix = self.routersc.getMethodPrefix()
@@ -106,9 +107,17 @@ class App(env, Config, Variable, BaseHTTP):
         langs.loadLang()
         routesUri = []
 
-        for k, getRouter in self.getrouters.items():
+
+        if Version.PYVERSION_MA >= 3:
+            lrounters = self.getrouters.items()
+        else:
+            lrounters = self.getrouters.iteritems()
+
+
+        for k, getRouter in  lrounters:
 
             if self.controllers == k:
+
                 routesUri = getRouter.split('@')
 
         if len(routesUri) != 0:
@@ -138,6 +147,8 @@ class App(env, Config, Variable, BaseHTTP):
                 controllersClass = str(self.controllers[0].capitalize()) + str(self.controllers[1:]) + 'Controller'
 
             controllersMethods = str(self.actions)
+
+
 
         if controllersMethods != "":
             self.actions = controllersMethods
@@ -177,23 +188,35 @@ class App(env, Config, Variable, BaseHTTP):
                     errorP = getErrorP
                     
                 if errorP.get(code, '') != '':
+                    
+                    controllerP = ""
                     if '/' in errorP.get(code, ''):
                         splitP = errorP.get(code, '').split('/')
                         controllerP = controllerpath + DS + str(splitP[0]).capitalize() + 'Controller' + ".py"
                     else:
                         controllerP = controllerpath + DS + str(errorP.get(code, '')).capitalize() + 'Controller' + ".py"
                     
-                    if os.path.isfile(controllerP) == True:
-                        re_url = u.url().url('/' + str(errorP.get(code, '')))
+                    if code == "500":
+                        
+                        if os.path.isfile(controllerP) == True:
+                            re_url = u.url().url('/' + str(errorP.get(code, '')))
+                        else:
+                            re_url = u.url().url("/error")
                     else:
+                        if os.path.isfile(controllerP) == True:
+                            re_url = u.url().url('/' + str(errorP.get(code, '')))
+                        else:
 
-                        if os.path.isfile(self.error_page_html(code)) == True:
-                            re_url = u.url().url("/error/{code}".format(code=pageCode))
+                            if os.path.isfile(self.error_page_html(code)) == True:
+                                re_url = u.url().url("/error/{code}".format(code=pageCode))
 
                 else:
-
-                    if os.path.isfile(self.error_page_html(code)) == True:
-                        re_url = u.url().url("/error/{code}".format(code=pageCode))
+                    if code == "500":
+                        re_url = u.url().url("/error")
+                    else:
+                        
+                        if os.path.isfile(self.error_page_html(code)) == True:
+                            re_url = u.url().url("/error/{code}".format(code=pageCode))
 
                 return code, re_url 
 
@@ -276,21 +299,27 @@ class App(env, Config, Variable, BaseHTTP):
 
             
 
-
-
-
-
     def strMethod(self, p, c=None, m=None):
-        Request = self.Request()
+        Request = self.Request(prform=self.formData)
+        Session = self.Session()
         try:
-            return getattr(c, m)(Request)
+            return getattr(c, m)(Request, Session)
         except Exception as err:
             try:
-                return getattr(c, m)()
-            except:
-                Log(p+DS+c+'.py').critical(err)
+                return getattr(c, m)(Session, Request)
+            except Exception as err:
+                try:
+                    return getattr(c, m)(Request)
+                except Exception as err:
+                    try:
+                        return getattr(c, m)(Session)
+                    except Exception as err:
+                        try:
+                            return getattr(c, m)()
+                        except Exception as err:
 
-                return self.errorP('400')
+                            Log(p+DS+c+'.py').critical(err)
+                            return self.errorP('400')
 
 
     def strClass3(self, p=None, c=None):
@@ -310,20 +339,40 @@ class App(env, Config, Variable, BaseHTTP):
 
 
 
-    def redirect(self, location='/'):
+    def redirect(self, location='/', link=False, code = "307"):
         if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
-                self.put(redirect_url=location)
-                return "307", location
+                
+                if link == True:
+                    location_d = u.url().url(location)
+                else:
+                    location_d = location
+                self.put(redirect_url=location_d)
+                return code, location_d
         else:
-            print("Location: {location}".format(location=location))
+
+            if link == True:
+                location_d = u.url().url(location)
+            else:
+                location_d = location
+
+            print("Location: {location}".format(location=location_d))
             print()
 
-    def referer(self, location='/'):
+    def referer(self, location='/', link=False, code = "307"):
         if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
-                self.put(referral=self.out('HTTP_REFERER', location))
-                return "307", self.out('HTTP_REFERER', location)
+                if link == True:
+                    location_d = u.url().url(location)
+                else:
+                    location_d = location
+
+                self.put(referral=self.out('HTTP_REFERER', location_d))
+                return code, self.out('HTTP_REFERER', location_d)
         else:
-            print("Location: {location}".format(location=self.out('HTTP_REFERER', location)))
+            if link == True:
+                location_d = u.url().url(location)
+            else:
+                location_d = location
+            print("Location: {location}".format(location=self.out('HTTP_REFERER', location_d)))
             print()
 
     @staticmethod
@@ -345,8 +394,14 @@ class App(env, Config, Variable, BaseHTTP):
                 for x in range(p):
                     print("")
         else:
-            return
-
+            return 
+    def XHreponse(self, dataString):
+        if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
+            return dataString
+        else:
+            self.header()
+            print(dataString)
+            
     def views(self, pathf="", datag={}, datal={}):
 
         if pathf == "":

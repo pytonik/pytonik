@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Romes" />
+    <meta name="keywords" content="Pytonik, MVC Framework, Pytonik Module, Python, Pytonik Server" />
+    <meta name="description" content="Pytonik is a python framework built to enhance web development fast and easy, also help web developers to build more apps with less codes. it uses expressive architectural pattern, structured on model view controller MVC and bundles of component to reuse while deploying the framework." />
+    <title>{{title}} | {{name}}</title>
+    <link rel="shortcut icon" href="public/static/img/favicon.png" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="{% call path 'public/static/img/favicon.png' %}" />
+    <link rel="stylesheet" href="{% call path 'public/static/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% call path 'public/static/font/ionicons/css/ionicons.min.css' %}" />
+    <link rel="stylesheet" href="{% call path 'public/static/css/main.min.css' %}" />
+</head>
+
+<body>
+    <div class="wrapper-landing-page">
+        <header class="header">
+            <nav class="navbar fixed-top px-2 px-md-4 py-2 align-items-center">
+                <a class="navbar-brand text-white" href="https://pytonik.com/"><img src="public/static/img/logo.png" width="85px" /></a>
+                <!-- <a href="#" class="btn-dload btn-dload-sm">Download v1.0</a> -->
+            </nav>
+            <section class="banner line-bottom">
+                <div class="bg-halfscreen banner-bg"></div>
+                <div class="banner-content d-flex align-items-center justify-content-center">
+                    <div class="col-12 col-md-6 px-3 px-sm-4" style="margin-top: -40px">
+                        <div class="banner__title">
+                            <h2 class="f-w--6 text-capitalize text-left mb-4">
+                                Pytonik
+                            </h2>
+                            <h3 class="text-capitalize f-w--4 mb-5 mb-sm-4 text-left">
+                                Enhances app development faster and easier with less codes
+                            </h3>
+                            <h4 class="text-center mb-0 f-w--6 f-xs--6">
+                                Current Version {{version}}
+                            </h4>
+                        </div>
+                        <!-- 
+                        <div class="dload-icon text-center mb-3">
+                            <i class="icon ion-ios-cloud-download-outline icon-xx"></i>
+                        </div> -->
+                        <div class="btn-group flex-wrap" role="group" aria-label="Start up links" style="margin-top: 15px">
+                            <a target="_blank" href="https://gitter.im/pytonik-mvc/community" class="btn btn-dload shadow-sm rounded-0"><i class="ion-ios-people mr-2"></i>Community</a>
+                            <a target="_blank" href="https://pytonik.readthedocs.io/en/{{reversion}}/" class="btn btn-dload shadow-sm rounded-0"><i class="ion-ios-paper-outline mr-2"></i>Documentation</a>
+                            <a target="_blank" href="https://github.com/pytonik/pytonik" class="btn btn-dload shadow-sm rounded-0"><i class="ion-logo-github mr-2"></i>Github</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </header>
+        <footer class="footer">
+            <p class="m-0 f-xs--5 f-w--4 text-center col-12">
+                Copyright &commat; {% call now 'date' format='%Y' %} {{name}}
+            </p>
+        </footer>
+    </div>
+    <script src="{% call path 'public/static/js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% call path 'public/static/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% call path 'public/static/js/main.min.js' %}"></script>
+</body>
+
+</html>
