@@ -9,7 +9,7 @@
 
 import os
 import cgi
-from pytonik.Router import Router
+from pytonik.Controllers import Controllers
 from pytonik.util.Variable import Variable
 from pytonik import Version, Log
 
@@ -22,7 +22,7 @@ class Request(Variable):
         return item
 
     def __init__(self, prform=None):
-        self.Router = Router()
+        self.Controllers = Controllers()
         if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
              self.attr = prform
         else:
@@ -93,7 +93,7 @@ class Request(Variable):
 
     def params(self, key=0):
         try:
-            para = self.Router.getParams()
+            para = self.Controllers.getParams()
 
             if para != "" or para != None:
                 return para.get(key, '')

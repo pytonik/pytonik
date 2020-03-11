@@ -42,6 +42,8 @@ class Session(Variable):
         if len(session_dict) > 0:
             if session_dict.get(key, "") != "":
                 return True
+            elif session_dict.get(' {key}'.format(key=key), "") != "":
+                return True
             else:
                 return False
         else:
@@ -78,6 +80,11 @@ class Session(Variable):
                         return ast.literal_eval(session_dict.get(key, ""))
                     except Exception as err:
                         return session_dict.get(key, "")
+                elif session_dict.get(' {key}'.format(key=key), "") != None or session_dict.get(' {key}'.format(key=key), "") != "":
+                    try:
+                        return ast.literal_eval(session_dict.get(' {key}'.format(key=key), ""))
+                    except Exception as err:
+                        return session_dict.get(' {key}'.format(key=key), "")
                 else:
                     return ""
             else:
@@ -215,6 +222,7 @@ class Session(Variable):
         return self._update(";".join(session_list))
 
     def x_get(self):
+
         session_dict = {}
         session_string = ""
         try:
