@@ -68,21 +68,10 @@ $ pytonik-docs
 For guidance on setting up a development environment and how to make a contribution to Pytonik, see the [contributing guidelines.](https://github.com/pytonik/pytonik/blob/master/CONTRIBUTING.md)
 
 
-## Table of Content
+## Documentation on how to?
 
-* [Getting Started](https://pytonik.readthedocs.io/en/latest/getting-started.html)
-* [Configuration](hhttps://pytonik.readthedocs.io/en/latest/configuration.html)
-* [Dependency](https://pytonik.readthedocs.io/en/latest/dependency.html)
-* [File Structure](https://pytonik.readthedocs.io/en/latest/filestructure.html)
-* [Environment File](https://pytonik.readthedocs.io/en/latest/env.html)
-* [Template Engine](https://pytonik.readthedocs.io/en/latest/temp.html)
-* [SMTP](https://pytonik.readthedocs.io/en/latest/smtp.html)
-* [Request](https://pytonik.readthedocs.io/en/latest/request.html)
-* [Session](https://pytonik.readthedocs.io/en/latest/session.html)
-* [File](https://pytonik.readthedocs.io/en/latest/file.html)
-* [Functions](https://pytonik.readthedocs.io/en/latest/func.html)
-* [Schema](https://pytonik.readthedocs.io/en/latest/schema.html)
-* [Advance](https://pytonik.readthedocs.io/en/latest/advance.html)
+* [Getting Started](https://pytonik.readthedocs.io/en/1.9.8)
+
 
 ## Testing
 Run `nosetests test` in the root directory.			 
@@ -91,6 +80,7 @@ Run `nosetests test` in the root directory.
 ## Donate
 
 Support Pytonik and the libraries it uses. In order to grow the community of contributors and users, and allow the maintainers to devote more time to the projects, [please donate today.](https://liberapay.com/pytonik/)
+
 
 
 ## Contact
