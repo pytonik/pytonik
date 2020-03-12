@@ -8,232 +8,177 @@
 
 
 
-import sys, os, cgitb
+import sys, os, re
 from pytonik import Version, Log
 from pytonik.Config import Config
 from pytonik.Core.env import env
-from pytonik.Session import Session
+from pytonik.Core import Helpers
+from pytonik.Controllers import Controllers
 from pytonik.util.Variable import Variable
 
-cgitb.enable()
 log_msg = Log.Log()
 
 
-class Router(env, Config):
+class Router(env):
+    def args(self, to="", params=[]):
+        return to, params
+
     def __getattr__(self, item):
         return item
 
     def __init__(self):
-        osv = Variable()
-        url = osv.out('REQUEST_URI', "")
-        http_s = osv.out("HTTP_HOST")
 
-        if osv.out("SERVER_SOFTWARE", "") == Version.AUTHOR:
-
-            self.uri = url.split('/')[2:]
-
-        else:
-            if http_s == "127.0.0.1" or http_s == "localhost":
-                self.uri = url.split('/')[2:]
-            else:
-                self.uri = url.split('/')[1:]
-
-        self.add(self._e())
-
-        self.controllers = self.get('default_controllers')
-        self.actions = self.get('default_actions')
-        self.languages = self.get('default_languages')
-        self.alllanguages = self.get('languages', '')
-        self.routes = self.get('default_routes')
-        self.methodprefix = ""
-        self.parameter = ""
-
-        # if "?" in self.uri:
-
-        # uri_paths = urlstr.split("?")
-        # path_array = uri_paths[0]
-        # else:
-        # uri_paths = urlstr.split('/')
-        # path_array = uri_paths[0]
-
-        uri_paths = self.uri  # .split('/')
-
-        pathparts_array = uri_paths
-
-        pathparts_paramarray = os.environ.get("QUERY_STRING", '')
-
-        pathparts_paramarrayOut = dict()
-        if pathparts_paramarray != '':
-            pairs = pathparts_paramarray.split('&')
-
-            pathparts_paramarray = pairs
-
-            for i in pairs:
-
-                name, value = i.split('=', 2)
-
-                pathparts_paramarray = {name: value}
-
-                if name in pathparts_paramarray:
-
-                    pathparts_paramarray[name] = value
-
-                else:
-                    pathparts_paramarray[name] = [pathparts_paramarray[name], value]
-
-                pathparts_paramarrayOut.setdefault(name, value)
-
-
-        else:
-            pathparts_paramarrayOut = ""
-
-        path_parts = pathparts_array
-
-        if len(path_parts):
-
-            # print(routes.keys())
-
-            if Version.PYVERSION_MA < 3:
-                path_parts = filter(None, path_parts)
-            else:
-                path_parts = list(filter(None, path_parts))
-
-            routes = self.get('route', '')
-
-            if list(set(path_parts).intersection(routes.keys())):
-
-                for s in path_parts:
-
-                    if s in routes:
-                        self.routes = s
-
-                        if self.routes in routes:
-                            self.methodprefix = routes[self.routes]
-                        else:
-                            self.methodprefix = ""
-
-                            # path_parts.append(path_parts.pop(-1))
-
-            languages = self.get('languages', '')
-
-            if list(set(path_parts).intersection(languages.keys())):
-
-                for s in path_parts:
-                    if s in languages:
-                        self.languages = s
-                        path_parts.append(path_parts.pop(-1))
-
-            controllers = self.get('default_controllers', '')
-            if controllers:
-
-                i = 0
-                path_parts = list(filter(None, path_parts))
-
-                for s in path_parts:
-
-                    if s is not self.languages:
-                        i += 1
-
-                        if i == 1:
-                            self.controllers = s
-                            path_parts.append(path_parts.pop(-1))
-                    ++i
-
-            action = self.get('default_actions', '')
-            if action:
-                i = 0
-                for s in path_parts:
-                    if s is not self.controllers and s is not self.languages:
-                        i += 1
-                        if i == 1:
-                            self.actions = s
-                            path_parts.append(path_parts.pop(-1))
-                        ++i
-
-            from .Core import Helpers
-            h = Helpers
-            list_params = []
-
-            if pathparts_paramarray == None or pathparts_paramarray == "":
-                if Version.PYVERSION_MA <= 2:
-                    lroutes = routes.iteritems()
-                else:
-                    lroutes = routes.items()
-                for k, getRouter in lroutes:
-
-                    if self.controllers == k:
-
-                        paraUri = getRouter.split('@')
-                    else:
-                        paraUri = []
-                    if len(paraUri) > 0:
-                        if ':' not in paraUri[1]:
-                            getMapPara = []
-                        else:
-                            getMapPara = paraUri[1].split(':')
-
-                        if self.controllers in routes:
-
-                            if len(getMapPara[1:]) > 0:
-
-                                new_para = path_parts[1:]
-
-                                if len(new_para) > 0:
-                                    param_m = []
-
-                                    for i, para in enumerate(getMapPara[1:]):
-
-                                        param_n = para
-
-                                        if (len(new_para) - i) > 0:
-                                            v_para = new_para[i]
-                                        else:
-                                            v_para = ""
-
-                                        list_params.append(param_n)
-                                        list_params.append(v_para)
-
-                                self.parameter = Helpers.covert_list_dict(list_params)
-
-
-                else:
-                    for s in path_parts:
-
-                        if s is not self.controllers and s is not self.actions and s is not self.languages:
-                            list_params.append(s)
-
-                            path_parts.append(path_parts.pop(-1))
-
-                    self.parameter = Helpers.covert_list_dict(list_params)
-
-            else:
-
-                self.parameter = pathparts_paramarrayOut
-
-                path_parts.append(path_parts.pop(-1))
-
+        self.control = Controllers()
+        self._route = []
+        self._params = {}
+        self._getcontrol = []
+        self._getaction = []
+        self._geturi = []
+        self._redirect = []
+        self._method = []
+        self.route_to = []
+        self._despatch = []
+        self._code = []
         return None
 
-    def getUri(self):
-        return self.uri
+    def get(self, uri, call=""):
+        self._route_(route=uri, call=call, method="GET")
+        return self
 
-    def getControllers(self):
+    def post(self, uri, call=""):
+        self._route_(route=uri, call=call, method="POST")
+        return self
 
-        return self.controllers
+    def put(self, uri, call=""):
+        self._route_(route=uri, call=call, method="POST")
+        return self
 
-    def getAction(self):
-        return self.actions
+    def any(self, uri, call=""):
+        self._route_(route=uri, call=call)
+        return self
+
+    def redirect(self, uri, to="", code=302):
+        if to == "/":
+            replace = self.control.default_controllers
+        else:
+            replace = to
+        self._despatch.append(uri), self._redirect.append(replace), self._code.append(code)
+        return self
+
+    def permanentRedirect(self, uri, to="", code=301):
+        if to == "/":
+            replace = self.control.default_controllers
+        else:
+            replace = to
+
+        self._despatch.append(uri), self._redirect.append(replace), self._code.append(code)
+        return self
+
+
+    def where(self, *args):
+
+        if len(params) > 0:
+
+            if isinstance(args[0], dict):
+                if Version.PYVERSION_MA >= 3:
+
+                    params = args[0].items()
+                else:
+                    params = args[0].iteritems()
+
+                for k, v in params:
+                    regex = re.compile(v)
+                    if regex.match(self._params.get(k, "")):
+                        return True
+                    else:
+                        return False
+
+            elif isinstance(args, list):
+
+                regex = re.compile(args[1])
+                if regex.match(self._params.get(args[0], "")):
+                    return True
+                else:
+                    return False
+
+        else:
+            return False
+
+
+    def _route_(self, route="", call="", method=""):
+
+        route = route.split('/')
+        new_para = route
+
+        parameter = {}
+        replace = ""
+        new_uri = []
+        list_params = []
+        params = ""
+
+        new_paraf = []
+        if self.control._getLanguages() in new_para:
+            new_paraf = self.control._getUri()[1:]
+            new_paraf.pop(-1)
+        else:
+            new_paraf = self.control._getUri()[2:]
+
+        if self.control._getControllers() in new_paraf:
+            new_paraf = self.control._getUri()
+            new_paraf.pop(-1)
+
+        if len(call) > 0:
+            replace = call[0]
+            params = call[1]
+
+        if replace in route:
+
+            new_uri = new_paraf
+
+            for i, para in enumerate(params):
+
+                if (len(new_uri) - i) > 0:
+                    v_para = new_uri[i]
+                else:
+                    v_para = ""
+                list_params.append(para)
+                list_params.append(v_para)
+
+            parameter = Helpers.covert_list_dict(list_params)
+            self._params.update(parameter)
+
+        if len(route) == 1:
+            ctl = route[0] if route[0] != "" else self.control.default_controllers
+            self._getcontrol.append(ctl)
+
+            self._getaction.append(self.control.default_actions)
+        elif len(route) > 1:
+            self._getcontrol.append(route[0] if route[0] != "" else self.control.default_controllers)
+            self._getaction.append(route[1] if route[1] != "" else self.control.default_actions)
+
+        self._route.append(replace)
+        self._method.append(method)
 
     def getParams(self):
+        return self._params
 
-        return self.parameter
+    def getController(self):
+        return self._getcontrol
 
-    def getRoutes(self):
+    def getAction(self):
+        return self._getaction
 
-        return self.routes
+    def getRouter(self):
+        return self._route
 
-    def getMethodPrefix(self):
-        return self.methodprefix
+    def getMethod(self):
+        return self._method
 
-    def getLanguages(self):
-        return self.languages
+    def getRediret(self):
+        return self._redirect
+
+    def getDespatch(self):
+        return self._despatch
+
+    def getCode(self):
+        return self._code
