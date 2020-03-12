@@ -46,7 +46,11 @@ class Router(env):
         self._route_(route=route, call=call, method = "POST")
         return self
 
-    def _route_(self,route="", call="", method = "GET"):
+    def any(self, route, call=""):
+        self._route_(route=route, call=call)
+        return self
+
+    def _route_(self,route="", call="", method = ""):
 
         route = route.split('/')
         new_para = route
@@ -91,8 +95,8 @@ class Router(env):
         if len(route) == 1:
             ctl = route[0] if route[0] != "" else self.control.default_controllers
             self._getcontrol.append(ctl)
-            print(self.control.default_actions)
-            self._getaction.append()
+
+            self._getaction.append(self.control.default_actions)
         elif len(route) > 1:
             self._getcontrol.append(route[0] if route[0] != "" else self.control.default_controllers)
             self._getaction.append(route[1] if route[1] != "" else self.control.default_actions)
@@ -115,4 +119,6 @@ class Router(env):
 
     def getMethod(self):
         return self._method
+
+
 

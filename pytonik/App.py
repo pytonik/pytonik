@@ -124,20 +124,25 @@ class App(env, Config, Variable):
                     if self.controller == route_c:
 
                         if len(route.route.getController()) > 0:
+
                             self.controller = route.route.getController()[i]
 
                         if len(route.route.getAction()) > 0:
+
                             self.actions = route.route.getAction()[i]
 
                         if len(route.route.getRouter()) > 0:
+
                             self.routers = route.route.getRouter()[i]
                         if len(route.route.getMethod()) > 0:
                             self.method = route.route.getMethod()[i]
-                            if self.method != self.out("REQUEST_METHOD", ""):
 
-                                Log().error(str(str(self.controller).capitalize()) + "Controller/" + str(self.actions) + " Requires " + self.method)
+                            if self.method !="":
+                                if self.method != self.out("REQUEST_METHOD", ""):
 
-                                return self.errorP('400')
+                                    Log().error(str(str(self.controller).capitalize()) + "Controller/" + str(self.actions) + " Requires " + self.method)
+
+                                    return self.errorP('400')
 
         if len(controlUri) != 0:
 
