@@ -119,6 +119,15 @@ class App(env, Config, Variable):
 
             if len(route.route.getRouter()) > 0:
 
+                for i, redirect in enumerate(route.route.getCode()):
+                    if len(route.route.getRediret()) > 0:
+                        toroute = route.route.getRediret()[i]
+                    if len(route.route.getDespatch()) > 0:
+                        fromroute = route.route.getDespatch()[i]
+                    if fromroute == self.controller:
+                        self.redirect(location=toroute, link=True, code=redirect)
+
+
                 for i, route_c in enumerate(route.route.getRouter()):
 
                     if self.controller == route_c:

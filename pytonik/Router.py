@@ -8,7 +8,7 @@
 
 
 
-import sys, os
+import sys, os, re
 from pytonik import Version, Log
 from pytonik.Config import Config
 from pytonik.Core.env import env
@@ -34,23 +34,78 @@ class Router(env):
         self._getcontrol = []
         self._getaction = []
         self._geturi = []
+        self._redirect = []
         self._method = []
         self.route_to = []
+        self._despatch = []
+        self._code = []
         return None
 
-    def get(self, route, call=""):
-        self._route_(route=route, call=call, method="GET")
+    def get(self, uri, call=""):
+        self._route_(route=uri, call=call, method="GET")
         return self
 
-    def post(self, route, call=""):
-        self._route_(route=route, call=call, method = "POST")
+    def post(self, uri, call=""):
+        self._route_(route=uri, call=call, method="POST")
         return self
 
-    def any(self, route, call=""):
-        self._route_(route=route, call=call)
+    def put(self, uri, call=""):
+        self._route_(route=uri, call=call, method="POST")
         return self
 
-    def _route_(self,route="", call="", method = ""):
+    def any(self, uri, call=""):
+        self._route_(route=uri, call=call)
+        return self
+
+    def redirect(self, uri, to="", code=302):
+        if to == "/":
+            replace = self.control.default_controllers
+        else:
+            replace = to
+        self._despatch.append(uri), self._redirect.append(replace), self._code.append(code)
+        return self
+
+    def permanentRedirect(self, uri, to="", code=301):
+        if to == "/":
+            replace = self.control.default_controllers
+        else:
+            replace = to
+
+        self._despatch.append(uri), self._redirect.append(replace), self._code.append(code)
+        return self
+
+
+    def where(self, *args):
+
+        if len(params) > 0:
+
+            if isinstance(args[0], dict):
+                if Version.PYVERSION_MA >= 3:
+
+                    params = args[0].items()
+                else:
+                    params = args[0].iteritems()
+
+                for k, v in params:
+                    regex = re.compile(v)
+                    if regex.match(self._params.get(k, "")):
+                        return True
+                    else:
+                        return False
+
+            elif isinstance(args, list):
+
+                regex = re.compile(args[1])
+                if regex.match(self._params.get(args[0], "")):
+                    return True
+                else:
+                    return False
+
+        else:
+            return False
+
+
+    def _route_(self, route="", call="", method=""):
 
         route = route.split('/')
         new_para = route
@@ -104,7 +159,6 @@ class Router(env):
         self._route.append(replace)
         self._method.append(method)
 
-
     def getParams(self):
         return self._params
 
@@ -120,5 +174,11 @@ class Router(env):
     def getMethod(self):
         return self._method
 
+    def getRediret(self):
+        return self._redirect
 
+    def getDespatch(self):
+        return self._despatch
 
+    def getCode(self):
+        return self._code
