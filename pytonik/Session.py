@@ -38,16 +38,25 @@ class Session(Variable):
         
     def has(self, key=""):
 
-        session_dict = self.x_get()
-        if len(session_dict) > 0:
-            if session_dict.get(key, "") != "":
-                return True
-            elif session_dict.get(' {key}'.format(key=key), "") != "":
-                return True
+        if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
+            session_dict = self.x_get()
+            if len(session_dict) > 0:
+                if session_dict.get(key, "") != "":
+                    return True
+                elif session_dict.get(' {key}'.format(key=key), "") != "":
+                    return True
+                else:
+                    return False
             else:
                 return False
         else:
-            return False
+
+            if self.get(key) != "" and self.get(key) != None:
+
+                return True
+            else:
+                return False
+
 
     def set(self, key="", value="", duration=3600, url="", path="/"):
         url_v = self.out("HTTP_HOST")+str(":")+str(self.out("SERVER_PORT", '')) if self.out("HTTP_HOST") == "localhost" or self.out("HTTP_HOST") == "127.0.0.1" else self.out("HTTP_HOST")
@@ -96,7 +105,9 @@ class Session(Variable):
             if OsEnviron != None:
                 cooKeys.load(OsEnviron)
                 if key in cooKeys:
-                    if cooKeys[key].value != None:
+
+                    if cooKeys[key].value != None or cooKeys[key].value != "":
+
                         try:
                             return ast.literal_eval(cooKeys[key].value)
                         except Exception as err:
@@ -110,6 +121,7 @@ class Session(Variable):
                 return ""
 
     def destroy(self, *args):
+
 
         if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
 
@@ -129,10 +141,11 @@ class Session(Variable):
 
             OsEnviron = self.out(self.s_string)
 
-            if self.s_string in self.see():
+            if self.s_string in os.environ:
                 if args:
 
                     for key in args:
+
                         if self.get(key) != "":
                             return self.set(key, "", 60)
                 else:
@@ -184,6 +197,8 @@ class Session(Variable):
             return initial_session    
         
     def _delete(self, session_key=tuple()):
+
+
         get_session = self.x_get()
         response = None
         if len(get_session) > 0: 
