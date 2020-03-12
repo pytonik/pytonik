@@ -23,7 +23,7 @@ Pytonik is a python framework built to enhance web development fast and easy, al
 
 ## How to setup
 
-if you are running a local machine you will need to install either, wamp, xampp, lamp or mamp. Enable CGI at httpd.conf file:
+if you are running a local machine you will need to install either, wamp, xampp, lamp or mamp. Enable python at httpd.conf file. Deploy and start building application with pytonik using the command below:
 
 
 ## How to install
@@ -31,12 +31,9 @@ if you are running a local machine you will need to install either, wamp, xampp,
 We recommend you to install this MVC package using Terminal or Command Line
 
 ```
-$ pip install pytonik==1.9.8rc1
+$ pip install pytonik==1.9.8rc2
 ```
 
-
-Pytonik provides **lite-server**, that helps in deploying pytonik application faster with the use of, ``pytonik-start`` and ``pytonik-server`` command, this features was added to **version 1.9.7**, and will be improved in newer versions. You might intend using other technology such as ``WSGI`` ``WAMP``, ``XAMPP``etc.
-Terminal tool to start project folder structure
 
 To Create Pytonik Project Folder 
 
@@ -68,21 +65,10 @@ $ pytonik-docs
 For guidance on setting up a development environment and how to make a contribution to Pytonik, see the [contributing guidelines.](https://github.com/pytonik/pytonik/blob/master/CONTRIBUTING.md)
 
 
-## Table of Content
+## Documentation on how to?
 
-* [Getting Started](https://pytonik.readthedocs.io/en/latest/getting-started.html)
-* [Configuration](hhttps://pytonik.readthedocs.io/en/latest/configuration.html)
-* [Dependency](https://pytonik.readthedocs.io/en/latest/dependency.html)
-* [File Structure](https://pytonik.readthedocs.io/en/latest/filestructure.html)
-* [Environment File](https://pytonik.readthedocs.io/en/latest/env.html)
-* [Template Engine](https://pytonik.readthedocs.io/en/latest/temp.html)
-* [SMTP](https://pytonik.readthedocs.io/en/latest/smtp.html)
-* [Request](https://pytonik.readthedocs.io/en/latest/request.html)
-* [Session](https://pytonik.readthedocs.io/en/latest/session.html)
-* [File](https://pytonik.readthedocs.io/en/latest/file.html)
-* [Functions](https://pytonik.readthedocs.io/en/latest/func.html)
-* [Schema](https://pytonik.readthedocs.io/en/latest/schema.html)
-* [Advance](https://pytonik.readthedocs.io/en/latest/advance.html)
+* [Getting Started](https://pytonik.readthedocs.io/en/1.9.8)
+
 
 ## Testing
 Run `nosetests test` in the root directory.			 
