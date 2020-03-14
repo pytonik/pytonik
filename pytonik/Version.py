@@ -9,12 +9,12 @@
 
 import sys
 
-VERSION = (1, 9, 8, 'rc', 1)
+VERSION = (1, 9, 8, '+1', 0)
 
 if VERSION[3] and VERSION[4]:
-    VERSION_TEXT = '{0}.{1}.{2}{3}{4}'.format(*VERSION)
+    VERSION_TEXT = '{0}.{1}.{2}.{3}{4}'.format(*VERSION)
 else:
-    VERSION_TEXT = '{0}.{1}.{2}'.format(*VERSION[0:3])
+    VERSION_TEXT = '{0}.{1}.{2}{3}'.format(*VERSION[0:4])
 
 VERSION_EXTRA = ''
 LICENSE = 'GPL3'

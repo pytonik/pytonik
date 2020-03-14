@@ -5,9 +5,11 @@
 # Maintainer Email: emmamartinscm@gmail.com
 # Created by Betacodings on 2019.
 ###
+
 import os
 from pytonik import Log
 from pytonik import Version
+from pytonik.Controllers import Controllers
 from pytonik import Router
 import ast
 
@@ -29,8 +31,8 @@ class Lang:
             host = os.path.dirname(os.getcwd())
 
         DS = str("/")
-        ront = Router.Router()
-        getl = ront.alllanguages
+        ront = Controllers()
+        getl = ront.all_languages
 
         langpath = host + DS + 'lang'+DS+getl.get(self.lg.lower(), self.lg.lower()) +".py"
 
@@ -52,4 +54,5 @@ class Lang:
         data = ast.literal_eval(self.data)
 
         return data.get(key.lower(), defindValue)
+
 

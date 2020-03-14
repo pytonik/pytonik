@@ -17,7 +17,7 @@ class url(Variable):
         return None
 
     def __init__(self, *args, **kwargs):
-        self.Router = Router()
+
         if len(args) > 0 or len(kwargs) > 0:
 
             if all(args) is not False:
@@ -25,9 +25,7 @@ class url(Variable):
             else:
                 self.ul = self.url(**kwargs)
         else:
-
-
-            self.ul = self.url(path='')
+            self.ul = self.url(*args)
         return None
 
     def __str__(self):
@@ -37,6 +35,7 @@ class url(Variable):
     def url(self, path="", lang=False):
 
         DS, p = "", ""
+        self.Router = Router()
         seturl = self.out("HTTP_HOST")+str(":")+str(self.out("SERVER_PORT", '')) if self.out("HTTP_HOST") == "localhost" or self.out("HTTP_HOST") == "127.0.0.1" else self.out("HTTP_HOST")
 
         if self.out("HTTPS", "") == 'on':

@@ -38,7 +38,8 @@ class Variable:
         
         
         status = str(status) if status != "" else os.environ.get("REDIRECT_STATUS", "")
-        
+        status = str(status) if status != "" else os.environ.get("REDIRECT_REDIRECT_STATUS", "")
+
         http_status = str(status) if status != "" else os.environ.get("HTTP_STATUS", "")
         
         remoter_addr = str(remoter_addr) if remoter_addr != "" else os.environ.get("REMOTE_ADDR", "")
@@ -91,6 +92,7 @@ class Variable:
             "HTTPS": ssl_v,
             "SERVER_PORT": port,
             "REDIRECT_STATUS": status,
+            "REDIRECT_REDIRECT_STATUS": status,
             "REMOTE_ADDR": remoter_addr,
             "REMOTE_PORT": remoter_port,
             "SCRIPT_FILENAME": script_file,
@@ -127,7 +129,7 @@ class Variable:
             if k not in os.environ:
                 self.default(str(k), str(v).encode())
             else:
-                upd = {k:v}
+                upd = {str(k): str(v)}
                 self.update(dict(upd))
             
 
@@ -139,7 +141,11 @@ class Variable:
     
         
     def default(self, key, value):
-        return os.environ.setdefault(key, value)
+        if key in os.environ:
+            upd = {str(key) : str(value)}
+            return self.update(dict(upd))
+        else:
+            return os.environ.setdefault(str(key), str(value))
     
               
     def update(self, value=dict):
