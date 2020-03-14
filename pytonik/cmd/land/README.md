@@ -7,7 +7,7 @@
 
 Build web applications using the pytonik Folder and file structure.
 
-![pytonic folder structure](https://betacodings.com/public/assets/img/folder_structure.png)
+![pytonik folder structure](https://betacodings.com/public/assets/img/folder_structure.png)
 
 This folder structure is commended by **pytonik** and should be used when developing web application.
 
