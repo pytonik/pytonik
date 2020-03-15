@@ -1,4 +1,5 @@
-prune docs
+prune *docs
+prune *test
 include pytonik/cmd *.env *.htaccess *.log *.txt *.py *.html *.css *.js *.png  *.PNG *.gif *.GIF *.JPEG *.jpeg  *.JPG *.jpg *.map *.svg *.SVG *.eot *.ttf *.woff *.woff2
 recursive-include pytonik/cmd *.zip
 recursive-include pytonik/cmd/land *.env *.htaccess *.log *.txt *.py *.html *.css *.js *.png  *.PNG *.gif *.GIF *.JPEG *.jpeg  *.JPG *.jpg *.map *.svg *.SVG *.eot *.ttf *.woff *.woff2
