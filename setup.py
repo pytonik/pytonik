@@ -29,7 +29,6 @@ setup(
     zip_safe=False,
     classifiers=[
         'Environment :: Console',
-        'Framework :: Pytonik ::{}'.format(Version.VERSION_TEXT),
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
