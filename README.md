@@ -73,8 +73,8 @@ For guidance on setting up a development environment and how to make a contribut
 * [Getting Started](https://pytonik.readthedocs.io/en/1.9.8)
 
 
-## Testing
-Run `nosetests test` in the root directory.			 
+## Assistance
+Having issue using or implementing modules and functions, upload your pytonik project on github, open an issues. our contributors and maintainers will look into it.
 
 
 ## Donate
