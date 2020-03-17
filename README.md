@@ -23,20 +23,7 @@ Pytonik is a python framework built to enhance web development fast and easy, al
 
 ## How to setup
 
-if you are running a local machine you will need to install either, wamp, xampp, lamp or mamp. Enable CGI at httpd.conf file:
-
-
-## How to install
-
-We recommend you to install this MVC package using Terminal or Command Line
-
-```
-$ pip install pytonik==1.9.10
-```
-
-
-Pytonik provides **lite-server**, that helps in deploying pytonik application faster with the use of, ``pytonik-start`` and ``pytonik-server`` command, this features was added to **version 1.9.7**, and will be improved in newer versions. You might intend using other technology such as ``WSGI`` ``WAMP``, ``XAMPP``etc.
-Terminal tool to start project folder structure
+pytonik provided inbuilt server for deployment and can as well be run on , wamp, xampp, lamp or mamp, using CGI.
 
 To Create Pytonik Project Folder 
 
