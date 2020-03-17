@@ -47,7 +47,7 @@ class Router(env):
         return None
 
     def get(self, uri, call=""):
-        if call is not "":
+        if call != "":
             if isinstance(call, tuple):
                 self._route_(route=uri, call=call, method="GET")
             else:
@@ -80,7 +80,7 @@ class Router(env):
         return self
 
     def post(self, uri, call=""):
-        if call is not "":
+        if call != "":
             if isinstance(call, tuple):
                 self._route_(route=uri, call=call, method="POST")
             else:
@@ -110,7 +110,7 @@ class Router(env):
         return self
 
     def put(self, uri, call=""):
-        if call is not "":
+        if call != "":
             if isinstance(call, tuple):
                 self._route_(route=uri, call=call, method="POST")
             else:
