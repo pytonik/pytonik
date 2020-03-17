@@ -9,10 +9,10 @@
 
 import sys
 
-VERSION = (1, 9, 10, '', 0)
+VERSION = (1, 9, 8, '+0', 0)
 
 if VERSION[3] and VERSION[4]:
-    VERSION_TEXT = '{0}.{1}.{2}.{3}{4}'.format(*VERSION)
+    VERSION_TEXT = '{0}.{1}.{2}{3}{4}'.format(*VERSION)
 else:
     VERSION_TEXT = '{0}.{1}.{2}'.format(*VERSION[0:3])
 
@@ -200,10 +200,10 @@ MIME_TYPES = [
     {'ext': '.zip', 'type': 'application/zip', 'mode': 'rb'},
     {'ext': '.jpg', 'type': 'image/jpg', 'mode': 'rb'},
     {'ext': '.mp4', 'type': 'audio/mp4', 'mode': 'rb'},
-    {'ext': '.js', 'type': " 'application/javascript", 'mode': 'r'},
+    {'ext': '.js', 'type': 'application/javascript', 'mode': 'r'},
     {'ext': '.ttf', 'type': 'application/x-font-ttf', 'mode': 'rb'},
     {'ext': '.woff2', 'type': 'application/x-font-woff2', 'mode': 'rb'},
-    {'ext': '.woff', 'type': 'application/x-font-woff', 'mode': 'rb'},
+    {'ext': '.woff', 'type': 'application/x-font-woff', 'mode': 'r'},
     {'ext': '.wav', 'type': 'audio/wav', 'mode': 'rb'},
     {'ext': '.mpe', 'type': 'audio/mpeg', 'mode': 'rb'},
     {'ext': '.mpeg', 'type': 'audio/mpeg', 'mode': 'rb'},

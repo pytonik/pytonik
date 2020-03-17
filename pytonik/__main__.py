@@ -9,7 +9,6 @@ import sys
 
 from pytonik.cmd import start
 from pytonik.cmd import server
-from pytonik.cmd import install
 from pytonik.cmd import doc
 
 if __name__ == '__main__':
@@ -17,10 +16,6 @@ if __name__ == '__main__':
 
 if __name__ == '__main__':
     sys.exit(server.main(sys.argv[1:]))
-
-if __name__ == '__main__':
-    sys.exit(doc.main(sys.argv[1:]))
-
 
 if __name__ == '__main__':
     sys.exit(doc.main(sys.argv[1:]))

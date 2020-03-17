@@ -119,7 +119,7 @@ class App(env, Config, Variable):
 
             if self.controller == k:
                 controlUri = getRouter.split('@')
-
+        
         self.routerend()
 
         if len(controlUri) != 0:
@@ -544,8 +544,12 @@ class App(env, Config, Variable):
                                       link=True, code=redirect)
 
                 for i, route_c in enumerate(route.route.getRouter()):
-
-                    if self.controller == route_c:
+                    uri = self.uri
+                    while("" in uri):
+                        uri.remove("")
+                    
+                    luri = "/".join(uri) if len(uri) < 3 else "/".join(uri[:-2])
+                    if luri == route_c:
 
                         if len(route.route.getController()) > 0:
                             self.controller = route.route.getController()[i]

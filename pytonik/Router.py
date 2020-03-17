@@ -7,8 +7,9 @@
 ###
 
 
-
-import sys, os, re
+import sys
+import os
+import re
 from pytonik import Version, Log
 from pytonik.Config import Config
 from pytonik.Core.env import env
@@ -37,6 +38,7 @@ class Router(env):
         self._redirect = []
         self._method = []
         self.route_to = []
+        self._getmethod = []
         self._despatch = []
         self._code = []
         self._error = []
@@ -45,15 +47,98 @@ class Router(env):
         return None
 
     def get(self, uri, call=""):
-        self._route_(route=uri, call=call, method="GET")
+        if call is not "":
+            if isinstance(call, tuple):
+                self._route_(route=uri, call=call, method="GET")
+            else:
+                lcall = []
+                method_v, control_v = "", ""
+                if len(call.split('@')) > 0:
+                    control = call.split('@')
+                    if len(control) == 2:
+                        control_v = str(control[0]).lower().replace(
+                            'Controller', '').replace('controller', '')
+                        if len(str(control[1]).split(":")) > 0:
+                            method_v = control[1].split(":")[0]
+                            param = control[1].split(":")[1:]
+                            lcall.append(uri)
+                            lcall.append(param)
+                        else:
+                            method_v = control[1]
+                    else:
+                        if control[0] == "/":
+                            control_v = self.control.default_controllers
+                        else:
+                            control_v = str(control[0]).lower().replace(
+                                'Controller', '').replace('controller', '')
+
+                        method_v = self.control.default_actions
+                    lroute = str(control_v)+"/"+str(method_v)
+
+                    self._route_(route=lroute, call=lcall, method="GET")
+
         return self
 
     def post(self, uri, call=""):
-        self._route_(route=uri, call=call, method="POST")
+        if call is not "":
+            if isinstance(call, tuple):
+                self._route_(route=uri, call=call, method="POST")
+            else:
+                lcall = []
+                method_v, control_v = "", ""
+                if len(call.split('@')) > 0:
+                    control = call.split('@')
+                    if len(control) == 2:
+                        control_v = str(control[0]).lower().replace('Controller', '').replace('controller', '')
+                        if len(str(control[1]).split(":")) > 0:
+                            method_v = control[1].split(":")[0]
+                            param = control[1].split(":")[1:]
+                            lcall.append(uri)
+                            lcall.append(param)
+                        else:
+                            method_v = control[1]
+                    else:
+                        if control[0] == "/":
+                            control_v = self.control.default_controllers
+                        else:
+                            control_v = str(control[0]).lower().replace('Controller', '').replace('controller', '')
+
+                        method_v = self.control.default_actions
+                    lroute = str(control_v)+"/"+str(method_v)
+                    
+                    self._route_(route=lroute, call=lcall, method="POST")
         return self
 
     def put(self, uri, call=""):
-        self._route_(route=uri, call=call, method="POST")
+        if call is not "":
+            if isinstance(call, tuple):
+                self._route_(route=uri, call=call, method="POST")
+            else:
+                lcall = []
+                method_v, control_v = "", ""
+                if len(call.split('@')) > 0:
+                    control = call.split('@')
+                    if len(control) == 2:
+                        control_v = str(control[0]).lower().replace(
+                            'Controller', '').replace('controller', '')
+                        if len(str(control[1]).split(":")) > 0:
+                            method_v = control[1].split(":")[0]
+                            param = control[1].split(":")[1:]
+                            lcall.append(uri)
+                            lcall.append(param)
+                        else:
+                            method_v = control[1]
+                    else:
+                        if control[0] == "/":
+                            control_v = self.control.default_controllers
+                        else:
+                            control_v = str(control[0]).lower().replace(
+                                'Controller', '').replace('controller', '')
+
+                        method_v = self.control.default_actions
+                    lroute = str(control_v)+"/"+str(method_v)
+
+                    self._route_(route=lroute, call=lcall, method="POST")
         return self
 
     def any(self, uri, call=""):
@@ -71,7 +156,7 @@ class Router(env):
             if call[0] == "/":
                 replace = self.control.default_controllers
             else:
-                replace = to
+                replace = call
             code = int(code)
 
         self._geterrocontrol.append(uri)
@@ -90,10 +175,10 @@ class Router(env):
                 replace = call[0]
             code = code if int(call[3]) == int(200) else call[3]
         else:
-            if call[0] == "/":
+            if call == "/":
                 replace = self.control.default_controllers
             else:
-                replace = to
+                replace = call
             code = int(code)
 
         self._despatch.append(uri)
@@ -110,17 +195,16 @@ class Router(env):
                 replace = call[0]
             code = code if int(call[3]) == int(200) else call[3]
         else:
-            if call[0] == "/":
+            if call == "/":
                 replace = self.control.default_controllers
             else:
-                replace = to
+                replace = call
             code = int(code)
 
         self._despatch.append(uri)
         self._redirect.append(replace)
         self._code.append(code)
         return self
-
 
     def where(self, *args):
 
@@ -151,7 +235,6 @@ class Router(env):
         else:
             return False
 
-
     def _route_(self, route="", call="", method=""):
 
         route = route.split('/')
@@ -178,18 +261,16 @@ class Router(env):
             replace = call[0]
             params = call[1]
 
-        if replace in route:
+        new_uri = new_paraf
 
-            new_uri = new_paraf
+        for i, para in enumerate(params):
 
-            for i, para in enumerate(params):
-
-                if (len(new_uri) - i) > 0:
-                    v_para = new_uri[i]
-                else:
-                    v_para = ""
-                list_params.append(para)
-                list_params.append(v_para)
+            if (len(new_uri) - i) > 0:
+                v_para = new_uri[i]
+            else:
+                v_para = ""
+            list_params.append(para)
+            list_params.append(v_para)
 
             parameter = Helpers.covert_list_dict(list_params)
             self._params.update(parameter)
@@ -200,8 +281,10 @@ class Router(env):
 
             self._getaction.append(self.control.default_actions)
         elif len(route) > 1:
-            self._getcontrol.append(route[0] if route[0] != "" else self.control.default_controllers)
-            self._getaction.append(route[1] if route[1] != "" else self.control.default_actions)
+            self._getcontrol.append(
+                route[0] if route[0] != "" else self.control.default_controllers)
+            self._getaction.append(
+                route[1] if route[1] != "" else self.control.default_actions)
 
         self._route.append(replace)
         self._method.append(method)

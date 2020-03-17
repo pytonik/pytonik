@@ -45,6 +45,7 @@ except Exception as err:
 varb = Variable()
 vpath = ""
 
+
 def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port="", pr=False):
     server = HTTPServer
 
@@ -83,7 +84,7 @@ def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port=
 
                 elif os.path.isfile(str(path) + spes + "public" + spes + "home.py") == True:
                     vpath = "public" + spes + "home.py"
-                else:
+                elif os.path.isfile(str(path) + spes + "public" + spes + "default.py") == True:
                     vpath = "public" + spes + "default.py"
 
                 App = im.load_source('App.App', path + spes + vpath)
@@ -91,7 +92,8 @@ def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port=
                 App.App.put(method="GET", accept_lang=self.headers["Accept-Language"],
                             http_connect=self.headers["Connection"], http_user_agt=self.headers["User-Agent"],
                             http_encode=self.headers["Accept-Encoding"], path=path, host=host, port=port,
-                            para=self.path, remoter_addr=self.client_address[0], remoter_port=self.client_address[1],
+                            para=self.path, remoter_addr=self.client_address[
+                                0], remoter_port=self.client_address[1],
                             script_file=str(
                                 path) + str(spes) + (vpath), server_proto=server_pro, server_ver=self.server_version,
                             protocol_ver=self.protocol_version)
@@ -125,7 +127,8 @@ def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port=
                         elif os.path.isfile(str(path) + spes + "public" + spes + "home.py") == True:
                             vpath = "public" + spes + "home.py"
 
-                        else:
+                        elif os.path.isfile(str(path) + spes + "public" + spes + "default.py") == True:
+
                             vpath = "public" + spes + "default.py"
 
                         App = im.load_source('App.App', path + spes + vpath)
@@ -136,8 +139,8 @@ def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port=
                                     http_encode=self.headers["Accept-Encoding"], path=path, host=host, port=port,
                                     para=self.path, remoter_addr=self.client_address[0],
                                     remoter_port=self.client_address[1], script_file=str(
-                                path) + str(spes) + (vpath), server_proto=server_pro, server_ver=self.server_version,
-                                    protocol_ver=self.protocol_version)
+                            path) + str(spes) + (vpath), server_proto=server_pro, server_ver=self.server_version,
+                            protocol_ver=self.protocol_version)
 
                         runs_response = App.App.runs(formData=form)
                         if isinstance(runs_response, tuple) == True:
@@ -167,6 +170,12 @@ def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port=
                     if self.path.endswith(mime['ext']):
                         self.rendering(
                             path=path, mimetype=mime['type'], mode=mime['mode'], code=200)
+                    else:
+                        split_path = str(self.path).split('?')
+                        if split_path[0].endswith(mime['ext']):
+                            self.rendering(
+                            path=path, mimetype=mime['type'], mode=mime['mode'], code=200)
+
 
             except Exception as err:
                 if self.path.endswith(self.path):
@@ -176,7 +185,7 @@ def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port=
                     elif os.path.isfile(str(path) + spes + "public" + spes + "home.py") == True:
                         vpath = "public" + spes + "home.py"
 
-                    else:
+                    elif os.path.isfile(str(path) + spes + "public" + spes + "default.py") == True:
                         vpath = "public" + spes + "default.py"
 
                     App = im.load_source('App.App', path + spes + vpath)
@@ -218,8 +227,8 @@ def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port=
                         http_connect=self.headers["Connection"], http_user_agt=self.headers["User-Agent"],
                         http_encode=self.headers["Accept-Encoding"], path=path, host=host, port=port, para=self.path,
                         remoter_addr=self.client_address[0], remoter_port=self.client_address[1], script_file=str(
-                    path) + str(spes) + (vpath), server_proto=server_pro, server_ver=self.server_version,
-                        protocol_ver=self.protocol_version)
+                path) + str(spes) + (vpath), server_proto=server_pro, server_ver=self.server_version,
+                protocol_ver=self.protocol_version)
 
             self.rendering(mimetype=mimetype, code=200,
                            content=App.App.runs(formData=form))
@@ -276,11 +285,11 @@ def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port=
 
         with socket.create_connection((hostname, port)) as sock:
             with context.wrap_socket(sock, server_hostname=hostname) as ssock:
-                #print(ssock.version())
+                # print(ssock.version())
                 data = json.dumps(ssock.getpeercert())
         varb.put("HTTPS", "on")
         vars_http = "https://"
-                # print(ssock.getpeercert())
+        # print(ssock.getpeercert())
     except Exception as err:
         try:
             cert = ssl.get_server_certificate((hostname, int(portnumber)))
@@ -291,11 +300,12 @@ def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port=
             vars_http = "http://"
 
     try:
-        l = host if port == "8080" or port == "80" else "{}:{}".format(
+        l = host if str(port) == "8080" or str(port) == "80" else "{}:{}".format(
             host, port)
         if pr == True:
 
-            print(bold(green("Pytonik development server running on " + str(vars_http) + str(l))))
+            print(
+                bold(green("Pytonik development server running on " + str(vars_http) + str(l))))
         else:
             print(bold(green("Pytonik server running on " + str(vars_http) + str(l))))
 
@@ -304,5 +314,3 @@ def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port=
         server.server_close()
     except Exception as err:
         print(bold(red("Something went wrong: Default port already in use")))
-
-
