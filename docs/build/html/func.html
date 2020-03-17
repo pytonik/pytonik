@@ -23,10 +23,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -113,7 +113,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="schema.html">Schema</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advance.html">Advance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution.html">Contribution</a></li>
 </ul>
 
             
@@ -394,7 +394,7 @@ We recommend installation of <code class="docutils literal notranslate"><span cl
 </pre></div>
 </div>
 <p><strong>Template Engine</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="o">%</span> <span class="n">call</span> <span class="n">readmore</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;&#39;</span> <span class="n">trim</span><span class="o">=</span><span class="bp">True</span> <span class="n">lenght</span><span class="o">=</span><span class="mi">180</span> <span class="n">link</span><span class="o">=</span><span class="s2">&quot;url/read/&quot;</span>  <span class="o">%</span><span class="p">}</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="o">%</span> <span class="n">call</span> <span class="n">readmore</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;&#39;</span> <span class="n">trim</span><span class="o">=</span><span class="kc">True</span> <span class="n">lenght</span><span class="o">=</span><span class="mi">180</span> <span class="n">link</span><span class="o">=</span><span class="s2">&quot;url/read/&quot;</span>  <span class="o">%</span><span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -503,9 +503,9 @@ Get excepted information from <code class="docutils literal notranslate"><span c
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://example.com&quot;</span>
 <span class="n">cl</span> <span class="o">=</span> <span class="n">curl</span><span class="p">()</span>
 <span class="n">cl</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">cl</span><span class="o">.</span><span class="n">URL</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
-<span class="n">cl</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">cl</span><span class="o">.</span><span class="n">GET</span><span class="p">,</span> <span class="s1">&#39;/users/{username}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;testme&#39;</span><span class="p">))</span>
+<span class="n">cl</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">cl</span><span class="o">.</span><span class="n">GET</span><span class="p">,</span> <span class="s1">&#39;/users/</span><span class="si">{username}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="s1">&#39;testme&#39;</span><span class="p">))</span>
 <span class="n">cl</span><span class="o">.</span><span class="n">finish</span><span class="p">()</span>
-<span class="k">print</span><span class="p">(</span><span class="n">cl</span><span class="o">.</span><span class="n">status</span><span class="p">,</span> <span class="n">cl</span><span class="o">.</span><span class="n">reason</span><span class="p">,</span> <span class="n">cl</span><span class="o">.</span><span class="n">result</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cl</span><span class="o">.</span><span class="n">status</span><span class="p">,</span> <span class="n">cl</span><span class="o">.</span><span class="n">reason</span><span class="p">,</span> <span class="n">cl</span><span class="o">.</span><span class="n">result</span><span class="p">())</span>
 </pre></div>
 </div>
 <p><strong>HEAD</strong> check api’s and returns response  <code class="docutils literal notranslate"><span class="pre">status</span></code> and <code class="docutils literal notranslate"><span class="pre">reason</span></code></p>
@@ -514,7 +514,7 @@ Get excepted information from <code class="docutils literal notranslate"><span c
 <span class="n">cl</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">cl</span><span class="o">.</span><span class="n">URL</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
 <span class="n">cl</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">cl</span><span class="o">.</span><span class="n">HEAD</span><span class="p">,</span> <span class="s1">&#39;/users&#39;</span><span class="p">)</span>
 <span class="n">cl</span><span class="o">.</span><span class="n">finish</span><span class="p">()</span>
-<span class="k">print</span><span class="p">(</span><span class="n">cl</span><span class="o">.</span><span class="n">status</span><span class="p">,</span> <span class="n">cl</span><span class="o">.</span><span class="n">reason</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cl</span><span class="o">.</span><span class="n">status</span><span class="p">,</span> <span class="n">cl</span><span class="o">.</span><span class="n">reason</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>POST</strong>  sent data/information to api using parameters or arguments
@@ -528,7 +528,7 @@ and returns response <code class="docutils literal notranslate"><span class="pre
 <span class="n">cl</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">cl</span><span class="o">.</span><span class="n">POST</span><span class="p">,</span> <span class="s1">&#39;/add/users&#39;</span><span class="p">)</span>
 <span class="n">cl</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">cl</span><span class="o">.</span><span class="n">POSTFIELDS</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;username&#39;</span><span class="p">:</span><span class="s1">&#39;testme&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">:</span><span class="s1">&#39;test&#39;</span> <span class="p">})</span>
 <span class="n">cl</span><span class="o">.</span><span class="n">finish</span><span class="p">()</span>
-<span class="k">print</span><span class="p">(</span><span class="n">cl</span><span class="o">.</span><span class="n">status</span><span class="p">,</span> <span class="n">cl</span><span class="o">.</span><span class="n">reason</span><span class="p">,</span> <span class="n">cl</span><span class="o">.</span><span class="n">result</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cl</span><span class="o">.</span><span class="n">status</span><span class="p">,</span> <span class="n">cl</span><span class="o">.</span><span class="n">reason</span><span class="p">,</span> <span class="n">cl</span><span class="o">.</span><span class="n">result</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>

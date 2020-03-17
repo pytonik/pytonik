@@ -23,10 +23,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -102,7 +102,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="func.html">Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="schema.html">Schema</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advance.html">Advance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution.html">Contribution</a></li>
 </ul>
 
             
@@ -176,7 +176,7 @@
 </pre></div>
 </div>
 <p><strong>Callable</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">file</span> <span class="o">=</span> <span class="n">File</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">file</span> <span class="o">=</span> <span class="n">File</span><span class="p">()</span>
 </pre></div>
 </div>
 <p><strong>How to :</strong></p>
@@ -189,43 +189,43 @@
 <li><p>upload and resize IMAGE</p></li>
 </ul>
 <p><strong>Get file extension</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ext</span> <span class="o">=</span> <span class="nb">file</span><span class="o">.</span><span class="n">ext</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ext</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">ext</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>Check file extension</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">list_ext</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;png&#39;</span><span class="p">,</span> <span class="s1">&#39;jpg&#39;</span><span class="p">,</span> <span class="s1">&#39;JPG&#39;</span><span class="p">,</span> <span class="s1">&#39;jpeg&#39;</span><span class="p">]</span>
-<span class="n">ext</span> <span class="o">=</span> <span class="nb">file</span><span class="o">.</span><span class="n">ext</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<span class="n">ext</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">ext</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="n">ext</span> <span class="ow">in</span> <span class="n">list_ext</span><span class="p">:</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;This file is valid&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This file is valid&quot;</span><span class="p">)</span>
 <span class="k">else</span><span class="p">:</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;This file is not valid&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This file is not valid&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>Upload file</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">file</span><span class="o">.</span><span class="n">upload</span><span class="p">(</span><span class="n">thefile</span><span class="p">,</span> <span class="n">directory</span><span class="p">,</span> <span class="n">rename</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">file</span><span class="o">.</span><span class="n">upload</span><span class="p">(</span><span class="n">thefile</span><span class="p">,</span> <span class="n">directory</span><span class="p">,</span> <span class="n">rename</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="section" id="image">
 <h2>IMAGE<a class="headerlink" href="#image" title="Permalink to this headline">¶</a></h2>
 <p><strong>get file size</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">size</span> <span class="o">=</span> <span class="nb">file</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">thefile</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">size</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">thefile</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
 </pre></div>
 </div>
 <p><strong>Check file size</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">custom_size</span> <span class="o">=</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">2</span>  <span class="o">*</span> <span class="mi">2</span><span class="n">MB</span> <span class="n">File</span> <span class="n">Size</span>
 
 
-<span class="n">size</span> <span class="o">=</span> <span class="nb">file</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">thefile</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+<span class="n">size</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">thefile</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
 
 <span class="k">if</span> <span class="n">custom_size</span> <span class="o">&gt;=</span> <span class="n">size</span><span class="p">:</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Pass File size test&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pass File size test&quot;</span><span class="p">)</span>
 <span class="k">else</span><span class="p">:</span>
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;File Size is greater than its custom size&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;File Size is greater than its custom size&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>Upload and resize</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="nb">file</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">thefile</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">thefile</span><span class="p">)</span>
 
 <span class="n">dimension</span> <span class="o">=</span> <span class="p">{</span><span class="mi">64</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">:</span> <span class="mi">128</span><span class="p">}</span>
 
@@ -234,7 +234,7 @@
 </pre></div>
 </div>
 <p><strong>upload, resize and remain IMAGE - python 2 below</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="nb">file</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">thefile</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">thefile</span><span class="p">)</span>
 
 <span class="n">dimension</span> <span class="o">=</span> <span class="p">{</span><span class="mi">64</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">:</span> <span class="mi">128</span><span class="p">}</span>
 
@@ -245,7 +245,7 @@
 </pre></div>
 </div>
 <p><strong>upload, resize and remain IMAGE - python 3 above</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="nb">file</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">thefile</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">thefile</span><span class="p">)</span>
 
 <span class="n">dimension</span> <span class="o">=</span> <span class="p">{</span><span class="mi">64</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">:</span> <span class="mi">128</span><span class="p">}</span>
 

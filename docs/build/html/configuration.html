@@ -23,10 +23,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -103,7 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="file.html">File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="func.html">Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="schema.html">Schema</a></li>
-<li class="toctree-l1"><a class="reference internal" href="advance.html">Advance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution.html">Contribution</a></li>
 </ul>
 
             
@@ -171,10 +171,10 @@
   <div class="section" id="configuration">
 <h1>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h1>
 <p><code class="docutils literal notranslate"><span class="pre">Pytonik</span></code> supports Common Gateway Interface <strong>(CGI)</strong> and Web Server Gateway Interface <strong>(WSGI)</strong>, it requires configuration to be able to run on Apache or any python
-<strong>CGI</strong> or <strong>WSGI</strong> enable environment.  The Configuration step support both local and cloud server.</p>
+<strong>CGI</strong> or <strong>WSGI</strong> enable environment.  The Configuration step supports both local and cloud servers.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Pytonik provides <strong>lite-server</strong>, that helps in deploying pytonik application faster with the use of, <code class="docutils literal notranslate"><span class="pre">pytonik-start</span></code> and <code class="docutils literal notranslate"><span class="pre">pytonik-server</span></code> command, this features was added to <strong>version 1.9.7</strong>, and will be improved in newer versions. You might intend using other technology such as <code class="docutils literal notranslate"><span class="pre">WSGI</span></code> <code class="docutils literal notranslate"><span class="pre">WAMP</span></code>, <code class="docutils literal notranslate"><span class="pre">XAMPP</span></code> etc.</p>
+<p>Pytonik provides <strong>lite-server</strong>, that helps in deploying pytonik applications faster with the use of, <code class="docutils literal notranslate"><span class="pre">pytonik-start</span></code> and <code class="docutils literal notranslate"><span class="pre">pytonik-server</span></code> command, this feature was added to <strong>version 1.9.7</strong>, and will be improved in newer versions. You may use other technology such as <code class="docutils literal notranslate"><span class="pre">WSGI</span></code> <code class="docutils literal notranslate"><span class="pre">WAMP</span></code>, <code class="docutils literal notranslate"><span class="pre">XAMPP</span></code> etc.</p>
 </div>
 <div class="section" id="local-server">
 <h2>Local Server<a class="headerlink" href="#local-server" title="Permalink to this headline">¶</a></h2>
@@ -183,10 +183,11 @@ if you are not using any of the listed local servers don’t worry, this process
 both older and newer version, Although you might notice little difference between versions.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If you keep encountering problems during setup or local machine is unable to run Common Gateway Interface <strong>CGI</strong> We reference <strong>pytonik</strong> video tutorials.</p>
+<p>If you keep encountering problems during setup or local machine is unable to run Common Gateway Interface <strong>CGI</strong>. We will add <strong>pytonik</strong> video tutorials soon for referencing purposes.</p>
 </div>
 <p><strong>Apache</strong></p>
-<p>Locate <strong>httpd.conf</strong> in your local server open it with a text or code editor.</p>
+<p>Locate <strong>httpd.conf</strong> in your local server open it with a text or code editor.
+On Ubuntu, httpd.conf is located in the directory /etc/apache2. apache2.conf is also located in /etc/apache2.</p>
 <p>Find <code class="docutils literal notranslate"><span class="pre">AddHandler</span> <span class="pre">cgi-script</span> <span class="pre">.cgi</span></code> add .py  <code class="docutils literal notranslate"><span class="pre">AddHandler</span> <span class="pre">cgi-script</span> <span class="pre">.cgi</span> <span class="pre">.py</span></code>.</p>
 <p>Find <code class="docutils literal notranslate"><span class="pre">Options</span> <span class="pre">None</span></code> change to <code class="docutils literal notranslate"><span class="pre">Options</span> <span class="pre">ExecCGI</span></code>
 or find <code class="docutils literal notranslate"><span class="pre">Options</span> <span class="pre">+Indexes</span></code> change to <code class="docutils literal notranslate"><span class="pre">Options</span> <span class="pre">ExecCGI</span></code>

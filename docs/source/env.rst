@@ -20,7 +20,7 @@ route
 -----
 
 route set all default method for reused purposes, either to pass on parameters or revoking controller, below is the illustration.
-We'll be using ``ContactController.py``  and ``BlogController.py`` for demonstrations.
+We'll be using ``ContactController.py``  and ``BlogController.py`` for the demonstrations.
 
 .. code-block:: python
 
@@ -39,7 +39,7 @@ We'll be using ``ContactController.py``  and ``BlogController.py`` for demonstra
 
 Custom ``'edit': 'ContactController@edit'`` edit is function in ``ContactController.py`` Controller.
 
-Check the result out here, now we will be having:-  ``http://example.com/edit`` instead of ``http://example.com/contact/edit``
+Checkout the result here, now we will be having:-  ``http://example.com/edit`` instead of ``http://example.com/contact/edit``
 
 
 Pass parameter  ``'blog': 'blogController@read:id:para'`` Where ``id`` and ``para`` is an argument and ``read`` is a function in `` BlogController.py`` Controller.
@@ -49,8 +49,8 @@ Check the result out here, now we will be having:- ``http://example.com/blogs/1/
 dbConnect
 ---------
 
-dbConnect set all Database connection parameters. configure pytonik to work with MYSQL database, parameters are required
-to enable database to function probably
+dbConnect sets all Database connection parameters. To configure pytonik to work with MYSQL database, parameters are required
+to enable database to function probably.
 
 **MYSQL**
 

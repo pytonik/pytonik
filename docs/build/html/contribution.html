@@ -1,0 +1,426 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Contribution &mdash; pytonik 1.9.7 documentation</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="_static/favico.ico"/>
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Schema" href="schema.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pytonik
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dependency.html">Dependency</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filestructure.html">File Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="env.html">Environment File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="temp.html">Template Engine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="smtp.html">SMTP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="request.html">Request</a></li>
+<li class="toctree-l1"><a class="reference internal" href="session.html">Session</a></li>
+<li class="toctree-l1"><a class="reference internal" href="file.html">File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="func.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="schema.html">Schema</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Contribution</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#support-questions">Support questions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reporting-issues">Reporting issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#submitting-patches">Submitting patches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#first-time-setup">First time setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#new-to-github">New to Github</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#start-coding">Start coding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#running-the-tests">Running the tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#building-the-docs">Building the docs</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pytonik</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Contribution</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/contribution.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="contribution">
+<h1>Contribution<a class="headerlink" href="#contribution" title="Permalink to this headline">¶</a></h1>
+<p>Guidance on how to set up a development environment and how to make a contribution to Pytonik. Pytonik is a free open-source project and it is managed by non-profit organization, all contributors are welcome.</p>
+<p>You do not need to be programmer to contribute to pytonik. You can contribute to test, write codes, learn, resolve issues, Deploy, Create Community, Advocate, correct documentations, Train and Donation.</p>
+<p>Thank you for considering contributing to Pytonik!</p>
+<div class="section" id="support-questions">
+<h2>Support questions<a class="headerlink" href="#support-questions" title="Permalink to this headline">¶</a></h2>
+<p>Please, don’t use the issue tracker for this. Use one of the following
+resources for questions about your own code:</p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">#get-help</span></code> channel on our Discord chat: <a class="reference external" href="https://discordapp.com/invite/36kGE5">https://discordapp.com/invite/36kGE5</a></p></li>
+</ul>
+<p><a href="#id1"><span class="problematic" id="id2">*</span></a>The IRC channel <code class="docutils literal notranslate"><span class="pre">#pytonik</span></code> on FreeNode is linked to Discord, but Discord is preferred.</p>
+<ul class="simple">
+<li><p>Join Community : <a class="reference external" href="https://gitter.im/pytonik-mvc/community">https://gitter.im/pytonik-mvc/community</a></p></li>
+<li><p>The mailing list <a class="reference external" href="mailto:dev&#37;&#52;&#48;pytonik&#46;com">dev<span>&#64;</span>pytonik<span>&#46;</span>com</a> for long term discussion or larger issues.</p></li>
+<li><dl class="simple">
+<dt>Ask on <code class="docutils literal notranslate"><span class="pre">Stack</span> <span class="pre">Overflow</span></code>. Search with Google first using:</dt><dd><p><a href="#id3"><span class="problematic" id="id4">``</span></a>site:stackoverflow.com pytonik {search term, exception message, etc.} ``</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="reporting-issues">
+<h2>Reporting issues<a class="headerlink" href="#reporting-issues" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Describe what you expected to happen.</p></li>
+<li><dl class="simple">
+<dt>If possible, include a <a class="reference external" href="https://stackoverflow.com/help/minimal-reproducible-example">minimal reproducible example</a> to help us</dt><dd><p>identify the issue. This also helps check that the issue is not with
+your own code.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Describe what actually happened. Include the full traceback if there was an</dt><dd><p>exception.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>List your Python, pytonik, and versions. If possible, check if this</dt><dd><p>issue is already fixed in the repository.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="submitting-patches">
+<h2>Submitting patches<a class="headerlink" href="#submitting-patches" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">Black</span></code>  to autoformat your code. This should be done for you as a</p></li>
+</ul>
+<dl class="simple">
+<dt>git <code class="docutils literal notranslate"><span class="pre">pre-commit</span></code> hook, which gets installed when you run <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.[dev]</span></code>.</dt><dd><p>You may also wish to use Black’s <code class="docutils literal notranslate"><span class="pre">Editor</span> <span class="pre">integration</span></code>.</p>
+</dd>
+</dl>
+<ul class="simple">
+<li><p>Include tests if your patch is supposed to solve a bug, and explain clearly under which circumstances the bug happens. Make sure the test fails without your patch.</p></li>
+<li><p>Include a string like “Fixes #123” in your commit message(where 123 is the issue you fixed).</p></li>
+</ul>
+<p>See <cite>Closing issues using keywords &lt;https://help.github.com/articles/creating-a-pull-request/&gt;</cite>.</p>
+</div>
+<div class="section" id="first-time-setup">
+<h2>First time setup<a class="headerlink" href="#first-time-setup" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Download and install the <a href="#id5"><span class="problematic" id="id6">``</span></a>latest version of git`_.</p></li>
+<li><p>Configure git with your <code class="docutils literal notranslate"><span class="pre">username</span></code> and <code class="docutils literal notranslate"><span class="pre">email</span></code></p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">git</span> <span class="pre">config</span> <span class="pre">--global</span> <span class="pre">user.name</span> <span class="pre">'your</span> <span class="pre">name'</span>
+<span class="pre">git</span> <span class="pre">config</span> <span class="pre">--global</span> <span class="pre">user.email</span> <span class="pre">'your</span> <span class="pre">email'</span>
+<span class="pre">`</span></code>
+- Make sure you have a <code class="docutils literal notranslate"><span class="pre">GitHub</span> <span class="pre">account</span></code>.
+- Fork pytonik to your GitHub account by clicking the <a href="#id15"><span class="problematic" id="id16">`Fork`_</span></a> button.</p>
+<p><strong>Clone</strong> your GitHub fork locally</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<p>git clone <a class="reference external" href="https://github.com">https://github.com</a>/{username}/pytonik
+cd pytonik</p>
+<ul class="simple">
+<li><p>Add the main repository as a remote to update later</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<p>git remote add pallets <a class="reference external" href="https://github.com/pytonik/pytonik">https://github.com/pytonik/pytonik</a>
+git fetch pytonik</p>
+<ul class="simple">
+<li><p>Create a virtualenv</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<p>python3 -m venv env
+env/bin/activate</p>
+<p>if using  <strong>Windows</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<p>envScriptsactivate</p>
+<ul class="simple">
+<li><p>Install pytonik in editable mode with development dependencies</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<p>pip install -e “.[dev]”</p>
+<ul class="simple">
+<li><p>Install the <a href="#id7"><span class="problematic" id="id8">``</span></a>pre-commit framework <a href="#id9"><span class="problematic" id="id10">``</span></a>.</p></li>
+<li><p>Install the pre-commit hooks</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<p>pre-commit install –install-hooks</p>
+</div>
+<div class="section" id="new-to-github">
+<h2>New to Github<a class="headerlink" href="#new-to-github" title="Permalink to this headline">¶</a></h2>
+<p><strong>GitHub account:</strong> <a class="reference external" href="https://github.com/join">https://github.com/join</a></p>
+<p><strong>latest version of git:</strong> <a class="reference external" href="https://git-scm.com/downloads">https://git-scm.com/downloads</a></p>
+<p><strong>username:</strong> <a class="reference external" href="https://help.github.com/en/articles/setting-your-username-in-git">https://help.github.com/en/articles/setting-your-username-in-git</a></p>
+<p><strong>email:</strong> <a class="reference external" href="https://help.github.com/en/articles/setting-your-commit-email-address-in-git">https://help.github.com/en/articles/setting-your-commit-email-address-in-git</a></p>
+<p><strong>Fork:</strong> <a class="reference external" href="https://github.com/pallets/pytonik/fork">https://github.com/pallets/pytonik/fork</a></p>
+<p><strong>Clone:</strong> <a class="reference external" href="https://help.github.com/en/articles/fork-a-repo#step-2-create-a-local-clone-of-your-fork">https://help.github.com/en/articles/fork-a-repo#step-2-create-a-local-clone-of-your-fork</a></p>
+<p><strong>pre-commit framework:</strong> <a class="reference external" href="https://pre-commit.com/#install">https://pre-commit.com/#install</a></p>
+</div>
+<div class="section" id="start-coding">
+<h2>Start coding<a class="headerlink" href="#start-coding" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Create a branch to identify the issue you would like to work on. If you’re submitting a bug or documentation fix, branch off of the latest “.x” branch</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<p>git checkout -b your-branch-name origin/1.9.x</p>
+<p>If you’re submitting a feature addition or change, branch off of the
+“master” branch</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<p>git checkout -b your-branch-name origin/master</p>
+<ul class="simple">
+<li><p>Using your favorite editor, make your changes, `` committing as you go <a href="#id11"><span class="problematic" id="id12">``</span></a>.</p></li>
+<li><p>Include tests that cover any code changes you make. Make sure the test fails without your patch. `` Run the tests &lt;contributing-testsuite&gt; <a href="#id13"><span class="problematic" id="id14">``</span></a>.</p></li>
+<li><p>Push your commits to GitHub and <code class="docutils literal notranslate"><span class="pre">create</span> <span class="pre">a</span> <span class="pre">pull</span> <span class="pre">request</span></code> by using</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<p>git push –set-upstream origin your-branch-name</p>
+</div>
+<div class="section" id="running-the-tests">
+<h2>Running the tests<a class="headerlink" href="#running-the-tests" title="Permalink to this headline">¶</a></h2>
+<p>Run the basic test suite with  <code class="docutils literal notranslate"><span class="pre">nosetests</span> <span class="pre">test</span></code></p>
+<p>This only runs the tests for the current environment. Whether this is relevant
+depends on which part of pytonik you’re working on. Travis-CI will run the full
+suite when you submit your pull request.</p>
+<p>The full test suite takes a long time to run because it tests multiple
+combinations of Python and dependencies. You need to have Python 2.7, 3.4,
+3.5, 3.6, 3.7, 3.8 installed to run all of the environments.</p>
+</div>
+<div class="section" id="building-the-docs">
+<h2>Building the docs<a class="headerlink" href="#building-the-docs" title="Permalink to this headline">¶</a></h2>
+<p>Build the docs in the <code class="docutils literal notranslate"><span class="pre">docs</span></code> directory using Sphinx</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<p>cd docs
+pip install -r requirements.txt
+make html</p>
+<p>Open <code class="docutils literal notranslate"><span class="pre">build/html/index.html</span></code> in your browser to view the docs.</p>
+<p>Read more about <code class="docutils literal notranslate"><span class="pre">Sphinx</span> <span class="pre">&lt;https://www.sphinx-doc.org/en/master/&gt;</span></code>.</p>
+<p>Requirement</p>
+<p>It is compulsory to create  <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file in your project root folder will developing a project. This will enable python, integrated development environment <strong>(IDE)</strong> editor to recognize project requirement and have them installed. You won’t have to worry about installing each dependency by yourself.</p>
+<p>Below example shows how to list dependencies into your requirements file:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pytonik</span><span class="o">==</span><span class="mf">1.9</span><span class="o">.</span><span class="mi">8</span>
+<span class="n">pytonik</span><span class="o">-</span><span class="n">agent</span> <span class="o">==</span> <span class="mf">1.0</span><span class="o">.</span><span class="mi">5</span>
+<span class="n">mysql</span><span class="o">-</span><span class="n">connector</span> <span class="o">==</span> <span class="mf">2.2</span><span class="o">.</span><span class="mi">9</span>
+</pre></div>
+</div>
+<p>What it look like:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>|─MyPytonikApp                            (application folder)
+    |─ controller
+        |─ IndexController.py
+    |─ lang
+        |─ en.py
+    |─ model
+        |─ Mymodel.py
+    |─ public
+        |─ Index.py
+        |─ assets
+        |─ uploads
+        |- .htaccess
+    |─ views
+        |─ 404.html
+        |─ homepage.html
+    |- .env
+    |- .htaccess
+    |- requirements.txt
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="schema.html" class="btn btn-neutral float-left" title="Schema" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, pytonik 
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
