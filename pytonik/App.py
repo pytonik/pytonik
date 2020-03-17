@@ -108,6 +108,7 @@ class App(env, Config, Variable):
 
         langs = Lang.Lang(self.languages)
         langs.loadLang()
+        
         controlUri = []
 
         if Version.PYVERSION_MA >= 3:
@@ -119,7 +120,7 @@ class App(env, Config, Variable):
 
             if self.controller == k:
                 controlUri = getRouter.split('@')
-        
+
         self.routerend()
 
         if len(controlUri) != 0:
@@ -547,8 +548,9 @@ class App(env, Config, Variable):
                     uri = self.uri
                     while("" in uri):
                         uri.remove("")
-                    
-                    luri = "/".join(uri) if len(uri) < 3 else "/".join(uri[:-2])
+
+                    luri = "/".join(uri) if len(
+                        uri) < 3 else "/".join(uri[:-2])
                     if luri == route_c:
 
                         if len(route.route.getController()) > 0:

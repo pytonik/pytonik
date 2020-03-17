@@ -5,7 +5,8 @@
 # Created by BetaCodings on 07/11/2019.
 
 from pytonik.Lang import Lang
-from pytonik.Router import Router
+from pytonik.Controllers import Controllers
+
 
 class __():
 
@@ -17,13 +18,15 @@ class __():
         return None
 
     def __init__(self, *args, **kwargs):
-        self.langs = Lang(Router().getLanguages())
+        
+        self.langs = Lang(Controllers()._getControllers())
         self.langs.loadLang()
         if len(args) or len(kwargs):
             if all(args) is not False:
                 self.lg = self.lang(*args, **kwargs)
             else:
                 self.lg = self.lang(**kwargs)
+		
         return None
 
     def __str__(self):

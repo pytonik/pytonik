@@ -6,7 +6,8 @@
 # Created by Betacodings on 2019.
 ###
 
-import sys, os
+import sys
+import os
 from pytonik import Version, Log
 from pytonik.Config import Config
 from pytonik.Core.env import env
@@ -15,11 +16,11 @@ from pytonik.util.Variable import Variable
 from .Core import Helpers
 h = Helpers
 
+
 class Controllers(env, Config):
 
     def __getattr__(self, item):
         return item
-
 
     def __init__(self):
         osv = Variable()
@@ -72,17 +73,15 @@ class Controllers(env, Config):
                     pathparts_paramarray[name] = value
 
                 else:
-                    pathparts_paramarray[name] = [pathparts_paramarray[name], value]
+                    pathparts_paramarray[name] = [
+                        pathparts_paramarray[name], value]
 
                 pathparts_paramarrayOut.setdefault(name, value)
-
 
         else:
             pathparts_paramarrayOut = ""
 
-
         if len(path_parts):
-
 
             if Version.PYVERSION_MA < 3:
                 path_parts = filter(None, path_parts)
@@ -104,7 +103,6 @@ class Controllers(env, Config):
                             self.methodprefix = ""
 
                             # path_parts.append(path_parts.pop(-1))
-
 
             if list(set(path_parts).intersection(self.all_languages.keys())):
 
@@ -139,7 +137,6 @@ class Controllers(env, Config):
                             self.actions = s
                             path_parts.append(path_parts.pop(-1))
                         ++i
-
 
             # Get Path from URI / convert it to parameter
             list_params = []
@@ -183,8 +180,8 @@ class Controllers(env, Config):
                                         list_params.append(param_n)
                                         list_params.append(v_para)
 
-                                self.parameter = Helpers.covert_list_dict(list_params)
-
+                                self.parameter = Helpers.covert_list_dict(
+                                    list_params)
 
                 else:
                     for s in path_parts:
