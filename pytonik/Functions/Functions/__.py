@@ -34,7 +34,6 @@ class __():
 
 
     def lang(self, lang="", defindValue = ''):
-        print(lang)
         if lang is not "":
             return self.langs.get(lang, defindValue)
 
