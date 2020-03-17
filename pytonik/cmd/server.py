@@ -5,15 +5,11 @@
 # Created by BetaCodings on 1/19/20.
 
 
-from random import randint
-from socketserver import ThreadingMixIn
+
 import cgitb
 import base64
 import traceback
-from http.server import BaseHTTPRequestHandler, CGIHTTPRequestHandler, HTTPServer
-from http import HTTPStatus
 import socket
-
 import argparse
 import locale
 import os
@@ -23,8 +19,8 @@ import time
 import warnings
 from pytonik.cmd import lang
 from pytonik import Version
+from pytonik import serv 
 from pytonik.Functions.url import url
-from pytonik.App import App as Pytonik
 from typing import Any, Callable, Dict, List, Pattern, Union
 from pytonik.cmd.console import (  # type: ignore
     colorize, bold, red, green, turquoise, nocolor, color_terminal
@@ -180,7 +176,7 @@ def ask(d: Dict) -> None:
         __('Do you want to run this project using default port (y/n)'), 'n', boolean)
 
     if d.get('run', '') is True:
-        serv()
+        action()
 
     else:
         d['port'] = do_prompt(__('Enter Custom Port'))
@@ -204,7 +200,7 @@ def ask(d: Dict) -> None:
 
 
 def askg(d):
-    serv(port=d.get('port', ''))
+    action(port=d.get('port', ''))
 
 
 def main(argv: List[str] = sys.argv[1:]) -> int:
@@ -219,7 +215,7 @@ def main(argv: List[str] = sys.argv[1:]) -> int:
     ask(d)
 
 
-def serv(path="", port=6060, server_pro="HTTP/1.1"):
+def action(path="", port=6060, server_pro="HTTP/1.1"):
     # randint(1000, 9999)
 
     try:
@@ -227,147 +223,10 @@ def serv(path="", port=6060, server_pro="HTTP/1.1"):
     except Exception as err:
         print(bold(red(__("Accept only int, not String !!"))))
         return False
-    server = HTTPServer
-
-    handler = CGIHTTPRequestHandler
-    server_address = ("", portno)
-
-    path = str(path).replace("\\", "/") if path != "" else str(os.getcwd()).replace("\\", "/")
     
     host = "localhost"
-
-    # randint(1000, 9999)
-    l = "{}:{}".format(host, portno)
-
-    class pysteveHTTPHandler(BaseHTTPRequestHandler):
-
-        def do_GET(self):
-            spes = "/"
-            try:
-                import imp as im
-            except Exception as err:
-                import importlib as im
-
-            mimetype = ""
-            sys.path.insert(0, os.path.dirname(__file__))
-
-            path_info = self.path
-
-            os.chdir(path)
-            vpath = ""
-			
-            if self.path == spes:
-                if os.path.isfile(str(path) +spes+"public"+spes+"index.py") == True:
-                    vpath = "public"+spes+"index.py"
-
-
-                elif os.path.isfile(str(path) +spes+"public"+spes+"home.py") == True:
-                    vpath == "public"+spes+"home.py"
-
-                App = im.load_source('App.App', path + spes + vpath)
-                mimetype = 'text/html'
-                App.App.put(path=path, host=host, port=portno, para=self.path, remoter_addr = self.client_address[0], remoter_port=self.client_address[1], script_file=str(path)+str(spes)+(vpath), server_proto=server_pro, server_ver=self.server_version, protocol_ver=self.protocol_version)
-                        
-                self.rendering(mimetype=mimetype, content=App.App.runs(), code=200)
-
-            elif self.path != spes:
-                
-                if "." not in str(self.path):
-
-                    if str(self.path) != "":
-                        if os.path.isfile(str(path) +spes+"public"+spes+"index.py") == True:
-                            vpath = "public"+spes+"index.py"
-
-
-                        elif os.path.isfile(str(path) +spes+"public"+spes+"home.py") == True:
-                            vpath = "public"+spes+"home.py"
-
-
-                        App = im.load_source('App.App', path +spes+ vpath)
-                        mimetype = 'text/html'
-                        
-                        App.App.put(path=path, host=host, port=portno, para=self.path, remoter_addr = self.client_address[0], remoter_port=self.client_address[1], script_file=str(path)+str(spes)+(vpath), server_proto=server_pro, server_ver=self.server_version, protocol_ver=self.protocol_version)
-                        
-                        if App.App.runs()[0] == "404" or App.App.runs()[0] == "405" or App.App.runs()[0] == "400":
-                           self.error(App.App.runs()[0], App.App.runs()[1])
-                        elif App.App.runs()[0] == "307":
-                            self.redirect(App.App.runs()[0], App.App.runs()[1])
-                        else:
-                            self.rendering(mimetype=mimetype, content=App.App.runs())
-                            
-            if self.path.endswith('favicon.ico'):
-                    return
-            try:
-                for mime in Version.MIME_TYPES:
-                    if self.path.endswith(mime['ext']):
-                        self.rendering(path=path, mimetype=mime[
-                                    'type'], mode=mime['mode'], code=200)
-
-            except Exception as err:
-                self.errro("404")
-                doTraceBack()
-
-        def do_POST(self):
-            self.do_GET()
-
-        def do_HEAD(self):
-            self.do_GET()
-
-        def rendering(self, path="", mimetype="", mode='r', encoding="utf-8", content="", code=200):
-
-            self.send_response(code)
-            self.send_header('Content-type', mimetype)
-            self.end_headers()
-            if path != "":
-
-                f = open(path+self.path, mode)
-                readv = ""
-                if mode == "rb":
-                    readv = f.read()
-                else:
-                    readv = bytes(str(f.read()).encode('utf-8'))
-
-                self.wfile.write(readv)
-
-                f.close()
-
-            elif content !="":
-                self.wfile.write(bytes(str(content).encode()))
-            else:
-                return False
-
-        def error(self, code, e_url, code_re = 301):
-            
-            self.send_response(int(code_re))
-            self.send_header('Location', "{e_url}".format(e_url=e_url))
-            self.send_error(code=int(code), message=Version.HTTP_CODE.get(code, ""))
-            self.end_headers()
-            
-        def redirect(self, code, re_url, code_re = 307):
-                self.send_response(int(code_re))
-                self.send_header('Location', "{re_url}".format(re_url=re_url))
-                self.send_error(code=int(code), message=Version.HTTP_CODE.get(code, ""))
-                self.end_headers()
-
-
-    class ThreadedHTTPServer(ThreadingMixIn, server):
-        """Moomins live here"""
-
-    try:
-
-        server = ThreadedHTTPServer((host, portno), pysteveHTTPHandler)
-        print(bold(green("Pytonik development server running on " + str(l))))
-        server.serve_forever()
-
-    except Exception as err:
-        try:
-            server = ThreadedHTTPServer((host, portno), pysteveHTTPHandler)
-            print(bold(green("Pytonik development server running on " + str(l))))
-            server.serve_forever()
-        except Exception as err:
-            print(bold(red("Something went wrong: Default port already in use")))
-
-
+    serv.run(host=host, path="", port=portno, server_pro="HTTP/1.1", pr=True)
+    
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv[1:]))

@@ -1,0 +1,1 @@
+{"lng.test": "Sample text"}

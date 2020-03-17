@@ -1,0 +1,13 @@
+name: Greetings
+
+on: [pull_request, issues]
+
+jobs:
+  greeting:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/first-interaction@v1
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN_WK }}
+        issue-message: 'Thank you for opening an issue on pytonik, contributors and maintainers are looking into it'' first issue'
+        pr-message: 'We apperciate your Pull request, we'll take action in a jiffy and merge your, once it is considered useful. Thank you'' first pr'
