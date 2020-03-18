@@ -101,7 +101,7 @@ class Table:
             _where = " WHERE "
 
         if len(self.table_orwhere) > 0:
-            _or = " OR " if _where is not "WHERE" else ''
+            _or = " OR " if _where != "WHERE" else ''
 
         else:
             _or = ""
@@ -111,8 +111,8 @@ class Table:
 
         self.table_select = "SELECT {value}{distinct}{values}{max}{min}{count}{avg} FROM {table}{exists}{notexist}{outerjoin}{join}{leftjoin}{rightjoin}{where}{whereisnull}{wherenotnull}{whereBetween}{whereNotBetween}{wherenotin}{orwhere}{groupBy}{having}{orderBy}{limit}{take}".format(
             distinct=self.table_distinct,
-            value=','.join(value) if self.table_count is "" else '',
-            values=values if self.table_count is "" is "" else '',
+            value=','.join(value) if self.table_count == "" else '',
+            values=values if self.table_count == "" else '',
             max=self.table_max,
             min=self.table_min,
             count=self.table_count if len(self.table_outerjoin) < 1 else '',
@@ -487,7 +487,7 @@ class Table:
         self.table_select = "SELECT {column} FROM {table} ".format(table=str(self.table), column="*" if len(column) < 1 else ' {}.{}'.format(str(self.table), column))
         self.get()
         kl = []
-        if key is "":
+        if key == "":
             for v in self.result:
                 if Version.PYVERSION_MA <= 2:
                     lt = v.iteritems()
@@ -528,7 +528,7 @@ class Table:
             _where = " WHERE "
 
         if len(self.table_orwhere) > 0:
-            _or = " OR " if _where is not "WHERE" else ''
+            _or = " OR " if _where != "WHERE" else ''
 
         else:
             _or = ""
@@ -538,7 +538,7 @@ class Table:
         self.table_select = "SELECT {distinct}{values}{max}{min}{count}{avg} FROM {table}{exists}{notexist}{outerjoin}{join}{leftjoin}{rightjoin}{where}{whereisnull}{wherenotnull}{whereBetween}{whereNotBetween}{wherenotin}{orwhere}{groupBy}{having}{orderBy}{limit}{take}".format(
             distinct=self.table_distinct,
 
-            values=values if self.table_count is "" is "" else '',
+            values=values if self.table_count == "" else '',
             max=self.table_max,
             min=self.table_min,
             count=self.table_count if len(self.table_outerjoin) < 1 else '',
@@ -567,7 +567,7 @@ class Table:
         num = int(number)
 
         kl = []
-        if funcquery is "":
+        if funcquery == "":
 
             for v in self.result:
                 num -= 1
