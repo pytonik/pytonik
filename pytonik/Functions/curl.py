@@ -177,7 +177,7 @@ class curl:
         return self
 
     def __path(self, path=""):
-        self.path = "/" if path is "" else path
+        self.path = "/" if path  == "" else path
         return self
 
     def __timeout(self, tout):
