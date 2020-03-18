@@ -63,7 +63,7 @@ class SMTP():
             msg['To'] = to_recipient
             msg['Subject'] = message_subject
             msg.attach(MIMEText(body, header))
-            if self.attachfile is not None:
+            if self.attachfile != None:
                 msg.attach(self.attachfile)
 
             context = msg.as_string()
@@ -75,7 +75,7 @@ class SMTP():
             return err
 
     def attach(self, atfile = "", rename=""):
-        if atfile is not "":
+        if atfile != "":
             try:
                 ext = os.path.splitext(atfile)[1][1:]
                 filename = atfile if rename is "" else str(rename) + '.' + str(ext)

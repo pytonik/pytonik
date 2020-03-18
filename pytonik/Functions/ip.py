@@ -66,7 +66,7 @@ class ip:
     def get(self):
 
         for header in self.HTTP_headers:
-            if self.os(header) is not "":
+            if self.os(header) != "":
                 self.ip = '127.0.0.0' if self.os(header) in self.ips else self.os(header)
                 self.property(self.ip)
             return self
@@ -78,13 +78,13 @@ class ip:
 
     def check(self, ip):
         for header in self.HTTP_proxy_header:
-            response = True if self.os(header) is not "" else False
+            response = True if self.os(header) != "" else False
         return response
 
     def vpn(self):
 
         for header in self.HTTP_proxy_header:
-            if self.os(header) is not "":
+            if self.os(header) != "":
                 self.ip = self.os(header)
                 self.is_vpn = self.check(self, self.ip)
                 self.property(self.ip)

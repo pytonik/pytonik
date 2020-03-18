@@ -76,17 +76,17 @@ class curl:
 
         if options == self.GET:
             self.__method(self.GET)
-            if options is not "":
+            if options != "":
                 self.__path(actions)
 
         if options == self.HEAD:
             self.__method(self.HEAD)
-            if actions is not "":
+            if actions != "":
                 self.__path(actions)
 
         if options == self.PUT:
             self.__method(self.PUT)
-            if actions is not "":
+            if actions != "":
                 self.__path(actions)
 
         if options == self.URL:
@@ -191,7 +191,7 @@ class curl:
         return self
 
     def result(self, decode=""):
-        if decode is not "":
+        if decode != "":
             reSlt = self.output.decode(decode)
         else:
             reSlt = self.output

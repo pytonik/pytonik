@@ -19,7 +19,7 @@ class public():
     
     def __init__(self, *args, **kwargs):
         if len(args) > 0 or len(kwargs) > 0:
-            if all(args) is not False:
+            if all(args) != False:
                 self.pt = self.path(*args, **kwargs)
             else:
                 self.pt = self.path(**kwargs)
@@ -31,13 +31,13 @@ class public():
         return self.pt
 
 
-    def path(self, public = ""):
+    def path(self, path = ""):
         DS = str('/');
 
-        if public == "/":
+        if path == "/":
             DS = ""
         else:
             DS = "/"
 
-        return DS + 'public' + DS + value
+        return DS + 'public' + DS + path
 

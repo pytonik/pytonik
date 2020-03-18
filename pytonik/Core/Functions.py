@@ -12,7 +12,7 @@ from pytonik import Hash, Log
 log_msg = Log.Log()
 
 def limit_string(data = "", length = 10, readmore = ""):
-    if data is not "":
+    if data != "":
         info = (data[:int(length)] + str(readmore)) if len(data) > int(length) else data
     else:
         info = ""
@@ -98,7 +98,7 @@ def datetime(formate = "%Y-%m-%d %H:%M:%S"):
 
 def iteri(dictionary="", itr="xid"):
     i = 0
-    if dictionary is not "" or dictionary is not None:
+    if dictionary != "" or dictionary != None:
         dist, apend = [], []
         for l in dictionary:
             i += 1

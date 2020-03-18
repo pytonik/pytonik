@@ -12,12 +12,12 @@ class validation:
 	def length(self, varstring, min, max=''):
 
 		len_count = len(varstring)
-		if min is not '' and max is not '':
+		if min != "" and max != "":
 			if len_count >= int(min) and  len_count <= int(max):
 				return True
 			else:
 				return False
-		if min is not '':
+		if min != "":
 			if len_count >= int(min):
 				return True
 			else:

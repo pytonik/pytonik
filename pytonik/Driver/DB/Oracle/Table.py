@@ -64,25 +64,25 @@ class Table:
 
     def drop(self):
         self.table_drop = "DROP TABLE {exists} {table}".format(table=self.table, exists='IF ' + str(
-            self.table_exist) if self.table_exist is not "" else "")
+            self.table_exist) if self.table_exist != "" else "")
         t_result = self.DB.query(self.table_drop)
         self.error = t_result.Exception
         return self
 
     def exists(self, rawquery=""):
-        rawString = "WHERE EXISTS ({rawquery})".format(rawquery=rawquery) if rawquery is not "" else "EXISTS"
+        rawString = "WHERE EXISTS ({rawquery})".format(rawquery=rawquery) if rawquery != "" else "EXISTS"
         self.table_exist = "{rawquery}".format(rawquery=rawString)
         return self
 
     def notExist(self, rawquery=""):
-        rawString = "WHERE NOT EXISTS ({rawquery})".format(rawquery=rawquery) if rawquery is not "" else "NOT EXISTS"
+        rawString = "WHERE NOT EXISTS ({rawquery})".format(rawquery=rawquery) if rawquery != "" else "NOT EXISTS"
         self.table_notexist = "{rawquery}".format(rawquery=rawString)
         return self
 
 
     def select(self, *value):
 
-        if self.table_value is not "":
+        if self.table_value != "":
             values = self.table_value
 
         elif len(value) > 0:
@@ -92,7 +92,7 @@ class Table:
         else:
             values = '*'
 
-        if self.table_where is not "":
+        if self.table_where != "":
             _and = " AND "
 
             _where = ""
@@ -107,7 +107,7 @@ class Table:
             _or = ""
 
 
-        value = value if value is not "" else ""
+        value = value if value != "" else ""
 
         self.table_select = "SELECT {value}{distinct}{values}{max}{min}{count}{avg} FROM {table}{exists}{notexist}{outerjoin}{join}{leftjoin}{rightjoin}{where}{whereisnull}{wherenotnull}{whereBetween}{whereNotBetween}{wherenotin}{orwhere}{groupBy}{having}{orderBy}{limit}{take}".format(
             distinct=self.table_distinct,
@@ -129,7 +129,7 @@ class Table:
             whereisnull=str(" WHERE") + str(''.join(self.table_whereisnull)) if len(self.table_whereisnull) > 0 else '',
             wherenotnull=str(" WHERE") + str(''.join(self.table_wherenotnull)) if len(self.table_wherenotnull) > 0 else '',
             where=str(" WHERE") + str(_and.join(self.table_where)) if len(self.table_where) > 0 else '',
-            wherenotin=str(_where) + str(_and) + str(self.table_wherenotin) if len(self.table_wherenotin) > 0 is not "" else '',
+            wherenotin=str(_where) + str(_and) + str(self.table_wherenotin) if len(self.table_wherenotin) > 0 else '',
             orwhere=str(_or) + str(_or.join(self.table_orwhere)),
             groupBy=self.table_groupby,
             orderBy=self.table_orderby,
@@ -158,11 +158,11 @@ class Table:
 
     def count(self, *column):
         if len(column) > 1:
-            variables = column[0] if column[0] is not "" else '*'
+            variables = column[0] if column[0] != "" else '*'
             columnas = column[1]
             sign = "as"
         else:
-            variables = column[0] if column[0] is not "" else '*'
+            variables = column[0] if column[0] != "" else '*'
             sign = ""
             columnas = ""
 
@@ -353,7 +353,7 @@ class Table:
         return self
 
     def offset(self, offset=""):
-        self.table_offset = str(offset) + ',' if offset is not "" else 0
+        self.table_offset = str(offset) + ',' if offset != "" else 0
         return self
 
     def limit(self, limits):
@@ -362,7 +362,7 @@ class Table:
         return self
 
     def skip(self, offset=""):
-        self.table_skip = str(offset) + ',' if offset is not "" else 0
+        self.table_skip = str(offset) + ',' if offset != "" else 0
 
         return self
 
@@ -513,13 +513,13 @@ class Table:
 
     def chunk(self, number, funcquery=""):
 
-        if self.table_value is not "":
+        if self.table_value != "":
             values = self.table_value
 
         else:
             values = '*'
 
-        if self.table_where is not "":
+        if self.table_where != "":
             _and = " AND "
 
             _where = ""
@@ -555,7 +555,7 @@ class Table:
             whereisnull=str(" WHERE") + str(''.join(self.table_whereisnull)) if len(self.table_whereisnull) > 0 else '',
             wherenotnull=str(" WHERE") + str(''.join(self.table_wherenotnull)) if len(self.table_wherenotnull) > 0 else '',
             where=str(" WHERE") + str(_and.join(self.table_where)) if len(self.table_where) > 0 else '',
-            wherenotin=str(_where) + str(_and) + str(self.table_wherenotin) if len(self.table_wherenotin) > 0 is not "" else '',
+            wherenotin=str(_where) + str(_and) + str(self.table_wherenotin) if len(self.table_wherenotin) > 0 else '',
             orwhere=str(_or) + str(_or.join(self.table_orwhere)),
             groupBy=self.table_groupby,
             orderBy=self.table_orderby,

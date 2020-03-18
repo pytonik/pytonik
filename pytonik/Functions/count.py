@@ -21,7 +21,7 @@ class count:
 
     def digit(self, num=0):
         num = float(num)
-        if (float(num) > 1000000000) is True:
+        if (float(num) > 1000000000) == True:
             getcount = str(float(round((num / 1000000000), 1)))[:-2] + str('T') if '.0' in str(float(round((num / 1000), 1))) else str(float(round((num / 1000000000), 1))) + str('T')
 
 
@@ -31,7 +31,7 @@ class count:
             getcount = str(float(round((num / 1000000), 1)))[:-2] + str('M') if '.0' in str(float(round((num / 1000), 1))) else str(float(round((num / 1000000), 1))) + str('M')
 
 
-        elif (float(num) > 1000) is True:
+        elif (float(num) > 1000) == True:
 
             getcount = str(float(round((num / 1000), 1)))[:-2]  + str('K')  if '.0' in str(float(round((num / 1000), 1))) else str(float(round((num / 1000), 1)))  + str('K')
 

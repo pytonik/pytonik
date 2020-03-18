@@ -108,7 +108,7 @@ class App(env, Config, Variable):
 
         langs = Lang.Lang(self.languages)
         langs.loadLang()
-        
+
         controlUri = []
 
         if Version.PYVERSION_MA >= 3:
@@ -411,16 +411,13 @@ class App(env, Config, Variable):
     @staticmethod
     def header(p=0, type="text/html"):
 
-        if Version.PYVERSION_MA <= 2 and Version.PYVERSION_MI <= 7:
-            reload(sys)
-            sys.setdefaultencoding('utf-8')
-        elif Version.PYVERSION_MA == 3 and Version.PYVERSION_MI <= 3:
+        try:
             import imp
             imp.reload()
-
-        elif Version.PYVERSION_MA >= 3 and Version.PYVERSION_MI >= 4:
+        except Exception:
             import importlib
             importlib.reload(sys)
+
         if os.path.isdir(os.getcwd() + '/public') == False:
             print("Content-type: {type}\r\n".format(type=type))  # \r\n\r\n
             if p > 0:

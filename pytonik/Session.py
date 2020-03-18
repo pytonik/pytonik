@@ -191,7 +191,7 @@ class Session(Variable):
         try:
             unique_session = initial_session.split(";")
             re_unique = []
-            [ress.append(x) for x in unique_session if x not in re_unique]
+            [re_unique.append(x) for x in unique_session if x not in re_unique]
             return ";".join(re_unique)
         except Exception as err:
             return initial_session    
@@ -229,7 +229,7 @@ class Session(Variable):
         if Version.PYVERSION_MA >= 3:
             session_dict_l = session_dict.items()
         else:
-            session_dict_l = cooKsession_dicteys.iteritems()
+            session_dict_l = session_dict.iteritems()
 
         for k, v in session_dict_l:
             session_list.append("{k}={v}".format(k=k,v=v))

@@ -19,7 +19,7 @@ class iteration:
     def __init__(self, *args, **kwargs):
         if len(args) > 0 or len(kwargs) > 0:
 
-            if all(args) is not False:
+            if all(args) != False:
                 self.iter = self.iteri(*args, **kwargs)
             else:
                 self.iter = self.iteri(**kwargs)
@@ -32,7 +32,7 @@ class iteration:
     def iteri(self, dictionary="", itr="pid"):
 
         i = 0
-        if dictionary is not "" or dictionary is not None:
+        if dictionary != "" or dictionary != None:
             dist, apend = [], []
             for l in dictionary:
                 i += 1

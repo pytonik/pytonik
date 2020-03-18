@@ -103,7 +103,7 @@ class Log():
                 f.write("")
                 f.close()
             except Exception as err:
-                if conf.get('exception', "") == 1:
+                if int(self.__check()) == 1:
                     Exception(err)
 
         else:

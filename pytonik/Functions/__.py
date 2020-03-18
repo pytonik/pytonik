@@ -18,11 +18,10 @@ class __():
         return None
 
     def __init__(self, *args, **kwargs):
-        
-        self.langs = Lang(Controllers()._getControllers())
+        self.langs = Lang(Controllers().languages)
         self.langs.loadLang()
-        if len(args) or len(kwargs):
-            if all(args) is not False:
+        if len(args) > 0 or len(kwargs) > 0:
+            if all(args) != False:
                 self.lg = self.lang(*args, **kwargs)
             else:
                 self.lg = self.lang(**kwargs)
@@ -35,8 +34,7 @@ class __():
 
 
     def lang(self, lang="", defindValue = ''):
-
-        if lang is not "":
+        if lang != "":
             return self.langs.get(lang, defindValue)
 
 
