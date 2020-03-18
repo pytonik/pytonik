@@ -10,6 +10,7 @@
 import string, os
 from pytonik import Hash, Log
 log_msg = Log.Log()
+import urllib2
 
 def limit_string(data = "", length = 10, readmore = ""):
     if data != "":
