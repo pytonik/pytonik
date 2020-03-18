@@ -3,7 +3,7 @@ Contribution
 
 Guidance on how to set up a development environment and how to make a contribution to Pytonik. Pytonik is a free open-source project and it is managed by non-profit organization, all contributors are welcome.
 
-You do not need to be programmer to contribute to pytonik. You can contribute to test, write codes, learn, resolve issues, Deploy, Create Community, Advocate, correct documentations, Train and Donation.
+You do not need to be programmer to contribute to pytonik. You can contribute to test, write codes, learn, resolve issues, deploy, create community, advocate, correct documentations, train and donate to promote the framework.
 
 Thank you for considering contributing to Pytonik!
 
@@ -41,6 +41,8 @@ Reporting issues
 
 .. _minimal reproducible example: https://stackoverflow.com/help/minimal-reproducible-example
 
+
+
 Submitting patches
 --------------------------
 
@@ -52,6 +54,8 @@ git ``pre-commit`` hook, which gets installed when you run ``pip install -e .[de
 
 - Include a string like "Fixes #123" in your commit message(where 123 is the issue you fixed).
 See `Closing issues using keywords <https://help.github.com/articles/creating-a-pull-request/>`.
+
+
 
 First time setup
 ----------------
@@ -111,7 +115,7 @@ pre-commit install --install-hooks
 
 
 New to Github
-------------
+---------------
 
 **GitHub account:** https://github.com/join
 
@@ -189,7 +193,8 @@ Read more about ``Sphinx <https://www.sphinx-doc.org/en/master/>``.
 
 
 
-Requirement 
+Requirements 
+=============
 
 It is compulsory to create  ``requirements.txt`` file in your project root folder while developing a project. This will enable python, integrated development environment **(IDE)** editor to recognize project requirement and have them installed. You won’t have to worry about installing each dependency by yourself.
 
