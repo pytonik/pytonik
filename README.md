@@ -10,6 +10,7 @@
 [![Donate](https://img.shields.io/badge/donate-KoFi-blue.svg)](https://ko-fi.com/pytonik) 
 [![Gitter](https://badges.gitter.im/pytonik-mvc/community.svg)](https://gitter.im/pytonik-mvc/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Docs](https://img.shields.io/readthedocs/pytonik)](https://pytonik.readthedocs.io/en/latest)
+[![lint_python](https://github.com/pytonik/pytonik/workflows/lint_python/badge.svg)](https://github.com/pytonik/pytonik/actions)
 
 
 <p align="center">
