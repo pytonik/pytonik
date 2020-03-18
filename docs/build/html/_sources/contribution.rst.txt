@@ -20,13 +20,15 @@ resources for questions about your own code:
 
 * Join Community : https://gitter.im/pytonik-mvc/community
 
-* The mailing list dev@pytonik.com for long term discussion or larger issues.
+* The mailing list ``dev@pytonik.com`` for long term discussion or larger issues.
 
-* Ask on ``Stack Overflow``. Search with Google first using:
+* Check out pytonik on ``Stack Overflow`` by searching it out using Google via:
 	``site:stackoverflow.com pytonik {search term, exception message, etc.} ``
 
+
+
 Reporting issues
-----------------------
+------------------
 
 - Describe what you expected to happen.
 - If possible, include a `minimal reproducible example`_ to help us
@@ -135,7 +137,7 @@ Start coding
 
 git checkout -b your-branch-name origin/1.9.x 
 
-If you're submitting a feature addition or change, branch off of the
+If you're submitting a feature to addition or change, branch off of the
 "master" branch
 
 
@@ -145,7 +147,7 @@ git checkout -b your-branch-name origin/master
 
 
 - Using your favorite editor, make your changes, `` committing as you go ``.
-- Include tests that cover any code changes you make. Make sure the test fails without your patch. `` Run the tests <contributing-testsuite> ``.
+- Include tests that covers any code changes you make. Make sure the test fails without your patch. `` Run the tests <contributing-testsuite> ``.
 - Push your commits to GitHub and ``create a pull request`` by using
 
 .. code-block:: python
@@ -189,7 +191,7 @@ Read more about ``Sphinx <https://www.sphinx-doc.org/en/master/>``.
 
 Requirement 
 
-It is compulsory to create  ``requirements.txt`` file in your project root folder will developing a project. This will enable python, integrated development environment **(IDE)** editor to recognize project requirement and have them installed. You won’t have to worry about installing each dependency by yourself.
+It is compulsory to create  ``requirements.txt`` file in your project root folder while developing a project. This will enable python, integrated development environment **(IDE)** editor to recognize project requirement and have them installed. You won’t have to worry about installing each dependency by yourself.
 
 
 Below example shows how to list dependencies into your requirements file:
@@ -201,7 +203,7 @@ Below example shows how to list dependencies into your requirements file:
 	mysql-connector == 2.2.9
 
 
-What it look like:
+What it looks like:
 
 
 .. code-block:: python

@@ -37,6 +37,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Advance" href="advance.html" />
     <link rel="prev" title="Schema" href="schema.html" /> 
 </head>
 
@@ -109,6 +110,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#building-the-docs">Building the docs</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="advance.html">Advance</a></li>
 </ul>
 
             
@@ -188,9 +190,9 @@ resources for questions about your own code:</p>
 <p><a href="#id1"><span class="problematic" id="id2">*</span></a>The IRC channel <code class="docutils literal notranslate"><span class="pre">#pytonik</span></code> on FreeNode is linked to Discord, but Discord is preferred.</p>
 <ul class="simple">
 <li><p>Join Community : <a class="reference external" href="https://gitter.im/pytonik-mvc/community">https://gitter.im/pytonik-mvc/community</a></p></li>
-<li><p>The mailing list <a class="reference external" href="mailto:dev&#37;&#52;&#48;pytonik&#46;com">dev<span>&#64;</span>pytonik<span>&#46;</span>com</a> for long term discussion or larger issues.</p></li>
+<li><p>The mailing list <code class="docutils literal notranslate"><span class="pre">dev&#64;pytonik.com</span></code> for long term discussion or larger issues.</p></li>
 <li><dl class="simple">
-<dt>Ask on <code class="docutils literal notranslate"><span class="pre">Stack</span> <span class="pre">Overflow</span></code>. Search with Google first using:</dt><dd><p><a href="#id3"><span class="problematic" id="id4">``</span></a>site:stackoverflow.com pytonik {search term, exception message, etc.} ``</p>
+<dt>Check out pytonik on <code class="docutils literal notranslate"><span class="pre">Stack</span> <span class="pre">Overflow</span></code> by searching it out using Google via:</dt><dd><p><a href="#id3"><span class="problematic" id="id4">``</span></a>site:stackoverflow.com pytonik {search term, exception message, etc.} ``</p>
 </dd>
 </dl>
 </li>
@@ -307,7 +309,7 @@ env/bin/activate</p>
 </pre></div>
 </div>
 <p>git checkout -b your-branch-name origin/1.9.x</p>
-<p>If you’re submitting a feature addition or change, branch off of the
+<p>If you’re submitting a feature to addition or change, branch off of the
 “master” branch</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
@@ -315,7 +317,7 @@ env/bin/activate</p>
 <p>git checkout -b your-branch-name origin/master</p>
 <ul class="simple">
 <li><p>Using your favorite editor, make your changes, `` committing as you go <a href="#id11"><span class="problematic" id="id12">``</span></a>.</p></li>
-<li><p>Include tests that cover any code changes you make. Make sure the test fails without your patch. `` Run the tests &lt;contributing-testsuite&gt; <a href="#id13"><span class="problematic" id="id14">``</span></a>.</p></li>
+<li><p>Include tests that covers any code changes you make. Make sure the test fails without your patch. `` Run the tests &lt;contributing-testsuite&gt; <a href="#id13"><span class="problematic" id="id14">``</span></a>.</p></li>
 <li><p>Push your commits to GitHub and <code class="docutils literal notranslate"><span class="pre">create</span> <span class="pre">a</span> <span class="pre">pull</span> <span class="pre">request</span></code> by using</p></li>
 </ul>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
@@ -345,14 +347,14 @@ make html</p>
 <p>Open <code class="docutils literal notranslate"><span class="pre">build/html/index.html</span></code> in your browser to view the docs.</p>
 <p>Read more about <code class="docutils literal notranslate"><span class="pre">Sphinx</span> <span class="pre">&lt;https://www.sphinx-doc.org/en/master/&gt;</span></code>.</p>
 <p>Requirement</p>
-<p>It is compulsory to create  <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file in your project root folder will developing a project. This will enable python, integrated development environment <strong>(IDE)</strong> editor to recognize project requirement and have them installed. You won’t have to worry about installing each dependency by yourself.</p>
+<p>It is compulsory to create  <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file in your project root folder while developing a project. This will enable python, integrated development environment <strong>(IDE)</strong> editor to recognize project requirement and have them installed. You won’t have to worry about installing each dependency by yourself.</p>
 <p>Below example shows how to list dependencies into your requirements file:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pytonik</span><span class="o">==</span><span class="mf">1.9</span><span class="o">.</span><span class="mi">8</span>
 <span class="n">pytonik</span><span class="o">-</span><span class="n">agent</span> <span class="o">==</span> <span class="mf">1.0</span><span class="o">.</span><span class="mi">5</span>
 <span class="n">mysql</span><span class="o">-</span><span class="n">connector</span> <span class="o">==</span> <span class="mf">2.2</span><span class="o">.</span><span class="mi">9</span>
 </pre></div>
 </div>
-<p>What it look like:</p>
+<p>What it looks like:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>|─MyPytonikApp                            (application folder)
     |─ controller
         |─ IndexController.py
@@ -383,6 +385,8 @@ make html</p>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="advance.html" class="btn btn-neutral float-right" title="Advance" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="schema.html" class="btn btn-neutral float-left" title="Schema" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
