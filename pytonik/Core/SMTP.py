@@ -78,7 +78,7 @@ class SMTP():
         if atfile != "":
             try:
                 ext = os.path.splitext(atfile)[1][1:]
-                filename = atfile if rename is "" else str(rename) + '.' + str(ext)
+                filename = atfile if rename == "" else str(rename) + '.' + str(ext)
                 attach_file = open(atfile, 'rb')
                 attach_load = MIMEBase('application', 'octet-stream')
                 attach_load.set_payload(attach_file.read())
@@ -89,7 +89,7 @@ class SMTP():
             except Exception as err:
                 try:
                     ext =  os.path.splitext(atfile.filename)[1][1:]
-                    filename = atfile.filename if rename is "" else str(rename)+'.'+str(ext)
+                    filename = atfile.filename if rename == "" else str(rename)+'.'+str(ext)
                     attach_load = MIMEBase('application', 'octet-stream')
                     read_attach_file = (atfile.file).read()
                     attach_load.set_payload(read_attach_file)
