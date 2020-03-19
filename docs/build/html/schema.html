@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Schema &mdash; pytonik 1.9.7 documentation</title>
+  <title>Schema &mdash; pytonik 1.9.8 documentation</title>
   
 
   
@@ -23,10 +23,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -37,7 +37,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Advance" href="advance.html" />
+    <link rel="next" title="Contribution" href="contribution.html" />
     <link rel="prev" title="Functions" href="func.html" /> 
 </head>
 
@@ -111,6 +111,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#raw-expressions">Raw Expressions</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="contribution.html">Contribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution.html#requirements">Requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advance.html">Advance</a></li>
 </ul>
 
@@ -344,7 +346,7 @@ you may use the exists and <code class="docutils literal notranslate"><span clas
 This method will return a single dictionary object <code class="docutils literal notranslate"><span class="pre">{}</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">user</span> <span class="o">=</span> <span class="n">DB</span><span class="p">::</span><span class="n">table</span><span class="p">(</span><span class="s1">&#39;users&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">where</span><span class="p">(</span><span class="s1">&#39;status&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">first</span><span class="p">()</span>
 
-<span class="k">print</span><span class="p">(</span><span class="n">user</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">user</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
 <p><strong>Retrieving A List Of Column Values</strong></p>
@@ -353,7 +355,7 @@ In this example, we’ll retrieve a Collection of role titles:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">titles</span> <span class="o">=</span> <span class="n">DB</span><span class="p">::</span><span class="n">table</span><span class="p">(</span><span class="s1">&#39;roles&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">pluck</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">);</span>
 
 <span class="k">for</span>  <span class="n">title</span> <span class="ow">in</span> <span class="n">titles</span><span class="p">:</span>
-     <span class="k">print</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+     <span class="nb">print</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>You may also specify a custom key column for the returned Collection:</p>
@@ -361,7 +363,7 @@ In this example, we’ll retrieve a Collection of role titles:</p>
 
 <span class="k">for</span> <span class="n">title</span> <span class="ow">in</span> <span class="n">roles</span><span class="p">:</span>
 
-    <span class="k">print</span><span class="p">(</span><span class="n">title</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">title</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>If you need to work with thousands of database records, consider using the <code class="docutils literal notranslate"><span class="pre">chunk</span></code> method.
@@ -375,7 +377,7 @@ For example, let’s work with the entire users table in chunks of 100 records a
 when updating records while chunking, it is always best to use the chunkById method instead.
 This method will automatically paginate the results based on the record’s primary key:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">users</span> <span class="o">=</span> <span class="n">DB</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s1">&#39;users&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s1">&#39;status &#39;</span><span class="p">,</span> <span class="s1">&#39;PENDING&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">orderBy</span><span class="p">(</span><span class="s1">&#39;users_id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">chunk</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span>
-<span class="n">DB</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s1">&#39;countries&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s1">&#39;users_id&#39;</span><span class="p">,</span> <span class="s1">&#39;{users_id}&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">updates</span><span class="p">([</span><span class="nb">dict</span><span class="p">(</span><span class="n">vote</span><span class="o">=</span><span class="s1">&#39;200&#39;</span><span class="p">,</span> <span class="n">create_at</span><span class="o">=</span><span class="s1">&#39;20/01/2020&#39;</span><span class="p">)])</span>
+<span class="n">DB</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s1">&#39;countries&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s1">&#39;users_id&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">{users_id}</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">updates</span><span class="p">([</span><span class="nb">dict</span><span class="p">(</span><span class="n">vote</span><span class="o">=</span><span class="s1">&#39;200&#39;</span><span class="p">,</span> <span class="n">create_at</span><span class="o">=</span><span class="s1">&#39;20/01/2020&#39;</span><span class="p">)])</span>
     <span class="p">)</span>
 </pre></div>
 </div>
@@ -614,7 +616,7 @@ Instead of comparing two columns, these methods will compare the column against 
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="advance.html" class="btn btn-neutral float-right" title="Advance" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="contribution.html" class="btn btn-neutral float-right" title="Contribution" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="func.html" class="btn btn-neutral float-left" title="Functions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

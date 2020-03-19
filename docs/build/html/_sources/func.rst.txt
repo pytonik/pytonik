@@ -260,6 +260,48 @@ Cases whereby there is an ``ip`` and we want to get the ``ip`` information we wi
 
 
 
+Path
+----
+Pytonik ``path`` module handles  method ``path``, ``exist`` , ``public`` argument which return root **path** as string.
+
+**Import Module**
+
+.. code-block:: python
+
+    from pytonik.Functions.path import path
+    
+    
+
+**Callable**
+
+.. code-block:: python
+
+    path = path()
+
+**Example**
+
+.. code-block:: python
+
+    path.path(path = "users")
+
+
+**Example**
+
+.. code-block:: python
+
+    path.public(path)
+
+
+
+**Example**
+
+.. code-block:: python
+
+    path.exist(newpath, defaultpath)
+
+
+
+
 
 Url
 ---
@@ -472,6 +514,19 @@ and returns response ``status`` , ``reason``, and  ``result``
     cl.finish()
     print(cl.status, cl.reason, cl.result('utf-8'))
 
+**HEADER**  sent data/information to api using parameters or arguments
+    and returns response ``status`` , ``reason``, and  ``result``
+
+.. code-block:: python
+
+    url = "https://example.com"
+    header = {}
+    cl = curl()
+    cl.set(cl.URL, url)
+    cl.set(cl.CONTENTHEADER, 'application/x-www-form-urlencoded')
+    cl.set(cl.HEADER, header)
+    cl.finish()
+    print(cl.status, cl.reason, cl.result('utf-8'))
 
 
 Now

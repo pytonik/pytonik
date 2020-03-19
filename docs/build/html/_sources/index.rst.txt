@@ -28,6 +28,7 @@ Contents:
    file
    func
    schema
+   contribution
    advance
 
 

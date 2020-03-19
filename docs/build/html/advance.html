@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Advance &mdash; pytonik 1.9.7 documentation</title>
+  <title>Advance &mdash; pytonik 1.9.8 documentation</title>
   
 
   
@@ -23,10 +23,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -37,7 +37,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Schema" href="schema.html" /> 
+    <link rel="prev" title="Contribution" href="contribution.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -98,6 +98,8 @@
 <li class="toctree-l1"><a class="reference internal" href="file.html">File</a></li>
 <li class="toctree-l1"><a class="reference internal" href="func.html">Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="schema.html">Schema</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution.html">Contribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution.html#requirements">Requirements</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Advance</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#model">Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#controller">Controller</a></li>
@@ -191,7 +193,7 @@ inherit Model properties into our newly created model. below example will explai
                 <span class="k">return</span> <span class="n">item</span>
 
         <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-                <span class="k">return</span> <span class="bp">None</span>
+                <span class="k">return</span> <span class="kc">None</span>
 
         <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">userid</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
                 <span class="n">returns</span> <span class="s2">&quot;user&quot;</span>
@@ -215,7 +217,7 @@ inherit Model properties into our newly created model. below example will explai
                 <span class="k">return</span> <span class="n">item</span>
 
         <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-                <span class="k">return</span> <span class="bp">None</span>
+                <span class="k">return</span> <span class="kc">None</span>
 
         <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">userid</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
                 <span class="k">return</span> <span class="s2">&quot;user result&quot;</span>
@@ -252,7 +254,7 @@ I prefer you should to read more about how to use it because you will need it in
 
    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s1">&#39;result&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">None</span>
+        <span class="k">return</span> <span class="kc">None</span>
 
    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">userid</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
        <span class="n">query</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s1">&#39;users_id&#39;</span><span class="p">,</span><span class="s1">&#39;=&#39;</span><span class="p">,</span><span class="n">userid</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
@@ -380,7 +382,7 @@ below example will explain.</p>
 
     <span class="n">mvc</span><span class="o">.</span><span class="n">header</span><span class="p">()</span>
 
-    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;i love pytonik&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;i love pytonik&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">redirect</span></code> method has <code class="docutils literal notranslate"><span class="pre">location</span></code> argument with default value <code class="docutils literal notranslate"><span class="pre">/</span></code>.</p>
@@ -435,7 +437,7 @@ below example will explain.</p>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="schema.html" class="btn btn-neutral float-left" title="Schema" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="contribution.html" class="btn btn-neutral float-left" title="Contribution" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
