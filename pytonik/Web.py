@@ -7,6 +7,11 @@
 ###
 
 
+
+def autoload():
+    from pytonik import Model
+    return Model.auto()
+
 def App():
     from . import App
     return App.App()

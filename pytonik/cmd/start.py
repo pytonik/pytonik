@@ -128,7 +128,7 @@ def nonempty(x: str) -> str:
     return x
 
 
-def do_prompt(text: str, default: str = None, validator: Callable[[str], Any]=nonempty) -> Union[str, bool]:  # NOQA
+def do_prompt(text: str, default: str = None, validator: Callable[[str], Any] = nonempty) -> Union[str, bool]:  # NOQA
     while True:
         if default is not None:
             prompt = PROMPT_PREFIX + '%s [%s]: ' % (text, default)
@@ -240,15 +240,14 @@ def ask(d: Dict) -> None:
 
 
 def make_file(d):
+    dst = os.getcwd() + '/' + d.get('project', '')
     try:
 
         src = os.path.dirname(os.path.abspath(__file__))
 
         zip_folder = src + '/land.zip'
 
-        zip_folder = zip_folder.replace('\\','/')
-
-        dst = os.getcwd() + '/' + d.get('project', '')
+        zip_folder = zip_folder.replace('\\', '/')
 
         with zipfile.ZipFile(zip_folder) as zf:
             zf.extractall(dst)
@@ -258,8 +257,6 @@ def make_file(d):
         try:
 
             src = os.path.dirname(os.path.abspath(__file__)) + "/land"
-
-            dst = os.getcwd() + '/' + d.get('project', '')
 
             for f in os.listdir(src):
                 s = os.path.join(src, f)
@@ -272,6 +269,28 @@ def make_file(d):
             print(bold(green(__('Project {} Is ready...'.format(d.get('project', ''))))))
         except Exception as err:
             print(err)
+
+    # write / update python path
+    dst_path = dst+"/public/index.py"
+    if os.path.isfile(dst_path) == True:
+        index_file = """{}
+try:
+\n  from pytonik import Web
+\nexcept Exception as err:
+\n  exit(err)
+\nApp = Web.App()
+\nApp.runs()
+""".format("#!" + str(pathwhich()))
+        file_open = open(dst_path, 'w+')
+        file_open.write(index_file)
+        try:
+            os.chmod(dst_path, mode=0o755)
+            print(bold('File {} Permission Set {}'.format(dst_path, '0755')))
+
+        except Exception as err:
+
+            print(bold(red(__('Unable to Set file {} permission '.format(dst_path)))))
+
 
 def main(argv: List[str] = sys.argv[1:]) -> int:
     # parse options
