@@ -12,11 +12,11 @@ import json
 
 log_msg = Log()
 
-if Version.PYVERSION_MA > 2:
+try:
     import http.client as htp
     from  http import client
     import urllib as urllib
-else:
+except Exception as err:
     import httplib as htp
     import urllib2 as urllib
 
