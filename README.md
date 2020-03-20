@@ -12,6 +12,7 @@
 [![Docs](https://img.shields.io/readthedocs/pytonik)](https://pytonik.readthedocs.io/en/latest)
 [![lint_python](https://github.com/pytonik/pytonik/workflows/lint_python/badge.svg)](https://github.com/pytonik/pytonik/actions)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-green.svg)](https://github.com/pytonik/pytonik/blob/master/CONTRIBUTING.md)
+![pytonik](https://github.com/pytonik/pytonik/workflows/pytonik/badge.svg)
 
 
 
