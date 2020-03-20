@@ -89,7 +89,8 @@ class Router(env):
                 if len(call.split('@')) > 0:
                     control = call.split('@')
                     if len(control) == 2:
-                        control_v = str(control[0]).lower().replace('Controller', '').replace('controller', '')
+                        control_v = str(control[0]).lower().replace(
+                            'Controller', '').replace('controller', '')
                         if len(str(control[1]).split(":")) > 0:
                             method_v = control[1].split(":")[0]
                             param = control[1].split(":")[1:]
@@ -101,11 +102,12 @@ class Router(env):
                         if control[0] == "/":
                             control_v = self.control.default_controllers
                         else:
-                            control_v = str(control[0]).lower().replace('Controller', '').replace('controller', '')
+                            control_v = str(control[0]).lower().replace(
+                                'Controller', '').replace('controller', '')
 
                         method_v = self.control.default_actions
                     lroute = str(control_v)+"/"+str(method_v)
-                    
+
                     self._route_(route=lroute, call=lcall, method="POST")
         return self
 
@@ -142,7 +144,35 @@ class Router(env):
         return self
 
     def any(self, uri, call=""):
-        self._route_(route=uri, call=call)
+        if call != "":
+            if isinstance(call, tuple):
+                self._route_(route=uri, call=call)
+            else:
+                lcall = []
+                method_v, control_v = "", ""
+                if len(call.split('@')) > 0:
+                    control = call.split('@')
+                    if len(control) == 2:
+                        control_v = str(control[0]).lower().replace(
+                            'Controller', '').replace('controller', '')
+                        if len(str(control[1]).split(":")) > 0:
+                            method_v = control[1].split(":")[0]
+                            param = control[1].split(":")[1:]
+                            lcall.append(uri)
+                            lcall.append(param)
+                        else:
+                            method_v = control[1]
+                    else:
+                        if control[0] == "/":
+                            control_v = self.control.default_controllers
+                        else:
+                            control_v = str(control[0]).lower().replace(
+                                'Controller', '').replace('controller', '')
+
+                        method_v = self.control.default_actions
+                    lroute = str(control_v)+"/"+str(method_v)
+
+                    self._route_(route=lroute, call=lcall)
         return self
 
     def error(self, uri, call="", code=302):
