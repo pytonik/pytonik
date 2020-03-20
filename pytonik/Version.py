@@ -9,7 +9,7 @@
 
 import sys
 
-VERSION = (1, 9, 11, 'alpha', 1)
+VERSION = (1, 9, 11, 'alpha', 2)
 
 if VERSION[3] and VERSION[4]:
     VERSION_TEXT = '{0}.{1}.{2}{3}{4}'.format(*VERSION)
@@ -19,7 +19,7 @@ else:
 VERSION_EXTRA = ''
 LICENSE = 'GPL3'
 EDITION = ''  # Added in package names, after the version
-KEYWORDS = "mvc, oop, module, python, framework, web, app"
+KEYWORDS = "mvc, oop, module, python, framework, web, app, pytonik, web, web development"
 
 PYVERSION_MA = sys.version_info.major
 PYVERSION_MI = sys.version_info.minor
