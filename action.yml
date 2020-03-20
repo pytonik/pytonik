@@ -1,0 +1,6 @@
+name: 'Pytonik'
+description: 'Pytonik is a python framework built to enhance web development, also helps web developers to build more apps with less codes. It uses expressive architectural patterns, structured on Model View Controller (MVC) and bundles of component to reuse while deploying the framework.'
+author: 'Emmanuel Martins'
+runs:
+  using: 'python'
+  main: 'python setup.py'
