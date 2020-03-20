@@ -1,0 +1,60 @@
+Hash
+======
+
+Pytonik provide hash module that helps to hash string and verify them without having to go through a lot of stress. You will be able to use ``Hash`` method such as ``md5`` , `` sha1`` , `` sha224`` , `` sha256`` , `` sha384`` , `` sha512`` , ``hex_hash`` , and ``verify``  method and provide argument ``provide_string``  `` stored_hash`` , ``hex_type``,  ``salt``. Examples below will demonstrates how to go about it.
+
+**Import Module**
+.. code-block:: python
+from pytonik.Hash import Hash
+
+**Callable**
+.. code-block:: python
+hash  = Hash()
+
+The details below will be used as illustration 
+.. code-block:: python 
+username = "foo"
+ password = "doo"
+
+Example 1 : How to generate hash.
+Here we will use sha512 notwithstanding you can use any of the listed above. Whatever hash algorithm we received from the example will be used as ``stored_hash``
+
+.. code-block:: python
+hash_pw = hash.hex_hash(password, hex_type="sha512", size=60)
+
+The Example 1 result is : `` 076b856dc7fe4ce88fda1e29739100906a0b33da17f1a855c449949198ea50336f6614fe645af7f8e515178e54aeb1b7f8fe1eaac5f5593862406ad5e14aadec0d7ba7c9c8661dbf4653717959b993c9bbc4a7c74bf29065bb06efd011020955e2fed701aeac67e831437d418366cbc6a83e759cbe9b9b603aeecc793f81401e ``
+
+Example 1-1: How to verify stored hash. 
+This process return **Boolean either** ``True`` or ``False``. In this example the hash verification will be ``True`` because the value of password has not changed, if an incorrect value is replace it will return ``False``.
+
+.. code-block:: python
+stored_hash  = “076b856dc7fe4ce88fda1e29739100906a0b33da17f1a855c449949198ea50336f6614fe645af7f8e515178e54aeb1b7f8fe1eaac5f5593862406ad5e14aadec0d7ba7c9c8661dbf4653717959b993c9bbc4a7c74bf29065bb06efd011020955e2fed701aeac67e831437d418366cbc6a83e759cbe9b9b603aeecc793f81401e”
+verify_pw = hash.verify(stored_hash = stored_hash, provide_string=password) 
+
+
+
+Example 2: How to map hash.
+Doing this will require the use ``map_hash`` method with ``map_string`` argument. This method can only be used when implementing ``hex_hash``
+
+.. code-block:: python
+map_h = hash.map_hash(username)
+
+The Example 1 result is : `` {'foo': {'salt': b'f67596ab0e0153ef658110a12715ffedef0fe882dbb2534911f8986aaae6bf8dfbfb88575edf7d1d4bd8e88847bbc71017b077054fd7c9bd2e178975274637fe', 'key': b'11d6e5c5202da74341fa704348a6b8f88f524593c6929c01196bfac9f6e48c0e7c7985497a89017971d770aa005b676da2dc97bac22f1fca7861b4cca96c696b'}}``
+
+
+Example 2 - 1: How to check if the map byte are correct with the present stored hash. 
+This will return ``True`` because the value of password has not changed, if an incorrect value is replace the excepted result will be ``False``
+
+.. code-block:: python
+map_c  = map_check(provide_string=password)
+
+.. note::
+Doing this might bring up questions such as, what if I want to use other methods which are listen in the above example ``md5`` , `` sha1`` , `` sha224`` , `` sha256`` , `` sha384`` ,  `` sha512`` without having to use ``hex_hash`` method. It is possible the below will demonstrate how to do go about that. **Caution:** This returns pure hash for each of the method and cannot be salted but can be rehashed 
+
+.. code-block:: python
+hash.md5(provide_string=password)
+hash.sha1(provide_string= password)
+hash.sha224(provide_string= password)
+hash.sha256(provide_string= password)
+hash.sha384(provide_string= password)
+hash.sha512(provide_string= password)

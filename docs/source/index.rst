@@ -30,6 +30,7 @@ Contents:
    schema
    contribution
    advance
+   hash
 
 
 
