@@ -285,11 +285,11 @@ try:
         file_open.write(index_file)
         try:
             os.chmod(dst_path, mode=0o755)
-            print(bold('File {} Permission Set {}'.format(dst_path, '0755')))
+            print(bold(green(__('Permission Done...'))))
 
         except Exception as err:
 
-            print(bold(red(__('Unable to Set file {} permission '.format(dst_path)))))
+            print(bold(red(__('Unable to Set permission '))))
 
 
 def main(argv: List[str] = sys.argv[1:]) -> int:
