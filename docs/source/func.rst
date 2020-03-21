@@ -631,7 +631,7 @@ Example 2: returns ``2020-01-09 08:32:18``
 
 
 
-Past: returns previous minutes, hours, days, weeks, seconds, let say we want to go back to 27 days from today date and time.. now in our calendar todays date and time is  ``2020-01-09 08:32:18``
+**Past**: returns previous minutes, hours, days, weeks, seconds, let say we want to go back to 27 days from today date and time.. now in our calendar todays date and time is  ``2020-01-09 08:32:18``
 
 Example : returns ``2019-12-13 08:58:15.983552``
 
@@ -641,7 +641,7 @@ Example : returns ``2019-12-13 08:58:15.983552``
 
 
 
-**Past:** returns previous ``minutes``, ``hours``, ``days``, ``weeks``, ``seconds``,
+**Future:** returns Next Date (future) ``minutes``, ``hours``, ``days``, ``weeks``, ``seconds``,
 let say we want to look into 27 days from today date and time.. now in our calendar todays date and time is
 ``2020-01-09 08:32:18``
 
