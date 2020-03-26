@@ -70,7 +70,7 @@ cd pytonik
 - Add the main repository as a remote to update later
 
 `` 
-git remote add pallets https://github.com/pytonik/pytonik
+git remote add pytonik https://github.com/pytonik/pytonik
 git fetch pytonik
 ``
 
@@ -104,7 +104,7 @@ New to Github
 
 **email:** https://help.github.com/en/articles/setting-your-commit-email-address-in-git
 
-**Fork:** https://github.com/pallets/pytonik/fork
+**Fork:** https://github.com/pytonik/pytonik/fork
 
 **Clone:** https://help.github.com/en/articles/fork-a-repo#step-2-create-a-local-clone-of-your-fork
 

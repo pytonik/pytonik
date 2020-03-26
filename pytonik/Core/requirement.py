@@ -7,6 +7,8 @@ from pytonik import Version, Config
 import sys, os, re, pkg_resources
 from pytonik.Log import Log
 
+
+#Handles installation of pytonik project dependencies
 class requirement:
 
     def __getattr__(self, item):
@@ -15,6 +17,8 @@ class requirement:
     def __init__(self):
         return None
 
+    #The ``run``` method trigger Terminal command using `os` module and support both
+    #windows, linux, mac os, ubuntu etc.  
     def run(self, pacakage, dir=""):
         dir_new = ' --install-option="--prefix={dir} "'.format(dir=dir) if dir != "" else ""
         cmd = "pip install {dir}{pacakage}".format(dir=dir_new, pacakage=pacakage)
@@ -25,7 +29,7 @@ class requirement:
             print(terminal)
         except Exception as err:
             try:
-                terminal =  os.system('cmd /k {cmd}'.format(cmd=cmd))
+                terminal =  os.system(cmd)
                 print(terminal)
             except Exception as err:
                 print(err)
