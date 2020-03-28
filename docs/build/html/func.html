@@ -118,6 +118,7 @@
 <li class="toctree-l1"><a class="reference internal" href="contribution.html#requirements">Requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="advance.html">Advance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hash.html">Hash</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model.html">Model</a></li>
 </ul>
 
             
@@ -630,12 +631,12 @@ Let say our present  <code class="docutils literal notranslate"><span class="pre
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nowdatetime</span><span class="o">.</span><span class="n">timestamp</span><span class="p">(</span><span class="s1">&#39;1578576738&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Past: returns previous minutes, hours, days, weeks, seconds, let say we want to go back to 27 days from today date and time.. now in our calendar todays date and time is  <code class="docutils literal notranslate"><span class="pre">2020-01-09</span> <span class="pre">08:32:18</span></code></p>
+<p><strong>Past</strong>: returns previous minutes, hours, days, weeks, seconds, let say we want to go back to 27 days from today date and time.. now in our calendar todays date and time is  <code class="docutils literal notranslate"><span class="pre">2020-01-09</span> <span class="pre">08:32:18</span></code></p>
 <p>Example : returns <code class="docutils literal notranslate"><span class="pre">2019-12-13</span> <span class="pre">08:58:15.983552</span></code></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nowdatetime</span><span class="o">.</span><span class="n">past</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><strong>Past:</strong> returns previous <code class="docutils literal notranslate"><span class="pre">minutes</span></code>, <code class="docutils literal notranslate"><span class="pre">hours</span></code>, <code class="docutils literal notranslate"><span class="pre">days</span></code>, <code class="docutils literal notranslate"><span class="pre">weeks</span></code>, <code class="docutils literal notranslate"><span class="pre">seconds</span></code>,
+<p><strong>Future:</strong> returns Next Date (future) <code class="docutils literal notranslate"><span class="pre">minutes</span></code>, <code class="docutils literal notranslate"><span class="pre">hours</span></code>, <code class="docutils literal notranslate"><span class="pre">days</span></code>, <code class="docutils literal notranslate"><span class="pre">weeks</span></code>, <code class="docutils literal notranslate"><span class="pre">seconds</span></code>,
 let say we want to look into 27 days from today date and time.. now in our calendar todays date and time is
 <code class="docutils literal notranslate"><span class="pre">2020-01-09</span> <span class="pre">08:32:18</span></code></p>
 <p><strong>Example:</strong> returns <code class="docutils literal notranslate"><span class="pre">2020-02-05</span> <span class="pre">09:02:08.269823</span></code></p>

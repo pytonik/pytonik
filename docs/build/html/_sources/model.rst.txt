@@ -1,0 +1,87 @@
+Model
+=======
+Pytonik provides for modeling ``Model``. This module handles both manually and automation load ``model`` classes which contains ``auto`` and ``load``, where ``auto`` is a function while ``load`` is a method. When considering importing your model into your Controllers or inheriting files within the project, one can consider using Model module. Let’s look at how to use it and how it can be useful in our project.
+**Import Module 1**
+.. code-block:: python
+from pytonik import Model
+
+**Callable 1**
+
+.. code-block:: python
+
+Model.auto()
+
+**Import Module 2**
+.. code-block:: python
+from pytonik.Model import Model
+
+**Callable 2**
+
+.. code-block:: python
+
+obj_user = Model().load(‘User’)
+
+
+Example 1: We’ll create ``User.py`` in model folder 
+.. code-block:: python
+Class User():
+	def __init__(self):
+	    return None
+	def list(self):
+	       return “List all user”
+
+
+
+
+
+
+Example 1-1: We’ll create ``UserController.py in controller folder
+.. code-block:: python
+
+from pytonik import Model
+Model.auto()
+import User
+obj_user = Users.User()
+def index():	
+     list_users = obj_user.list()
+    	
+ Example 1-1-0: How to implement using ``load`` method
+.. code-block:: python
+
+from pytonik.Model import Model
+obj_user  = Model.load(“User”)
+def index():
+     list_users = obj_user.list()
+
+**How to implement database queries in a model?**
+When Inheriting the ``Model`` module into User.py model class, it gives access to all it properties and methods which contains database scheme, and render support on ``Oracle``, ``Postgre``, ``Mysql``, ``SQLite`` etc. Read more from Scheme. 
+
+
+Example 2: We’ll be looking at how to select, insert, update, and delete by creating methods that will help us achieve those goals. Below illustration will give an easy workflow.
+.. code-block:: python
+
+from pytonik.Model import Model
+Class User(Model):
+	def __init__(self):
+	    return None
+	def list(self):
+                       query = self.table(‘user’).select().get()
+        	      return query.rowCount, query.result
+	
+	def insert(self, data):
+                       query = self.table(‘user’).insert(data)
+        	        return query
+
+	def update(self, data):
+                       query = self.table(‘user’).update(data)
+        	        return query
+
+	def delete(self, data):
+                       query = self.table(‘user’).delete(‘id’, “=”,data)
+        	        return query
+	
+
+
+
+
+

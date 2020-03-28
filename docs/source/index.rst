@@ -31,6 +31,7 @@ Contents:
    contribution
    advance
    hash
+   model
 
 
 
