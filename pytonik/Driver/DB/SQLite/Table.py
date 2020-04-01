@@ -713,7 +713,12 @@ class Table:
                     t_result = self.DB.query(table_insert, val[0])
                 else:
                     t_result = self.DB.querymultiple(table_insert, val)
-                return t_result.lastId() if t_result.Exception == "" else t_result.Exception
+
+                try:
+                    t_result.save()
+                    return t_result.lastId()
+                except Exception as err:
+                    return t_result.Exception
             else:
                 return "Empty Data"
         else:

@@ -675,6 +675,44 @@ class Table:
         else:
             return "Only Accepts type list"
 
+    def insertGetId(self, data=[]):
+        if (type(data) == list):
+            if len(data) > 0:
+                ksys = []
+                value = []
+                column = []
+                for l in data:
+                    value.append(l)
+                    if Version.PYVERSION_MA <= 2:
+                        lt = l.iteritems()
+                    else:
+                        lt = l.items()
+                    for k, v in lt:
+                        if k not in column:
+                            column.append(k)
+                            ksys.append('%({ks})s'.format(ks=k))
+
+                lcolumn = ' , '.join(column)
+                kvariables = ' , '.join(ksys)
+
+                table_insert = "INSERT INTO  {table}  ({column}) VALUES ({kvariables}) ".format(
+                    table=str(self.table), column=lcolumn, kvariables=kvariables)
+
+                if len(value) == 1:
+                    t_result = self.DB.query(table_insert, value[0])
+                else:
+                    t_result = self.DB.querymultiple(table_insert, value)
+
+                try:
+                    t_result.save()
+                    return t_result.lastId()
+                except Exception as err:
+                    return t_result.Exception
+            else:
+                return "Empty Data"
+        else:
+            return "Only Accepts type list"
+
     def create(self):
         if type(self.tabledict) == dict:
             for table_name in self.tabledict:

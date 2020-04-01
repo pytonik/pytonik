@@ -706,38 +706,40 @@ class Table:
             return "Only Accepts type list"
 
     def insertGetId(self, data=[]):
-        if (type(data) == list) is True:
+
+        if (type(data) == list):
+
             if len(data) > 0:
                 ksys = []
                 value = []
-                val = []
                 column = []
-                il = 1
                 for l in data:
                     value.append(l)
                     if Version.PYVERSION_MA <= 2:
                         lt = l.iteritems()
                     else:
                         lt = l.items()
-                    il += 1
-                    ksys.append(':{}'.format(il))
                     for k, v in lt:
                         if k not in column:
                             column.append(k)
-                    val.append(tuple(l.values()))
+                            ksys.append('%({ks})s'.format(ks=k))
 
                 lcolumn = ' , '.join(column)
-                kvariables = ' ,'.join(ksys)
+                kvariables = ' , '.join(ksys)
 
                 table_insert = "INSERT INTO  {table}  ({column}) VALUES ({kvariables}) ".format(
-                    table=str(self.table), column=lcolumn, kvariables=kvariables)
+                        table=str(self.table), column=lcolumn, kvariables=kvariables)
 
                 if len(value) == 1:
-                    t_result = self.DB.query(table_insert, val[0])
+                    t_result = self.DB.query(table_insert, value[0])
                 else:
-                    t_result = self.DB.querymultiple(table_insert, val)
-                t_result.save()
-                return t_result.lastId() if t_result.Exception == "" else t_result.Exception
+                    t_result = self.DB.querymultiple(table_insert, value)
+
+                try:
+                    t_result.save()
+                    return t_result.lastId()
+                except Exception as err:
+                    return t_result.Exception
             else:
                 return "Empty Data"
         else:
