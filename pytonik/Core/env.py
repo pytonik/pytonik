@@ -48,7 +48,11 @@ class env:
         rd, rds = "", ""
 
         for ls in splt.split():
+            if ls.startswith('#') or not ls.strip():
+                continue
             try:
+
+
                 k, v = ls.split("=")
                 env_vars.update({k: v})
             except Exception as err:
