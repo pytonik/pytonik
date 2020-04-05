@@ -268,6 +268,7 @@ class Router(env):
     def _route_(self, route="", call="", method=""):
 
         route = route.split('/')
+
         new_para = route
 
         parameter = {}
@@ -277,16 +278,20 @@ class Router(env):
         params = ""
 
         new_paraf = []
-        if self.control._getLanguages() in new_para:
+        if self.control.languages in self.control._getUri():
+
             new_paraf = self.control._getUri()[1:]
-            new_paraf.pop(-1)
+            new_paraf.pop(0)
         else:
-            new_paraf = self.control._getUri()[2:]
+            new_paraf = self.control._getUri()[1:]
+
+
 
         if self.control._getControllers() in new_paraf:
             new_paraf = self.control._getUri()
             new_paraf.pop(-1)
 
+        #print(call)
         if len(call) > 0:
             replace = call[0]
             params = call[1]
@@ -303,19 +308,22 @@ class Router(env):
             list_params.append(v_para)
 
             parameter = Helpers.covert_list_dict(list_params)
+
             self._params.update(parameter)
 
         if len(route) == 1:
             ctl = route[0] if route[0] != "" else self.control.default_controllers
             self._getcontrol.append(ctl)
-
-            self._getaction.append(self.control.default_actions)
+            act = self.control.default_actions
+            self._getaction.append(act)
         elif len(route) > 1:
-            self._getcontrol.append(
-                route[0] if route[0] != "" else self.control.default_controllers)
-            self._getaction.append(
-                route[1] if route[1] != "" else self.control.default_actions)
+            ctl = route[0] if route[0] != "" else self.control.default_controllers
+            self._getcontrol.append(ctl)
 
+            act = route[1] if route[1] != "" else self.control.default_actions
+            self._getaction.append(act)
+
+        #print(self._getcontrol, self._getaction, self._params)
         self._route.append(replace)
         self._method.append(method)
 

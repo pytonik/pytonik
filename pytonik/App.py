@@ -143,6 +143,7 @@ class App(env, Config, Variable):
 
         else:
 
+
             if str(self.controller[0]) == '?':
 
                 controllersClass = 'IndexController'
@@ -544,10 +545,24 @@ class App(env, Config, Variable):
                 for i, route_c in enumerate(route.route.getRouter()):
                     uri = self.uri
                     while("" in uri):
-                        uri.remove("")
+                        try:
+                            uri.clear("")
+                        except Exception as err:
+                            uri.remove("")
 
-                    luri = "/".join(uri) if len(
-                        uri) < 3 else "/".join(uri[:-2])
+
+                    if self.languages in uri:
+                        uri.pop(0)
+
+
+                    if len(uri) < 3:
+                        luri = "/".join(uri)
+
+                    else:
+                        luri = uri[0]
+                        #luri = "/".join(uri[:-2])
+
+
                     if luri == route_c:
 
                         if len(route.route.getController()) > 0:
