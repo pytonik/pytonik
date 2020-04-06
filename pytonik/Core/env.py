@@ -60,6 +60,7 @@ class env:
 
         brack_f = str(rd)[1:]
         brack_e = brack_f[:-1]
-        rds += '{'+str(brack_e)+"," + str(env_vars)[1:][:-1] if len(env_vars) > 0 else ""
+        rds += '{'+str(brack_e)+"," + str(env_vars)[1:][:-1] if len(env_vars) > 0 else '{'+brack_e
         rds += '}'
+
         return rds

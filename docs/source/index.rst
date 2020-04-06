@@ -27,6 +27,7 @@ Contents:
    session
    file
    func
+   route
    schema
    contribution
    advance
