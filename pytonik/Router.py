@@ -47,12 +47,14 @@ class Router(env):
         return None
 
     def get(self, uri, call=""):
+
         if call != "":
             if isinstance(call, tuple):
                 self._route_(route=uri, call=call, method="GET")
             else:
                 lcall = []
                 method_v, control_v = "", ""
+
                 if len(call.split('@')) > 0:
                     control = call.split('@')
                     if len(control) == 2:
@@ -66,6 +68,7 @@ class Router(env):
                         else:
                             method_v = control[1]
                     else:
+
                         if control[0] == "/":
                             control_v = self.control.default_controllers
                         else:
@@ -296,16 +299,43 @@ class Router(env):
             replace = call[0]
             params = call[1]
 
-        new_uri = new_paraf
+
+        uri = self.control._getUri()
+
+        while ("" in uri):
+            try:
+                uri.clear("")
+            except Exception as err:
+                uri.remove("")
+
+        if self.control.languages in uri:
+            uri.pop(0)
+
+        sltp = str(replace).split("/")
+
+        luri, para_v = "", ""
+
+        if len(uri) > 1:
+            para_v = "/".join(uri[len(sltp):])
+
+        new_uri = para_v.split("/")
+
+        if len(uri) > 1:
+            luri = "/".join(uri[0:len(sltp):])
+
+        new_uri = para_v.split("/")
+
+
+
 
         for i, para in enumerate(params):
 
-            if (len(new_uri) - i) > 0:
-                v_para = new_uri[i]
-            else:
-                v_para = ""
-            list_params.append(para)
-            list_params.append(v_para)
+            if len(new_uri) > 0:
+                if luri == replace:
+                    v_para = new_uri[i]
+
+                    list_params.append(para)
+                    list_params.append(v_para)
 
             parameter = Helpers.covert_list_dict(list_params)
 
@@ -323,7 +353,7 @@ class Router(env):
             act = route[1] if route[1] != "" else self.control.default_actions
             self._getaction.append(act)
 
-        #print(self._getcontrol, self._getaction, self._params)
+
         self._route.append(replace)
         self._method.append(method)
 

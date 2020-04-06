@@ -14,8 +14,8 @@ from pytonik.Core.env import env
 from pytonik.Session import Session
 from pytonik.util.Variable import Variable
 from .Core import Helpers
-h = Helpers
 
+h = Helpers
 
 if os.path.isdir(os.getcwd() + '/public'):
     host = os.getcwd()  # os.path.dirname(os.getcwd())
@@ -25,7 +25,6 @@ else:
 
 
 class Controllers(env, Config):
-
     def __getattr__(self, item):
         return item
 
@@ -221,7 +220,6 @@ class Controllers(env, Config):
         return self.languages
 
     def _getParams(self):
-
         return self.get_routes_param(params=self.parameter)
 
     def _getMethodPrefix(self):
@@ -232,30 +230,44 @@ class Controllers(env, Config):
         return self.routes
 
     def get_routes_param(self, params):
+
         if os.path.isfile(host + "/" + "routes.py") == True:
             sys.path.append(host)
             import routes as route
-            if len(route.route.getRouter()) > 0:
-                for i, route_c in enumerate(route.route.getRouter()):
+
+
+            for i, route_c in enumerate(route.route.getRouter()):
                     uri = self._getUri()
-                    while("" in uri):
-                        uri.remove("")
+                    while ("" in uri):
+                        try:
+                            uri.clear("")
+                        except Exception as err:
+                            uri.remove("")
 
-                    luri = "/".join(uri) if len(
-                        uri) < 3 else "/".join(uri[:-2])
+                    if self.languages in uri:
+                        uri.pop(0)
 
-                    if len(route.route.getAction()) > 0:
-                        if self.actions in route.route.getAction()[i]:
-                            if len(route.route.getParams()[i]) > 0:
+                    sltp = str(route_c).split("/")
+                    luri = ""
+                    if len(uri) > 1:
+
+                        luri = "/".join(uri[0:len(sltp)])
+
+                    else:
+                        luri = uri[0]
+
+                    if luri == route_c:
+
+
+                        if len(route.route.getParams()) > 0:
+                            try:
                                 return route.route.getParams()[i]
-                            else:
-                                return params
+                            except Exception as err:
+                                return route.route.getParams()
                         else:
                             return params
-                    else:
-                        return params
+
+
             else:
                 return params
 
-        else:
-            return params

@@ -554,13 +554,14 @@ class App(env, Config, Variable):
                     if self.languages in uri:
                         uri.pop(0)
 
+                    sltp  = str(route_c).split("/")
+                    luri = ""
+                    if len(uri) > 1:
 
-                    if len(uri) < 3:
-                        luri = "/".join(uri)
+                        luri = "/".join(uri[0:len(sltp)])
 
                     else:
                         luri = uri[0]
-                        #luri = "/".join(uri[:-2])
 
 
                     if luri == route_c:
