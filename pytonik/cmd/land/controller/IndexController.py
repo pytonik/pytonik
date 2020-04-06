@@ -8,7 +8,7 @@ def index():
         'title': 'Welcome',
         'name': 'Pytonik',
         'version': Version().VERSION_TEXT,
-        'reversion': Version().VERSION_TEXT[0:5],
+        'reversion': Version().VERSION_TEXT[0:6],
     }
 
     return app.views('index', data)
