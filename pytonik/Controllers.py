@@ -249,12 +249,13 @@ class Controllers(env, Config):
 
                     sltp = str(route_c).split("/")
                     luri = ""
-                    if len(uri) > 1:
+                    if len(uri) > 0:
 
                         luri = "/".join(uri[0:len(sltp)])
 
                     else:
-                        luri = uri[0]
+
+                        luri = str(uri)
 
                     if luri == route_c:
 
