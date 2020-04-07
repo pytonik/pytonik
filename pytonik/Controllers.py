@@ -220,6 +220,7 @@ class Controllers(env, Config):
         return self.languages
 
     def _getParams(self):
+
         return self.get_routes_param(params=self.parameter)
 
     def _getMethodPrefix(self):

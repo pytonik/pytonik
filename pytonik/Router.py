@@ -325,21 +325,25 @@ class Router(env):
 
         new_uri = para_v.split("/")
 
-
-
-
+        parameter = {}
         for i, para in enumerate(params):
 
             if len(new_uri) > 0:
                 if luri == replace:
-                    v_para = new_uri[i]
+                    if len(para) > 0:
 
-                    list_params.append(para)
-                    list_params.append(v_para)
+                        list_params.append(para)
+                        try:
+                            v_para = new_uri[i]
+                        except Exception as err:
+                            v_para = ""
 
-            parameter = Helpers.covert_list_dict(list_params)
+                        list_params.append(v_para)
 
-            self._params.update(parameter)
+
+                    parameter = Helpers.covert_list_dict(list_params)
+        self._params.update(parameter)
+
 
         if len(route) == 1:
             ctl = route[0] if route[0] != "" else self.control.default_controllers
