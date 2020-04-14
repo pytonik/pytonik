@@ -258,6 +258,9 @@ class Controllers(env, Config):
 
                         luri = str(uri)
 
+
+
+
                     if luri == route_c:
 
 
@@ -268,6 +271,18 @@ class Controllers(env, Config):
                                 return route.route.getParams()
                         else:
                             return params
+                    elif route_c == "":
+
+                        if len(route.route.getParams()) > 0:
+
+                            try:
+                                return route.route.getParams()[i]
+                            except Exception as err:
+                                return route.route.getParams()
+                        else:
+                            return params
+
+
 
 
             else:

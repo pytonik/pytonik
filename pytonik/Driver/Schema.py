@@ -11,12 +11,10 @@ from pytonik.App import App
 class Schema(App):
 
     def __getattr__(self, item):
-
         return item
 
 
     def __init__(self):
-
         return None
     
     def table(self, table):

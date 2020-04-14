@@ -35,7 +35,7 @@ class Session(Variable):
         self.s_string = "HTTP_COOKIE"
         self.session_list = []
         return None
-        
+
     def has(self, key=""):
 
         if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
@@ -65,7 +65,7 @@ class Session(Variable):
 
         if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
             session_string = str(key)+"="+str(value)
-            self.set_x(session_string) 
+            self.set_x(session_string)
         else:
 
             cooKeys = cook.SimpleCookie(self.out(self.s_string))
@@ -79,7 +79,7 @@ class Session(Variable):
 
 
 
-        
+
     def get(self, key=""):
         if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
             session_dict = self.x_get()
@@ -97,11 +97,11 @@ class Session(Variable):
                 else:
                     return ""
             else:
-                return ""       
+                return ""
         else:
             cooKeys = cook.SimpleCookie()
             OsEnviron = self.out(self.s_string)
-            
+
             if OsEnviron != None:
                 cooKeys.load(OsEnviron)
                 if key in cooKeys:
@@ -130,7 +130,7 @@ class Session(Variable):
                 return self._reset(session_result[1])
             else:
                 return False
-            
+
         else:
             cooKeys = cook.SimpleCookie(self.out(self.s_string))
             if Version.PYVERSION_MA >= 3:
@@ -156,19 +156,19 @@ class Session(Variable):
 
             else:
                 return False
-    
+
     def set_x(self, session_string=""):
         if session_string  != "":
             if self.s_string not in self.see():
                 self.default(self.s_string, session_string)
-                
+
             else:
                 self.session_list.append(session_string)
                 self._update(self.unqiue(self.session_list))
         else:
             return False
-                
-                
+
+
     def _update(self, session_string):
         dict_session = dict({"HTTP_COOKIE": session_string})
         try:
@@ -176,10 +176,10 @@ class Session(Variable):
             return True
         except Exception as e:
             return False
-        
+
 
     def unqiue(self, session_list=[]):
-       
+
         session_relist = []
         for l_session in session_list:
             session_string = str(l_session)+";"+str(self.out("HTTP_COOKIE", ""))
@@ -194,33 +194,33 @@ class Session(Variable):
             [re_unique.append(x) for x in unique_session if x not in re_unique]
             return ";".join(re_unique)
         except Exception as err:
-            return initial_session    
-        
+            return initial_session
+
     def _delete(self, session_key=tuple()):
 
 
         get_session = self.x_get()
         response = None
-        if len(get_session) > 0: 
+        if len(get_session) > 0:
             if len(session_key) > 0:
-                
+
                 try:
-                    for k in session_key:  
+                    for k in session_key:
                         get_session.pop(k, None)
                     self._update(get_session)
                     response = True
 
                 except Exception as err:
-                    response = False 
-            else:   
+                    response = False
+            else:
                 try:
                     for k in dict(get_session):
                         get_session.pop(k, None)
-                    response = True 
+                    response = True
                 except Exception as err:
-                    response = False 
+                    response = False
         else:
-            response = False 
+            response = False
         return response, get_session
 
     def _reset(self, session_dict = dict()):
@@ -233,7 +233,7 @@ class Session(Variable):
 
         for k, v in session_dict_l:
             session_list.append("{k}={v}".format(k=k,v=v))
-            
+
         return self._update(";".join(session_list))
 
     def x_get(self):

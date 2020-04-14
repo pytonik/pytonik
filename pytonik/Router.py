@@ -294,7 +294,7 @@ class Router(env):
             new_paraf = self.control._getUri()
             new_paraf.pop(-1)
 
-        #print(call)
+
         if len(call) > 0:
             replace = call[0]
             params = call[1]
@@ -311,28 +311,48 @@ class Router(env):
         if self.control.languages in uri:
             uri.pop(0)
 
-        sltp = str(replace).split("/")
+        if len(replace) > 0:
+            sltp = str(replace).split("/")
+        elif len(uri) > 1:
+             uri.pop(0)
+             uri.pop(0)
+             sltp = ""
+        else:
+            sltp = ""
+
 
         luri, para_v = "", ""
 
-        if len(uri) > 1:
+        if len(uri) > 0:
             para_v = "/".join(uri[len(sltp):])
 
         new_uri = para_v.split("/")
 
-        if len(uri) > 1:
-            luri = "/".join(uri[0:len(sltp):])
 
-        new_uri = para_v.split("/")
+        if len(uri) > 0:
+            luri = "/".join(uri[0:len(sltp):])
 
         parameter = {}
         for i, para in enumerate(params):
 
             if len(new_uri) > 0:
-                if luri == replace:
-                    if len(para) > 0:
 
+                if luri == replace :
+                    if len(para) > 0:
                         list_params.append(para)
+
+                        try:
+                            v_para = new_uri[i]
+                        except Exception as err:
+                            v_para = ""
+
+                        list_params.append(v_para)
+
+                elif replace == "":
+
+                    if len(para) > 0:
+                        list_params.append(para)
+
                         try:
                             v_para = new_uri[i]
                         except Exception as err:
@@ -341,8 +361,9 @@ class Router(env):
                         list_params.append(v_para)
 
 
-                    parameter = Helpers.covert_list_dict(list_params)
+                parameter = Helpers.covert_list_dict(list_params)
         self._params.update(parameter)
+
 
 
         if len(route) == 1:

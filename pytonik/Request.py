@@ -39,7 +39,7 @@ class Request(Variable):
                     elif error == 1:
                         return self.attr
                     else:
-                        return ""
+                        return self.params(key)
                 else:
                     return ""
             else:
@@ -93,7 +93,7 @@ class Request(Variable):
 
     def params(self, key=0):
         try:
-            para = self.Controllers.getParams()
+            para = self.Controllers._getParams()
 
             if para != "" or para != None:
                 return para.get(key, '')
