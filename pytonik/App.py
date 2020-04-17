@@ -24,6 +24,7 @@ import cgi
 import cgitb
 import importlib
 import glob
+import  json
 import inspect
 
 cgitb.enable()
@@ -110,6 +111,7 @@ class App(env, Config, Variable):
         langs.loadLang()
 
         controlUri = []
+
 
         if Version.PYVERSION_MA >= 3:
             lrounters = self.getrouters.items()
@@ -328,9 +330,13 @@ class App(env, Config, Variable):
 
             return self.errorP('400')
 
-    def strMethod(self, p, c=None, m=None):
+    def strMethod(self, p, c=None, mv=None):
         Request = self.Request(prform=self.formData)
         Session = self.Session()
+        try:
+            m = mv.split("?")[0]
+        except Exception as err:
+            m = mv
         try:
             return getattr(c, m)(Request, Session)
         except Exception as err:
@@ -346,7 +352,6 @@ class App(env, Config, Variable):
                         try:
                             return getattr(c, m)()
                         except Exception as err:
-
                             Log(p + DS + c + '.py').critical(err)
                             return self.errorP('400')
 
@@ -362,6 +367,7 @@ class App(env, Config, Variable):
             return self.strMethod(p, md, ms)
 
         except Exception as err:
+
 
             Log(p + DS + c + '.py').critical(err)
             return self.errorP('400')
@@ -427,11 +433,26 @@ class App(env, Config, Variable):
         else:
             return
 
-    def XHreponse(self, dataString):
+    def Jdumps(self, strings):
+
+        try:
+            return json.dumps(strings)
+        except Exception as err:
+            return strings
+
+    def Jloads(self, strings):
+
+        try:
+            return json.loads(strings)
+        except Exception as err:
+            return strings
+
+
+    def XHreponse(self, dataString, type=""):
         if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
             return dataString
         else:
-            self.header()
+            self.header(type=type)
             print(dataString)
 
     def views(self, pathf="", datag={}, datal={}):
