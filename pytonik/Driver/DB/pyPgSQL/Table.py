@@ -675,7 +675,7 @@ class Table:
         else:
             return "Only Accepts type list"
 
-    def insertGetId(self, data=[]):
+    def insertGetId(self, data=[], id=0):
         if (type(data) == list):
             if len(data) > 0:
                 ksys = []
@@ -694,9 +694,13 @@ class Table:
 
                 lcolumn = ' , '.join(column)
                 kvariables = ' , '.join(ksys)
+                if id != 0:
+                    returnid = "RETURNING {id}".format(id=id)
+                else:
+                    returnid = ""
 
-                table_insert = "INSERT INTO  {table}  ({column}) VALUES ({kvariables}) ".format(
-                    table=str(self.table), column=lcolumn, kvariables=kvariables)
+                table_insert = "INSERT INTO  {table} ({column}) VALUES ({kvariables}) {returnid}".format(
+                    table=str(self.table), column=lcolumn, kvariables=kvariables, returnid=returnid)
 
                 if len(value) == 1:
                     t_result = self.DB.query(table_insert, value[0])
@@ -704,7 +708,7 @@ class Table:
                     t_result = self.DB.querymultiple(table_insert, value)
 
                 try:
-                    t_result.save()
+                    #t_result.save()
                     return t_result.lastId()
                 except Exception as err:
                     return t_result.Exception

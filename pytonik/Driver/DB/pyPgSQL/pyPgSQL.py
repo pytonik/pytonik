@@ -83,7 +83,14 @@ class pyPgSQL:
 
  
     def lastId(self):
-        return self.con.fetchone()[0]
+
+        try:
+            self.save()
+            getrowid = self.con.fetchone()[0]
+        except Exception as err:
+            getrowid = err
+
+        return getrowid
 
     def fetch(self):
         result = self.con.fetchall()
