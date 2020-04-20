@@ -61,7 +61,7 @@ For guidance on setting up a development environment and how to make a contribut
 
 ## Documentation on how to?
 
-* [Getting Started](https://pytonik.readthedocs.io/en/1.9.8)
+* [Getting Started](https://pytonik.readthedocs.io/en/latest)
 
 
 ## Assistance
