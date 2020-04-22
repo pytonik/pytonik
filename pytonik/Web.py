@@ -5,12 +5,13 @@
 # Maintainer Email: emmamartinscm@gmail.com
 # Created by Betacodings on 2019.
 ###
-
-
-
-def autoload():
+def Model():
     from pytonik import Model
-    return Model.auto()
+    return Model
+
+
+Model().auto()
+
 
 def App():
     from . import App
@@ -47,15 +48,10 @@ def Hash():
     return Hash()
 
 
-def Model():
-    from .Model import Model
-    M = Model()
-    return M
 
 
 def Load(m):
-    M = Model()
-    return M.load(m)
+    return Model().Model().load(m)
 
 
 def Functions():
