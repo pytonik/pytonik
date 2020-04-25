@@ -272,6 +272,7 @@ def make_file(d):
 
     # write / update python path
     dst_path = dst+"/public/index.py"
+    dst_path_log = dst+"/app.log"
     if os.path.isfile(dst_path) == True:
         index_file = """{}
 try:
@@ -285,6 +286,7 @@ try:
         file_open.write(index_file)
         try:
             os.chmod(dst_path, mode=0o755)
+            os.chmod(dst_path_log, mode=0o777)
             print(bold(green(__('Permission Done...'))))
 
         except Exception as err:
