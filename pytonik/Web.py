@@ -115,6 +115,11 @@ def SendEmail(from_send, to_recipient, message_subject="", messege_content=""):
 
     return SMTP().send(from_send, to_recipient, message_subject, messege_content)
 
+def mailer():
+    from .Core.SMTP import SMTP
+
+    return SMTP()
+
 
 def Logs():
     from .Log import Log
