@@ -167,3 +167,11 @@ def url(path="", lang=False):
             DS = "/"
 
     return url + DS + p
+
+
+def env(key):
+
+    return App().envrin(key)
+
+
+

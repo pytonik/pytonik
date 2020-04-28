@@ -48,6 +48,7 @@ class env:
         rd, rds = "", ""
 
         for ls in splt.split():
+
             if ls.startswith('#') or not ls.strip():
                 continue
             try:
