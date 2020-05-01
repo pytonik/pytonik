@@ -91,7 +91,7 @@ class include(App):
         html_file_path = os.path.join(template_dir, "%s.html" % engine)
 
         try:
-            with open(html_file_path) as html_file:
+            with open(html_file_path,  encoding='utf-8') as html_file:
                 html = html_file.read()
             return HTMLeditor.Template(html).render(**context)
         except Exception as err:
