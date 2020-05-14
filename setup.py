@@ -22,7 +22,7 @@ setup(
     license=Version.LICENSE,
     keywords=Version.KEYWORDS,
     entry_points={
-        'console_scripts': ['pytonik-install = pytonik.cmd.install:main', 'pytonik-start = pytonik.cmd.start:main', 'pytonik-docs = pytonik.cmd.doc:main',  'pytonik-server = pytonik.cmd.server:main']
+        'console_scripts': ['pytonik = pytonik.cmd.help:main', 'pytonik-install = pytonik.cmd.install:main', 'pytonik-start = pytonik.cmd.start:main', 'pytonik-docs = pytonik.cmd.doc:main',  'pytonik-server = pytonik.cmd.server:main']
     },
     install_requires=['Pillow', 'colorama',
                       'mysql-connector-python', 'psycopg2-binary', 'cx-Oracle'],
