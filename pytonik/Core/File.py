@@ -264,17 +264,22 @@ class Image():
         else:
             return False
 
-    def upload(self, rename=str("")):
+    def upload(self, rename=str(""), uploaddir=""):
 
         if self.items.filename != "":
             if rename == "":
                 fname = os.path.basename(self.items.filename)
             else:
                 fname = str(rename)+ str(os.path.basename(self.items.filename))
+            
+            if uploaddir != "":
+                dir_folder = uploaddir
+            else:
+                dir_folder = self.dir  
             try:
 
                 # result = open(self.dir + fname, 'wb')
-                with open(self.dir + fname, 'wb') as result:
+                with open(str(dir_folder)+str(fname), 'wb') as result:
                     result.write(self.read)
                     result.close()
                 return True

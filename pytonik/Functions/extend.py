@@ -35,10 +35,10 @@ class extend(App):
     def extends(self, path = ""):
 
         if os.path.isdir(os.getcwd() + '/public'):
-            host = os.getcwd()  # os.path.dirname(os.getcwd())
+            host = str(os.getcwd()).replace("\\", "/")  # os.path.dirname(os.getcwd())
 
         else:
-            host = os.path.dirname(os.getcwd())
+            host = str(os.path.dirname(os.getcwd())).replace("\\", "/")
 
         DS = str("/")
         pth = path

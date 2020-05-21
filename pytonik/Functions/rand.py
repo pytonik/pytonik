@@ -1,13 +1,13 @@
 from pytonik.Log import Log
 from pytonik.App import App
-from pytonik.Functions.count import count
+from pytonik.Functions.validation import validation
 import os, random, string
 
 log_msg = Log()
 Ap = App()
 
 
-class rand(count):
+class rand(validation):
     def __getattr__(self, item):
         return item
 
@@ -41,7 +41,7 @@ class rand(count):
         ran = []
         for x in range(list):
             ran.append(str(random.randint(size, num[size])))
-
+            
         return "".join(ran) if self.count(ran) < 2 else ran
 
     def chars(self, size=6, list=1, transform = "lower"):
