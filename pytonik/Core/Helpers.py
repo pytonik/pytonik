@@ -133,13 +133,13 @@ if "mvc_dir" not in dir(os):
             newpath = path
 
         if os.path.isdir(os.getcwd() + '/public'):
-            host = os.getcwd()  # os.path.dirname(os.getcwd())
+            host = str(os.getcwd()).replace("\\", "/")  # os.path.dirname(os.getcwd())
 
         else:
-            host = os.path.dirname(os.getcwd())
+            host = str(os.path.dirname(os.getcwd())).replace("\\", "/") 
 
         DS = str("/")
-        dir_s = host + DS + newpath + DS
+        dir_s = host + newpath + DS
         dir_res = ""
         if os.path.exists(dir_s) == True:
             dir_res = dir_s

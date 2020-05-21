@@ -91,7 +91,16 @@ class now:
         except Exception as err:
             return err
 
-
+    def unix(self, type="int"):
+        try:
+            import time
+            if type == "float":
+                return time.time()
+            else:
+                return int(time.time())
+        except Exception as err:
+            return err
+            
     def date(self, format="%Y-%m-%d"):
         try:
             return datetime.strftime(datetime.now(), format)

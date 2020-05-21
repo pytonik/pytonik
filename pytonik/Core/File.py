@@ -44,9 +44,10 @@ def upload(fileitem, uploaddir, rename=""):
                 fname = str(rename) + os.path.basename(fileitem.filename)
 
             try:
-                result = open(uploaddir + fname, 'wb')
-                result.write(fileitem.file.read())
-                result.close()
+                
+                with open(str(uploaddir)+str(fname), 'wb') as result:
+                    result.write(fileitem.file.read())
+                    result.close()
                 return True
             except Exception as err:
                 log_msg.critical(err)
@@ -269,7 +270,7 @@ class Image():
             if rename == "":
                 fname = os.path.basename(self.items.filename)
             else:
-                fname = str(rename) + "_" + os.path.basename(self.items.filename)
+                fname = str(rename)+ str(os.path.basename(self.items.filename))
             try:
 
                 # result = open(self.dir + fname, 'wb')
