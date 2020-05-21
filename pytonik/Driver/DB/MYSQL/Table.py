@@ -659,11 +659,11 @@ class Table:
                         lt = l.items()
                     for k, v in lt:
                         if k not in column:
-                            column.append( '{k}="{v}"'.format(k=k, v=v))
+                            column.append("{k}='{v}'".format(k=k, v=v))
 
                 lcolumn = ' , '.join(column)
 
-                table_update ="UPDATE {table} SET {column} {where}".format(table=str(self.table),  column=lcolumn, where=str(" WHERE") + str("AND".join(self.table_where)) if len(self.table_where) > 0 else '')
+                table_update ="UPDATE {table} SET {column} {where}".format(table=str(self.table),  column=lcolumn, where=str(" WHERE") + str(" AND".join(self.table_where)) if len(self.table_where) > 0 else '')
                 return table_update
             else:
                 return "Empty Data"

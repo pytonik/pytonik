@@ -93,7 +93,8 @@ if "url" not in dir(os):
             url = str("https://") + seturl.replace(":80", "") + "/" + ront.alllanguages.get(ront.getLanguages(), ront.getLanguages()) if lang == True else str(
                 "https://") + seturl.replace(":80", "")
         else:
-            url = str("http://") + seturl.replace(":80", "") + "/" + ront.alllanguages.get(ront.getLanguages(), ront.getLanguages()) if lang == True else str("http://") + seturl.replace(":80", "")
+            url = str("http://") + seturl.replace(":80", "") + "/" + ront.alllanguages.get(ront.getLanguages(),
+                                                                                           ront.getLanguages()) if lang == True else str("http://") + seturl.replace(":80", "")
 
         if path == "":
             DS = ""
@@ -124,12 +125,13 @@ if "covert_list_dict" not in dir(os):
 
 
 if "mvc_dir" not in dir(os):
-    def mvc_dir(path):
+    def mvc_dir(path, permission=""):
         dpp = path[len(str(path))-1]
         if '/' in dpp:
             newpath = path[:-1]
         else:
             newpath = path
+
         if os.path.isdir(os.getcwd() + '/public'):
             host = os.getcwd()  # os.path.dirname(os.getcwd())
 
@@ -137,8 +139,27 @@ if "mvc_dir" not in dir(os):
             host = os.path.dirname(os.getcwd())
 
         DS = str("/")
-        dir = host + DS + newpath + DS
-        return dir
+        dir_s = host + DS + newpath + DS
+        dir_res = ""
+        if os.path.exists(dir_s) == True:
+            dir_res = dir_s
+        else:
+            try:
+                os.mkdir(dir_s)
+                dir_res = dir_s
+            except Exception as err:
+                try:
+                    os.makedirs(dir_s)
+                    dir_res = dir_s
+                except Exception as err:
+                    dir_res = dir_s
+        if permission != "":
+            try:
+                os.chmod(path=dir_s, mode=permission)
+            except Exception as err:
+                dir_res = dir_s
+
+        return dir_res
 
 
 if "key_tag" not in dir(os):
