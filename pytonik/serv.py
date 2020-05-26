@@ -70,7 +70,8 @@ def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port=
         def do_GET(self):
 
             path_info = self.path
-
+            
+            
             form = cgi.FieldStorage(
                 fp=self.rfile,
                 headers=self.headers,
@@ -90,32 +91,35 @@ def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port=
 
                 App = im.load_source('App.App', path + spes + vpath)
                 mimetype = 'text/html'
-                App.App.put(method="GET", accept_lang=self.headers["Accept-Language"],
+                if "." not in path_info :
+                    
+                    
+                    App.App.put(method="GET", accept_lang=self.headers["Accept-Language"],
                             http_connect=self.headers["Connection"], http_user_agt=self.headers["User-Agent"],
                             http_encode=self.headers["Accept-Encoding"], path=path, host=host, port=port,
-                            para=self.path, remoter_addr=self.client_address[
+                            para=path_info, remoter_addr=self.client_address[
                                 0], remoter_port=self.client_address[1],
                             script_file=str(
                                 path) + str(spes) + (vpath), server_proto=server_pro, server_ver=self.server_version,
                             protocol_ver=self.protocol_version)
-                runs_response = App.App.runs(formData=form)
-                if isinstance(runs_response, tuple) == True:
+                    runs_response = App.App.runs(formData=form)
+                    if isinstance(runs_response, tuple) == True:
 
-                    if str(runs_response[0]) == "404" or str(runs_response[0]) == "405" or str(
-                            runs_response[0]) == "400":
+                        if str(runs_response[0]) == "404" or str(runs_response[0]) == "405" or str(
+                                runs_response[0]) == "400":
 
-                        self.error(runs_response[0], runs_response[1])
+                            self.error(runs_response[0], runs_response[1])
 
-                    elif str(runs_response[0]) == "307":
+                        elif str(runs_response[0]) == "307":
 
-                        self.redirect(runs_response[0], runs_response[1])
+                            self.redirect(runs_response[0], runs_response[1])
+                        else:
+
+                            self.rendering(mimetype=mimetype,
+                                        content=runs_response)
+
                     else:
-
-                        self.rendering(mimetype=mimetype,
-                                       content=runs_response)
-
-                else:
-                    self.rendering(mimetype=mimetype, content=runs_response)
+                        self.rendering(mimetype=mimetype, content=runs_response)
 
             elif self.path != spes:
 
@@ -134,35 +138,37 @@ def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port=
 
                         App = im.load_source('App.App', path + spes + vpath)
                         mimetype = 'text/html'
+                        if "." not in path_info:
+                            
+                            
+                            App.App.put(method="GET", accept_lang=self.headers["Accept-Language"],
+                                        http_connect=self.headers["Connection"], http_user_agt=self.headers["User-Agent"],
+                                        http_encode=self.headers["Accept-Encoding"], path=path, host=host, port=port,
+                                        para=path_info, remoter_addr=self.client_address[0],
+                                        remoter_port=self.client_address[1], script_file=str(
+                                path) + str(spes) + (vpath), server_proto=server_pro, server_ver=self.server_version,
+                                protocol_ver=self.protocol_version)
 
-                        App.App.put(method="GET", accept_lang=self.headers["Accept-Language"],
-                                    http_connect=self.headers["Connection"], http_user_agt=self.headers["User-Agent"],
-                                    http_encode=self.headers["Accept-Encoding"], path=path, host=host, port=port,
-                                    para=self.path, remoter_addr=self.client_address[0],
-                                    remoter_port=self.client_address[1], script_file=str(
-                            path) + str(spes) + (vpath), server_proto=server_pro, server_ver=self.server_version,
-                            protocol_ver=self.protocol_version)
+                            runs_response = App.App.runs(formData=form)
+                            if isinstance(runs_response, tuple) == True:
 
-                        runs_response = App.App.runs(formData=form)
-                        if isinstance(runs_response, tuple) == True:
+                                if str(runs_response[0]) == "404" or str(runs_response[0]) == "405" or str(
+                                        runs_response[0]) == "400":
 
-                            if str(runs_response[0]) == "404" or str(runs_response[0]) == "405" or str(
-                                    runs_response[0]) == "400":
+                                    self.error(runs_response[0], runs_response[1])
 
-                                self.error(runs_response[0], runs_response[1])
+                                elif str(runs_response[0]) == "307":
 
-                            elif str(runs_response[0]) == "307":
+                                    self.redirect(
+                                        runs_response[0], runs_response[1])
+                                else:
 
-                                self.redirect(
-                                    runs_response[0], runs_response[1])
+                                    self.rendering(mimetype=mimetype,
+                                                content=runs_response)
+
                             else:
-
                                 self.rendering(mimetype=mimetype,
-                                               content=runs_response)
-
-                        else:
-                            self.rendering(mimetype=mimetype,
-                                           content=runs_response)
+                                            content=runs_response)
 
             if self.path.endswith('favicon.ico'):
                 return
@@ -201,7 +207,7 @@ def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port=
 
         def do_POST(self):
             path_info = self.path
-
+           
             form = cgi.FieldStorage(
                 fp=self.rfile,
                 headers=self.headers,
@@ -223,16 +229,18 @@ def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port=
 
             App = im.load_source('App.App', path + spes + vpath)
             mimetype = 'text/html'
+            if "." not in path_info :
+                
+                
+                App.App.put(method="POST", accept_lang=self.headers["Accept-Language"],
+                            http_connect=self.headers["Connection"], http_user_agt=self.headers["User-Agent"],
+                            http_encode=self.headers["Accept-Encoding"], path=path, host=host, port=port, para=path_info,
+                            remoter_addr=self.client_address[0], remoter_port=self.client_address[1], script_file=str(
+                    path) + str(spes) + (vpath), server_proto=server_pro, server_ver=self.server_version,
+                    protocol_ver=self.protocol_version)
 
-            App.App.put(method="POST", accept_lang=self.headers["Accept-Language"],
-                        http_connect=self.headers["Connection"], http_user_agt=self.headers["User-Agent"],
-                        http_encode=self.headers["Accept-Encoding"], path=path, host=host, port=port, para=self.path,
-                        remoter_addr=self.client_address[0], remoter_port=self.client_address[1], script_file=str(
-                path) + str(spes) + (vpath), server_proto=server_pro, server_ver=self.server_version,
-                protocol_ver=self.protocol_version)
-
-            self.rendering(mimetype=mimetype, code=200,
-                           content=App.App.runs(formData=form))
+                self.rendering(mimetype=mimetype, code=200,
+                            content=App.App.runs(formData=form))
 
         def do_HEAD(self):
             self.do_GET()

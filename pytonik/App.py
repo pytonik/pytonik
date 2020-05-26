@@ -474,6 +474,7 @@ class App(env, Config, Variable):
 
             else:
                 self.header()
+                
                 print(self.read_html(host + DS + 'views' + DS, pathf, datag))
 
     def read_html(self, template_dir, engine, context=[]):
@@ -483,7 +484,7 @@ class App(env, Config, Variable):
         try:
             with open(html_file_path, encoding='utf-8') as html_file:
                 html = html_file.read()
-
+            
             return str('<!-- Pytonik -->\n') + HTMLeditor.Template(html).render(**context) + str(
                 '\n<!-- Pytonik {} -->'.format(Version.VERSION_TEXT))
 

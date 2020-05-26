@@ -631,11 +631,11 @@ class _Call(_Node):
 
 
 class _Text(_Node):
+    
     def process_fragment(self, fragment):
         self.text = fragment
 
     def render(self, context):
-
         return self.text
 
 
@@ -714,4 +714,5 @@ class Template(object):
 
 
     def render(self, **kwargs):
-        return self.root.render(kwargs)
+        
+        return str(self.root.render(kwargs)).replace('\ufeff', ' ')
