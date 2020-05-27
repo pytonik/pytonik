@@ -115,9 +115,11 @@ class Controllers(env, Config):
                 for s in path_parts:
                     if s in self.all_languages:
                         self.languages = s
-                        path_parts.append(path_parts.pop(-1))
+                        path_parts.pop(0)
+                path_parts.append(path_parts)
 
             controllers = self.get('default_controllers', '')
+            
             if controllers:
 
                 i = 0
@@ -164,7 +166,7 @@ class Controllers(env, Config):
                             getMapPara = []
                         else:
                             getMapPara = paraUri[1].split(':')
-
+                        
                         if self.controllers in routes:
 
                             if len(getMapPara[1:]) > 0:
@@ -172,18 +174,18 @@ class Controllers(env, Config):
                                 new_para = path_parts[1:]
 
                                 if len(new_para) > 0:
-                                    param_m = []
+                                    self.param_m = []
 
                                     for i, para in enumerate(getMapPara[1:]):
 
-                                        param_n = para
+                                        self.param_m = para
 
                                         if (len(new_para) - i) > 0:
                                             v_para = new_para[i]
                                         else:
                                             v_para = ""
 
-                                        list_params.append(param_n)
+                                        list_params.append(self.param_m)
                                         list_params.append(v_para)
 
                                 self.parameter = Helpers.covert_list_dict(
@@ -244,10 +246,10 @@ class Controllers(env, Config):
                             uri.clear("")
                         except Exception as err:
                             uri.remove("")
-
+                    
                     if self.languages in uri:
                         uri.pop(0)
-
+                    
                     sltp = str(route_c).split("/")
                     luri = ""
                     if len(uri) > 0:
@@ -257,10 +259,7 @@ class Controllers(env, Config):
                     else:
 
                         luri = str(uri)
-
-
-
-
+                    
                     if luri == route_c:
 
 
@@ -272,13 +271,13 @@ class Controllers(env, Config):
                         else:
                             return params
                     elif route_c == "":
-
+                        
                         if len(route.route.getParams()) > 0:
 
                             try:
-                                return route.route.getParams()[i]
+                                return route.route.getParams()#route.route.getParams()[i]
                             except Exception as err:
-                                return route.route.getParams()
+                                return params#route.route.getParams()
                         else:
                             return params
 

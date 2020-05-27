@@ -94,6 +94,7 @@ class Request(Variable):
     def params(self, key=0):
         try:
             para = self.Controllers._getParams()
+            
 
             if para != "" or para != None:
                 return para.get(key, '')
