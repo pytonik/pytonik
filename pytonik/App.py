@@ -151,11 +151,11 @@ class App(env, Config, Variable):
                 controllersClass = 'IndexController'
             else:
 
-                controllersClass = str(self.controller[0].capitalize(
-                )) + str(self.controller[1:]) + 'Controller'
+                controllersClass = str(self.controller[0]).capitalize(
+                ) + str(self.controller[1:]) + 'Controller'
 
             controllersMethods = str(self.actions)
-
+        
         if controllersMethods != "":
             self.actions = controllersMethods
 
@@ -485,7 +485,7 @@ class App(env, Config, Variable):
             with open(html_file_path, encoding='utf-8') as html_file:
                 html = html_file.read()
             
-            return str('<!-- Pytonik -->\n') + HTMLeditor.Template(html).render(**context) + str(
+            return str('<!-- Pytonik -->')+HTMLeditor.Template(html).render(**context) + str(
                 '\n<!-- Pytonik {} -->'.format(Version.VERSION_TEXT))
 
         except Exception as err:
@@ -553,6 +553,7 @@ class App(env, Config, Variable):
             sys.path.append(host)
             import routes as route
             toroute, fromroute = "", ""
+            
             if len(route.route.getRouter()) > 0:
 
                 for i, redirect in enumerate(route.route.getCode()):
@@ -561,10 +562,14 @@ class App(env, Config, Variable):
                     if len(route.route.getDespatch()) > 0:
                         fromroute = route.route.getDespatch()[i]
                     if fromroute == self.controller:
+                        
                         self.redirect(location=toroute,
                                       link=True, code=redirect)
-
+                
                 for i, route_c in enumerate(route.route.getRouter()):
+                    
+                    
+                    
                     uri = self.uri
                     while("" in uri):
                         try:
@@ -584,10 +589,11 @@ class App(env, Config, Variable):
 
                     else:
                         luri = str(uri)
-
-
+                    
                     if luri == route_c:
-
+                        routes_l = route_c
+                
+                    
                         if len(route.route.getController()) > 0:
                             self.controller = route.route.getController()[i]
 
@@ -605,3 +611,4 @@ class App(env, Config, Variable):
                                         self.actions) + " Requires " + self.method)
 
                                     return self.errorP('400')
+                        

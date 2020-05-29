@@ -18,32 +18,20 @@ from .Core import Helpers
 h = Helpers
 
 if os.path.isdir(os.getcwd() + '/public'):
-    host = os.getcwd()  # os.path.dirname(os.getcwd())
+    host = str(os.getcwd()).replace('\\', '/')  # os.path.dirname(os.getcwd())
 
 else:
-    host = os.path.dirname(os.getcwd())
+    host = str(os.path.dirname(os.getcwd())).replace('\\', '/')
 
-
+DS="/"
 class Controllers(env, Config):
     def __getattr__(self, item):
         return item
 
     def __init__(self):
-        osv = Variable()
-        url = osv.out('REQUEST_URI', "")
-        http_s = osv.out("HTTP_HOST")
-
-        if osv.out("SERVER_SOFTWARE", "") == Version.AUTHOR:
-
-            self.uri = url.split('/')[2:]
-
-        else:
-
-            if http_s == "127.0.0.1" or http_s == "localhost":
-                self.uri = url.split('/')[2:]
-            else:
-                self.uri = url.split('/')[1:]
-
+        
+        self.uri = self.url()
+        
         self.add(self._e())
 
         self.controllers = self.get('default_controllers')
@@ -115,11 +103,9 @@ class Controllers(env, Config):
                 for s in path_parts:
                     if s in self.all_languages:
                         self.languages = s
-                        path_parts.pop(0)
-                path_parts.append(path_parts)
+                        path_parts.append(path_parts.pop(-1))
 
             controllers = self.get('default_controllers', '')
-            
             if controllers:
 
                 i = 0
@@ -166,7 +152,7 @@ class Controllers(env, Config):
                             getMapPara = []
                         else:
                             getMapPara = paraUri[1].split(':')
-                        
+
                         if self.controllers in routes:
 
                             if len(getMapPara[1:]) > 0:
@@ -174,18 +160,18 @@ class Controllers(env, Config):
                                 new_para = path_parts[1:]
 
                                 if len(new_para) > 0:
-                                    self.param_m = []
+                                    param_m = []
 
                                     for i, para in enumerate(getMapPara[1:]):
 
-                                        self.param_m = para
+                                        param_n = para
 
                                         if (len(new_para) - i) > 0:
                                             v_para = new_para[i]
                                         else:
                                             v_para = ""
 
-                                        list_params.append(self.param_m)
+                                        list_params.append(param_n)
                                         list_params.append(v_para)
 
                                 self.parameter = Helpers.covert_list_dict(
@@ -209,6 +195,23 @@ class Controllers(env, Config):
 
         return None
 
+    def url(self):
+        osv = Variable()
+        url = osv.out('REQUEST_URI', "")
+        http_s = osv.out("HTTP_HOST")
+        uri = ""
+        if osv.out("SERVER_SOFTWARE", "") == Version.AUTHOR:
+
+            uri = url.split('/')[2:]
+
+        else:
+
+            if http_s == "127.0.0.1" or http_s == "localhost":
+                uri = url.split('/')[2:]
+            else:
+                uri = url.split('/')[1:]
+        return uri
+
     def _getUri(self):
         return self.uri
 
@@ -222,7 +225,7 @@ class Controllers(env, Config):
         return self.languages
 
     def _getParams(self):
-
+        
         return self.get_routes_param(params=self.parameter)
 
     def _getMethodPrefix(self):
@@ -231,59 +234,63 @@ class Controllers(env, Config):
 
     def _getRoutes(self):
         return self.routes
-
+    
     def get_routes_param(self, params):
+            list_params = []
+            if os.path.isfile(host + "/" + "routes.py") == True:
+                sys.path.append(host)
+                import routes as route
 
-        if os.path.isfile(host + "/" + "routes.py") == True:
-            sys.path.append(host)
-            import routes as route
-
-
-            for i, route_c in enumerate(route.route.getRouter()):
-                    uri = self._getUri()
-                    while ("" in uri):
-                        try:
-                            uri.clear("")
-                        except Exception as err:
-                            uri.remove("")
-                    
-                    if self.languages in uri:
-                        uri.pop(0)
-                    
-                    sltp = str(route_c).split("/")
-                    luri = ""
-                    if len(uri) > 0:
-
-                        luri = "/".join(uri[0:len(sltp)])
-
-                    else:
-
-                        luri = str(uri)
-                    
-                    if luri == route_c:
-
-
-                        if len(route.route.getParams()) > 0:
-                            try:
-                                return route.route.getParams()[i]
-                            except Exception as err:
-                                return route.route.getParams()
-                        else:
-                            return params
-                    elif route_c == "":
+                
+                for i, route_c in enumerate(route.route.getRouter()):
                         
-                        if len(route.route.getParams()) > 0:
-
+                        uri = self.uri
+                        while ("" in uri):
                             try:
-                                return route.route.getParams()#route.route.getParams()[i]
+                                uri.clear("")
                             except Exception as err:
-                                return params#route.route.getParams()
+                                uri.remove("")
+                        
+                        if self.languages in uri:
+                            uri.pop(0)
+                        
+                        sltp = str(route_c).split("/")
+                        luri = ""
+                        if len(uri) > 0:
+
+                            luri = "/".join(uri[0:len(sltp)])
+
                         else:
-                            return params
 
+                            luri = str(uri)
+                        
+                        if self.controllers in route.route.getRouter():
+                            
+                            return self._getR_params(route.route.getParams())
+                        else:
+                            return self._getR_params(route.route.getParams())#route.route.getParams()[i]
+                
+                       
+            else:
+                return params
 
-
-
-        else:
-            return params
-
+    def _getR_params(self, params):
+        list_params = []
+        parameter = {}
+                
+        
+        new_uri = self._getUri()[1:]
+        
+        for i, para in enumerate(params):
+            
+            try:
+                v_para = new_uri[i]
+            except Exception as err:
+                v_para = ""
+            list_params.append(para)
+            list_params.append(v_para)
+            
+            
+        parameter = Helpers.covert_list_dict(list_params)
+        return parameter
+            

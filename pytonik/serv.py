@@ -44,7 +44,6 @@ except Exception as err:
     import urllib2 as urllib
 
 varb = Variable()
-vpath = ""
 
 
 def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port="", pr=False):
@@ -54,6 +53,8 @@ def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port=
         "\\", "/") if path != "" else str(os.getcwd()).replace("\\", "/")
 
     spes = "/"
+    vpath = ""
+
     try:
         import imp as im
     except Exception as err:

@@ -20,7 +20,7 @@ from pytonik.util.Variable import Variable
 log_msg = Log.Log()
 
 
-class Router(env):
+class Router(Controllers):
     def args(self, to="", params=[], link=False, code=200):
         return to, params, link, code
 
@@ -28,7 +28,7 @@ class Router(env):
         return item
 
     def __init__(self):
-
+        
         self.control = Controllers()
         self._route = []
         self._params = {}
@@ -44,7 +44,8 @@ class Router(env):
         self._error = []
         self._geterrocontrol = []
         self._link = []
-        self.uri = self.control._getUri()
+        self._getparams = []
+        self.objv = ""
         
         return None
 
@@ -85,7 +86,11 @@ class Router(env):
 
         return self
 
+
+
     def post(self, uri, call=""):
+
+        
         if call != "":
             if isinstance(call, tuple):
                 self._route_(route=uri, call=call, method="POST")
@@ -177,7 +182,7 @@ class Router(env):
 
                         method_v = self.control.default_actions
                     lroute = str(control_v)+"/"+str(method_v)
-
+                    
                     self._route_(route=lroute, call=lcall)
         return self
 
@@ -273,9 +278,7 @@ class Router(env):
 
     def _route_(self, route="", call="", method=""):
         
-
         route = route.split('/')
-
         new_para = route
 
         parameter = {}
@@ -286,84 +289,34 @@ class Router(env):
 
         new_paraf = []
         
-        
-        if len(call) > 0:
+      
             
 
-
+        if len(call) > 0:
             replace = call[0]
             params = call[1]
-        
             
-            if self.control.languages in self.uri or self.control._getControllers() in route or self.control._getActions() in route:
-                self.uri.pop(0)
-
-            if len(replace) > 0:
-                sltp = str(replace).split("/")
-            else:
-                sltp = ""
-
+            if len(params) > 0:
+                self._getparams = params
             
-
-            
-            luri, para_v = "", ""
-            
-            if len(self.uri) > 0 and len(params) > 0:
-                
-                para_v = "/".join(self.uri)
-
-            
-            new_uri = para_v.split("/")
-
-
-            if len(self.uri) > 0:
-                luri = "/".join(self.uri[0:-1:])
-
-            parameter = {}
-            
-            
-            for i, para in enumerate(params):
-                
-                
-                list_params.append(para) 
-                try:
-                    v_para = new_uri[i]
-                except Exception as err:
-                    v_para = ""
-
-                list_params.append(v_para)
-
-                           
-                parameter = Helpers.covert_list_dict(list_params)
-            
-            if len(parameter) > 0:
-                
-                self._params.update(parameter)
-                
-        
-
-
+            self._route.append(replace)
 
         if len(route) == 1:
             ctl = route[0] if route[0] != "" else self.control.default_controllers
             self._getcontrol.append(ctl)
-            act = self.control.default_actions
-            self._getaction.append(act)
+
+            self._getaction.append(self.control.default_actions)
         elif len(route) > 1:
-            ctl = route[0] if route[0] != "" else self.control.default_controllers
-            self._getcontrol.append(ctl)
+            self._getcontrol.append(
+                route[0] if route[0] != "" else self.control.default_controllers)
+            self._getaction.append(
+                route[1] if route[1] != "" else self.control.default_actions)
 
-            act = route[1] if route[1] != "" else self.control.default_actions
-            self._getaction.append(act)
-
-
-        self._route.append(replace)
-        self._method.append(method)
-        
+        self._method.append(method)    
 
 
     def getParams(self):
-        return self._params
+        return self._getparams
 
     def getController(self):
         return self._getcontrol

@@ -23,6 +23,7 @@ class Request(Variable):
 
     def __init__(self, prform=None):
         self.Controllers = Controllers()
+        self.para_vv ={} 
         if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
              self.attr = prform
         else:
@@ -91,17 +92,13 @@ class Request(Variable):
         if None is not self.attr.keys():
             return self.attr.keys()
 
-    def params(self, key=0):
-        try:
-            para = self.Controllers._getParams()
-            
-
-            if para != "" or para != None:
-                return para.get(key, '')
-            else:
-
-                return self.get(key)
-
-        except Exception as err:
-
-            log_msg.info(err)
+    def params(self, key=""):
+        self.para_vv = self.Controllers._getParams()
+        
+        if key == "" or key == None:
+            result = self.para_vv  
+        else:
+            result =  self.para_vv.get(key, '') 
+        return result       
+       
+        
