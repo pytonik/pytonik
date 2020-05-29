@@ -21,7 +21,8 @@ class Variable:
         uri, query_string = "", ""  # path.split('/')[-1]+str(para)
         
         host = str(host) if str(host) != "" else os.environ.get("HTTP_HOST", "")
-       
+        para_v = "/"+str(os.path.basename(os.getcwd()))+str(para) if str(para) != "" else os.environ.get("REQUEST_URI", "")
+        
         port = str(port) if str(port) != "" else os.environ.get("SERVER_PORT", "")
         
         path = str(path) if str(path) != "" else os.environ.get("PATH_INFO", "")
@@ -112,9 +113,8 @@ class Variable:
             'SERVER_VERSION': server_ver,
             'REDIRECT_URL': redirect_url,
             'PROTOCOL_VERSION': protocol_ver,
-            "REQUEST_URI": "/"+str(os.path.basename(os.getcwd()))+str(para)
+            "REQUEST_URI": para_v
         }
-        
         
         
         if Version.PYVERSION_MA <= 2:
