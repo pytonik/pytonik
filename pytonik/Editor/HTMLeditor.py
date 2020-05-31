@@ -493,22 +493,24 @@ class _Call(_Node):
 
                 calls = ""
                 try:
-                    _cal = ob()
-                    _new_cal = getattr(_cal, *resolved_args)
-                    calls =  _new_cal(**resolved_kwargs)
+                    newob = getattr(ob, ''.join(resolved_args).replace(" ", ""))
+                    calls = newob(**resolved_kwargs)
+                    
                 except Exception as err:
-
                     try:
-                        newob = getattr(ob, ''.join(resolved_args))
-
+                        newob = getattr(ob(), ''.join(resolved_args).replace(" ", ""))
                         calls = newob(**resolved_kwargs)
-
                     except Exception as err:
                         try:
-                            calls = ob(*resolved_args, **resolved_kwargs)
+                            _cal = ob()
+                            _new_cal = getattr(_cal, *resolved_args)
+                            calls =  _new_cal(**resolved_kwargs)
 
                         except Exception as err:
-                            Log('').error(err)
+                            try:
+                                calls = ob(*resolved_args, **resolved_kwargs)
+                            except Exception as err:
+                                Log('').error(err)
 
                 return calls
             else:
@@ -525,22 +527,26 @@ class _Call(_Node):
 
                 calls = ""
                 try:
-                    _cal = ob()
-                    _new_cal = getattr(_cal, *resolved_args)
-                    calls = _new_cal(**resolved_kwargs)
+                    newob = getattr(ob, ''.join(resolved_args).replace(" ", ""))
+                    calls = newob(**resolved_kwargs)
                 except Exception as err:
 
                     try:
-                        newob = getattr(ob, ''.join(resolved_args))
-
+                        newob = getattr(ob(), ''.join(resolved_args).replace(" ", ""))
                         calls = newob(**resolved_kwargs)
-
                     except Exception as err:
                         try:
-                            calls = ob(*resolved_args, **resolved_kwargs)
+                            _cal = ob()
+                            _new_cal = getattr(_cal, *resolved_args)
+                            calls = _new_cal(**resolved_kwargs)
 
                         except Exception as err:
-                            Log('').error(err)
+
+                            try:
+                                calls = ob(*resolved_args, **resolved_kwargs)
+
+                            except Exception as err:
+                                Log('').error(err)
                 return calls
             else:
                 raise TemplateError("'%s' is not a callable" % self.callable)
