@@ -9,6 +9,15 @@ from pytonik.Functions.url import url
 from pytonik.util.Variable import Variable
 from pytonik import Version
 
+if os.path.isdir(os.getcwd() + '/public'):
+    host_public = str(os.getcwd()).replace('\\', '/') + '/public' # os.path.dirname(os.getcwd())
+    host_app = str(os.path.dirname(os.getcwd())).replace("\\", "/") + '/app'
+else:
+    host_public = str(os.getcwd()).replace("\\", "/") 
+    host_app = str(os.path.dirname(os.getcwd())).replace("\\", "/")
+
+
+
 
 class path(url, Variable):
     def __getattr__(self, item):
@@ -19,6 +28,7 @@ class path(url, Variable):
         return None
 
     def __init__(self, *args, **kwargs):
+        self.DS = "/"
         if len(args) > 0 or len(kwargs) > 0:
             if all(args) is not False:
                 self.pt = self.path(*args, **kwargs)
@@ -32,75 +42,68 @@ class path(url, Variable):
         return self.pt
 
     def path(self, path="", link=False):
-
-        DS = str('/')
+        
         u = ""
 
         dev_path = ""
-
-        if path[:1] == DS or path[0] == DS:
-            DS = ""
+        if path[:1] == self.DS or path[0] == self.DS:
+            self.DS = ""
         else:
-            DS = "/"
-
+            self.DS = "/"
+        
         if bool(link) == True:
             u = self.url()
-
-        return str(u)+str(DS)+str(path)
+        
+        return str(u)+str(self.DS)+str(path)
 
     def exist(self, newpath, defaultpath="", link=False):
-
+        path_res = ""
         if os.path.isfile(newpath) == True:
+  
+            path_res = self.path(path=newpath, link=link)
 
-            return self.path(newpath, link)
+        elif os.path.isfile(host_app + self.DS + str(newpath)) == True:
+   
+            path_res = self.path(path=newpath, link=link)
 
-        elif os.path.isfile(os.getcwd() + newpath) == True:
-            return self.path(newpath, link)
+        elif os.path.isfile(host_public + self.DS + str(newpath)) == True:
 
-        elif os.path.isfile(self.public(newpath)) == True:
-            return self.path(self.public(newpath), link)
+            path_res = self.path(path="/public/"+str(+newpath), link=link)
 
         elif os.path.isdir(newpath) == True:
-            return self.path(newpath, link)
+            path_res =  newpath
 
-
-        elif os.path.isdir(self.public(newpath)) == True:
-
-            return self.path(self.public(newpath), link)
+        elif os.path.isdir(self.public(path=newpath)) == True:
+            path_res =  self.public(path=newpath)
 
         else:
-
+            
             if defaultpath != "":
-
+                
                 if os.path.isfile(defaultpath) == True:
+                    path_res = self.path(path=defaultpath, link=link)
 
-                    return self.path(defaultpath, link)
+                elif os.path.isfile(host_app + self.DS + str(defaultpath)) == True:
+                    
+                    path_res = self.path(path=defaultpath, link=link)
 
-                elif os.path.isfile(os.getcwd() + defaultpath) == True:
-                    return self.path(defaultpath, link)
-
-                elif os.path.isfile(self.public(defaultpath)) == True:
-
-                    return self.path(self.public(defaultpath), link)
+                elif os.path.isfile(host_public + self.DS + str(defaultpath)) == True:
+                    
+                    path_res = self.path(path="/public/"+str(+defaultpath), link=link)
 
                 elif os.path.isdir(defaultpath) == True:
-                    return self.path(defaultpath, link)
+                    path_res =  defaultpath
 
                 elif os.path.isdir(self.public(defaultpath)) == True:
-
-                    return self.path(self.public(defaultpath), link)
-            else:
-                return False
+                    
+                    path_res =  self.public(path=defaultpath)
+        
+        return path_res
 
     def public(self, path):
-        
-        host = str(os.path.dirname(os.getcwd())) + '/public'
-        
-        DS = str('/')
-
-        if path[:1] == DS or path[:1] == DS:
-            DS = ""
+        if path[:1] == self.DS or path[:1] == self.DS:
+            self.DS = ""
         else:
-            DS = "/"
+            self.DS = "/"
 
-        return str(host) + DS + str(path)
+        return str(host_public) + self.DS + str(path)
