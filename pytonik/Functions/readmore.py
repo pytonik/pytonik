@@ -20,7 +20,7 @@ class readmore(validation):
 
         if len(args) > 0 or len(kwargs) > 0:
             if all(args) is not False:
-                self.strt = self.lstring(**args, **kwargs)
+                self.strt = self.lstring(*args, **kwargs)
             else:
                 self.strt = self.lstring(**kwargs)
 
