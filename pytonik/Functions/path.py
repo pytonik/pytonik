@@ -24,11 +24,11 @@ class path(url, Variable):
         return item
 
     def __call__(self, *args, **kwargs):
-
+        
         return None
 
     def __init__(self, *args, **kwargs):
-        self.DS = "/"
+        
         if len(args) > 0 or len(kwargs) > 0:
             if all(args) is not False:
                 self.pt = self.path(*args, **kwargs)
@@ -44,29 +44,30 @@ class path(url, Variable):
     def path(self, path="", link=False):
         
         u = ""
-
+        DS = "/"
         dev_path = ""
-        if path[:1] == self.DS or path[0] == self.DS:
-            self.DS = ""
+        if path[:1] == DS or path[0] == DS:
+            DS = ""
         else:
-            self.DS = "/"
+            DS = "/"
         
         if bool(link) == True:
             u = self.url()
         
-        return str(u)+str(self.DS)+str(path)
+        return str(u)+str(DS)+str(path)
 
     def exist(self, newpath, defaultpath="", link=False):
+        
         path_res = ""
         if os.path.isfile(newpath) == True:
   
             path_res = self.path(path=newpath, link=link)
 
-        elif os.path.isfile(host_app + self.DS + str(newpath)) == True:
+        elif os.path.isfile(host_app + "/" + str(newpath)) == True:
    
             path_res = self.path(path=newpath, link=link)
 
-        elif os.path.isfile(host_public + self.DS + str(newpath)) == True:
+        elif os.path.isfile(host_public + "/" + str(newpath)) == True:
 
             path_res = self.path(path="/public/"+str(+newpath), link=link)
 
@@ -83,11 +84,11 @@ class path(url, Variable):
                 if os.path.isfile(defaultpath) == True:
                     path_res = self.path(path=defaultpath, link=link)
 
-                elif os.path.isfile(host_app + self.DS + str(defaultpath)) == True:
+                elif os.path.isfile(host_app + "/" + str(defaultpath)) == True:
                     
                     path_res = self.path(path=defaultpath, link=link)
 
-                elif os.path.isfile(host_public + self.DS + str(defaultpath)) == True:
+                elif os.path.isfile(host_public + "/" + str(defaultpath)) == True:
                     
                     path_res = self.path(path="/public/"+str(+defaultpath), link=link)
 
@@ -101,9 +102,10 @@ class path(url, Variable):
         return path_res
 
     def public(self, path):
-        if path[:1] == self.DS or path[:1] == self.DS:
-            self.DS = ""
+        DS = "/"
+        if path[:1] == DS or path[:1] == DS:
+            DS = ""
         else:
-            self.DS = "/"
+            DS = "/"
 
-        return str(host_public) + self.DS + str(path)
+        return str(host_public) + DS + str(path)
