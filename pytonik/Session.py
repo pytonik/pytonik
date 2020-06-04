@@ -81,7 +81,7 @@ class Session(Variable):
     def get(self, key=""):
         if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
             session_dict = self.x_get()
-
+            
             if len(session_dict) > 0:
                 if session_dict.get(key, "") != None or session_dict.get(key, "") != "":
                     try:
@@ -193,8 +193,9 @@ class Session(Variable):
 
         session_relist = []
         for l_session in session_list:
-            session_string = str(l_session) + ";" + str(self.out(self.s_string, ""))
+            session_string = str(l_session) + ";" + str(self.out(self.s_string, "")) if self.out(self.s_string, "") != "" else str(l_session)
             session_relist.append(session_string)
+        
         initial_session = str(session_relist).replace("[' ", "").replace("]", "").replace(',', ";").replace("'",
                                                                                                             "").replace(
             "[", "")
@@ -205,6 +206,7 @@ class Session(Variable):
             unique_session = initial_session.split(";")
             re_unique = []
             [re_unique.append(x) for x in unique_session if x not in re_unique]
+            
             return ";".join(re_unique)
         except Exception as err:
             return initial_session
