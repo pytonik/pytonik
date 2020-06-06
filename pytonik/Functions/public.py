@@ -5,7 +5,6 @@
 # Created by BetaCodings on 09/11/2019.
 
 
-from pytonik.Editor import HTMLeditor
 from pytonik.Log import Log
 from pytonik.App import App
 import os

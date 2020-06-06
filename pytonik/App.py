@@ -9,7 +9,7 @@
 
 from pytonik.Request import Request
 from pytonik.Session import Session
-from pytonik.Editor import HTMLeditor
+from pytonik.Editor import Template
 from pytonik.Config import Config
 from pytonik.Log import Log
 from pytonik import Lang
@@ -485,11 +485,11 @@ class App(env, Config, Variable):
             with open(html_file_path, encoding='utf-8') as html_file:
                 html = html_file.read()
             
-            return str('<!-- Pytonik -->')+HTMLeditor.Template(html).render(**context) + str(
+            return str('<!-- Pytonik -->')+Template.Template(html).render(**context) + str(
                 '\n<!-- Pytonik {} -->'.format(Version.VERSION_TEXT))
 
         except Exception as err:
-
+            
             Log(template_dir + DS + engine + str('.html')).error(err)
             return
 

@@ -11,7 +11,7 @@ import importlib
 import os
 import sys
 import re
-from pytonik.Editor import HTMLeditor
+from pytonik.Editor import Template
 from pytonik import Log
 
 
@@ -53,7 +53,7 @@ if "includeFile" not in dir(os):
 
                 with open(html_file_path) as html_file:
                     html = html_file.read()
-                return HTMLeditor.Template(html).render(**dataG)
+                return Template.Template(html).render(**dataG)
 
             else:
                 return "The file {filepath} does not exists.".format(filepath=template_dir)

@@ -95,7 +95,7 @@ class Log():
 
 
     def __file(self):
-        from pytonik.util.Exception import Exception
+        from pytonik.util.Exception import LogError
         error_log = self.locate + "/" + 'app.log'
         if os.path.isfile(error_log) == False:
             try:
@@ -104,7 +104,7 @@ class Log():
                 f.close()
             except Exception as err:
                 if int(self.__check()) == 1:
-                    Exception(err)
+                    LogError(err)
 
         else:
 

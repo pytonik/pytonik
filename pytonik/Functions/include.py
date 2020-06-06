@@ -4,7 +4,7 @@
 # Maintainer Email: emmamartinscm@gmail.com
 # Created by BetaCodings on 08/11/2019.
 
-from pytonik.Editor import HTMLeditor
+from pytonik.Editor import Template
 from pytonik.Log import Log
 from pytonik.App import App
 import os
@@ -93,8 +93,9 @@ class include(App):
         try:
             with open(html_file_path,  encoding='utf-8') as html_file:
                 html = html_file.read()
-            return HTMLeditor.Template(html).render(**context)
+            return Template.Template(html).render(**context)
         except Exception as err:
+            
             log_msg.error(err)
 
 
