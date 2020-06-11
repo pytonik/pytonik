@@ -11,9 +11,8 @@ import os
 import cgi
 from pytonik.Controllers import Controllers
 from pytonik.util.Variable import Variable
-from pytonik import Version, Log
-
-log_msg = Log.Log()
+from pytonik import Version
+from pytonik.Log import Log
 
 
 class Request(Variable):
@@ -31,6 +30,7 @@ class Request(Variable):
         self.method = self.out('REQUEST_METHOD', '')
 
     def get(self, key=0, error=0):
+        
         try:
             if 'GET' in self.out('REQUEST_METHOD'):
 
@@ -44,11 +44,11 @@ class Request(Variable):
                 else:
                     return ""
             else:
-
-                log_msg.info("advise use POST instead of GET")
+                
+                Log('').warning("advise use POST instead of GET")
                 return False
         except Exception as err:
-            log_msg.info(err)
+            Log('').warning(err)
             return err
 
     def post(self, key=0, error=0):
@@ -64,11 +64,10 @@ class Request(Variable):
                 else:
                     return ""
             else:
-
-                log_msg.info("advise use GET instead of POST")
+                Log('').warning("advise use GET instead of POST")
                 return False
         except Exception as err:
-            log_msg.info(err)
+            Log('').warning(err)
             return err
 
     def file(self, key=0, error=0):
@@ -85,7 +84,7 @@ class Request(Variable):
                 return ""
 
         except Exception as err:
-            log_msg.info(err)
+            Log('').warning(err)
             return err
 
     def all(self):

@@ -8,7 +8,8 @@
 
 import sys
 import os
-from pytonik import Version, Log
+from pytonik import Version
+from pytonik.Log import Log
 from pytonik.Config import Config
 from pytonik.Core.env import env
 from pytonik.Session import Session
@@ -83,43 +84,53 @@ class Controllers(env, Config):
                 path_parts = list(filter(None, path_parts))
 
             routes = self.get('route', '')
+            try:
+                if list(set(path_parts).intersection(routes.keys())):
 
-            if list(set(path_parts).intersection(routes.keys())):
+                    for s in path_parts:
 
-                for s in path_parts:
+                        if s in routes:
+                            self.routes = s
 
-                    if s in routes:
-                        self.routes = s
+                            if self.routes in routes:
+                                self.methodprefix = routes[self.routes]
+                            else:
+                                self.methodprefix = ""
 
-                        if self.routes in routes:
-                            self.methodprefix = routes[self.routes]
-                        else:
-                            self.methodprefix = ""
+                                # path_parts.append(path_parts.pop(-1))
+            
+            except Exception as err: 
+                Log("").error(err)
 
-                            # path_parts.append(path_parts.pop(-1))
+            try:
+                if list(set(path_parts).intersection(self.all_languages.keys())):
 
-            if list(set(path_parts).intersection(self.all_languages.keys())):
+                    for s in path_parts:
+                        if s in self.all_languages:
+                            self.languages = s
+                            path_parts.append(path_parts.pop(-1))
 
-                for s in path_parts:
-                    if s in self.all_languages:
-                        self.languages = s
-                        path_parts.append(path_parts.pop(-1))
+            except Exception as err: 
+                Log("").error(err)
 
             controllers = self.get('default_controllers', '')
-            if controllers:
+            try:
+                if controllers:
 
-                i = 0
-                path_parts = list(filter(None, path_parts))
+                    i = 0
+                    path_parts = list(filter(None, path_parts))
 
-                for s in path_parts:
+                    for s in path_parts:
 
-                    if s is not self.languages:
-                        i += 1
+                        if s is not self.languages:
+                            i += 1
 
-                        if i == 1:
-                            self.controllers = s
-                            path_parts.append(path_parts.pop(-1))
-                    ++i
+                            if i == 1:
+                                self.controllers = s
+                                path_parts.append(path_parts.pop(-1))
+                        ++i
+            except Exception as err: 
+                Log("").error(err)
 
             action = self.get('default_actions', '')
             if action:
@@ -134,64 +145,68 @@ class Controllers(env, Config):
 
             # Get Path from URI / convert it to parameter
             list_params = []
-
-            if pathparts_paramarray == None or pathparts_paramarray == "":
-                if Version.PYVERSION_MA <= 2:
-                    lroutes = routes.iteritems()
-                else:
-                    lroutes = routes.items()
-                for k, getRouter in lroutes:
-
-                    if self.controllers == k:
-
-                        paraUri = getRouter.split('@')
+            try:
+                if pathparts_paramarray == None or pathparts_paramarray == "":
+                    if Version.PYVERSION_MA <= 2:
+                        lroutes = routes.iteritems()
                     else:
-                        paraUri = []
-                    if len(paraUri) > 0:
-                        if ':' not in paraUri[1]:
-                            getMapPara = []
+                        lroutes = routes.items()
+                        
+                    for k, getRouter in lroutes:
+
+                        if self.controllers == k:
+
+                            paraUri = getRouter.split('@')
                         else:
-                            getMapPara = paraUri[1].split(':')
+                            paraUri = []
+                        if len(paraUri) > 0:
+                            if ':' not in paraUri[1]:
+                                getMapPara = []
+                            else:
+                                getMapPara = paraUri[1].split(':')
 
-                        if self.controllers in routes:
+                            if self.controllers in routes:
 
-                            if len(getMapPara[1:]) > 0:
+                                if len(getMapPara[1:]) > 0:
 
-                                new_para = path_parts[1:]
+                                    new_para = path_parts[1:]
 
-                                if len(new_para) > 0:
-                                    param_m = []
+                                    if len(new_para) > 0:
+                                        param_m = []
 
-                                    for i, para in enumerate(getMapPara[1:]):
+                                        for i, para in enumerate(getMapPara[1:]):
 
-                                        param_n = para
+                                            param_n = para
 
-                                        if (len(new_para) - i) > 0:
-                                            v_para = new_para[i]
-                                        else:
-                                            v_para = ""
+                                            if (len(new_para) - i) > 0:
+                                                v_para = new_para[i]
+                                            else:
+                                                v_para = ""
 
-                                        list_params.append(param_n)
-                                        list_params.append(v_para)
+                                            list_params.append(param_n)
+                                            list_params.append(v_para)
 
-                                self.parameter = Helpers.covert_list_dict(
-                                    list_params)
+                                    self.parameter = Helpers.covert_list_dict(
+                                        list_params)
+
+                    else:
+                        for s in path_parts:
+
+                            if s is not self.controllers and s is not self.actions and s is not self.languages:
+                                list_params.append(s)
+
+                                path_parts.append(path_parts.pop(-1))
+
+                        self.parameter = Helpers.covert_list_dict(list_params)
 
                 else:
-                    for s in path_parts:
 
-                        if s is not self.controllers and s is not self.actions and s is not self.languages:
-                            list_params.append(s)
+                    self.parameter = pathparts_paramarrayOut
 
-                            path_parts.append(path_parts.pop(-1))
+                    path_parts.append(path_parts.pop(-1))
 
-                    self.parameter = Helpers.covert_list_dict(list_params)
-
-            else:
-
-                self.parameter = pathparts_paramarrayOut
-
-                path_parts.append(path_parts.pop(-1))
+            except Exception as err: 
+                Log("").error(err)
 
         return None
 

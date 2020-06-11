@@ -145,10 +145,12 @@ class App(env, Config, Variable):
 
         else:
 
-
             if str(self.controller[0]) == '?':
-
-                controllersClass = 'IndexController'
+                if self.controllers.default_controllers != "":
+                    controllersClass = str(self.controllers.default_controllers).capitalize() + 'Controller'
+                    
+                else:
+                    controllersClass = "IndexController"
             else:
 
                 controllersClass = str(self.controller[0]).capitalize(

@@ -8,22 +8,22 @@
 from pytonik.Core.env import env
 from pytonik.Config import Config
 
+
 import logging, os, datetime, sys
 
 class Log():
     def __init__(self, base_path=__name__):
         if os.path.isdir(os.getcwd() + '/public'):
-            host = os.getcwd()  # os.path.dirname(os.getcwd())
+            host = str(os.getcwd()).replace("\\", '/') # os.path.dirname(os.getcwd())
 
         else:
-            host = os.path.dirname(os.getcwd())
+            host = str(os.path.dirname(os.getcwd())).replace("\\", '/')
 
         self.format = '%(asctime)s, %(msecs)d %(name)s - [%(funcName)s %(levelname)s]  -    %(message)s' #[%(filename)s:%(lineno)d]
         self.datefmt='%m/%d/%Y %I:%M:%S %p'
         self.locate = host
-        #base_path = str(self.locate.split('/')[-1:][0])
-        #print(base_path)
-        self.logs = logging.getLogger(base_path) #base_path
+
+        self.logs = logging.getLogger(base_path)
         dt = datetime
         self.indata = ""
 
@@ -59,7 +59,7 @@ class Log():
         self.indata = string
         self.__file()
         if int(self.__check()) == 1:
-            self.__open_tem()
+            self.__open_tem(self.indata)
             self.logs.warning(self.indata)
             exit()
         else:
@@ -121,6 +121,6 @@ class Log():
         return 1 if conf.get('exception', 0) == 1  else 0
 
 
-    def __open_tem(self):
+    def __open_tem(self, datastring=""):
         from pytonik.App import App
-        App.header()
+        return App().header()

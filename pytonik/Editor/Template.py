@@ -6,12 +6,6 @@
 # Created by Betacodings on 2019.
 ###
 
-
-
-
-
-
-
 from pytonik.Editor.Compiler import Compiler
 
 class Template(object):
