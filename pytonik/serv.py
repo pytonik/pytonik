@@ -12,7 +12,7 @@ import time
 import json
 import warnings
 from pytonik.cmd import lang
-from pytonik import Version
+from pytonik.Version import *
 from pytonik.util.Variable import Variable
 from typing import Any, Callable, Dict, List, Pattern, Union
 from pytonik.cmd.console import (  # type: ignore
@@ -174,7 +174,7 @@ def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port=
             if self.path.endswith('favicon.ico'):
                 return
             try:
-                for mime in Version.MIME_TYPES:
+                for mime in MIME_TYPES:
                     if self.path.endswith(mime['ext']):
                         self.rendering(
                             path=path, mimetype=mime['type'], mode=mime['mode'], code=200)
@@ -202,8 +202,8 @@ def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port=
                     pth = str(os.path.dirname(
                         os.path.abspath(__file__))).replace("\\", "/")
                     f = open(pth + "/cmd/errd/index.html", "r")
-                    content = str(f.read()).format(code=code, name=Version.AUTHOR, message=Version.HTTP_CODE.get(
-                        code, ""), version=Version.VERSION_TEXT)
+                    content = str(f.read()).format(code=code, name=AUTHOR, message=HTTP_CODE.get(
+                        code, ""), version=VERSION_TEXT)
                     self.wfile.write(bytes(str(content).encode()))
 
         def do_POST(self):
@@ -274,14 +274,14 @@ def run(host="", path="", port=6060, server_pro="HTTP/1.1", ssl_ip="", ssl_port=
             self.send_response(int(code_re))
             self.send_header('Location', "{e_url}".format(e_url=e_url))
             self.send_error(
-                code=int(code), message=Version.HTTP_CODE.get(code, ""))
+                code=int(code), message=HTTP_CODE.get(code, ""))
             self.end_headers()
 
         def redirect(self, code, re_url, code_re=307):
             self.send_response(int(code_re))
             self.send_header('Location', "{re_url}".format(re_url=re_url))
             self.send_error(
-                code=int(code), message=Version.HTTP_CODE.get(code, ""))
+                code=int(code), message=HTTP_CODE.get(code, ""))
             self.end_headers()
 
     class ThreadedHTTPServer(ThreadingMixIn, server):

@@ -10,7 +10,7 @@ import hashlib
 import os
 import re
 import binascii
-from pytonik import Version
+from pytonik.Version import *
 
 
 class Hash:
@@ -132,10 +132,10 @@ class Hash:
     def _s_k_(self, stored_hash=""):
 
         try:
-            if Version.PYVERSION_MA >= 3:
-                rehx = Version.HASH_PRE.items()
+            if PYVERSION_MA >= 3:
+                rehx = HASH_PRE.items()
             else :
-                rehx = Version.HASH_PRE.iteritems()
+                rehx = HASH_PRE.iteritems()
 
             for k, v in rehx:
                 len_hash = len(stored_hash)
@@ -178,7 +178,7 @@ class Hash:
     def map_check(self, provide_string):
         self.salt_hx = self.hx_mp[self.mp_str]["salt"]
         self.key_hx = self.hx_mp[self.mp_str]["key"]
-        self.atr_hx = Version.HASH_PRE.get(str(len(self.salt_hx)+len(self.key_hx)))
+        self.atr_hx = HASH_PRE.get(str(len(self.salt_hx)+len(self.key_hx)))
         stored_hash = self.hex_hash(provide_string=provide_string, hex_type=self.atr_hx, salt=self.salt_hx)
         return self.verify(stored_hash, provide_string)
    

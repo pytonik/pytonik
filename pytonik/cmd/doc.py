@@ -12,7 +12,7 @@ import re
 import sys
 import time
 import warnings
-from pytonik import Version
+from pytonik.Version import *
 from typing import Any, Callable, Dict, List, Pattern, Union
 
 import webbrowser
@@ -48,7 +48,7 @@ def get_parser() -> argparse.ArgumentParser:
                         default=None,
                         help=__('quit mode'))
     parser.add_argument('--version', action='version', dest='show_version',
-                        version='%%(prog)s %s' % Version.VERSION_TEXT)
+                        version='%%(prog)s %s' % VERSION_TEXT)
 
     parser.add_argument('path', metavar='PROJECT_DIR', default='.', nargs='?',
                         help=__('project root'))

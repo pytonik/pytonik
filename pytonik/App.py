@@ -13,7 +13,7 @@ from pytonik.Editor import Template
 from pytonik.Config import Config
 from pytonik.Log import Log
 from pytonik import Lang
-from pytonik import Version
+from pytonik.Version import *
 from pytonik.Core.env import env
 from pytonik.util.Variable import Variable
 from pytonik.Functions import url
@@ -95,8 +95,8 @@ class App(env, Config, Variable):
         return self.initial()
 
     def initial(self):
-        self.default("Framework", Version.AUTHOR)
-        self.default("X-Version", Version.VERSION_TEXT)
+        self.default("Framework", AUTHOR)
+        self.default("X-Version", VERSION_TEXT)
         self.getrouters = self.envrin('route')
         self.controllers = Controllers()
         self.methodprefix = self.controllers._getMethodPrefix()
@@ -113,7 +113,7 @@ class App(env, Config, Variable):
         controlUri = []
 
 
-        if Version.PYVERSION_MA >= 3:
+        if PYVERSION_MA >= 3:
             lrounters = self.getrouters.items()
         else:
             lrounters = self.getrouters.iteritems()
@@ -208,7 +208,7 @@ class App(env, Config, Variable):
 
         pageCode = "page{code}".format(code=code)
         if os.path.isdir(os.getcwd() + '/public'):
-            if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
+            if self.out("SERVER_SOFTWARE") == AUTHOR:
                 re_url = ""
                 errorP = {}
                 if getErrorP != '':
@@ -376,7 +376,7 @@ class App(env, Config, Variable):
 
     def redirect(self, location='/', link=False, code="307"):
 
-        if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
+        if self.out("SERVER_SOFTWARE") == AUTHOR:
 
             if link == True:
                 location_d = u.url().url(location)
@@ -398,7 +398,7 @@ class App(env, Config, Variable):
             print()
 
     def referer(self, location='/', link=False, code="307"):
-        if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
+        if self.out("SERVER_SOFTWARE") == AUTHOR:
             if link == True:
                 location_d = u.url().url(location)
             else:
@@ -450,11 +450,15 @@ class App(env, Config, Variable):
             return strings
 
 
-    def XHreponse(self, dataString, type=""):
-        if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
+    def XHreponse(self, dataString, ctype=""):
+        if self.out("SERVER_SOFTWARE") == AUTHOR:
             return dataString
         else:
-            self.header(type=type)
+            
+            for mime in MIME_TYPES:
+                if str(mime["ext"]).replace(".", "") == ctype or str(mime["ext"]).replace(".", "") == ctype:
+                    ctype = mime["type"]
+            self.header(type=ctype)
             print(dataString)
 
     def views(self, pathf="", datag={}, datal={}):
@@ -488,7 +492,7 @@ class App(env, Config, Variable):
                 html = html_file.read()
             
             return str('<!-- Pytonik -->')+Template.Template(html).render(**context) + str(
-                '\n<!-- Pytonik {} -->'.format(Version.VERSION_TEXT))
+                '\n<!-- Pytonik {} -->'.format(VERSION_TEXT))
 
         except Exception as err:
             
@@ -539,7 +543,7 @@ class App(env, Config, Variable):
                     lclass0 = {name: name}
                     lclass.update(lclass0)
 
-        if Version.PYVERSION_MA <= 2:
+        if PYVERSION_MA <= 2:
             item = lclass.iteritems()
         else:
             item = lclass.items()

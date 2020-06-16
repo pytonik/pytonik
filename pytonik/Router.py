@@ -10,7 +10,8 @@
 import sys
 import os
 import re
-from pytonik import Version, Log
+from pytonik import Log
+from pytonik.Version import *
 from pytonik.Config import Config
 from pytonik.Core.env import env
 from pytonik.Core import Helpers
@@ -252,7 +253,7 @@ class Router(Controllers):
         if len(args) > 0:
 
             if isinstance(args[0], dict):
-                if Version.PYVERSION_MA >= 3:
+                if PYVERSION_MA >= 3:
 
                     params = args[0].items()
                 else:

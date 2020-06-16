@@ -198,3 +198,27 @@ class curl:
 
         return reSlt
 
+    def open(self, URL):
+        try:
+            import urllib2
+            self.output =  urllib2.urlopen(URL).read()
+            return self
+        except Exception as err:
+            import urllib.request
+            self.output =  urllib.request.urlopen(URL).read()
+            return self
+    
+    def request(self, URL, data):
+        
+        try:
+            import urllib2
+            data_v = urllib2.Request(URL, data)
+            self.output =  urllib2.urlopen(URL).read()
+            return self
+        except Exception as err:
+            import urllib.request
+            data_v = urllib.parse.urlencode(data)
+            data_v = data_v.encode('utf-8') # data should be bytes
+            req = urllib.request.Request(URL, data_v)
+            self.output =  urllib.request.urlopen(URL).read()
+            return self

@@ -1,7 +1,8 @@
-from pytonik import Version, App
+from pytonik import App
 from pytonik.util.Exception import TemplateSyntaxError, TemplateError, TemplateSyntaxError
 from pytonik.Editor.Resolver import *
 from pytonik.Log import Log
+from pytonik.Version import *
 
 class _Node(object):
     creates_scope = False
@@ -232,7 +233,7 @@ class _Call(_Node):
         
 
 
-        if Version.PYVERSION_MA >= 2:
+        if PYVERSION_MA >= 2:
             items  = self.kwargs.items()
         else:
             items = self.kwargs.iteritems()

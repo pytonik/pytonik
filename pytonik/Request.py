@@ -11,7 +11,7 @@ import os
 import cgi
 from pytonik.Controllers import Controllers
 from pytonik.util.Variable import Variable
-from pytonik import Version
+from pytonik.Version import *
 from pytonik.Log import Log
 
 
@@ -23,7 +23,7 @@ class Request(Variable):
     def __init__(self, prform=None):
         self.Controllers = Controllers()
         self.para_vv ={} 
-        if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
+        if self.out("SERVER_SOFTWARE") == AUTHOR:
              self.attr = prform
         else:
             self.attr = cgi.FieldStorage()

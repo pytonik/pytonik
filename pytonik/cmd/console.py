@@ -71,7 +71,7 @@ def color_terminal() -> bool:
     return False
 
 
-def nocolor() -> None:
+def nocolor() -> None :
     if sys.platform == 'win32' and colorama is not None:
         deinit()
     codes.clear()

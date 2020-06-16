@@ -8,7 +8,7 @@
 
 import sys
 import os
-from pytonik import Version
+from pytonik.Version import *
 from pytonik.Log import Log
 from pytonik.Config import Config
 from pytonik.Core.env import env
@@ -78,7 +78,7 @@ class Controllers(env, Config):
 
         if len(path_parts):
 
-            if Version.PYVERSION_MA < 3:
+            if PYVERSION_MA < 3:
                 path_parts = filter(None, path_parts)
             else:
                 path_parts = list(filter(None, path_parts))
@@ -147,7 +147,7 @@ class Controllers(env, Config):
             list_params = []
             try:
                 if pathparts_paramarray == None or pathparts_paramarray == "":
-                    if Version.PYVERSION_MA <= 2:
+                    if PYVERSION_MA <= 2:
                         lroutes = routes.iteritems()
                     else:
                         lroutes = routes.items()
@@ -215,7 +215,7 @@ class Controllers(env, Config):
         url = osv.out('REQUEST_URI', "")
         http_s = osv.out("HTTP_HOST")
         uri = ""
-        if osv.out("SERVER_SOFTWARE", "") == Version.AUTHOR:
+        if osv.out("SERVER_SOFTWARE", "") == AUTHOR:
 
             uri = url.split('/')[2:]
 

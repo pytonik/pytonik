@@ -11,8 +11,10 @@ import os
 import datetime
 import sys
 import ast
-from pytonik import Version
+from pytonik.Version import *
+from pytonik.Log import Log
 from pytonik.util.Variable import Variable
+
 
 try:
     from http import cookies as cook
@@ -38,7 +40,7 @@ class Session(Variable):
 
     def has(self, key=""):
         bool_v = False
-        if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
+        if self.out("SERVER_SOFTWARE") == AUTHOR:
             session_dict = self.x_get()
             if len(session_dict) > 0:
                 if session_dict.get(key, "") != "":
@@ -61,39 +63,41 @@ class Session(Variable):
 
     def set(self, key="", value="", duration=3600, url="", path="/"):
 
-        if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
-            session_string = str(key) + "=" + str(value)
+        if self.out("SERVER_SOFTWARE") == AUTHOR:
+            session_string = str(key) + "=" + str(self._encode(value))
             self.set_x(session_string)
         else:
-            self.set_k(key, value, duration, url, path)
+            self.set_k(key, self._encode(value), duration, url, path)
 
     def set_k(self, key="", value="", duration=3600, url="", path="/"):
         url = url if url != "" else self.url_v
-        expires = datetime.datetime.utcnow() + datetime.timedelta(minutes=duration)  # minutes in 30 days
+        expires = datetime.datetime.utcnow(
+        ) + datetime.timedelta(minutes=duration)  # minutes in 30 days
         cooKeys = cook.SimpleCookie(self.out(self.s_string))
-        cooKeys[str(key)] = value
+        cooKeys[str(key)] = self._encode(value)
         cooKeys[str(key)]['domain'] = url
         cooKeys[str(key)]['path'] = '/'
-        cooKeys[str(key)]['expires'] = expires.strftime('%a, %d %b %Y %H:%M:%S')
+        cooKeys[str(key)]['expires'] = expires.strftime(
+            '%a, %d %b %Y %H:%M:%S')
 
         print(cooKeys[str(key)])
 
     def get(self, key=""):
-        if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
+        if self.out("SERVER_SOFTWARE") == AUTHOR:
             session_dict = self.x_get()
-            
+
             if len(session_dict) > 0:
                 if session_dict.get(key, "") != None or session_dict.get(key, "") != "":
                     try:
-                        return ast.literal_eval(session_dict.get(key, ""))
+                        return ast.literal_eval(self._decode(session_dict.get(key, "")))
                     except Exception as err:
-                        return session_dict.get(key, "")
+                        return self._decode(session_dict.get(key, ""))
                 elif session_dict.get(' {key}'.format(key=key), "") != None or session_dict.get(
                         ' {key}'.format(key=key), "") != "":
                     try:
-                        return ast.literal_eval(session_dict.get(' {key}'.format(key=key), ""))
+                        return ast.literal_eval(self._decode(session_dict.get(' {key}'.format(key=key), "")))
                     except Exception as err:
-                        return session_dict.get(' {key}'.format(key=key), "")
+                        return self._decode(session_dict.get(' {key}'.format(key=key), ""))
                 else:
                     return ""
             else:
@@ -109,9 +113,9 @@ class Session(Variable):
                     if cooKeys[key].value != None or cooKeys[key].value != "":
 
                         try:
-                            return ast.literal_eval(cooKeys[key].value)
+                            return ast.literal_eval(self._decode(cooKeys[key].value))
                         except Exception as err:
-                            return cooKeys[key].value
+                            return self._decode(cooKeys[key].value)
 
                     else:
                         return ""
@@ -122,7 +126,7 @@ class Session(Variable):
 
     def destroy(self, *args):
         bool_v = False
-        if self.out("SERVER_SOFTWARE") == Version.AUTHOR:
+        if self.out("SERVER_SOFTWARE") == AUTHOR:
 
             session_result = self._delete(args)
             if session_result[0] == True:
@@ -133,7 +137,7 @@ class Session(Variable):
 
         else:
             cooKeys = cook.SimpleCookie(self.out(self.s_string))
-            if Version.PYVERSION_MA >= 3:
+            if PYVERSION_MA >= 3:
 
                 cookv = cooKeys.items()
             else:
@@ -165,7 +169,6 @@ class Session(Variable):
 
                     bool_v = bool_vx
 
-
             else:
                 bool_v = False
         return bool_v
@@ -193,9 +196,10 @@ class Session(Variable):
 
         session_relist = []
         for l_session in session_list:
-            session_string = str(l_session) + ";" + str(self.out(self.s_string, "")) if self.out(self.s_string, "") != "" else str(l_session)
+            session_string = str(l_session) + ";" + str(self.out(self.s_string, "")
+                                                        ) if self.out(self.s_string, "") != "" else str(l_session)
             session_relist.append(session_string)
-        
+
         initial_session = str(session_relist).replace("[' ", "").replace("]", "").replace(',', ";").replace("'",
                                                                                                             "").replace(
             "[", "")
@@ -206,7 +210,7 @@ class Session(Variable):
             unique_session = initial_session.split(";")
             re_unique = []
             [re_unique.append(x) for x in unique_session if x not in re_unique]
-            
+
             return ";".join(re_unique)
         except Exception as err:
             return initial_session
@@ -240,7 +244,7 @@ class Session(Variable):
     def _reset(self, session_dict=dict()):
 
         session_list = []
-        if Version.PYVERSION_MA >= 3:
+        if PYVERSION_MA >= 3:
             session_dict_l = session_dict.items()
         else:
             session_dict_l = session_dict.iteritems()
@@ -270,3 +274,32 @@ class Session(Variable):
             except Exception as err:
                 session_dict = {}
         return session_dict
+
+    def _encode(self, source):
+        from pytonik.Functions.now import now
+        from pytonik.Functions.rand import rand
+        from pytonik.Hash import Hash
+        sessionRAND =  Hash().hex_hash(rand().number(8), hex_type="{}".format(HASH_PRE["64"]), size=120)
+        sessionTIMER = Hash().hex_hash(now().unix(), hex_type="{}".format(HASH_PRE["192"]), size=80)
+        
+        try:
+            import six
+            import base64
+            if six.PY3:
+                source = str(sessionPREFIX+sessionRAND+source +
+                             sessionTIMER).encode('utf-8')
+            content = base64.b64encode(source).decode('utf-8')
+            return str(content)
+        except Exception as err:
+            return str(source)
+
+    def _decode(self, source):
+        try:
+            import six
+            import base64
+            source = base64.b64decode(source).decode()
+            source = source.split("::")
+            source = source[1][64:-192]
+            return source
+        except Exception as err:
+            return source
