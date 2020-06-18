@@ -4,6 +4,8 @@
 # Maintainer Email: emmamartinscm@gmail.com
 # Created by BetaCodings on 2/24/20.
 
+from pytonik.Log import Log
+
 class LogError(Exception):
     
     def __getattr__(self, item):
@@ -15,7 +17,7 @@ class LogError(Exception):
     def __str__(self):
         return self.error
 
-from pytonik.Log import Log
+
 class TemplateError(Exception):
     pass
 
@@ -27,8 +29,8 @@ class TemplateContextError(TemplateError):
 
 
     def __str__(self):
-        Log('').error("cannot resolve '%s'" % self.context_var)
-        return "cannot resolve '%s'" % self.context_var
+        Log('').error("cannot resolve '{}'".format(self.context_var))
+        return "cannot resolve '{}'".format(self.context_var)
 
 
 class TemplateSyntaxError(TemplateError):
@@ -37,6 +39,6 @@ class TemplateSyntaxError(TemplateError):
         self.error_syntax = error_syntax
 
     def __str__(self):
-        Log('').error("'%s' seems like invalid syntax" % self.error_syntax)
-        return "'%s' seems like invalid syntax" % self.error_syntax
+        Log('').error(" '{}' seems like invalid syntax".format(self.error_syntax))
+        return "'{}' seems like invalid syntax".format(self.error_syntax)
 

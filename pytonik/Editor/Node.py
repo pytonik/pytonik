@@ -55,9 +55,11 @@ class _Variable(_Node):
         self.name = fragment
 
     def render(self, context):
-
+        
         return resolve(self.name, context)
 
+
+    
 
 class _Each(_ScopableNode):
 
@@ -425,4 +427,5 @@ class _Text(_Node):
         self.text = fragment
 
     def render(self, context):
+        
         return self.text

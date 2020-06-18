@@ -46,7 +46,6 @@ class Compiler(object):
         return root
 
     def create_node(self, fragment):
-        
         node_class = None
         if fragment.type == TEXT_FRAGMENT:
             node_class = _Text
@@ -58,9 +57,7 @@ class Compiler(object):
             if cmd == 'each':
                 node_class = _Each
             elif cmd == 'if':
-                
                 node_class = _If
-                
             elif cmd == 'else':
                 node_class = _Else
             elif cmd == 'call':

@@ -72,14 +72,10 @@ def resolve(name, context):
         name = name[2:]
 
     try:
-
         for tok in name.split('.'):
             context = context[tok]
         return context
-
-
     except Exception as err:
-
         try:
             Ap = App.App()
             load = Ap.loadmodule()
@@ -88,7 +84,6 @@ def resolve(name, context):
             ob = getattr(md, name)
             return ob()
         except Exception as err:
-            
             # name
             raise TemplateContextError(err)
 
