@@ -256,7 +256,6 @@ class Controllers(env, Config):
                 sys.path.append(host)
                 import routes as route
 
-                
                 for i, route_c in enumerate(route.route.getRouter()):
                         
                         uri = self.uri
@@ -279,13 +278,16 @@ class Controllers(env, Config):
 
                             luri = str(uri)
                         
-                        if self.controllers in route.route.getRouter():
+                    
+                        if self.controllers == route_c:
                             
-                            return self._getR_params(route.route.getParams())
+                            return self._getR_params(route.route.getParams()[i])
+                            break
                         else:
-                            return self._getR_params(route.route.getParams())#route.route.getParams()[i]
-                
-                       
+                            if len(params) > 0:
+                                return params
+                                break
+
             else:
                 return params
 

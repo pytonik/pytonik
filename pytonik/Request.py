@@ -93,7 +93,6 @@ class Request(Variable):
 
     def params(self, key=""):
         self.para_vv = self.Controllers._getParams()
-        
         if key == "" or key == None:
             result = self.para_vv  
         else:

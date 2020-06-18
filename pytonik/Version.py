@@ -27,6 +27,8 @@ PYVERSION_MI = sys.version_info.minor
 AUTHOR = "Pytonik"
 ORG = "Betacodings"
 
+sessionPREFIX = "PYTONIKSESSID::"
+
 MIME_TYPES = [
     {'ext': '.ai', 'type': 'application/postscript', 'mode': 'rb'},
     {'ext': '.aif', 'type': 'audio/x-aiff', 'mode': 'rb'},
@@ -291,4 +293,3 @@ HASH_PRE = {
             "80" : "sha1",
             "64" : "md5",
 }
-sessionPREFIX = "SESSIONID::"

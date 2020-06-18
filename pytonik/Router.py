@@ -295,11 +295,10 @@ class Router(Controllers):
 
         if len(call) > 0:
             replace = call[0]
-            params = call[1]
+            #if len(call[1]) > 0:
+            self._getparams.append(call[1])
             
-            if len(params) > 0:
-                self._getparams = params
-            
+            #if len(replace) > 0:
             self._route.append(replace)
 
         if len(route) == 1:
