@@ -255,38 +255,20 @@ class Controllers(env, Config):
             if os.path.isfile(host + "/" + "routes.py") == True:
                 sys.path.append(host)
                 import routes as route
-
+                param_v = {}
+                #print(route.route.getParams(), route.route.getRouter())
+                
                 for i, route_c in enumerate(route.route.getRouter()):
-                        
-                        uri = self.uri
-                        while ("" in uri):
-                            try:
-                                uri.clear("")
-                            except Exception as err:
-                                uri.remove("")
-                        
-                        if self.languages in uri:
-                            uri.pop(0)
-                        
-                        sltp = str(route_c).split("/")
-                        luri = ""
-                        if len(uri) > 0:
 
-                            luri = "/".join(uri[0:len(sltp)])
-
-                        else:
-
-                            luri = str(uri)
-                        
+                    if self.controllers == route_c:
                     
-                        if self.controllers == route_c:
-                            
-                            return self._getR_params(route.route.getParams()[i])
-                            break
-                        else:
-                            if len(params) > 0:
-                                return params
-                                break
+                        param_v = self._getR_params(route.route.getParams()[i])
+                        break
+                    
+                if len(param_v) > 0:
+                    return param_v
+                else:
+                    return params
 
             else:
                 return params

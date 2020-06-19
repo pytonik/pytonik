@@ -11,7 +11,7 @@ from pytonik.Editor.Compiler import Compiler
 class Template(object):
     def __init__(self, contents):
         self.contents = contents
-        self.root = Compiler(contents).compile()
+        self.root = Compiler(self.contents).compile()
 
     def render(self, **kwargs):
         

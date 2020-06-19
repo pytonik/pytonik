@@ -53,8 +53,10 @@ header_response_page = {
 
 }
 
+data_c = {}
 
 class App(env, Config, Variable):
+
     def __getattr__(self, item):
         return item
 
@@ -81,6 +83,7 @@ class App(env, Config, Variable):
         self.languages = ""
         self.Driver = ""
         self.formData = None
+        self.datag = {}
 
     def getRouters(self):
 
@@ -462,7 +465,8 @@ class App(env, Config, Variable):
             print(dataString)
 
     def views(self, pathf="", datag={}, datal={}):
-
+        data_c.update(datag)
+        
         if pathf == "":
             pathf = self.getDefaultViewPath()
 
@@ -476,28 +480,28 @@ class App(env, Config, Variable):
         else:
             if os.path.isdir(os.getcwd() + '/public'):
                 # print(os.environ)
-                return self.read_html(host + DS + 'views' + DS, pathf, datag)
+                return self.read_html(host + DS + 'views' + DS, pathf, data_c)
 
             else:
                 self.header()
-                
-                print(self.read_html(host + DS + 'views' + DS, pathf, datag))
+                print(self.read_html(host + DS + 'views' + DS, pathf, data_c))
+    
 
-    def read_html(self, template_dir, engine, context=[]):
 
+    def read_html(self, template_dir, engine, context={}):
+        data_c.update(context)
         html_file_path = os.path.join(template_dir, "%s.html" % engine)
-
         try:
             with open(html_file_path, encoding='utf-8') as html_file:
                 html = html_file.read()
             
-            return str('<!-- Pytonik -->')+Template.Template(html).render(**context) + str(
+            return str('<!-- Pytonik -->')+Template.Template(html).render(**data_c) + str(
                 '\n<!-- Pytonik {} -->'.format(VERSION_TEXT))
 
         except Exception as err:
             
             Log(template_dir + DS + engine + str('.html')).error(err)
-            return
+            return ""
 
     def getDefaultViewPath(self):
 
@@ -516,7 +520,7 @@ class App(env, Config, Variable):
         return host + DS + 'views' + DS + str(code) + ".html"
 
     def loadmodule(self):
-
+        
         path = [os.path.dirname(__file__) + str("/") +
                 str("Functions"), str(host) + str("/") + "model"]
         listpath = [path[0], path[1]]

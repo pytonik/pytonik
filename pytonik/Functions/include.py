@@ -84,18 +84,3 @@ class include(App):
         except Exception as err:
                 log_msg.error(err)
                 return  err
-
-
-    def read_html(self, template_dir, engine, context=[]):
-
-        html_file_path = os.path.join(template_dir, "%s.html" % engine)
-
-        try:
-            with open(html_file_path,  encoding='utf-8') as html_file:
-                html = html_file.read()
-            return Template.Template(html).render(**context)
-        except Exception as err:
-            
-            log_msg.error(err)
-
-
