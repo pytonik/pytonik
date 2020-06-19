@@ -83,7 +83,6 @@ class _Each(_ScopableNode):
             load = Ap.loadmodule()
 
             load_m = {'..': context, 'it': item}
-
             load.update(load_m)
 
             return self.render_children(load)
@@ -230,8 +229,11 @@ class _Call(_Node):
 
             if kind == 'name':
                 value = value
+            
             value = self._call_each(str(value))
+            
             resolved_args.append(value)
+            
         
 
 
@@ -250,11 +252,12 @@ class _Call(_Node):
             try:
                 valux = eval(value)
             except Exception as err:
+                
                 valux = value
             resolved_kwargs[key] = valux
 
-
-
+            
+        
         path = [str(ob_dir[0]) + "/" + str(self.callable) + ".py",  str(ob_dir[1]) + "/" + str(self.callable) + ".py"]
 
 
@@ -364,6 +367,7 @@ class _Call(_Node):
                     elif '..' in itc:
 
                         ite = resolve(itc, self.contxt)
+                        
                         item = str(self.it).replace(itc, str(ite))
                         return item
                     else:
@@ -383,9 +387,7 @@ class _Call(_Node):
                     elif '..'.lower() in s.lower():
 
                         dic_ls.update({s: resolve(s, self.contxt)})
-
-
-
+        
                 return dict_local(self.it,dic_ls)
 
 

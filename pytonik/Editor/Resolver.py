@@ -70,6 +70,7 @@ def resolve(name, context):
     if name.startswith('..'):
         context = context.get('..', {})
         name = name[2:]
+        
 
     try:
         for tok in name.split('.'):
@@ -139,17 +140,19 @@ def dict_local(it, resolves):
     
     for i, k in enumerate(resolves):
         if k in resolves:
-
             l = str(it).replace(k, str(resolves[k]))
+
         if len(resolves) > 1:
+            
             return dict_local_next(l, resolves)
         else:
+            
             return l
 
+
 def dict_local_next(it, resolves):
-
     for i, k in enumerate(resolves):
-
         if k in it:
-           l = str(it).replace(k, str(resolves[k]))
-           return l
+            it = it.replace(k, resolves[k])
+
+    return it
