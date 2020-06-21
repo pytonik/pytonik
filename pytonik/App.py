@@ -478,13 +478,15 @@ class App(env, Config, Variable):
             return self.errorP('404')
 
         else:
+            output = str('<!-- Pytonik -->\n') + self.read_html(host + DS + 'views' + DS, pathf, data_c) + str(
+                '\n<!-- Pytonik {} -->'.format(VERSION_TEXT))
             if os.path.isdir(os.getcwd() + '/public'):
                 # print(os.environ)
-                return self.read_html(host + DS + 'views' + DS, pathf, data_c)
+                return output 
 
             else:
                 self.header()
-                print(self.read_html(host + DS + 'views' + DS, pathf, data_c))
+                print(output)
     
 
 
@@ -495,8 +497,7 @@ class App(env, Config, Variable):
             with open(html_file_path, encoding='utf-8') as html_file:
                 html = html_file.read()
             
-            return str('<!-- Pytonik -->')+Template.Template(html).render(**data_c) + str(
-                '\n<!-- Pytonik {} -->'.format(VERSION_TEXT))
+            return Template.Template(html).render(**data_c)
 
         except Exception as err:
             
