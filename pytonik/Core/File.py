@@ -54,7 +54,15 @@ def upload(fileitem, uploaddir, rename=""):
                 return err
 
         else:
-            return ""
+            try:
+                
+                with open(str(uploaddir)+str(rename), 'wb') as result:
+                    result.write(fileitem)
+                    result.close()
+                return True
+            except Exception as err:
+                log_msg.critical(err)
+                return err
     else:
         log_msg.error("Directory {uploaddir} Does not Exist".format(uploaddir=uploaddir))
         return "Directory {uploaddir} Does not Exist".format(uploaddir=uploaddir)
@@ -93,8 +101,8 @@ class Image():
             self.read = self.items.file.read()
             self.filename = self.items.filename
         else:
-            self.read = ""
             self.filename = ""
+            self.read = ""
 
     def size(self):
         size = len(self.items.value)
@@ -114,16 +122,28 @@ class Image():
             self.filename = str(width) + 'x' + str(height) + '_' + str(fname)
             result = self.creator()
             return True
-
-
         except Exception as err:
             log_msg.critical(err)
             return err
 
     def blob(self):
-        self.blobbase = base64.b64encode(self.read)
-        return self.blobbase
-
+        try:
+            self.blobbase = base64.b64encode(self.read)
+            return self.blobbase
+        except Exception as err:
+            log_msg.critical(err)
+            return err
+            
+    def base(self, base_64):
+        try:
+            base = str(base_64).split(";")
+            basev = str(base[1]).split(",")
+            self.blobbase = base64.b64decode(basev[1])
+            return self.blobbase
+        except Exception as err:
+            log_msg.critical(err)
+            return err
+        
     def dimension(self):
         height = -1
         width = -1
@@ -242,9 +262,10 @@ class Image():
                 log_msg.critical(err)
                 return err
 
-    def save(self, img_tmp):
+    def save(self, img_tmp, filename=""):
+        filename = filename if filename !="" or filename !=None else self.filename
         try:
-            with open(self.dir + self.filename, 'wb') as result:
+            with open(self.dir + filename, 'wb') as result:
                 result.write(img_tmp)
                 result.close()
             return True

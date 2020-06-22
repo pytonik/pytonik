@@ -57,7 +57,7 @@ class path(url, Variable):
         return str(u)+str(DS)+str(path)
 
     def exist(self, newpath, defaultpath="", link=False):
-        
+        newpath = "" if newpath == None or newpath == "" else newpath
         path_res = ""
         if os.path.isfile(newpath) == True:
   

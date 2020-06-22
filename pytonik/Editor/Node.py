@@ -224,30 +224,24 @@ class _Call(_Node):
 
         resolved_args, resolved_kwargs = [], {}
 
-
         for kind, value in self.args:
-
             if kind == 'name':
                 value = value
+
             
             value = self._call_each(str(value))
             
             resolved_args.append(value)
             
-        
-
-
         if PYVERSION_MA >= 2:
             items  = self.kwargs.items()
         else:
             items = self.kwargs.iteritems()
 
         for key, (kind, value) in items:
-
+            
             if kind == 'name':
-
                 value = value
-
             value = self._call_each(str(value))
             try:
                 valux = eval(value)
@@ -256,26 +250,17 @@ class _Call(_Node):
                 valux = value
             resolved_kwargs[key] = valux
 
-            
-        
         path = [str(ob_dir[0]) + "/" + str(self.callable) + ".py",  str(ob_dir[1]) + "/" + str(self.callable) + ".py"]
-
 
         sys.path.append(str(ob_dir[0]))
         sys.path.append(str(ob_dir[1]))
 
 
         importlib._RELOADING
-
+        
         if os.path.isfile(path[0]) == True:
-
-
             md = importlib.import_module(self.callable, self.callable)
-
-
             ob = getattr(md, self.callable)
-
-
 
             if hasattr(ob(), '__call__') == True:
 
@@ -350,13 +335,9 @@ class _Call(_Node):
             for oparator_k,  oparator_v in operator_lookup_table.items():
                 if oparator_k in self.it:
                     oparatork = oparator_k
-
-
             contsplit = self.it.split(oparatork)
-
-
+            
             if len(contsplit) < 2:
-
                 for k, itc in enumerate(contsplit):
 
                     if 'it.' in itc:
@@ -365,19 +346,19 @@ class _Call(_Node):
                         item = str(self.it).replace(itc, str(ite))
                         return item
                     elif '..' in itc:
-
                         ite = resolve(itc, self.contxt)
-                        
                         item = str(self.it).replace(itc, str(ite))
                         return item
                     else:
-                        ite = resolve(itc, self.contxt)
-                        item = str(self.it).replace(itc, str(ite))
+                        try:
+                            ite = resolve(itc, self.contxt)
+                            item = str(self.it).replace(itc, str(ite))
+                        except Exception as err:
+                            item = ""
                         return item
 
-
             elif len(contsplit) > 1:
-
+                
                 dic_ls = {}
                 for s in contsplit:
 
@@ -387,9 +368,12 @@ class _Call(_Node):
                     elif '..'.lower() in s.lower():
 
                         dic_ls.update({s: resolve(s, self.contxt)})
-        
+                    else:
+                        try:
+                            dic_ls.update({s: resolve(s, self.contxt)})
+                        except Exception as err:
+                            dic_ls = {}
                 return dict_local(self.it,dic_ls)
-
 
             else:
 
@@ -402,9 +386,6 @@ class _Call(_Node):
                     item = str(self.it).replace(self.it, ite)
 
                 return item
-
-
-
         elif '..' in context:
 
             for it in context.split('/'):
@@ -416,18 +397,14 @@ class _Call(_Node):
 
                 item = str(context).replace(it, ite)
                 return item
-
         else:
-
             return context
 
 
 
 class _Text(_Node):
-    
     def process_fragment(self, fragment):
         self.text = fragment
-
     def render(self, context):
         
         return self.text
