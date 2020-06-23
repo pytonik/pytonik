@@ -136,17 +136,14 @@ def parse_params(params):
         return args, kwargs
 
 
-def dict_local(it, resolves):
-    
+def dict_local(it, resolves={}):
+    l = "" 
     for i, k in enumerate(resolves):
         if k in resolves:
             l = str(it).replace(k, str(resolves[k]))
-
         if len(resolves) > 1:
-            
             return dict_local_next(l, resolves)
         else:
-            
             return l
 
 
@@ -154,5 +151,4 @@ def dict_local_next(it, resolves):
     for i, k in enumerate(resolves):
         if k in it:
             it = it.replace(k, resolves[k])
-
     return it

@@ -338,45 +338,52 @@ class _Call(_Node):
             contsplit = self.it.split(oparatork)
             
             if len(contsplit) < 2:
+                item = ""
                 for k, itc in enumerate(contsplit):
 
                     if 'it.' in itc:
 
                         ite = resolve(itc, self.contxt)
                         item = str(self.it).replace(itc, str(ite))
-                        return item
+            
                     elif '..' in itc:
                         ite = resolve(itc, self.contxt)
                         item = str(self.it).replace(itc, str(ite))
-                        return item
+                        
                     else:
                         try:
                             ite = resolve(itc, self.contxt)
                             item = str(self.it).replace(itc, str(ite))
                         except Exception as err:
-                            item = ""
-                        return item
+                            err = ""
+                return item
 
             elif len(contsplit) > 1:
                 
                 dic_ls = {}
+                dict_r = ""
+                
                 for s in contsplit:
 
                     if 'it.'.lower() in s.lower():
-                        dic_ls.update({s:resolve(s, self.contxt)})
+                        dic_ls.update({s: resolve(s, self.contxt)})
+                        dict_r = dict_local(self.it, dic_ls)
 
                     elif '..'.lower() in s.lower():
-
                         dic_ls.update({s: resolve(s, self.contxt)})
+                        dict_r = dict_local(self.it, dic_ls)
                     else:
+                        
                         try:
                             dic_ls.update({s: resolve(s, self.contxt)})
+                            dict_r = dict_local(self.it, dic_ls)
                         except Exception as err:
-                            dic_ls = {}
-                return dict_local(self.it,dic_ls)
+                            err = ""
+                        
+                return  dict_r
 
             else:
-
+                item = ""
                 if 'it.' in self.it:
                     ite = resolve(self.it, self.contxt)
                     item = str(self.it).replace(self.it, ite)
@@ -384,19 +391,28 @@ class _Call(_Node):
 
                     ite = resolve(self.it, self.contxt)
                     item = str(self.it).replace(self.it, ite)
-
+                else:
+                    try:
+                        ite = resolve(self.it, self.contxt)
+                        item = str(self.it).replace(self.it, ite)
+                    except Exception as err:
+                        err = ""
+                        
                 return item
-        elif '..' in context:
 
+        elif '..' in context:
+            item = ""
             for it in context.split('/'):
                 if '..' in it:
                     ite = resolve(it, self.contxt)
-
+                    item = str(context).replace(it, ite)
                 else:
-                    ite = resolve(it, self.contxt)
-
-                item = str(context).replace(it, ite)
-                return item
+                    try:
+                        ite = resolve(it, self.contxt)
+                        item = str(context).replace(it, ite)
+                    except Exception as err:
+                        err = ""
+            return item
         else:
             return context
 
