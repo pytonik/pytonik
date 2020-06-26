@@ -256,17 +256,20 @@ class Controllers(env, Config):
                 sys.path.append(host)
                 import routes as route
                 param_v = {}
-                #print(route.route.getParams(), route.route.getRouter())
                 
-                for i, route_c in enumerate(route.route.getRouter()):
+                lsr = filter(lambda x : x !="", route.route.getParams())
+                if len(list(lsr)) > 0:
+                    for i, route_c in enumerate(route.route.getRouter()):
 
-                    if self.controllers == route_c:
-                    
-                        param_v = self._getR_params(route.route.getParams()[i])
-                        break
-                    
-                if len(param_v) > 0:
-                    return param_v
+                        if self.controllers == route_c:
+                        
+                            param_v = self._getR_params(route.route.getParams()[i])
+                            break
+                        
+                    if len(param_v) > 0:
+                        return param_v
+                    else:
+                        return params
                 else:
                     return params
 

@@ -104,9 +104,21 @@ class Image():
             self.filename = ""
             self.read = ""
 
-    def size(self):
-        size = len(self.items.value)
-        return size
+    def size(self, image=""):
+        
+        image = image if image !="" else base64.b64decode(self.blobbase)
+        try:
+            img = IMG.open(image)
+            return img.size
+        except Exception as err:
+            return err
+    
+    def byte(self, image=""):
+        try:
+            return len(self.items.value)
+        except Exception as err:
+            return err
+
 
     def resize(self, width, height, rename=str("")):
 
@@ -125,6 +137,23 @@ class Image():
         except Exception as err:
             log_msg.critical(err)
             return err
+        
+    def crop(self, dimenion,  image="",  dir_path="", filename=""):
+        
+        image = image if image !="" else base64.b64decode(self.blobbase)
+        filename = filename if filename !="" else self.filename
+        dir_path = dir_path if dir_path !="" else self.dir
+
+        try:
+            dimenion = dimenion  #(150, 200, 600, 600)
+            img = IMG.open(image)
+            crop = img.crop(dimenion)
+            crop.save(dir_path + filename)
+            return True
+        except Exception as err:
+            log_msg.critical(err)
+            return err
+    
 
     def blob(self):
         try:
@@ -312,7 +341,7 @@ class Image():
             return ""
 
 
-
+    
     def creator(self):
 
         for k in type_to_content_type:

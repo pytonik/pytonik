@@ -15,4 +15,4 @@ class Template(object):
 
     def render(self, **kwargs):
         
-        return str(self.root.render(kwargs)).replace('\ufeff', ' ')
+        return str(self.root.render(kwargs)).replace('\ufeff', ' ').replace('\u20a6', ' ')

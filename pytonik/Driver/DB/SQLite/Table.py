@@ -322,7 +322,7 @@ class Table:
         return self
 
     def delete(self):
-        self.table_delete = "DELETE FROM {table} {where}".format(table=self.table, where=self.table_where)
+        self.table_delete = "DELETE FROM {table} {where}".format(table=self.table, where=str(" WHERE") + str(" AND".join(self.table_where)))
         t_result = self.DB.query(self.table_delete)
         return t_result.save() if t_result.Exception == "" else t_result.Exception
 
