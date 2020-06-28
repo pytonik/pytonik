@@ -38,11 +38,13 @@ class now:
         if delta.find(',') > 0:
             days, hours = delta.split(',')
             days = int(days.split()[0].strip())
-            hours, minutes = hours.split(':')[0:2]
+            hours, minutes, seconds = hours.split(':')[0:3]
         else:
-            hours, minutes = delta.split(':')[0:2]
+            hours, minutes, seconds = delta.split(':')[0:3]
             days = 0
-        days, hours, minutes = int(days), int(hours), int(minutes)
+
+        days, hours, minutes, seconds = int(days), int(hours), int(minutes), round(float(seconds))
+        
         datelets = []
         years, months, xdays = None, None, None
         plural = lambda x: 's' if x != 1 else ''
@@ -59,8 +61,11 @@ class now:
             datelets.append('%d day%s' % (xdays, plural(xdays)))
         if not (months or years) and hours != 0:
             datelets.append('%d hour%s' % (hours, plural(hours)))
-        if not (xdays or months or years):
+        if not (xdays or months or years) and minutes != 0:
             datelets.append('%d minute%s' % (minutes, plural(minutes)))
+
+        if not (xdays or months or years or minutes):
+            datelets.append('%d second%s' % (seconds, plural(seconds)))
 
         return ', '.join(datelets) + ' ago.'
 
