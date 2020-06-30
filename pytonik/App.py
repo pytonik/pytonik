@@ -109,7 +109,6 @@ class App(env, Config, Variable):
         self.routers = self.controllers._getRoutes()
         self.languages = self.controllers._getLanguages()
         self.params = self.controllers._getParams()
-
         langs = Lang.Lang(self.languages)
         langs.loadLang()
 
@@ -125,9 +124,9 @@ class App(env, Config, Variable):
 
             if self.controller == k:
                 controlUri = getRouter.split('@')
-
+        
         self.routerend()
-
+        
         if len(controlUri) != 0:
 
             if 'controller' in controlUri[0].lower():
@@ -578,9 +577,7 @@ class App(env, Config, Variable):
                                       link=True, code=redirect)
                 
                 for i, route_c in enumerate(route.route.getRouter()):
-                    
-                    
-                    
+
                     uri = self.uri
                     while("" in uri):
                         try:

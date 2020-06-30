@@ -44,7 +44,7 @@ class Controllers(env, Config):
         self.all_languages = self.get('languages', '')
         self.routes = self.get('default_routes', "")
         self.methodprefix = ""
-        self.parameter = ""
+        self.parameter = {}
 
         path_parts = self.uri
 
@@ -106,10 +106,12 @@ class Controllers(env, Config):
                 if list(set(path_parts).intersection(self.all_languages.keys())):
 
                     for s in path_parts:
+                        
                         if s in self.all_languages:
                             self.languages = s
-                            path_parts.append(path_parts.pop(-1))
-
+                            path_parts.pop(0)
+                            #path_parts.append()
+                    
             except Exception as err: 
                 Log("").error(err)
 
@@ -131,7 +133,7 @@ class Controllers(env, Config):
                         ++i
             except Exception as err: 
                 Log("").error(err)
-
+            
             action = self.get('default_actions', '')
             if action:
                 i = 0
@@ -145,15 +147,17 @@ class Controllers(env, Config):
 
             # Get Path from URI / convert it to parameter
             list_params = []
+            
             try:
-                if pathparts_paramarray == None or pathparts_paramarray == "":
+                
+                if routes.get(self.controllers) != "":
                     if PYVERSION_MA <= 2:
                         lroutes = routes.iteritems()
                     else:
                         lroutes = routes.items()
                         
                     for k, getRouter in lroutes:
-
+                        
                         if self.controllers == k:
 
                             paraUri = getRouter.split('@')
@@ -179,35 +183,37 @@ class Controllers(env, Config):
                                             param_n = para
 
                                             if (len(new_para) - i) > 0:
-                                                v_para = new_para[i]
+                                                
+                                                v_para = self._removeparseurl(new_para[i])
+                                                self._parseurl(new_para[i])
                                             else:
                                                 v_para = ""
-
+                                            
                                             list_params.append(param_n)
                                             list_params.append(v_para)
 
-                                    self.parameter = Helpers.covert_list_dict(
-                                        list_params)
+                                    self.parameter.update(Helpers.covert_list_dict(
+                                        list_params))
+                                break
 
                     else:
                         for s in path_parts:
 
                             if s is not self.controllers and s is not self.actions and s is not self.languages:
-                                list_params.append(s)
+                                list_params.append(self._removeparseurl(s))
 
                                 path_parts.append(path_parts.pop(-1))
 
-                        self.parameter = Helpers.covert_list_dict(list_params)
-
+                        self.parameter.update(Helpers.covert_list_dict(list_params))
+                    
                 else:
-
-                    self.parameter = pathparts_paramarrayOut
-
+                    
+                    self.parameter.update(pathparts_paramarrayOut)
                     path_parts.append(path_parts.pop(-1))
-
+            
             except Exception as err: 
                 Log("").error(err)
-
+        
         return None
 
     def url(self):
@@ -240,7 +246,6 @@ class Controllers(env, Config):
         return self.languages
 
     def _getParams(self):
-        
         return self.get_routes_param(params=self.parameter)
 
     def _getMethodPrefix(self):
@@ -259,13 +264,12 @@ class Controllers(env, Config):
                 
                 lsr = filter(lambda x : x !="", route.route.getParams())
                 if len(list(lsr)) > 0:
-                    for i, route_c in enumerate(route.route.getRouter()):
-
+                    
+                    for i, route_c in enumerate(route.route.getRouter()):  
                         if self.controllers == route_c:
-                        
                             param_v = self._getR_params(route.route.getParams()[i])
                             break
-                        
+                            
                     if len(param_v) > 0:
                         return param_v
                     else:
@@ -286,7 +290,7 @@ class Controllers(env, Config):
         for i, para in enumerate(params):
             
             try:
-                v_para = new_uri[i]
+                v_para = self._removeparseurl(new_uri[i])
             except Exception as err:
                 v_para = ""
             list_params.append(para)
@@ -295,4 +299,48 @@ class Controllers(env, Config):
             
         parameter = Helpers.covert_list_dict(list_params)
         return parameter
+    
+    def _removeparseurl(self, _url):
+    
+        if '/?' in _url:
+            url_s = str(_url).split('/?')
+            url_ = _url.replace('/?', '')
+        elif '?' in _url:
+            url_s = str(_url).split('?')
+            url_ = _url.replace('?', '')
+        else: 
+            url_ = _url.replace('', '')
+            url_s =  []
+        
+        if len(url_s) > 1:
+            pairs = str(url_s[1]).split('&')
+            url_ = _url.replace('&', '').replace('/?', '').replace('?', '')
+            for i in pairs:
+                url_ = url_.replace(i, '')
+        else:
+            url_ = _url
+        return url_
+
+    def _parseurl(self, _url):
+        
+        if '/?' in _url:
+            url_s = str(_url).split('/?')
+        elif '?' in _url:
+            url_s = str(_url).split('?')
+        else: 
+            url_s = []
+
+        if len(url_s) > 1:
+            pairs = str(url_s[1]).split('&')
             
+            for i in pairs:
+                try:
+                    name, value = i.split('=', 2)
+                except Exception as err:
+                    name = i.split('=')
+                    value = ""
+                self.parameter.update({name:value})
+
+        return self.parameter
+
+    

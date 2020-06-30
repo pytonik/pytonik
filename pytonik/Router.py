@@ -289,10 +289,6 @@ class Router(Controllers):
         params = ""
 
         new_paraf = []
-        
-      
-            
-
         if len(call) > 0:
             replace = call[0]
             #if len(call[1]) > 0:
