@@ -39,6 +39,18 @@ class readmore(validation):
         else:
             new_text = text
         readlable  = " <a class='{css}' href='{link}'> {label} </a>".format(css=css, link=link, label=label)
-        data = (new_text[:int(length)] + str(readlable)) if len(new_text) > int(length) else new_text
+        data = self.limit(self, text=new_text, trim = trim, length = length, label=readlable)
+
+        return data
+
+    def limit(self, text="", trim = 'False', length = '10000000000000', label=""):
+
+        if bool(trim) is True:
+            new_text = self.trim(text)
+
+        else:
+            new_text = text
+
+        data = (new_text[:int(length)] + str(label)) if len(new_text) > int(length) else new_text
 
         return data

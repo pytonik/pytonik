@@ -106,7 +106,7 @@ class Table:
 
         value = value if value != "" else ""
 
-        self.table_select = "SELECT {value}{distinct}{values}{max}{min}{count}{avg} FROM {table}{exists}{notexist}{outerjoin}{join}{leftjoin}{rightjoin}{where}{whereisnull}{wherenotnull}{whereBetween}{whereNotBetween}{wherenotin}{orwhere}{groupBy}{having}{orderBy}{limit}{take}".format(
+        self.table_select = "SELECT {value}{distinct}{values}{max}{min}{count}{avg} FROM {table}{exists}{notexist}{outerjoin}{join}{leftjoin}{rightjoin}{where}{whereisnull}{wherenotnull}{whereBetween}{whereNotBetween}{wherenotin}{orwhere}{groupBy}{having}{orderBy}{limit}{offset}{take}".format(
             distinct=self.table_distinct,
             value=','.join(value) if self.table_count == "" else '',
             values=values if self.table_count == "" else '',
@@ -133,10 +133,10 @@ class Table:
             groupBy=self.table_groupby,
             orderBy=self.table_orderby,
             limit=self.table_limit,
+            offset=self.table_offset,
             take=self.table_take,
             having=self.table_having
         )
-
         return self
 
     def union(self, string):
@@ -349,12 +349,14 @@ class Table:
         return self
 
     def offset(self, offset=""):
-        self.table_offset = str(offset) + ',' if offset != "" else 0
+        
+        self.table_offset = " OFFSET {offset} ".format(offset=offset)
+       
         return self
 
     def limit(self, limits):
 
-        self.table_limit = " LIMIT {offset} {limit}".format(offset=self.table_offset, limit=limits)
+        self.table_limit = " LIMIT {limit} ".format(limit=limits)
         return self
 
     def skip(self, offset=""):
@@ -363,8 +365,7 @@ class Table:
         return self
 
     def take(self, limits):
-
-        self.table_take = " LIMIT {offset} {limit}".format(offset=self.table_offset, limit=limits)
+        self.table_take = " LIMIT {limit} {offset}".format(offset=self.table_offset, limit=limits)
         return self
 
     def value(self, *values):
@@ -530,7 +531,7 @@ class Table:
         else:
             _or = ""
 
-        self.table_select = "SELECT {distinct}{values}{max}{min}{count}{avg} FROM {table}{exists}{notexist}{outerjoin}{join}{leftjoin}{rightjoin}{where}{whereisnull}{wherenotnull}{whereBetween}{whereNotBetween}{wherenotin}{orwhere}{groupBy}{having}{orderBy}{limit}{take}".format(
+        self.table_select = "SELECT {distinct}{values}{max}{min}{count}{avg} FROM {table}{exists}{notexist}{outerjoin}{join}{leftjoin}{rightjoin}{where}{whereisnull}{wherenotnull}{whereBetween}{whereNotBetween}{wherenotin}{orwhere}{groupBy}{having}{orderBy}{limit}{offset}{take}".format(
             distinct=self.table_distinct,
 
             values=values if self.table_count == "" else '',
@@ -557,9 +558,10 @@ class Table:
             groupBy=self.table_groupby,
             orderBy=self.table_orderby,
             limit=self.table_limit,
+            offset=self.table_offset,
             take=self.table_take,
             having=self.table_having)
-
+        
         self.get()
         num = int(number)
 
