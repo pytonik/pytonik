@@ -349,9 +349,9 @@ class Table:
         return self
 
     def offset(self, offset=""):
-        
+
         self.table_offset = " OFFSET {offset} ".format(offset=offset)
-       
+
         return self
 
     def limit(self, limits):
@@ -447,9 +447,7 @@ class Table:
             sign = ""
             string = ""
 
-        table_leftjoin = " LEFT JOIN {table} ON {variable} {sign} {string}".format(table=str(self.prefix) + str(table),
-                                                                                   variable=variables, sign=sign,
-                                                                                   string=string)
+        table_leftjoin = " LEFT JOIN {table} ON {variable} {sign} {string}".format(table=str(self.prefix) + str(table), variable=variables, sign=sign, string=string)
 
         self.table_leftjoin.append(table_leftjoin)
 
@@ -561,7 +559,7 @@ class Table:
             offset=self.table_offset,
             take=self.table_take,
             having=self.table_having)
-        
+
         self.get()
         num = int(number)
 
@@ -635,11 +633,11 @@ class Table:
                             column.append("{k}='{v}'".format(k=k, v=v))
 
                 lcolumn = ' , '.join(column)
-                
+
                 table_update ="UPDATE {table} SET {column} {where}".format(table=str(self.table),  column=lcolumn, where=str(" WHERE") + str(" AND".join(self.table_where)) if len(self.table_where) > 0 else '')
-                
+
                 t_result = self.DB.query(table_update)
-                
+
                 return t_result.save() if t_result.Exception == "" else t_result.Exception
             else:
                 return "Empty Data"

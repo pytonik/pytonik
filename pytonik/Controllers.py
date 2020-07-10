@@ -30,9 +30,9 @@ class Controllers(env, Config):
         return item
 
     def __init__(self):
-        
+
         self.uri = self.url()
-        
+
         self.add(self._e())
 
         self.controllers = self.get('default_controllers')
@@ -98,21 +98,21 @@ class Controllers(env, Config):
                                 self.methodprefix = ""
 
                                 # path_parts.append(path_parts.pop(-1))
-            
-            except Exception as err: 
+
+            except Exception as err:
                 Log("").error(err)
 
             try:
                 if list(set(path_parts).intersection(self.all_languages.keys())):
 
                     for s in path_parts:
-                        
+
                         if s in self.all_languages:
                             self.languages = s
                             path_parts.pop(0)
                             #path_parts.append()
-                    
-            except Exception as err: 
+
+            except Exception as err:
                 Log("").error(err)
 
             controllers = self.get('default_controllers', '')
@@ -131,9 +131,9 @@ class Controllers(env, Config):
                                 self.controllers = s
                                 path_parts.append(path_parts.pop(-1))
                         ++i
-            except Exception as err: 
+            except Exception as err:
                 Log("").error(err)
-            
+
             action = self.get('default_actions', '')
             if action:
                 i = 0
@@ -147,17 +147,17 @@ class Controllers(env, Config):
 
             # Get Path from URI / convert it to parameter
             list_params = []
-            
+
             try:
-                
+
                 if routes.get(self.controllers) != "":
                     if PYVERSION_MA <= 2:
                         lroutes = routes.iteritems()
                     else:
                         lroutes = routes.items()
-                        
+
                     for k, getRouter in lroutes:
-                        
+
                         if self.controllers == k:
 
                             paraUri = getRouter.split('@')
@@ -183,12 +183,12 @@ class Controllers(env, Config):
                                             param_n = para
 
                                             if (len(new_para) - i) > 0:
-                                                
+
                                                 v_para = self._removeparseurl(new_para[i])
                                                 self._parseurl(new_para[i])
                                             else:
                                                 v_para = ""
-                                            
+
                                             list_params.append(param_n)
                                             list_params.append(v_para)
 
@@ -205,15 +205,15 @@ class Controllers(env, Config):
                                 path_parts.append(path_parts.pop(-1))
 
                         self.parameter.update(Helpers.covert_list_dict(list_params))
-                    
+
                 else:
-                    
+
                     self.parameter.update(pathparts_paramarrayOut)
                     path_parts.append(path_parts.pop(-1))
-            
-            except Exception as err: 
+
+            except Exception as err:
                 Log("").error(err)
-        
+
         return None
 
     def url(self):
@@ -254,22 +254,22 @@ class Controllers(env, Config):
 
     def _getRoutes(self):
         return self.routes
-    
+
     def get_routes_param(self, params):
             list_params = []
             if os.path.isfile(host + "/" + "routes.py") == True:
                 sys.path.append(host)
                 import routes as route
                 param_v = {}
-                
+
                 lsr = filter(lambda x : x !="", route.route.getParams())
                 if len(list(lsr)) > 0:
-                    
-                    for i, route_c in enumerate(route.route.getRouter()):  
+
+                    for i, route_c in enumerate(route.route.getRouter()):
                         if self.controllers == route_c:
                             param_v = self._getR_params(route.route.getParams()[i])
                             break
-                            
+
                     if len(param_v) > 0:
                         return param_v
                     else:
@@ -283,35 +283,35 @@ class Controllers(env, Config):
     def _getR_params(self, params):
         list_params = []
         parameter = {}
-                
-        
+
+
         new_uri = self._getUri()[1:]
-        
+
         for i, para in enumerate(params):
-            
+
             try:
                 v_para = self._removeparseurl(new_uri[i])
             except Exception as err:
                 v_para = ""
             list_params.append(para)
             list_params.append(v_para)
-            
-            
+
+
         parameter = Helpers.covert_list_dict(list_params)
         return parameter
-    
+
     def _removeparseurl(self, _url):
-    
+
         if '/?' in _url:
             url_s = str(_url).split('/?')
             url_ = _url.replace('/?', '')
         elif '?' in _url:
             url_s = str(_url).split('?')
             url_ = _url.replace('?', '')
-        else: 
+        else:
             url_ = _url.replace('', '')
             url_s =  []
-        
+
         if len(url_s) > 1:
             pairs = str(url_s[1]).split('&')
             url_ = _url.replace('&', '').replace('/?', '').replace('?', '')
@@ -322,17 +322,17 @@ class Controllers(env, Config):
         return url_
 
     def _parseurl(self, _url):
-        
+
         if '/?' in _url:
             url_s = str(_url).split('/?')
         elif '?' in _url:
             url_s = str(_url).split('?')
-        else: 
+        else:
             url_s = []
 
         if len(url_s) > 1:
             pairs = str(url_s[1]).split('&')
-            
+
             for i in pairs:
                 try:
                     name, value = i.split('=', 2)
@@ -343,4 +343,3 @@ class Controllers(env, Config):
 
         return self.parameter
 
-    

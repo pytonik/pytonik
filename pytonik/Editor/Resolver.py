@@ -48,11 +48,16 @@ operator_lookup_table = {
     '<<': operator.lshift,
     '>>': operator.rshift,
     '^': operator.xor,
-}
+    'not': operator.not_,
+    'is not': operator.is_not,
+    'is': operator.is_,
+    '|': operator.or_,
+    '&': operator.and_,
+
+    }
 
 if os.path.isdir(os.getcwd() + '/public'):
     host = os.getcwd()  # os.path.dirname(os.getcwd())
-
 else:
     host = os.path.dirname(os.getcwd())
 
@@ -66,11 +71,11 @@ def eval_expression(expr):
 
 
 def resolve(name, context):
-    
+
     if name.startswith('..'):
         context = context.get('..', {})
         name = name[2:]
-        
+
 
     try:
         for tok in name.split('.'):
@@ -88,7 +93,7 @@ def resolve(name, context):
             # name
             raise TemplateContextError(err)
 
-    
+
 
 def parse_params(params):
         new_args, args, kwargs = [], [], {}
@@ -137,7 +142,7 @@ def parse_params(params):
 
 
 def dict_local(it, resolves={}):
-    l = "" 
+    l = ""
     for i, k in enumerate(resolves):
         if k in resolves:
             l = str(it).replace(k, str(resolves[k]))

@@ -124,9 +124,9 @@ class App(env, Config, Variable):
 
             if self.controller == k:
                 controlUri = getRouter.split('@')
-        
+
         self.routerend()
-        
+
         if len(controlUri) != 0:
 
             if 'controller' in controlUri[0].lower():
@@ -150,7 +150,7 @@ class App(env, Config, Variable):
             if str(self.controller[0]) == '?':
                 if self.controllers.default_controllers != "":
                     controllersClass = str(self.controllers.default_controllers).capitalize() + 'Controller'
-                    
+
                 else:
                     controllersClass = "IndexController"
             else:
@@ -159,7 +159,7 @@ class App(env, Config, Variable):
                 ) + str(self.controller[1:]) + 'Controller'
 
             controllersMethods = str(self.actions)
-        
+
         if controllersMethods != "":
             self.actions = controllersMethods
 
@@ -456,7 +456,7 @@ class App(env, Config, Variable):
         if self.out("SERVER_SOFTWARE") == AUTHOR:
             return dataString
         else:
-            
+
             for mime in MIME_TYPES:
                 if str(mime["ext"]).replace(".", "") == ctype or str(mime["ext"]).replace(".", "") == ctype:
                     ctype = mime["type"]
@@ -465,7 +465,7 @@ class App(env, Config, Variable):
 
     def views(self, pathf="", datag={}, datal={}):
         data_c.update(datag)
-        
+
         if pathf == "":
             pathf = self.getDefaultViewPath()
 
@@ -481,12 +481,12 @@ class App(env, Config, Variable):
                 '\n<!-- Pytonik {} -->'.format(VERSION_TEXT))
             if os.path.isdir(os.getcwd() + '/public'):
                 # print(os.environ)
-                return output 
+                return output
 
             else:
                 self.header()
                 print(output)
-    
+
 
 
     def read_html(self, template_dir, engine, context={}):
@@ -495,11 +495,11 @@ class App(env, Config, Variable):
         try:
             with open(html_file_path, encoding='utf-8') as html_file:
                 html = html_file.read()
-            
+
             return Template.Template(html).render(**data_c)
 
         except Exception as err:
-            
+
             Log(template_dir + DS + engine + str('.html')).error(err)
             return ""
 
@@ -520,7 +520,7 @@ class App(env, Config, Variable):
         return host + DS + 'views' + DS + str(code) + ".html"
 
     def loadmodule(self):
-        
+
         path = [os.path.dirname(__file__) + str("/") +
                 str("Functions"), str(host) + str("/") + "model"]
         listpath = [path[0], path[1]]
@@ -563,7 +563,7 @@ class App(env, Config, Variable):
             sys.path.append(host)
             import routes as route
             toroute, fromroute = "", ""
-            
+
             if len(route.route.getRouter()) > 0:
 
                 for i, redirect in enumerate(route.route.getCode()):
@@ -572,10 +572,10 @@ class App(env, Config, Variable):
                     if len(route.route.getDespatch()) > 0:
                         fromroute = route.route.getDespatch()[i]
                     if fromroute == self.controller:
-                        
+
                         self.redirect(location=toroute,
                                       link=True, code=redirect)
-                
+
                 for i, route_c in enumerate(route.route.getRouter()):
 
                     uri = self.uri
@@ -597,11 +597,11 @@ class App(env, Config, Variable):
 
                     else:
                         luri = str(uri)
-                    
+
                     if luri == route_c:
                         routes_l = route_c
-                
-                    
+
+
                         if len(route.route.getController()) > 0:
                             self.controller = route.route.getController()[i]
 
@@ -619,4 +619,4 @@ class App(env, Config, Variable):
                                         self.actions) + " Requires " + self.method)
 
                                     return self.errorP('400')
-                        
+

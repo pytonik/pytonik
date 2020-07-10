@@ -9,7 +9,7 @@
 
 import sys
 
-VERSION = (1, 10, 0, 'a', 1)
+VERSION = (1, 10, 0, 'a', 2)
 
 if VERSION[3] and VERSION[4]:
     VERSION_TEXT = '{0}.{1}.{2}{3}{4}'.format(*VERSION)
@@ -285,10 +285,10 @@ HTTP_CODE = {
     '599': 'Network Connect Timeout Error',
 }
 
-HASH_PRE = { 
+HASH_PRE = {
             "128": "sha256",
-            "192": "sha384", 
-            "256": "sha512", 
+            "192": "sha384",
+            "256": "sha512",
             "56" : "sha224",
             "80" : "sha1",
             "64" : "md5",

@@ -55,11 +55,9 @@ class _Variable(_Node):
         self.name = fragment
 
     def render(self, context):
-        
+
         return resolve(self.name, context)
 
-
-    
 
 class _Each(_ScopableNode):
 
@@ -88,6 +86,7 @@ class _Each(_ScopableNode):
             return self.render_children(load)
 
         return ''.join(map(render_item, items))
+
 
 class _Block(_Node):
 
@@ -138,8 +137,9 @@ class _Block(_Node):
 
 
 class _If(_ScopableNode):
+
     def process_fragment(self, fragment):
-        
+
         bits = fragment.split()[1:]
 
         if len(bits) not in (1, 3):
@@ -147,27 +147,24 @@ class _If(_ScopableNode):
         self.lhs = eval_expression(bits[0])
         if len(bits) == 3:
             self.op = bits[1]
-            
+
             self.rhs = eval_expression(bits[2])
-            
-            
-            
 
     def render(self, context):
-      
+
         lhs = self.resolve_side(self.lhs, context)
-        
+
         if hasattr(self, 'op'):
-            
+
             op = operator_lookup_table.get(self.op)
-            
+
             if op is None:
                 raise TemplateSyntaxError(self.op)
 
-            
-            
+
+
             rhs = self.resolve_side(self.rhs, context)
-            
+
             exec_if_branch = op(lhs, rhs)
         else:
             exec_if_branch = operator.truth(lhs)
@@ -177,9 +174,9 @@ class _If(_ScopableNode):
         return self.render_children(context, self.if_branch if exec_if_branch else self.else_branch)
 
     def resolve_side(self, side, context):
-        
+
         return side[1] if side[0] == 'literal' else resolve(side[1], context)
-        
+
 
     def exit_scope(self):
         self.if_branch, self.else_branch = self.split_children()
@@ -204,9 +201,8 @@ class _Else(_Node):
 class _Call(_Node):
 
     def process_fragment(self, fragment):
-        
+
         try:
-            #bits = WHITESPACE.
             self.bits = WHITESPACE.split(fragment)
             self.callable = self.bits[1]
             self.fragment = fragment
@@ -215,9 +211,9 @@ class _Call(_Node):
         except Exception as err:
             raise TemplateSyntaxError(fragment)
 
-    
+
     def render(self, context):
-        
+
         self.contxt = context
 
         ob_dir = [str(os.path.dirname(__file__).replace('Editor', '')) + str("Functions"), str(host) + str("/") + "model"]
@@ -228,25 +224,25 @@ class _Call(_Node):
             if kind == 'name':
                 value = value
 
-            
+
             value = self._call_each(str(value))
-            
+
             resolved_args.append(value)
-            
+
         if PYVERSION_MA >= 2:
             items  = self.kwargs.items()
         else:
             items = self.kwargs.iteritems()
 
         for key, (kind, value) in items:
-            
+
             if kind == 'name':
                 value = value
             value = self._call_each(str(value))
             try:
                 valux = eval(value)
             except Exception as err:
-                
+
                 valux = value
             resolved_kwargs[key] = valux
 
@@ -257,7 +253,7 @@ class _Call(_Node):
 
 
         importlib._RELOADING
-        
+
         if os.path.isfile(path[0]) == True:
             md = importlib.import_module(self.callable, self.callable)
             ob = getattr(md, self.callable)
@@ -268,7 +264,7 @@ class _Call(_Node):
                 try:
                     newob = getattr(ob, ''.join(resolved_args).replace(" ", ""))
                     calls = newob(**resolved_kwargs)
-                    
+
                 except Exception as err:
                     try:
                         newob = getattr(ob(), ''.join(resolved_args).replace(" ", ""))
@@ -336,7 +332,7 @@ class _Call(_Node):
                 if oparator_k in self.it:
                     oparatork = oparator_k
             contsplit = self.it.split(oparatork)
-            
+
             if len(contsplit) < 2:
                 item = ""
                 for k, itc in enumerate(contsplit):
@@ -345,11 +341,11 @@ class _Call(_Node):
 
                         ite = resolve(itc, self.contxt)
                         item = str(self.it).replace(itc, str(ite))
-            
+
                     elif '..' in itc:
                         ite = resolve(itc, self.contxt)
                         item = str(self.it).replace(itc, str(ite))
-                        
+
                     else:
                         try:
                             ite = resolve(itc, self.contxt)
@@ -359,10 +355,10 @@ class _Call(_Node):
                 return item
 
             elif len(contsplit) > 1:
-                
+
                 dic_ls = {}
                 dict_r = ""
-                
+
                 for s in contsplit:
 
                     if 'it.'.lower() in s.lower():
@@ -373,13 +369,13 @@ class _Call(_Node):
                         dic_ls.update({s: resolve(s, self.contxt)})
                         dict_r = dict_local(self.it, dic_ls)
                     else:
-                        
+
                         try:
                             dic_ls.update({s: resolve(s, self.contxt)})
                             dict_r = dict_local(self.it, dic_ls)
                         except Exception as err:
                             err = ""
-                        
+
                 return  dict_r
 
             else:
@@ -397,7 +393,7 @@ class _Call(_Node):
                         item = str(self.it).replace(self.it, ite)
                     except Exception as err:
                         err = ""
-                        
+
                 return item
 
         elif '..' in context:
@@ -422,5 +418,5 @@ class _Text(_Node):
     def process_fragment(self, fragment):
         self.text = fragment
     def render(self, context):
-        
+
         return self.text
