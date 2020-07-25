@@ -32,15 +32,18 @@ class extend(App):
         return self.ex
 
 
-    def extends(self, path = ""):
-
+    def extends(self, path = "", is_temp=False):
+        tempath = ""
+        DS = str("/")
+        if bool(is_temp) == True:
+            tempath = DS+str(self.envrin('tempath'))
         if os.path.isdir(os.getcwd() + '/public'):
             host = str(os.getcwd()).replace("\\", "/")  # os.path.dirname(os.getcwd())
 
         else:
             host = str(os.path.dirname(os.getcwd())).replace("\\", "/")
 
-        DS = str("/")
+       
         pth = path
 
         split = pth.split('.')
@@ -57,11 +60,10 @@ class extend(App):
             for v in dirF:
                 lf +="/"+v
 
-            template_dir = host + DS + 'views' + lf
+            template_dir = host + DS + 'views' + str(tempath)+ str(lf)
             engine  = template_dir.rsplit('/', 1)[-1]
-            direct = template_dir.rsplit('/', 1)[-2]
-
-
+            direct = str(template_dir.rsplit('/', 1)[-2])
+            
             if os.path.isdir(direct) == True:
 
                 if 'views.html' not in template_dir+".html":

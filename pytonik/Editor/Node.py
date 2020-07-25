@@ -215,8 +215,8 @@ class _Call(_Node):
     def render(self, context):
 
         self.contxt = context
-
-        ob_dir = [str(os.path.dirname(__file__).replace('Editor', '')) + str("Functions"), str(host) + str("/") + "model"]
+        
+        ob_dir = [str(os.path.dirname(__file__).replace('Editor', '')) + str("/Functions"), str(host) + str("/") + "model"]
 
         resolved_args, resolved_kwargs = [], {}
 
@@ -224,7 +224,7 @@ class _Call(_Node):
             if kind == 'name':
                 value = value
 
-
+            
             value = self._call_each(str(value))
 
             resolved_args.append(value)
@@ -324,15 +324,17 @@ class _Call(_Node):
             raise TemplateError("'%s' module not found " % self.callable)
 
     def _call_each(self, context):
-
         if  VAR_TOKEN_START in context:
             self.it = str(context).translate({ord(i): None for i in '{VAR_TOKEN_START}{VAR_TOKEN_END}'.format(VAR_TOKEN_START = '{{', VAR_TOKEN_END = '}}')})
-            oparatork = "/"
+            oparatork = ['/', '.']
+            opto_k = '/'
             for oparator_k,  oparator_v in operator_lookup_table.items():
-                if oparator_k in self.it:
-                    oparatork = oparator_k
-            contsplit = self.it.split(oparatork)
-
+                for opto in oparatork:
+                    if opto in self.it:
+                        opto_k = opto
+            
+            contsplit = self.it.split(opto_k)
+            
             if len(contsplit) < 2:
                 item = ""
                 for k, itc in enumerate(contsplit):

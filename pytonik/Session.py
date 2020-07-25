@@ -34,8 +34,7 @@ class Session(Variable):
         self.s_string = "HTTP_COOKIE"
         self.session_list = []
         self._commit = []
-        self.url_v = self.out("HTTP_HOST") + str(":") + str(self.out("SERVER_PORT", '')) if self.out(
-            "HTTP_HOST") == "localhost" or self.out("HTTP_HOST") == "127.0.0.1" else self.out("HTTP_HOST")
+        
         return None
 
     def has(self, key=""):
@@ -70,7 +69,9 @@ class Session(Variable):
             self.set_k(key, self._encode(value), duration, url, path)
 
     def set_k(self, key="", value="", duration=3600, url="", path="/"):
-        url = url if url != "" else self.url_v
+        url_v = self.out("HTTP_HOST") + str(":") + str(self.out("SERVER_PORT", '')) if self.out(
+            "HTTP_HOST") == "localhost" or self.out("HTTP_HOST") == "127.0.0.1" else self.out("HTTP_HOST")
+        url = url if url != "" else url_v
         expires = datetime.datetime.utcnow(
         ) + datetime.timedelta(minutes=duration)  # minutes in 30 days
         cooKeys = cook.SimpleCookie(self.out(self.s_string))
@@ -286,20 +287,23 @@ class Session(Variable):
             import six
             import base64
             if six.PY3:
-                source = str(sessionPREFIX+sessionRAND+source +
-                             sessionTIMER).encode('utf-8')
+                source = str(sessionPREFIX+sessionRAND+source+str(sessionTIMER)).encode('utf-8')
             content = base64.b64encode(source).decode('utf-8')
             return str(content)
         except Exception as err:
             return str(source)
 
     def _decode(self, source):
+        
         try:
             import six
             import base64
-            source = base64.b64decode(source).decode()
+            source = base64.b64decode(str(source)).decode()
             source = source.split("::")
             source = source[1][64:-192]
-            return source
+            try:
+                return source if isinstance(int(source), int) == True else source
+            except Exception as err:
+                return Session()._decode(source)
         except Exception as err:
             return source

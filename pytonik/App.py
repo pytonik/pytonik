@@ -335,8 +335,10 @@ class App(env, Config, Variable):
             return self.errorP('400')
 
     def strMethod(self, p, c=None, mv=None):
+        gmodule = []
         Request = self.Request(prform=self.formData)
         Session = self.Session()
+        
         try:
             m = mv.split("?")[0]
         except Exception as err:

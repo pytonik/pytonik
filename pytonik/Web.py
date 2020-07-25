@@ -6,7 +6,7 @@
 # Created by Betacodings on 2019.
 ###
 def Model():
-    from pytonik import Model
+    from . import Model
     return Model
 
 

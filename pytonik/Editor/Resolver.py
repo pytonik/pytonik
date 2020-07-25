@@ -75,8 +75,7 @@ def resolve(name, context):
     if name.startswith('..'):
         context = context.get('..', {})
         name = name[2:]
-
-
+        
     try:
         for tok in name.split('.'):
             context = context[tok]
