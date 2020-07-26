@@ -21,8 +21,8 @@ class Flash:
         return 
         
     @staticmethod
-    def message(message, key='flash'):
-        option = {'msg': message, 'controller' : str(FVariable.out('HTTP_REFERER')).split('/')[-1]}  
+    def message(message, showin="", key='flash'):
+        option = {'msg': message, 'controller' : showin if showin != "" else "/".join(str(FVariable.out('HTTP_REFERER')).split('/')[3:])}  
         if FSession.has(key) == True:
             FSession.destroy(key)
             return FSession.set(key, option)
@@ -33,7 +33,7 @@ class Flash:
     def display(key='flash'):
         if FSession.has(key) == True:
             option = dict(FSession.get(key))
-            if option.get('controller') == FControllers._getUri()[0]:
+            if option.get('controller') == "/".join(FControllers._getUri()):
                 return option.get('msg')
             else:
                 return ""
