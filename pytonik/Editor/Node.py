@@ -324,21 +324,28 @@ class _Call(_Node):
             raise TemplateError("'%s' module not found " % self.callable)
 
     def _call_each(self, context):
+        
         if  VAR_TOKEN_START in context:
             self.it = str(context).translate({ord(i): None for i in '{VAR_TOKEN_START}{VAR_TOKEN_END}'.format(VAR_TOKEN_START = '{{', VAR_TOKEN_END = '}}')})
             oparatork = ['/', '.']
-            opto_k = '/'
-            for oparator_k,  oparator_v in operator_lookup_table.items():
-                for opto in oparatork:
-                    if opto in self.it:
-                        opto_k = opto
+            contsplit = []
             
-            contsplit = self.it.split(opto_k)
-            
+            for oparator_k in self.it.split('/'):
+                
+                if 'it.' in oparator_k:
+                    contsplit.append(oparator_k)
+                else:
+                    if '..' not in oparator_k:
+                        contsplit = contsplit + oparator_k.split('.')
+                    else:
+                        contsplit.append(oparator_k)
+                    
+
             if len(contsplit) < 2:
+                
                 item = ""
                 for k, itc in enumerate(contsplit):
-
+                    
                     if 'it.' in itc:
 
                         ite = resolve(itc, self.contxt)
@@ -357,17 +364,18 @@ class _Call(_Node):
                 return item
 
             elif len(contsplit) > 1:
-
+                
                 dic_ls = {}
                 dict_r = ""
-
                 for s in contsplit:
-
+                    
                     if 'it.'.lower() in s.lower():
+                        
                         dic_ls.update({s: resolve(s, self.contxt)})
                         dict_r = dict_local(self.it, dic_ls)
 
                     elif '..'.lower() in s.lower():
+                        
                         dic_ls.update({s: resolve(s, self.contxt)})
                         dict_r = dict_local(self.it, dic_ls)
                     else:

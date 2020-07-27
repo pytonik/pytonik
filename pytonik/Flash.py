@@ -33,7 +33,14 @@ class Flash:
     def display(key='flash'):
         if FSession.has(key) == True:
             option = dict(FSession.get(key))
+            lFcon=[]
+            for Fcon in str(option.get('controller')).split('/'):
+                if Fcon in FControllers._getUri():
+                    lFcon.append(Fcon)
+
             if option.get('controller') == "/".join(FControllers._getUri()):
+                return option.get('msg')
+            elif option.get('controller') == FControllers._getControllers():
                 return option.get('msg')
             else:
                 return ""

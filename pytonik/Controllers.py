@@ -267,18 +267,20 @@ class Controllers(env, Config):
                     for i, route_c in enumerate(route.route.getRouter()):
                         urlx = [self._getControllers(), self._getActions()]
                         url_i = []
-                        url_0 = []
                         
                         for urli in urlx:
-                            
                             if urli in self._getUri():
                                 url_i.append(urli)
                         
                         if "/".join(url_i) == route_c:
-                            
                             param_v = self._getR_params(route.route.getParams()[i], "/".join(url_i))
                             break
-                    
+                        else:
+                            lurl_i = lurl_i[0] if len(url_i) > 0 else None
+                            if lurl_i == route_c:
+                                param_v = self._getR_params(route.route.getParams()[i], url_i[0])
+                                break
+
                     if len(param_v) > 0:
                         return param_v
                     else:
