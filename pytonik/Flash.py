@@ -24,7 +24,7 @@ class Flash:
     def message(message, showin="", key='flash'):
         option = {'msg': message, 'controller' : showin if showin != "" else "/".join(str(FVariable.out('HTTP_REFERER')).split('/')[3:])}  
         if FSession.has(key) == True:
-            FSession.destroy(key)
+            Flash.clear(key)
             return FSession.set(key, option)
         else:
             return FSession.set(key, option)
@@ -39,5 +39,7 @@ class Flash:
                 return ""
         else:
             return ""
-    
-    
+
+    @staticmethod
+    def clear(key='flash'):
+        return FSession.destroy(key)
