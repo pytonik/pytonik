@@ -36,7 +36,10 @@ class Request(Variable):
 
                 if key != 0:
                     if (key in self.attr):
-                        return self.attr.getvalue(key)
+                        if self.attr.getvalue(key) != "":
+                            return self.attr.getvalue(key)
+                        else:
+                            return self.params(key)
                     elif error == 1:
                         return self.attr
                     else:
@@ -56,11 +59,14 @@ class Request(Variable):
             if 'POST' in self.out('REQUEST_METHOD'):
                 if key != 0:
                     if (key in self.attr):
-                        return self.attr.getvalue(key)
+                        if self.attr.getvalue(key) != "":
+                            return self.attr.getvalue(key)
+                        else:
+                            return self.params(key)
                     elif error == 1:
                         return self.attr
                     else:
-                        return ""
+                        return self.params(key)
                 else:
                     return ""
             else:

@@ -261,15 +261,24 @@ class Controllers(env, Config):
                 sys.path.append(host)
                 import routes as route
                 param_v = {}
-
                 lsr = filter(lambda x : x !="", route.route.getParams())
                 if len(list(lsr)) > 0:
 
                     for i, route_c in enumerate(route.route.getRouter()):
-                        if self.controllers == route_c:
-                            param_v = self._getR_params(route.route.getParams()[i])
+                        urlx = [self._getControllers(), self._getActions()]
+                        url_i = []
+                        url_0 = []
+                        
+                        for urli in urlx:
+                            
+                            if urli in self._getUri():
+                                url_i.append(urli)
+                        
+                        if "/".join(url_i) == route_c:
+                            
+                            param_v = self._getR_params(route.route.getParams()[i], "/".join(url_i))
                             break
-
+                    
                     if len(param_v) > 0:
                         return param_v
                     else:
@@ -280,17 +289,19 @@ class Controllers(env, Config):
             else:
                 return params
 
-    def _getR_params(self, params):
+    def _getR_params(self, params, popurl):
         list_params = []
         parameter = {}
-
-
         new_uri = self._getUri()[1:]
-
+        lnewuri = []
+        for newuri in new_uri:
+            if newuri not in popurl.split('/'):
+                lnewuri.append(newuri)
+            
         for i, para in enumerate(params):
 
             try:
-                v_para = self._removeparseurl(new_uri[i])
+                v_para = self._removeparseurl(lnewuri[i])
             except Exception as err:
                 v_para = ""
             list_params.append(para)
