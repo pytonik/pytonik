@@ -276,7 +276,7 @@ class Controllers(env, Config):
                             param_v = self._getR_params(route.route.getParams()[i], "/".join(url_i))
                             break
                         else:
-                            lurl_i = lurl_i[0] if len(url_i) > 0 else None
+                            lurl_i = url_i[0] if len(url_i) > 0 else None
                             if lurl_i == route_c:
                                 param_v = self._getR_params(route.route.getParams()[i], url_i[0])
                                 break
