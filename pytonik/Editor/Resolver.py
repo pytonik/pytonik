@@ -146,13 +146,15 @@ def dict_local(it, resolves={}):
         if k in resolves:
             l = str(it).replace(k, str(resolves[k]))
         if len(resolves) > 1:
+            
             return dict_local_next(l, resolves)
         else:
             return l
 
 
 def dict_local_next(it, resolves):
+    
     for i, k in enumerate(resolves):
         if k in it:
-            it = it.replace(k, resolves[k])
+            it = it.replace(k, str(resolves[k]))
     return it
