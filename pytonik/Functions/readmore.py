@@ -39,7 +39,7 @@ class readmore(validation):
         else:
             new_text = text
         readlable  = " <a class='{css}' href='{link}'> {label} </a>".format(css=css, link=link, label=label)
-        data = self.limit(self, text=new_text, trim = trim, length = length, label=readlable)
+        data = self.limit(text=new_text, trim = trim, length = length, label=readlable)
 
         return data
 
