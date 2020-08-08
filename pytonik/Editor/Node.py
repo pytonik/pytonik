@@ -139,7 +139,6 @@ class _Block(_Node):
 class _If(_ScopableNode):
 
     def process_fragment(self, fragment):
-        
         self.fragment = fragment
         self.bits = self.fragment.split()[1:]
         ## if len(bits) not in (1, 3):
@@ -178,42 +177,70 @@ class _If(_ScopableNode):
 
     def render(self, context):
         lhs, exec_if_branch =  [], []
-        
-        for lhsl in self.lhs:
+        for i, lhsl in enumerate(self.lhs):
             lhs.append(self.resolve_side(lhsl, context))
 
         
         
 
         if hasattr(self, 'op'):
-            op = []
-            for lop in self.op:
-                op.append(operator_lookup_table.get(lop))
+            op, mp = [], []
+            for i, lop in enumerate(self.op):
+                mod = i % 2
+                if mod > 0:
+                    mp.append(operator_lookup_table.get(lop))
+                else:
+                    op.append(operator_lookup_table.get(lop))
+                
             #if op is None:
             if None in op:
                 raise TemplateSyntaxError(self.op)
 
-            rhs, opl = None, None
-            for i, lrhs in enumerate(self.rhs):
-                rhs = self.resolve_side(lrhs, context)
-                try:
-                    int(lhs[i]) if isinstance(lhs[i], int) else lhs[i]
+            if len(self.rhs) > 1:
+                rhs, opl, mpl = None, None, None
+                ifbranch = []
+                for i, lrhs in enumerate(self.rhs):
+                    rhs = self.resolve_side(lrhs, context)
                     opl = op[i] if op[i] != "" else None
-                    exec_if_branch.append(opl(int(lhs[i]) if isinstance(lhs[i], int) == True else lhs[i], int(rhs) if isinstance(rhs, int) == True else rhs))
-                except Exception as err:
-                    
-                    lhs = ["''"]
-                    opl = op[0] if op[0] != "" else None
-                    exec_if_branch.append(opl(int(lhs[0]) if isinstance(lhs[0], int) == True else lhs[0], int(rhs) if isinstance(rhs, int) == True else rhs))
-            
+                    oplt = opl(int(lhs[i]) if isinstance(lhs[i], int) == True else lhs[i], int(rhs) if isinstance(rhs, int) == True else rhs)
+                    ifbranch.append(oplt)
+
+                branchl = []
+                
+                for mplx in mp:
+                    mpl = mplx if mplx != "" else None
+                    exec_if_branch.append(self.re_if(mpl, ifbranch))
+                
+            else:
+                lhs = [self.resolve_side(self.lhs[0], context)]
+                rhs = [self.resolve_side(self.rhs[0], context)]
+                opl = op[0] if op[0] != "" else None
+                oplt = opl(int(lhs[0]) if isinstance(lhs[0], int) == True else lhs[0], int(rhs[0]) if isinstance(rhs[0], int) == True else rhs[0])
+                exec_if_branch.append(oplt)    
         else:
             for lhsl in lhs:
                 exec_if_branch.append(operator.truth(lhsl))
 
         
         self.if_branch, self.else_branch = self.split_children()
-        
-        return self.render_children(context, self.if_branch if True in exec_if_branch else self.else_branch)
+        for exec_if_branchl in exec_if_branch:
+            return self.render_children(context, self.if_branch if exec_if_branchl else self.else_branch)
+    
+    def re_if(self, oparator_l, oparator_v):
+        x1, x2 = bool, bool
+        for i, reifl in enumerate(oparator_v):
+            if len(oparator_v) == 2:
+                x1, x2 = oparator_v[0], oparator_v[1]
+            elif len(oparator_v) == 3:
+                x1, x2 = oparator_l(oparator_v[0], oparator_v[1]), oparator_v[2]
+            elif len(oparator_v) == 4:
+                x1, x2 = oparator_l(oparator_v[0], oparator_v[1]), oparator_l(oparator_v[2], oparator_v[3])
+            elif len(oparator_v) == 5:
+                x1, x2 = oparator_l(oparator_l(oparator_v[0], oparator_v[1]), oparator_l(oparator_v[2], oparator_v[3])), oparator_v[4]
+            elif len(oparator_v) == 6:
+                x1, x2 = oparator_l(oparator_l(oparator_v[0], oparator_v[1]), oparator_l(oparator_v[2], oparator_v[3])), oparator_l(oparator_v[4], oparator_v[4])
+
+        return oparator_l(x1, x2)
 
     def resolve_side(self, side, context):
 
