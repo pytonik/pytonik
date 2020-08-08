@@ -139,39 +139,81 @@ class _Block(_Node):
 class _If(_ScopableNode):
 
     def process_fragment(self, fragment):
-
-        bits = fragment.split()[1:]
-
-        if len(bits) not in (1, 3):
-            raise TemplateSyntaxError(fragment)
-        self.lhs = eval_expression(bits[0])
-        if len(bits) == 3:
-            self.op = bits[1]
-
-            self.rhs = eval_expression(bits[2])
+        
+        self.fragment = fragment
+        self.bits = self.fragment.split()[1:]
+        ## if len(bits) not in (1, 3):
+        if len(self.bits) < 2:
+            raise TemplateSyntaxError(self.fragment)
+        
+        
+        if len(self.bits) > 1:
+            self.op = []
+            self.lhs = []
+            self.rhs = []
+            
+            if len(self.bits) == 3:
+                self.lhs.append(eval_expression(self.bits[0]))
+                self.op.append(self.bits[1])
+                self.rhs.append(eval_expression(self.bits[2]))
+            elif len(self.bits) == 2:
+                self.lhs.append(eval_expression(self.bits[0]))
+                self.op.append(self.bits[1])
+                lbits = ["''"]
+                self.rhs.append(eval_expression(lbits[0]))
+            elif len(self.bits) not in (1, 3):
+                lhs_l = [0, 4, 8, 12, 16, 20, 24, 28, 32, 36]
+                for i, lbits in enumerate(self.bits):
+                    mod = i % 2
+                    if mod > 0:
+                        self.op.append(lbits)
+                    else:
+                        if i in lhs_l:
+                            self.lhs.append(eval_expression(lbits))
+                        else:
+                            self.rhs.append(eval_expression(lbits))
+                    
+                        
+                    
 
     def render(self, context):
+        lhs, exec_if_branch =  [], []
+        
+        for lhsl in self.lhs:
+            lhs.append(self.resolve_side(lhsl, context))
 
-        lhs = self.resolve_side(self.lhs, context)
+        
+        
 
         if hasattr(self, 'op'):
-
-            op = operator_lookup_table.get(self.op)
-
-            if op is None:
+            op = []
+            for lop in self.op:
+                op.append(operator_lookup_table.get(lop))
+            #if op is None:
+            if None in op:
                 raise TemplateSyntaxError(self.op)
 
-
-
-            rhs = self.resolve_side(self.rhs, context)
-
-            exec_if_branch = op(lhs, rhs)
+            rhs, opl = None, None
+            for i, lrhs in enumerate(self.rhs):
+                rhs = self.resolve_side(lrhs, context)
+                try:
+                    int(lhs[i]) if isinstance(lhs[i], int) else lhs[i]
+                    opl = op[i] if op[i] != "" else None
+                    exec_if_branch.append(opl(int(lhs[i]) if isinstance(lhs[i], int) == True else lhs[i], int(rhs) if isinstance(rhs, int) == True else rhs))
+                except Exception as err:
+                    
+                    lhs = ["''"]
+                    opl = op[0] if op[0] != "" else None
+                    exec_if_branch.append(opl(int(lhs[0]) if isinstance(lhs[0], int) == True else lhs[0], int(rhs) if isinstance(rhs, int) == True else rhs))
+            
         else:
-            exec_if_branch = operator.truth(lhs)
+            for lhsl in lhs:
+                exec_if_branch.append(operator.truth(lhsl))
 
-
+        
         self.if_branch, self.else_branch = self.split_children()
-        return self.render_children(context, self.if_branch if exec_if_branch else self.else_branch)
+        
+        return self.render_children(context, self.if_branch if True in exec_if_branch else self.else_branch)
 
     def resolve_side(self, side, context):
 
