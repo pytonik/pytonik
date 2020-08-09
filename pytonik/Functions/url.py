@@ -6,6 +6,7 @@
 import os
 from pytonik.util.Variable import Variable
 from pytonik.Router import Router
+from pytonik.Controllers import Controllers
 from pytonik import Version
 
 
@@ -35,15 +36,15 @@ class url(Variable):
     def url(self, path="", lang=False):
 
         DS, p = "", ""
-        self.Router = Router()
+        self.Controllers = Controllers()
         seturl = self.out("HTTP_HOST")+str(":")+str(self.out("SERVER_PORT", '')) if self.out("HTTP_HOST") == "localhost" or self.out("HTTP_HOST") == "127.0.0.1" else self.out("HTTP_HOST")
 
         if self.out("HTTPS", "") == 'on':
-            url = str("https://") + seturl.replace(":80", "") + "/" + self.Router.alllanguages.get(self.Router.getLanguages(), self.Router.getLanguages()) if lang == True else str(
+            url = str("https://") + seturl.replace(":80", "") + "/" + self.Controllers.all_languages.get(self.Controllers._getLanguages(), self.Controllers.languages) if lang == True else str(
                     "https://") + seturl.replace(":80", "") 
         else:
 
-            url = str("http://") + seturl.replace(":80", "")+ "/" + self.Router.alllanguages.get(self.Router.getLanguages(), self.Router.getLanguages()) if lang == True else str("http://") + seturl.replace(":80", "")
+            url = str("http://") + seturl.replace(":80", "")+ "/" + self.Controllers.all_languages.get(self.Controllers._getLanguages(), self.Controllers.languages) if lang == True else str("http://") + seturl.replace(":80", "")
 
         if path == "":
             DS = ""
@@ -55,5 +56,5 @@ class url(Variable):
             else:
                 p = path
                 DS = "/"
-
+        
         return url + DS + p

@@ -128,45 +128,8 @@ def Logs():
 
 
 def url(path="", lang=False):
-    from pytonik.Router import Router
-    import os
-    ront = Router()
-    dev_path = ""
-    http_s = os.environ.get("HTTP_HOST")
-    urlv = os.environ.get('REQUEST_URI', os.environ.get('PATH_INFO'))
-    if http_s == "127.0.0.1" or http_s == "localhost":
-        dev_path = str("/") + str(urlv).split('/')[1]
-    else:
-        dev_path = ""
-
-    seturl = str("localhost:") + str(os.environ.get("SERVER_PORT", ''))
-    http = os.environ.get("HTTPS")
-
-    if http == 'on':
-        url = str("https://") + os.environ.get("HTTP_HOST", seturl) + str(dev_path) + "/" + ront.alllanguages.get(
-            ront.getLanguages(), ront.getLanguages()) if lang is True else str("https://") + os.environ.get("HTTP_HOST",
-                                                                                                            seturl) + str(
-            dev_path)
-    else:
-        url = str("http://") + os.environ.get("HTTP_HOST", seturl) + str(dev_path) + "/" + ront.alllanguages.get(
-            ront.getLanguages(), ront.getLanguages()) if lang is True else str("http://") + os.environ.get("HTTP_HOST",
-                                                                                                           seturl) + str(
-            dev_path)
-
-    DS = ""
-    p = ""
-
-    if path == "":
-        DS = ""
-    else:
-        if path[:1] == "/":
-            p = path[1:]
-            DS = "/"
-        else:
-            p = path
-            DS = "/"
-
-    return url + DS + p
+    from pytonik.Functions.url import url
+    return url(path, lang)
 
 
 def env(key):
