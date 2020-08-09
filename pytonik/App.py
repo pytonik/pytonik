@@ -378,12 +378,12 @@ class App(env, Config, Variable):
             Log(p + DS + c + '.py').critical(err)
             return self.errorP('400')
 
-    def redirect(self, location='/', link=False, code="307"):
+    def redirect(self, location='/', link=False, code="307", lang=False):
 
         if self.out("SERVER_SOFTWARE") == AUTHOR:
 
             if link == True:
-                location_d = u.url().url(location)
+                location_d = u.url().url(location, lang)
             else:
                 location_d = location
             self.put(status=code)
@@ -392,7 +392,7 @@ class App(env, Config, Variable):
         else:
 
             if link == True:
-                location_d = u.url().url(location)
+                location_d = u.url().url(location, lang)
             else:
                 location_d = location
 
@@ -401,10 +401,10 @@ class App(env, Config, Variable):
             print("Location: {location}".format(location=location_d))
             print()
 
-    def referer(self, location='/', link=False, code="307"):
+    def referer(self, location='/', link=False, code="307", lang=False):
         if self.out("SERVER_SOFTWARE") == AUTHOR:
             if link == True:
-                location_d = u.url().url(location)
+                location_d = u.url().url(location, lang)
             else:
                 location_d = location
             self.put(status=code)
@@ -412,7 +412,7 @@ class App(env, Config, Variable):
             return code, self.out('HTTP_REFERER', location_d)
         else:
             if link == True:
-                location_d = u.url().url(location)
+                location_d = u.url().url(location, lang)
             else:
                 location_d = location
             self.default("REDIRECT_STATUS", code)
