@@ -10,7 +10,7 @@ setup(
     name='pytonik',
     version=Version.VERSION_TEXT + Version.EDITION,
     description='Pytonik is a python framework built to enhance web development fast and easy, also help web developers to build more apps with less codes',
-    url="https://pytonik.readthedocs.io/en/latest",
+    url="https://pytonik.com",
     author='pytonik',
     author_email='info@pytonik.com',
     maintainer='Emmanuel Essien , Uduak Essien , Claret Nnamocha ',
