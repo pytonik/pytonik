@@ -136,5 +136,10 @@ def env(key):
 
     return App().envrin(key)
 
+def encode(source):
+    from pytonik.util.Crypt import Crypt
+    return Crypt._encode(source)
 
-
+def decode(source):
+    from pytonik.util.Crypt import Crypt
+    return Crypt._decode(source)
