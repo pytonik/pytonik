@@ -20,7 +20,7 @@
 > Pytonik is a python framework built to enhance fast and easy web development, helping web developers build more apps with fewer codes.
 > The framework uses an Expressive Architectural Pattern, structured on a Model-View-Controller (MVC), and bundles of components to reuse while deploying the framework.
 
-[![Made with python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://pypi.python.org/pypi/pytonik)
+[![Made with python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://pypi.python.org/pypi/pytonik) [![Join the chat at https://gitter.im/pytonik/pytonik](https://badges.gitter.im/pytonik/pytonik.svg)](https://gitter.im/pytonik/pytonik?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ## How to setup
 
