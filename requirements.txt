@@ -1,4 +1,4 @@
 cx-Oracle==8.0.0
 mysql-connector-python==8.0.20
-Pillow==7.2.0
+Pillow==8.2.0
 psycopg2-binary==2.8.5
